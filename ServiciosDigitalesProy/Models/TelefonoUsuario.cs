@@ -7,11 +7,9 @@ namespace ServiciosDigitalesProy.Models
     {
         public TelefonoUsuario()
         {
-            ID_TELEFONO = 0;
             ID_USUARIO_TELEFONO = 0;
             NUMERO_TELEFONO = "";
         }
-        public int ID_TELEFONO { get; set; }
         public int ID_USUARIO_TELEFONO { get; set; }
         public string NUMERO_TELEFONO { get; set; }
   

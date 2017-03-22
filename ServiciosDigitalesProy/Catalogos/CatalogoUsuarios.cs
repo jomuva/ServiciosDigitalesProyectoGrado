@@ -44,16 +44,10 @@ namespace ServiciosDigitalesProy.Catalogos
             return (List<TipoIdentificacion>)usuarioDatos.ConsultarTiposIdentificacion();
         }
 
-        public Usuario ConsultarUsuario(int id)
-        {
+    #region Catalogo Clientes
 
-            return null;
-        }
-        public List<Usuario> ConsultarUsuarios()
-        {
+        
 
-            return null;
-        }
 
         public List<Usuario> ConsultarClientes(string ident)
         {
@@ -74,14 +68,18 @@ namespace ServiciosDigitalesProy.Catalogos
             return lista;
         }
 
-        public void AdicionarUsuario(Usuario usuario)
+        public string AdicionarCliente(Usuario cliente)
         {
-            string resp = usuarioDatos.AdicionarUsuario(usuario);
+            cliente.idRol = 1;
+            cliente.idEstado = 1;
+            string resp = usuarioDatos.AdicionarCliente(cliente);
+
+            return resp;
         }
 
-
+    #endregion
 
     }
 
-    
+
 }

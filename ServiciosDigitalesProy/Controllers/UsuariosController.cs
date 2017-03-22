@@ -13,6 +13,7 @@ namespace ServiciosDigitalesProy.Controllers
         // GET: Usuarios
         private bdServiciosDigitalesProyEntities conexion = new bdServiciosDigitalesProyEntities();
 
+        #region Clientes
         [HttpGet]
         public ActionResult ConsultarClientes()
         {
@@ -36,77 +37,23 @@ namespace ServiciosDigitalesProy.Controllers
 
         // POST: Usuarios/Create
         [HttpGet]
-        public ActionResult AdicionarUsuario()
+        public ActionResult AdicionarCliente()
         {
-            return View();
+            Usuario user = new Usuario();
+            user.tiposIdentificacion = new SelectList(CatalogoUsuarios.GetInstance().ConsultarTiposIdentificacion(),"id", "Descripcion");
+            return View(user);
         }
 
         // POST: Usuarios/Create
         [HttpPost]
-        public ActionResult AdicionarUsuario(Usuario user)
+        public ActionResult AdicionarCliente(Usuario user)
         {
-            CatalogoUsuarios.GetInstance().AdicionarUsuario(user);
+            CatalogoUsuarios.GetInstance().AdicionarCliente(user);
 
             return View();
         }
 
+        #endregion
 
-        // GET: Usuarios/Details/5
-        public ActionResult Details(int id)
-        {
-            return View();
-        }
-
-        // GET: Usuarios/Create
-        public ActionResult Create()
-        {
-            return View();
-        }
-
-        
-
-        // GET: Usuarios/Edit/5
-        public ActionResult Edit(int id)
-        {
-            return View();
-        }
-
-        // POST: Usuarios/Edit/5
-        [HttpPost]
-        public ActionResult Edit(int id, FormCollection collection)
-        {
-            try
-            {
-                // TODO: Add update logic here
-
-                return RedirectToAction("Index");
-            }
-            catch
-            {
-                return View();
-            }
-        }
-
-        // GET: Usuarios/Delete/5
-        public ActionResult Delete(int id)
-        {
-            return View();
-        }
-
-        // POST: Usuarios/Delete/5
-        [HttpPost]
-        public ActionResult Delete(int id, FormCollection collection)
-        {
-            try
-            {
-                // TODO: Add delete logic here
-
-                return RedirectToAction("Index");
-            }
-            catch
-            {
-                return View();
-            }
-        }
     }
 }

@@ -101,7 +101,11 @@ namespace ServiciosDigitalesProy.Datos
             var us = from u in conexion.USUARIO
                      where u.usuario_login == usuario.username
                      select u;
-            if (!us.Any())
+
+            var mail = from m in conexion.USUARIO
+                       where m.correo == usuario.email
+                       select m;
+            if (!us.Any() && !mail.Any())
             {
                 try
                 {
@@ -129,7 +133,7 @@ namespace ServiciosDigitalesProy.Datos
             }
             else
             {
-                resultado = "Ya existe un usuario registrado con el nombre de usuario " + usuario.username;
+                resultado = "Ya existe un usuario registrado con el nombre de usuario o Email ingresado";
             }
             return resultado;
         }

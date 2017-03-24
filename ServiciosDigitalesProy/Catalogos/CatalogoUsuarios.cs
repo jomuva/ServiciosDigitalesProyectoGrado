@@ -53,14 +53,12 @@ namespace ServiciosDigitalesProy.Catalogos
         {
             List<Usuario> lista = new List<Usuario>();
 
-            int id = (ident == "") ? 0 : Convert.ToInt32(ident);
 
-
-            if (id == 0)
+            if (ident == "")
                 lista = usuarioDatos.ConsultarClientes();
-            else if (id != 0 && lista != null)
+            else if (ident != "" && lista != null)
             {
-                lista = usuarioDatos.ConsultarCliente(id);
+                lista = usuarioDatos.ConsultarCliente(ident);
             }
             else
                 lista = null;

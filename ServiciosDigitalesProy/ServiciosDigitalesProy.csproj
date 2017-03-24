@@ -369,6 +369,7 @@
     <Content Include="ClassDiagram1.cd" />
     <Content Include="Views\Usuarios\RespuestaConsultaClientes.cshtml" />
     <Content Include="Views\Usuarios\AdicionarCliente.cshtml" />
+    <Content Include="Views\Usuarios\ModificarCliente.cshtml" />
     <None Include="Xcore\Scripts\jquery-1.10.2.intellisense.js" />
     <Content Include="Xcore\Scripts\dataTables.bootstrap.min.js" />
     <Content Include="Xcore\Scripts\dataTables.responsive.js" />

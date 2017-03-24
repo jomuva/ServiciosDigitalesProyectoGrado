@@ -3,7 +3,7 @@
 
 @{
     ViewBag.Title = "Usuarios";
-    ViewBag.SubSeccion = "Adicionar Cliente";
+    ViewBag.SubSeccion = "Modificar Cliente";
 }
 
 <h3>@ViewBag.SubSeccion</h3>
@@ -16,7 +16,7 @@
     <!--breadcrumbs end -->
 </div>
 
-@using (Html.BeginForm("AdicionarCliente","Usuarios"))
+@using (Html.BeginForm("ModificarCliente","Usuarios"))
 {
     @Html.AntiForgeryToken()
 
@@ -127,7 +127,7 @@
 
         <div class="form-group">
             <div class="col-md-offset-2 col-md-2">
-                <input type="submit" value="Aceptar" class="btn btn-success" />
+                <input type="submit" value="Modificar" class="btn btn-success" />
 
             </div>
             <div class="col-md-2">

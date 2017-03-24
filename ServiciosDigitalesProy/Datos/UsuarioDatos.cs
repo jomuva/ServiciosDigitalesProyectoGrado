@@ -44,25 +44,51 @@ namespace ServiciosDigitalesProy.Datos
         /// </summary>
         /// <param name="id"></param>
         /// <returns>Usuario</returns>
-        public List<Usuario> ConsultarCliente(int id)
+        public List<Usuario> ConsultarCliente(string data)
         {
-            var cliente = from usuario in conexion.USUARIO
-                          join es in conexion.ESTADO_USUARIO
-                           on usuario.id_estado_usuario equals es.id_estado
-                          where usuario.id_rol_usuario == 1 && usuario.identificacion == id.ToString()
 
-                          select new Usuario
-                          {
-                              nombres = usuario.nombres,
-                              apellidos = usuario.apellidos,
-                              identificacion = usuario.identificacion,
-                              username = usuario.usuario_login,
-                              direccion = usuario.direccion,
-                              email = usuario.correo,
-                              sexo = usuario.sexo,
-                              estado = es.descripcion
-                          };
-            return (List<Usuario>)cliente.ToList();
+            int id = 0;
+            bool result = int.TryParse(data, out id);
+
+            if (result == true)
+            {
+                 var cliente = from usuario in conexion.USUARIO
+                              join es in conexion.ESTADO_USUARIO
+                               on usuario.id_estado_usuario equals es.id_estado
+                              where usuario.id_rol_usuario == 1 && usuario.identificacion == id.ToString()
+                              select new Usuario
+                              {
+                                  nombres = usuario.nombres,
+                                  apellidos = usuario.apellidos,
+                                  identificacion = usuario.identificacion,
+                                  username = usuario.usuario_login,
+                                  direccion = usuario.direccion,
+                                  email = usuario.correo,
+                                  sexo = usuario.sexo,
+                                  estado = es.descripcion
+                              };
+                return (List<Usuario>)cliente.ToList();
+            }
+            else
+            {
+               var cliente = from usuario in conexion.USUARIO
+                              join es in conexion.ESTADO_USUARIO
+                               on usuario.id_estado_usuario equals es.id_estado
+                              where usuario.id_rol_usuario == 1 && usuario.nombres == data.ToString()
+                              select new Usuario
+                              {
+                                  nombres = usuario.nombres,
+                                  apellidos = usuario.apellidos,
+                                  identificacion = usuario.identificacion,
+                                  username = usuario.usuario_login,
+                                  direccion = usuario.direccion,
+                                  email = usuario.correo,
+                                  sexo = usuario.sexo,
+                                  estado = es.descripcion
+                              };
+                return (List<Usuario>)cliente.ToList();
+            }
+          
         }
 
         /// <summary>
@@ -114,7 +140,7 @@ namespace ServiciosDigitalesProy.Datos
                     USER.apellidos = usuario.apellidos;
                     USER.correo = usuario.email;
                     USER.direccion = usuario.direccion;
-                    USER.sexo = usuario.sexo;
+                    USER.sexo =  (usuario.sexo).ToString();
                     USER.usuario_login = usuario.username;
                     USER.password = usuario.password;
                     USER.identificacion = usuario.identificacion;

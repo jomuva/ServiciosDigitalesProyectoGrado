@@ -22,23 +22,11 @@
                 <div class="panel-body">
                     <div class="row">
                         <div class="col-lg-6">
-                            @*@using (Ajax.BeginForm("ConsultarClientes", null, new AjaxOptions { UpdateTargetId = "contentPage" }, new { @class = "form-horizontal form-label-left form" }))*@
                             @using (Html.BeginForm("ConsultarClientes","Usuarios", FormMethod.Post))
                             {
                                 <div class="form-group">
-                                    <label for="disabledSelect">Tipo de Identificación</label>
-                                    <select id="disabledSelect" class="form-control"> 
-                                        <option>Seleccione</option>
-                                        @foreach (var item in Model)
-                                        {
-                                            <option>@item.Descripcion</option>
-                                        }
-                                    </select>
-                                </div>
-
-                                <div class="form-group">
-                                    <label>Documento de Identidad</label>
-                                    @Html.TextBox("identificacion", String.Empty, new { @class = "form-control", @type = "number"})
+                                    <label>Ingrese Nombre o Número de documento</label>
+                                    @Html.TextBox("identificacion", String.Empty, new { @class = "form-control"})
                                 </div>
                                 <button type="submit" name="submitButton" id="submitButton" class="btn btn-primary">Consultar</button>
                             }

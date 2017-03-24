@@ -17,8 +17,7 @@ namespace ServiciosDigitalesProy.Controllers
         [HttpGet]
         public ActionResult ConsultarClientes()
         {
-            List<TipoIdentificacion> tipos = CatalogoUsuarios.GetInstance().ConsultarTiposIdentificacion();
-            return View(tipos);
+            return View();
         }
 
         /// <summary>
@@ -48,10 +47,34 @@ namespace ServiciosDigitalesProy.Controllers
         [HttpPost]
         public ActionResult AdicionarCliente(Usuario user)
         {
-            CatalogoUsuarios.GetInstance().AdicionarCliente(user);
+            if (ModelState.IsValid)
+            {
+                CatalogoUsuarios.GetInstance().AdicionarCliente(user);
+                return RedirectToAction("ConsultarClientes");
+            }
 
             return View();
         }
+
+        [HttpGet]
+        public ActionResult ModificarCliente(string id)
+        {
+            List<Usuario> usuarios;
+            Usuario usuario;
+            usuarios = CatalogoUsuarios.GetInstance().ConsultarClientes(id);
+            usuarios.First().tiposIdentificacion = new SelectList(CatalogoUsuarios.GetInstance().ConsultarTiposIdentificacion(), "id", "Descripcion");
+            usuario = usuarios.First();
+            return View(usuario);
+        }
+
+        //[HttpPost]
+        //public ActionResult ModificarCliente()
+        //{
+        //    List<Usuario> usuarios;
+        //    usuarios = CatalogoUsuarios.GetInstance().ConsultarClientes(identificacion);
+
+        //    return View("RespuestaConsultaClientes", usuarios);
+        //}
 
         #endregion
 

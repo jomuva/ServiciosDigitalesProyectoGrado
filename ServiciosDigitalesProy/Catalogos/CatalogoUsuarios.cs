@@ -29,12 +29,6 @@ namespace ServiciosDigitalesProy.Catalogos
         }
 
        
-
-        public void ModificarUsuario(Usuario usuario) { }
-
-        public void ModificarEstadoUsuario(int id) { }
-
-
         /// <summary>
         /// Consulta los tipos de identificación traidos desde la clase UsuarioDatos
         /// </summary>
@@ -44,10 +38,16 @@ namespace ServiciosDigitalesProy.Catalogos
             return (List<TipoIdentificacion>)usuarioDatos.ConsultarTiposIdentificacion();
         }
 
-    #region Catalogo Clientes
+        /// <summary>
+        /// Consulta los tipos de estado que el usuario puede tener
+        /// </summary>
+        /// <returns></returns>
+        public List<EstadosUsuario> ConsultarEstadosUsuario()
+        {
+            return (List<EstadosUsuario>)usuarioDatos.ConsultarEstadosUsuario();
+        }
 
-        
-
+        #region Catalogo Clientes
 
         public List<Usuario> ConsultarClientes(string ident)
         {
@@ -75,7 +75,20 @@ namespace ServiciosDigitalesProy.Catalogos
             return resp;
         }
 
-    #endregion
+        public string ModificarCliente(Usuario cliente)
+        {
+            cliente.idRol = 1;
+            cliente.idEstado = 1;
+            string resp = usuarioDatos.ModificarCliente(cliente);
+            return resp;
+        }
+
+        public string CambiarEstadoCliente(Usuario cliente)
+        {
+            string resp = usuarioDatos.CambiarEstadoCliente(cliente);
+            return resp;
+        }
+        #endregion
 
     }
 

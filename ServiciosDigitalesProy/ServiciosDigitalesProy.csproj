@@ -311,6 +311,7 @@
     <Compile Include="Global.asax.cs">
       <DependentUpon>Global.asax</DependentUpon>
     </Compile>
+    <Compile Include="Models\EstadosUsuario.cs" />
     <Compile Include="Models\TipoIdentificacion.cs" />
     <Compile Include="Models\TelefonoUsuario.cs" />
     <Compile Include="Models\Usuario.cs" />
@@ -331,6 +332,7 @@
       <DependentUpon>ConexionBd.edmx</DependentUpon>
       <LastGenOutput>ConexionBd.cs</LastGenOutput>
     </Content>
+    <Content Include="faviconproy.ico" />
     <Content Include="Xcore\Content\bootstrap-theme.css" />
     <Content Include="Xcore\Content\bootstrap-theme.min.css" />
     <Content Include="Xcore\Content\bootstrap.css" />
@@ -370,6 +372,9 @@
     <Content Include="Views\Usuarios\RespuestaConsultaClientes.cshtml" />
     <Content Include="Views\Usuarios\AdicionarCliente.cshtml" />
     <Content Include="Views\Usuarios\ModificarCliente.cshtml" />
+    <Content Include="favicon" />
+    <Content Include="Views\Usuarios\CambiarEstadoCliente.cshtml" />
+    <Content Include="Views\Usuarios\DetallesCliente.cshtml" />
     <None Include="Xcore\Scripts\jquery-1.10.2.intellisense.js" />
     <Content Include="Xcore\Scripts\dataTables.bootstrap.min.js" />
     <Content Include="Xcore\Scripts\dataTables.responsive.js" />
@@ -438,6 +443,9 @@
   <PropertyGroup>
     <VisualStudioVersion Condition="'$(VisualStudioVersion)' == ''">10.0</VisualStudioVersion>
     <VSToolsPath Condition="'$(VSToolsPath)' == ''">$(MSBuildExtensionsPath32)\Microsoft\VisualStudio\v$(VisualStudioVersion)</VSToolsPath>
+  </PropertyGroup>
+  <PropertyGroup>
+    <ApplicationIcon>favicon.ico</ApplicationIcon>
   </PropertyGroup>
   <Import Project="$(MSBuildBinPath)\Microsoft.CSharp.targets" />
   <Import Project="$(VSToolsPath)\WebApplications\Microsoft.WebApplication.targets" Condition="'$(VSToolsPath)' != ''" />

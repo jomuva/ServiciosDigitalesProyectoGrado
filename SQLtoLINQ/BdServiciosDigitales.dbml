@@ -1,0 +1,266 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Database Name="bdServiciosDigitalesProy" Class="BdServiciosDigitalesProy" xmlns="http://schemas.microsoft.com/linqtosql/dbml/2007">
+  <Table Name="dbo.CATEGORIA_ELEMENTO" Member="CATEGORIA_ELEMENTO">
+    <Type Name="CATEGORIA_ELEMENTO">
+      <Column Name="id_categoria_elemento" Member="Id_categoria_elemento" Type="System.Int32" DbType="Int NOT NULL IDENTITY" IsPrimaryKey="true" IsDbGenerated="true" CanBeNull="false" />
+      <Column Name="descripcion_categoria_elemento" Member="Descripcion_categoria_elemento" Type="System.String" DbType="VarChar(50) NOT NULL" CanBeNull="false" />
+      <Association Name="fk_categoria_elemento" Member="ELEMENTO" ThisKey="Id_categoria_elemento" OtherKey="Id_categoria_elemento" Type="ELEMENTO" DeleteRule="NO ACTION" />
+    </Type>
+  </Table>
+  <Table Name="dbo.DETALLE_FACTURA" Member="DETALLE_FACTURA">
+    <Type Name="DETALLE_FACTURA">
+      <Column Name="id_detalle_factura" Member="Id_detalle_factura" Type="System.Int32" DbType="Int NOT NULL IDENTITY" IsPrimaryKey="true" IsDbGenerated="true" CanBeNull="false" />
+      <Column Name="id_producto_detalle_factura" Member="Id_producto_detalle_factura" Type="System.Int32" DbType="Int" CanBeNull="true" />
+      <Column Name="id_vendedor_usuario" Member="Id_vendedor_usuario" Type="System.Int32" DbType="Int NOT NULL" CanBeNull="false" />
+      <Column Name="id_factura_detalle_factura" Member="Id_factura_detalle_factura" Type="System.Int32" DbType="Int NOT NULL" CanBeNull="false" />
+      <Column Name="cantidad_venta" Member="Cantidad_venta" Type="System.Int32" DbType="Int NOT NULL" CanBeNull="false" />
+      <Association Name="fk_factura_detalle_factura" Member="FACTURA" ThisKey="Id_factura_detalle_factura" OtherKey="Id_factura" Type="FACTURA" IsForeignKey="true" />
+      <Association Name="fk_producto_detalle_factura" Member="PRODUCTO" ThisKey="Id_producto_detalle_factura" OtherKey="Id_producto" Type="PRODUCTO" IsForeignKey="true" />
+      <Association Name="fk_vendedor_usuario" Member="USUARIO" ThisKey="Id_vendedor_usuario" OtherKey="Id_usuario" Type="USUARIO" IsForeignKey="true" />
+    </Type>
+  </Table>
+  <Table Name="dbo.ELEMENTO" Member="ELEMENTO">
+    <Type Name="ELEMENTO">
+      <Column Name="id_elemento" Member="Id_elemento" Type="System.Int32" DbType="Int NOT NULL IDENTITY" IsPrimaryKey="true" IsDbGenerated="true" CanBeNull="false" />
+      <Column Name="serial" Member="Serial" Type="System.String" DbType="VarChar(4)" CanBeNull="true" />
+      <Column Name="placa" Member="Placa" Type="System.String" DbType="VarChar(30)" CanBeNull="true" />
+      <Column Name="modelo" Member="Modelo" Type="System.String" DbType="VarChar(30)" CanBeNull="true" />
+      <Column Name="marca" Member="Marca" Type="System.String" DbType="VarChar(15)" CanBeNull="true" />
+      <Column Name="ram" Member="Ram" Type="System.String" DbType="VarChar(10)" CanBeNull="true" />
+      <Column Name="rom" Member="Rom" Type="System.String" DbType="VarChar(15)" CanBeNull="true" />
+      <Column Name="serial_bateria" Member="Serial_bateria" Type="System.String" DbType="VarChar(4)" CanBeNull="true" />
+      <Column Name="sistema_operativo" Member="Sistema_operativo" Type="System.String" DbType="VarChar(20)" CanBeNull="true" />
+      <Column Name="id_tipo_elemento" Member="Id_tipo_elemento" Type="System.Int32" DbType="Int NOT NULL" CanBeNull="false" />
+      <Column Name="id_categoria_elemento" Member="Id_categoria_elemento" Type="System.Int32" DbType="Int NOT NULL" CanBeNull="false" />
+      <Association Name="fk_categoria_elemento" Member="CATEGORIA_ELEMENTO" ThisKey="Id_categoria_elemento" OtherKey="Id_categoria_elemento" Type="CATEGORIA_ELEMENTO" IsForeignKey="true" />
+      <Association Name="fk_elemento" Member="SERVICIO_ELEMENTO" ThisKey="Id_elemento" OtherKey="Id_elemento" Type="SERVICIO_ELEMENTO" DeleteRule="NO ACTION" />
+      <Association Name="fk_tipo_elemento" Member="TIPO_ELEMENTO" ThisKey="Id_tipo_elemento" OtherKey="Id_tipo_elemento" Type="TIPO_ELEMENTO" IsForeignKey="true" />
+    </Type>
+  </Table>
+  <Table Name="dbo.ESCALADO" Member="ESCALADO">
+    <Type Name="ESCALADO">
+      <Column Name="id_escalado" Member="Id_escalado" Type="System.Int32" DbType="Int NOT NULL IDENTITY" IsPrimaryKey="true" IsDbGenerated="true" CanBeNull="false" />
+      <Column Name="id_solicitud_escalado" Member="Id_solicitud_escalado" Type="System.Int32" DbType="Int" CanBeNull="true" />
+      <Column Name="id_usuario_escalado" Member="Id_usuario_escalado" Type="System.Int32" DbType="Int" CanBeNull="true" />
+      <Association Name="fk_solicitud_escalado" Member="SOLICITUD" ThisKey="Id_solicitud_escalado" OtherKey="Id_solicitud" Type="SOLICITUD" IsForeignKey="true" />
+      <Association Name="fk_usuario_escalado" Member="USUARIO" ThisKey="Id_usuario_escalado" OtherKey="Id_usuario" Type="USUARIO" IsForeignKey="true" />
+    </Type>
+  </Table>
+  <Table Name="dbo.ESTADO_FACTURA" Member="ESTADO_FACTURA">
+    <Type Name="ESTADO_FACTURA">
+      <Column Name="id_estado_factura" Member="Id_estado_factura" Type="System.Int32" DbType="Int NOT NULL IDENTITY" IsPrimaryKey="true" IsDbGenerated="true" CanBeNull="false" />
+      <Column Name="descripcion_estado_factura" Member="Descripcion_estado_factura" Type="System.String" DbType="VarChar(15) NOT NULL" CanBeNull="false" />
+      <Association Name="fk_estado_factura" Member="FACTURA" ThisKey="Id_estado_factura" OtherKey="Id_estado_factura" Type="FACTURA" DeleteRule="NO ACTION" />
+    </Type>
+  </Table>
+  <Table Name="dbo.ESTADO_PRODUCTO" Member="ESTADO_PRODUCTO">
+    <Type Name="ESTADO_PRODUCTO">
+      <Column Name="id_estado_producto" Member="Id_estado_producto" Type="System.Int32" DbType="Int NOT NULL IDENTITY" IsPrimaryKey="true" IsDbGenerated="true" CanBeNull="false" />
+      <Column Name="descripcion_estado_producto" Member="Descripcion_estado_producto" Type="System.String" DbType="VarChar(15) NOT NULL" CanBeNull="false" />
+      <Association Name="fk_estado_producto" Member="PRODUCTO" ThisKey="Id_estado_producto" OtherKey="Id_estado_producto" Type="PRODUCTO" DeleteRule="NO ACTION" />
+    </Type>
+  </Table>
+  <Table Name="dbo.ESTADO_SOLICITUD" Member="ESTADO_SOLICITUD">
+    <Type Name="ESTADO_SOLICITUD">
+      <Column Name="id_estado_solicitud" Member="Id_estado_solicitud" Type="System.Int32" DbType="Int NOT NULL IDENTITY" IsPrimaryKey="true" IsDbGenerated="true" CanBeNull="false" />
+      <Column Name="descripcion" Member="Descripcion" Type="System.String" DbType="VarChar(50)" CanBeNull="true" />
+      <Association Name="fk_estado_solicitud" Member="SOLICITUD" ThisKey="Id_estado_solicitud" OtherKey="Id_estado_solicitud" Type="SOLICITUD" DeleteRule="NO ACTION" />
+    </Type>
+  </Table>
+  <Table Name="dbo.ESTADO_USUARIO" Member="ESTADO_USUARIO">
+    <Type Name="ESTADO_USUARIO">
+      <Column Name="id_estado" Member="Id_estado" Type="System.Int32" DbType="Int NOT NULL IDENTITY" IsPrimaryKey="true" IsDbGenerated="true" CanBeNull="false" />
+      <Column Name="descripcion" Member="Descripcion" Type="System.String" DbType="VarChar(20) NOT NULL" CanBeNull="false" />
+      <Association Name="fk_estado_usuario" Member="USUARIO" ThisKey="Id_estado" OtherKey="Id_estado_usuario" Type="USUARIO" DeleteRule="NO ACTION" />
+    </Type>
+  </Table>
+  <Table Name="dbo.FACTURA" Member="FACTURA">
+    <Type Name="FACTURA">
+      <Column Name="id_factura" Member="Id_factura" Type="System.Int32" DbType="Int NOT NULL IDENTITY" IsPrimaryKey="true" IsDbGenerated="true" CanBeNull="false" />
+      <Column Name="fecha" Member="Fecha" Type="System.DateTime" DbType="Date NOT NULL" CanBeNull="false" />
+      <Column Name="id_usuario_factura" Member="Id_usuario_factura" Type="System.Int32" DbType="Int NOT NULL" CanBeNull="false" />
+      <Column Name="id_estado_factura" Member="Id_estado_factura" Type="System.Int32" DbType="Int NOT NULL" CanBeNull="false" />
+      <Column Name="abono" Member="Abono" Type="System.Decimal" DbType="Decimal(30,4) NOT NULL" CanBeNull="false" />
+      <Column Name="guardar_total" Member="Guardar_total" Type="System.Decimal" DbType="Decimal(30,4) NOT NULL" CanBeNull="false" />
+      <Association Name="fk_estado_factura" Member="ESTADO_FACTURA" ThisKey="Id_estado_factura" OtherKey="Id_estado_factura" Type="ESTADO_FACTURA" IsForeignKey="true" />
+      <Association Name="fk_factura" Member="SOLICITUD" ThisKey="Id_factura" OtherKey="Id_factura" Type="SOLICITUD" DeleteRule="NO ACTION" />
+      <Association Name="fk_factura_detalle_factura" Member="DETALLE_FACTURA" ThisKey="Id_factura" OtherKey="Id_factura_detalle_factura" Type="DETALLE_FACTURA" DeleteRule="NO ACTION" />
+      <Association Name="fk_usuario_factura" Member="USUARIO" ThisKey="Id_usuario_factura" OtherKey="Id_usuario" Type="USUARIO" IsForeignKey="true" />
+    </Type>
+  </Table>
+  <Table Name="dbo.HISTORICO" Member="HISTORICO">
+    <Type Name="HISTORICO">
+      <Column Name="id_historico" Member="Id_historico" Type="System.Int32" DbType="Int NOT NULL IDENTITY" IsPrimaryKey="true" IsDbGenerated="true" CanBeNull="false" />
+      <Column Name="id_usuario_historico" Member="Id_usuario_historico" Type="System.Int32" DbType="Int NOT NULL" CanBeNull="false" />
+      <Column Name="id_solicitud_historico" Member="Id_solicitud_historico" Type="System.Int32" DbType="Int NOT NULL" CanBeNull="false" />
+      <Column Name="descripcion_historico" Member="Descripcion_historico" Type="System.String" DbType="VarChar(100) NOT NULL" CanBeNull="false" />
+      <Association Name="fk_solicitud_historico" Member="SOLICITUD" ThisKey="Id_solicitud_historico" OtherKey="Id_solicitud" Type="SOLICITUD" IsForeignKey="true" />
+      <Association Name="fk_usuario_historico" Member="USUARIO" ThisKey="Id_usuario_historico" OtherKey="Id_usuario" Type="USUARIO" IsForeignKey="true" />
+    </Type>
+  </Table>
+  <Table Name="dbo.INVENTARIO" Member="INVENTARIO">
+    <Type Name="INVENTARIO">
+      <Column Name="id_inventario" Member="Id_inventario" Type="System.Int32" DbType="Int NOT NULL IDENTITY" IsPrimaryKey="true" IsDbGenerated="true" CanBeNull="false" />
+      <Column Name="id_producto_inventario" Member="Id_producto_inventario" Type="System.Int32" DbType="Int NOT NULL" CanBeNull="false" />
+      <Column Name="cantidad_existencias" Member="Cantidad_existencias" Type="System.Int32" DbType="Int NOT NULL" CanBeNull="false" />
+      <Column Name="fecha_actualizacion_inventario" Member="Fecha_actualizacion_inventario" Type="System.DateTime" DbType="Date NOT NULL" CanBeNull="false" />
+      <Association Name="fk_producto_inventario" Member="PRODUCTO" ThisKey="Id_producto_inventario" OtherKey="Id_producto" Type="PRODUCTO" IsForeignKey="true" />
+    </Type>
+  </Table>
+  <Table Name="dbo.PRIORIDAD" Member="PRIORIDAD">
+    <Type Name="PRIORIDAD">
+      <Column Name="id_prioridad" Member="Id_prioridad" Type="System.Int32" DbType="Int NOT NULL IDENTITY" IsPrimaryKey="true" IsDbGenerated="true" CanBeNull="false" />
+      <Column Name="descripcion_prioridad" Member="Descripcion_prioridad" Type="System.String" DbType="VarChar(50)" CanBeNull="true" />
+      <Association Name="fk_prioridad_solicitud" Member="SOLICITUD" ThisKey="Id_prioridad" OtherKey="Id_prioridad_solicitud" Type="SOLICITUD" DeleteRule="NO ACTION" />
+    </Type>
+  </Table>
+  <Table Name="dbo.PRODUCTO" Member="PRODUCTO">
+    <Type Name="PRODUCTO">
+      <Column Name="id_producto" Member="Id_producto" Type="System.Int32" DbType="Int NOT NULL IDENTITY" IsPrimaryKey="true" IsDbGenerated="true" CanBeNull="false" />
+      <Column Name="id_estado_producto" Member="Id_estado_producto" Type="System.Int32" DbType="Int NOT NULL" CanBeNull="false" />
+      <Column Name="nombre_producto" Member="Nombre_producto" Type="System.String" DbType="VarChar(100) NOT NULL" CanBeNull="false" />
+      <Column Name="precio_costo" Member="Precio_costo" Type="System.Decimal" DbType="Decimal(20,4)" CanBeNull="true" />
+      <Column Name="precio_venta" Member="Precio_venta" Type="System.Decimal" DbType="Decimal(20,4)" CanBeNull="true" />
+      <Association Name="fk_estado_producto" Member="ESTADO_PRODUCTO" ThisKey="Id_estado_producto" OtherKey="Id_estado_producto" Type="ESTADO_PRODUCTO" IsForeignKey="true" />
+      <Association Name="fk_producto_detalle_factura" Member="DETALLE_FACTURA" ThisKey="Id_producto" OtherKey="Id_producto_detalle_factura" Type="DETALLE_FACTURA" DeleteRule="NO ACTION" />
+      <Association Name="fk_producto_inventario" Member="INVENTARIO" ThisKey="Id_producto" OtherKey="Id_producto_inventario" Type="INVENTARIO" DeleteRule="NO ACTION" />
+    </Type>
+  </Table>
+  <Table Name="dbo.ROL" Member="ROL">
+    <Type Name="ROL">
+      <Column Name="id_rol" Member="Id_rol" Type="System.Int32" DbType="Int NOT NULL IDENTITY" IsPrimaryKey="true" IsDbGenerated="true" CanBeNull="false" />
+      <Column Name="descripcion" Member="Descripcion" Type="System.String" DbType="VarChar(50) NOT NULL" CanBeNull="false" />
+      <Association Name="fk_rol_usuario" Member="USUARIO" ThisKey="Id_rol" OtherKey="Id_rol_usuario" Type="USUARIO" DeleteRule="NO ACTION" />
+    </Type>
+  </Table>
+  <Table Name="dbo.SERVICIO" Member="SERVICIO">
+    <Type Name="SERVICIO">
+      <Column Name="id_servicio" Member="Id_servicio" Type="System.Int32" DbType="Int NOT NULL IDENTITY" IsPrimaryKey="true" IsDbGenerated="true" CanBeNull="false" />
+      <Column Name="descripcion_servicio" Member="Descripcion_servicio" Type="System.String" DbType="VarChar(50) NOT NULL" CanBeNull="false" />
+      <Association Name="fk_servicio" Member="SERVICIO_ELEMENTO" ThisKey="Id_servicio" OtherKey="Id_servicio" Type="SERVICIO_ELEMENTO" DeleteRule="NO ACTION" />
+    </Type>
+  </Table>
+  <Table Name="dbo.SERVICIO_ELEMENTO" Member="SERVICIO_ELEMENTO">
+    <Type Name="SERVICIO_ELEMENTO">
+      <Column Name="id_servicio_elemento" Member="Id_servicio_elemento" Type="System.Int32" DbType="Int NOT NULL IDENTITY" IsPrimaryKey="true" IsDbGenerated="true" CanBeNull="false" />
+      <Column Name="id_servicio" Member="Id_servicio" Type="System.Int32" DbType="Int NOT NULL" CanBeNull="false" />
+      <Column Name="id_elemento" Member="Id_elemento" Type="System.Int32" DbType="Int" CanBeNull="true" />
+      <Column Name="precio" Member="Precio" Type="System.Decimal" DbType="Decimal(20,3)" CanBeNull="true" />
+      <Association Name="fk_elemento" Member="ELEMENTO" ThisKey="Id_elemento" OtherKey="Id_elemento" Type="ELEMENTO" IsForeignKey="true" />
+      <Association Name="fk_servicio" Member="SERVICIO" ThisKey="Id_servicio" OtherKey="Id_servicio" Type="SERVICIO" IsForeignKey="true" />
+      <Association Name="fk_servicio_elemento_solicitud" Member="SOLICITUD" ThisKey="Id_servicio_elemento" OtherKey="Id_servicio_elemento_solicitud" Type="SOLICITUD" DeleteRule="NO ACTION" />
+    </Type>
+  </Table>
+  <Table Name="dbo.SOLICITUD" Member="SOLICITUD">
+    <Type Name="SOLICITUD">
+      <Column Name="id_solicitud" Member="Id_solicitud" Type="System.Int32" DbType="Int NOT NULL IDENTITY" IsPrimaryKey="true" IsDbGenerated="true" CanBeNull="false" />
+      <Column Name="id_prioridad_solicitud" Member="Id_prioridad_solicitud" Type="System.Int32" DbType="Int NOT NULL" CanBeNull="false" />
+      <Column Name="id_estado_solicitud" Member="Id_estado_solicitud" Type="System.Int32" DbType="Int NOT NULL" CanBeNull="false" />
+      <Column Name="id_usuario_solicitud" Member="Id_usuario_solicitud" Type="System.Int32" DbType="Int NOT NULL" CanBeNull="false" />
+      <Column Name="id_servicio_elemento_solicitud" Member="Id_servicio_elemento_solicitud" Type="System.Int32" DbType="Int NOT NULL" CanBeNull="false" />
+      <Column Name="id_factura" Member="Id_factura" Type="System.Int32" DbType="Int NOT NULL" CanBeNull="false" />
+      <Column Name="fecha_solicitud" Member="Fecha_solicitud" Type="System.DateTime" DbType="Date" CanBeNull="true" />
+      <Association Name="fk_estado_solicitud" Member="ESTADO_SOLICITUD" ThisKey="Id_estado_solicitud" OtherKey="Id_estado_solicitud" Type="ESTADO_SOLICITUD" IsForeignKey="true" />
+      <Association Name="fk_factura" Member="FACTURA" ThisKey="Id_factura" OtherKey="Id_factura" Type="FACTURA" IsForeignKey="true" />
+      <Association Name="fk_prioridad_solicitud" Member="PRIORIDAD" ThisKey="Id_prioridad_solicitud" OtherKey="Id_prioridad" Type="PRIORIDAD" IsForeignKey="true" />
+      <Association Name="fk_servicio_elemento_solicitud" Member="SERVICIO_ELEMENTO" ThisKey="Id_servicio_elemento_solicitud" OtherKey="Id_servicio_elemento" Type="SERVICIO_ELEMENTO" IsForeignKey="true" />
+      <Association Name="fk_solicitud_escalado" Member="ESCALADO" ThisKey="Id_solicitud" OtherKey="Id_solicitud_escalado" Type="ESCALADO" DeleteRule="NO ACTION" />
+      <Association Name="fk_solicitud_historico" Member="HISTORICO" ThisKey="Id_solicitud" OtherKey="Id_solicitud_historico" Type="HISTORICO" DeleteRule="NO ACTION" />
+      <Association Name="fk_usuario_solicitud" Member="USUARIO" ThisKey="Id_usuario_solicitud" OtherKey="Id_usuario" Type="USUARIO" IsForeignKey="true" />
+    </Type>
+  </Table>
+  <Table Name="dbo.TELEFONO_USUARIO" Member="TELEFONO_USUARIO">
+    <Type Name="TELEFONO_USUARIO">
+      <Column Name="id_telefono" Member="Id_telefono" Type="System.Int32" DbType="Int NOT NULL IDENTITY" IsPrimaryKey="true" IsDbGenerated="true" CanBeNull="false" />
+      <Column Name="id_usuario_telefono" Member="Id_usuario_telefono" Type="System.Int32" DbType="Int NOT NULL" CanBeNull="false" />
+      <Column Name="numero_telefono" Member="Numero_telefono" Type="System.String" DbType="VarChar(15)" CanBeNull="true" />
+      <Association Name="fk_usuario_telefono" Member="USUARIO" ThisKey="Id_usuario_telefono" OtherKey="Id_usuario" Type="USUARIO" IsForeignKey="true" />
+    </Type>
+  </Table>
+  <Table Name="dbo.TIPO_ELEMENTO" Member="TIPO_ELEMENTO">
+    <Type Name="TIPO_ELEMENTO">
+      <Column Name="id_tipo_elemento" Member="Id_tipo_elemento" Type="System.Int32" DbType="Int NOT NULL IDENTITY" IsPrimaryKey="true" IsDbGenerated="true" CanBeNull="false" />
+      <Column Name="descripcion_elemento" Member="Descripcion_elemento" Type="System.String" DbType="VarChar(50) NOT NULL" CanBeNull="false" />
+      <Association Name="fk_tipo_elemento" Member="ELEMENTO" ThisKey="Id_tipo_elemento" OtherKey="Id_tipo_elemento" Type="ELEMENTO" DeleteRule="NO ACTION" />
+    </Type>
+  </Table>
+  <Table Name="dbo.TIPO_IDENTIFICACION_USUARIO" Member="TIPO_IDENTIFICACION_USUARIO">
+    <Type Name="TIPO_IDENTIFICACION_USUARIO">
+      <Column Name="id_tipo_identificacion" Member="Id_tipo_identificacion" Type="System.Int32" DbType="Int NOT NULL IDENTITY" IsPrimaryKey="true" IsDbGenerated="true" CanBeNull="false" />
+      <Column Name="descripcion_tipo_identificacion" Member="Descripcion_tipo_identificacion" Type="System.String" DbType="VarChar(50) NOT NULL" CanBeNull="false" />
+      <Association Name="fk_tipo_Identificacion_usuario" Member="USUARIO" ThisKey="Id_tipo_identificacion" OtherKey="Id_tipo_Identificacion_usuario" Type="USUARIO" DeleteRule="NO ACTION" />
+    </Type>
+  </Table>
+  <Table Name="dbo.USUARIO" Member="USUARIO">
+    <Type Name="USUARIO">
+      <Column Name="id_usuario" Member="Id_usuario" Type="System.Int32" DbType="Int NOT NULL IDENTITY" IsPrimaryKey="true" IsDbGenerated="true" CanBeNull="false" />
+      <Column Name="id_tipo_Identificacion_usuario" Member="Id_tipo_Identificacion_usuario" Type="System.Int32" DbType="Int NOT NULL" CanBeNull="false" />
+      <Column Name="id_estado_usuario" Member="Id_estado_usuario" Type="System.Int32" DbType="Int NOT NULL" CanBeNull="false" />
+      <Column Name="id_rol_usuario" Member="Id_rol_usuario" Type="System.Int32" DbType="Int NOT NULL" CanBeNull="false" />
+      <Column Name="identificacion" Member="Identificacion" Type="System.String" DbType="VarChar(15) NOT NULL" CanBeNull="false" />
+      <Column Name="apellidos" Member="Apellidos" Type="System.String" DbType="VarChar(30) NOT NULL" CanBeNull="false" />
+      <Column Name="nombres" Member="Nombres" Type="System.String" DbType="VarChar(30) NOT NULL" CanBeNull="false" />
+      <Column Name="direccion" Member="Direccion" Type="System.String" DbType="VarChar(50)" CanBeNull="true" />
+      <Column Name="correo" Member="Correo" Type="System.String" DbType="VarChar(50) NOT NULL" CanBeNull="false" />
+      <Column Name="sexo" Member="Sexo" Type="System.String" DbType="Char(1) NOT NULL" CanBeNull="false" />
+      <Column Name="usuario_login" Member="Usuario_login" Type="System.String" DbType="VarChar(15) NOT NULL" CanBeNull="false" />
+      <Column Name="password" Member="Password" Type="System.String" DbType="NVarChar(30) NOT NULL" CanBeNull="false" />
+      <Association Name="fk_estado_usuario" Member="ESTADO_USUARIO" ThisKey="Id_estado_usuario" OtherKey="Id_estado" Type="ESTADO_USUARIO" IsForeignKey="true" />
+      <Association Name="fk_rol_usuario" Member="ROL" ThisKey="Id_rol_usuario" OtherKey="Id_rol" Type="ROL" IsForeignKey="true" />
+      <Association Name="fk_tipo_Identificacion_usuario" Member="TIPO_IDENTIFICACION_USUARIO" ThisKey="Id_tipo_Identificacion_usuario" OtherKey="Id_tipo_identificacion" Type="TIPO_IDENTIFICACION_USUARIO" IsForeignKey="true" />
+      <Association Name="fk_usuario_escalado" Member="ESCALADO" ThisKey="Id_usuario" OtherKey="Id_usuario_escalado" Type="ESCALADO" DeleteRule="NO ACTION" />
+      <Association Name="fk_usuario_factura" Member="FACTURA" ThisKey="Id_usuario" OtherKey="Id_usuario_factura" Type="FACTURA" DeleteRule="NO ACTION" />
+      <Association Name="fk_usuario_historico" Member="HISTORICO" ThisKey="Id_usuario" OtherKey="Id_usuario_historico" Type="HISTORICO" DeleteRule="NO ACTION" />
+      <Association Name="fk_usuario_solicitud" Member="SOLICITUD" ThisKey="Id_usuario" OtherKey="Id_usuario_solicitud" Type="SOLICITUD" DeleteRule="NO ACTION" />
+      <Association Name="fk_usuario_telefono" Member="TELEFONO_USUARIO" ThisKey="Id_usuario" OtherKey="Id_usuario_telefono" Type="TELEFONO_USUARIO" DeleteRule="NO ACTION" />
+      <Association Name="fk_vendedor_usuario" Member="DETALLE_FACTURA" ThisKey="Id_usuario" OtherKey="Id_vendedor_usuario" Type="DETALLE_FACTURA" DeleteRule="NO ACTION" />
+    </Type>
+  </Table>
+  <Function Name="dbo.fn_diagramobjects" Method="Fn_diagramobjects" IsComposable="true">
+    <Return Type="System.Int32" DbType="Int" />
+  </Function>
+  <Function Name="dbo.sp_alterdiagram" Method="Sp_alterdiagram">
+    <Parameter Name="diagramname" Type="System.String" DbType="NVarChar(128)" />
+    <Parameter Name="owner_id" Type="System.Int32" DbType="Int" />
+    <Parameter Name="version" Type="System.Int32" DbType="Int" />
+    <Parameter Name="definition" Type="System.Data.Linq.Binary" DbType="VarBinary(MAX)" />
+    <Return Type="System.Int32" DbType="Int" />
+  </Function>
+  <Function Name="dbo.sp_creatediagram" Method="Sp_creatediagram">
+    <Parameter Name="diagramname" Type="System.String" DbType="NVarChar(128)" />
+    <Parameter Name="owner_id" Type="System.Int32" DbType="Int" />
+    <Parameter Name="version" Type="System.Int32" DbType="Int" />
+    <Parameter Name="definition" Type="System.Data.Linq.Binary" DbType="VarBinary(MAX)" />
+    <Return Type="System.Int32" DbType="Int" />
+  </Function>
+  <Function Name="dbo.sp_dropdiagram" Method="Sp_dropdiagram">
+    <Parameter Name="diagramname" Type="System.String" DbType="NVarChar(128)" />
+    <Parameter Name="owner_id" Type="System.Int32" DbType="Int" />
+    <Return Type="System.Int32" DbType="Int" />
+  </Function>
+  <Function Name="dbo.sp_helpdiagramdefinition" Method="Sp_helpdiagramdefinition">
+    <Parameter Name="diagramname" Type="System.String" DbType="NVarChar(128)" />
+    <Parameter Name="owner_id" Type="System.Int32" DbType="Int" />
+    <ElementType Name="Sp_helpdiagramdefinitionResult">
+      <Column Name="version" Member="Version" Type="System.Int32" DbType="Int" CanBeNull="true" />
+      <Column Name="definition" Member="Definition" Type="System.Data.Linq.Binary" DbType="VarBinary(MAX)" CanBeNull="true" />
+    </ElementType>
+  </Function>
+  <Function Name="dbo.sp_helpdiagrams" Method="Sp_helpdiagrams">
+    <Parameter Name="diagramname" Type="System.String" DbType="NVarChar(128)" />
+    <Parameter Name="owner_id" Type="System.Int32" DbType="Int" />
+    <ElementType Name="Sp_helpdiagramsResult">
+      <Column Name="Database" Type="System.String" DbType="NVarChar(128)" CanBeNull="true" />
+      <Column Name="Name" Type="System.String" DbType="NVarChar(128)" CanBeNull="true" />
+      <Column Name="ID" Type="System.Int32" DbType="Int" CanBeNull="true" />
+      <Column Name="Owner" Type="System.String" DbType="NVarChar(128)" CanBeNull="true" />
+      <Column Name="OwnerID" Type="System.Int32" DbType="Int" CanBeNull="true" />
+    </ElementType>
+  </Function>
+  <Function Name="dbo.sp_renamediagram" Method="Sp_renamediagram">
+    <Parameter Name="diagramname" Type="System.String" DbType="NVarChar(128)" />
+    <Parameter Name="owner_id" Type="System.Int32" DbType="Int" />
+    <Parameter Name="new_diagramname" Type="System.String" DbType="NVarChar(128)" />
+    <Return Type="System.Int32" DbType="Int" />
+  </Function>
+</Database>

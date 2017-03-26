@@ -19,6 +19,8 @@ namespace ServiciosDigitalesProy.Models
             estado = "";
             username = "";
             tiposIdentificacion = null ;
+            tiposEstado = null;
+            resultado = "";
         }
 
         [RegularExpression(@"^[0-9a-zA-ZáéíóÚ.ÁÉÍÓÚ. ]{1,40}$", ErrorMessage = "Los Caracteres especiales no son permitidos.")]
@@ -66,6 +68,10 @@ namespace ServiciosDigitalesProy.Models
         public int idEstado { get; set; }
         public int idTipoIdentificacion { get; set; }
         public SelectList tiposIdentificacion { get; set; }
+
+        public SelectList tiposEstado { get; set; }
+        public string resultado { get; set; }
+        public int id { get; set; }
 
     }
 

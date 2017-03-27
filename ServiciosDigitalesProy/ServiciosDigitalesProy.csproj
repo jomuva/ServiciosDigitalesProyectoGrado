@@ -381,6 +381,8 @@
     <Content Include="Xcore\Scripts\jquery-1.10.2.js" />
     <Content Include="Xcore\Scripts\jquery-1.10.2.min.js" />
     <None Include="Xcore\Scripts\jquery.validate-vsdoc.js" />
+    <Content Include="Xcore\Scripts\jquery.bootstrap-growl.js" />
+    <Content Include="Xcore\Scripts\jquery.bootstrap-growl.min.js" />
     <Content Include="Xcore\Scripts\jquery.dataTables.min.js" />
     <Content Include="Xcore\Scripts\jquery.unobtrusive-ajax.js" />
     <Content Include="Xcore\Scripts\jquery.unobtrusive-ajax.min.js" />
@@ -390,6 +392,8 @@
     <Content Include="Xcore\Scripts\jquery.validate.unobtrusive.js" />
     <Content Include="Xcore\Scripts\jquery.validate.unobtrusive.min.js" />
     <Content Include="Xcore\Scripts\modernizr-2.6.2.js" />
+    <Content Include="Xcore\Scripts\notify.js" />
+    <Content Include="Xcore\Scripts\notify.min.js" />
     <Content Include="Xcore\Scripts\respond.js" />
     <Content Include="Xcore\Scripts\respond.min.js" />
     <Content Include="Xcore\Scripts\_references.js" />

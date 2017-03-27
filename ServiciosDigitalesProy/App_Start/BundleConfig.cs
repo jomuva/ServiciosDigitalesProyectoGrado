@@ -24,7 +24,11 @@ namespace ServiciosDigitalesProy
                       "~/Xcore/Scripts/respond.js",
                       "~/Xcore/Scripts/jquery.dataTables.min.js",
                       "~/Xcore/Scripts/dataTables.bootstrap.min.js",
-                      "~/Xcore/Scripts/dataTables.responsive.js"));
+                      "~/Xcore/Scripts/dataTables.responsive.js",
+                      "~/Xcore/Scripts/notify.js",
+                      "~/Xcore/Scripts/notify.min.js",
+                      "~/Xcore/Scripts/jquery.bootstrap-growl.js",
+                      "~/Xcore/Scripts/jquery.bootstrap-growl.min.js"));
 
             bundles.Add(new StyleBundle("~/Content/css").Include(
                       "~/Xcore/Content/bootstrap.css",

@@ -39,12 +39,12 @@ namespace ServiciosDigitalesProy.Datos
         {
             var Estados = from Ti in conexion.ESTADO_USUARIO
 
-                             select new EstadosUsuario
-                             {
-                                 Descripcion = Ti.descripcion,
-                                 id = Ti.id_estado
+                          select new EstadosUsuario
+                          {
+                              Descripcion = Ti.descripcion,
+                              id = Ti.id_estado
 
-                             };
+                          };
             return Estados.ToList();
         }
 
@@ -57,11 +57,10 @@ namespace ServiciosDigitalesProy.Datos
         /// </summary>
         /// <param name="id"></param>
         /// <returns>Usuario</returns>
-        public List<Usuario> ConsultarCliente(string data)
+        public List<Usuario> ConsultarCliente(string data, ref string resultado, ref string tipoResultado)
         {
 
             int id = 0;
-            string resultado;
             List<Usuario> users = new List<Usuario>();
 
             bool result = int.TryParse(data, out id);
@@ -98,7 +97,10 @@ namespace ServiciosDigitalesProy.Datos
 
                     List<Usuario> usuario2 = cliente.ToList();
                     usuario2.First().TelefonoCelular = Telefonos[0].numero_telefono;
-                    usuario2.First().TelefonoFijo = Telefonos.Count==1?"":Telefonos[1].numero_telefono;
+                    usuario2.First().TelefonoFijo = Telefonos.Count == 1 ? "" : Telefonos[1].numero_telefono;
+
+                    resultado = "Consulta Exitosa";
+                    tipoResultado = "info";
 
                     return usuario2;
                 }
@@ -135,13 +137,16 @@ namespace ServiciosDigitalesProy.Datos
                     usuario2.First().TelefonoCelular = Telefonos[0].numero_telefono;
                     usuario2.First().TelefonoFijo = Telefonos.Count == 1 ? "" : Telefonos[1].numero_telefono;
 
+                    resultado = "Consulta Exitosa";
+                    tipoResultado = "info";
+
                     return usuario2;
                 }
             }
             catch (Exception ex)
             {
                 resultado = ex.Message;
-                users.Add(new Usuario { resultado = resultado });
+                tipoResultado = "danger";
             }
 
             return users;
@@ -157,7 +162,7 @@ namespace ServiciosDigitalesProy.Datos
 
             string resultado;
             List<Usuario> lista = new List<Usuario>();
-        
+
             try
             {
                 var clientes = from usuario in conexion.USUARIO
@@ -183,15 +188,14 @@ namespace ServiciosDigitalesProy.Datos
             catch (Exception ex)
             {
                 resultado = ex.Message;
-                lista.Add(new Usuario{ resultado = resultado });
+                lista.Add(new Usuario { resultado = resultado });
             }
 
             return lista;
         }
 
-        public string AdicionarCliente(Usuario usuario)
+        public void AdicionarCliente(Usuario usuario, out string resultado, out string tipoResultado)
         {
-            string resultado = "";
             usuario.TelefonoFijo = usuario.TelefonoFijo == null ? "" : usuario.TelefonoFijo;
             var us = from u in conexion.USUARIO
                      where u.usuario_login == usuario.username
@@ -200,7 +204,11 @@ namespace ServiciosDigitalesProy.Datos
             var mail = from m in conexion.USUARIO
                        where m.correo == usuario.email
                        select m;
-            if (!us.Any() && !mail.Any())
+
+            var identificac = from m in conexion.USUARIO
+                              where m.identificacion == usuario.identificacion
+                              select m;
+            if (!us.Any() && !mail.Any() && !identificac.Any())
             {
                 try
                 {
@@ -249,47 +257,75 @@ namespace ServiciosDigitalesProy.Datos
                     resultado = e.Message;
                 }
                 resultado = "Cliente registrado correctamente";
+                tipoResultado = "success";
             }
             else
             {
-                resultado = "Ya existe un usuario registrado con el nombre de usuario o Email ingresado";
+                resultado = "Ya existe un usuario registrado con el nombre de usuario, email o identificación ingresado";
+                tipoResultado = "danger";
             }
-            return resultado;
         }
 
 
-        public string ModificarCliente(Usuario usuario)
+        public void ModificarCliente(Usuario usuario, out string res, out string tipoRes)
         {
-            string resultado = "";
 
-                try
+            try
+            {
+                var queryUSUARIO = from USU in conexion.USUARIO
+                                   where USU.identificacion == usuario.identificacion
+                                   select USU;
+                foreach (var USUARIO in queryUSUARIO)
                 {
-                    var queryUSUARIO = from USU in conexion.USUARIO
-                                       where USU.identificacion == usuario.identificacion
-                                       select USU;
-                    foreach (var USUARIO in queryUSUARIO)
+                    USUARIO.apellidos = usuario.apellidos;
+                    USUARIO.nombres = usuario.nombres;
+                    USUARIO.direccion = usuario.direccion;
+                    USUARIO.correo = usuario.email;
+                    USUARIO.sexo = usuario.sexo;
+                    USUARIO.password = usuario.password;
+                }
+                conexion.SaveChanges();
+
+                var idUsu = from u in conexion.USUARIO
+                            where u.identificacion == usuario.identificacion
+                            select new Usuario
+                            {
+                                id = u.id_usuario
+                            };
+
+                Usuario user = idUsu.First();
+                var queryTelefono = from tel in conexion.TELEFONO_USUARIO
+                                    join usu in conexion.USUARIO
+                                    on tel.id_usuario_telefono equals usu.id_usuario
+                                    where usu.identificacion == usuario.identificacion
+                                    select tel;
+                int i = 0;
+                foreach (var tele in queryTelefono)
+                {
+                    tele.id_usuario_telefono = user.id;
+                    if(i==0)
+                         tele.numero_telefono = usuario.TelefonoCelular;
+                    else
                     {
-                        USUARIO.apellidos = usuario.apellidos;
-                        USUARIO.nombres = usuario.nombres;
-                        USUARIO.direccion = usuario.direccion;
-                        USUARIO.correo = usuario.email;
-                        USUARIO.sexo = usuario.sexo;
-                        USUARIO.password = usuario.password;
+                        tele.numero_telefono = usuario.TelefonoFijo;
                     }
-                    conexion.SaveChanges();
+                    i++;
                 }
-                catch (Exception e)
-                {
-                    resultado = e.Message;
-                }
-                resultado = "Cliente Modificado correctamente";
-          
-            return resultado;
+               
+                conexion.SaveChanges();
+                res = "Cliente Modificado correctamente";
+                tipoRes = "success";
+            }
+            catch (Exception e)
+            {
+                res = e.Message;
+                tipoRes = "danger";
+            }
+            
         }
 
-        public string CambiarEstadoCliente(Usuario usuario)
+        public void CambiarEstadoCliente(Usuario usuario, out string res, out string tipoRes)
         {
-            string resultado = "";
 
             try
             {
@@ -300,15 +336,25 @@ namespace ServiciosDigitalesProy.Datos
                 {
                     USUARIO.id_estado_usuario = usuario.idEstado;
                 }
+                if (queryUSUARIO.Count() == 0)
+                {
+                    res = "La Operación no Produjo ningun resultado";
+                    tipoRes = "danger";
+                }
+                else
+                {
+                    res = "Estado del cliente actualizado correctamente";
+                    tipoRes = "success";
+                }
                 conexion.SaveChanges();
             }
             catch (Exception e)
             {
-                resultado = e.Message;
+                res = e.Message;
+                tipoRes = "danger";
             }
-            resultado = "Estado del cliente actualizado correctamente";
 
-            return resultado;
+
         }
 
         #endregion

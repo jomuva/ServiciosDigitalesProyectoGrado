@@ -109,13 +109,15 @@
         </div>
     </div>
 </section>
-<script>
-    $('#table-inicial').dataTable({
-        "aaSorting": [[4, "asc"]],
-        "oLanguage": { "sUrl": "/App_Settings/Common/Resources/Spanish.json" },
-        "iDisplayLength": "Todos",
-        "bLengthChange": false,
-        "bPaginate": false,
-        "aLengthMenu": [[-1], ["Todos"]]
+@if ((string)TempData["mensaje"] != null || (string)TempData["mensaje"] != "")
+{
+    <script>
+        $(function (msg) {
+            $.bootstrapGrowl('@((string)TempData["mensaje"])', {
+                type: '@((string)TempData["estado"])',
+                offset: { from: 'top', amount: 100 }
+            });
     });
-</script>
+    </script>
+}
+

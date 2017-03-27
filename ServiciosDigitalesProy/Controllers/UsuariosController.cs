@@ -28,10 +28,21 @@ namespace ServiciosDigitalesProy.Controllers
         [HttpPost]
         public ActionResult ConsultarClientes(string identificacion)
         {
+
+            string resultado="", tipoResultado="";
             List<Usuario> usuarios;
-            usuarios = CatalogoUsuarios.GetInstance().ConsultarClientes(identificacion);
+            usuarios = CatalogoUsuarios.GetInstance().ConsultarClientes(identificacion, ref resultado, ref tipoResultado);
             TempData["identificacionConsulta"] = identificacion;
-            return View("RespuestaConsultaClientes",usuarios);
+            TempData["mensaje"] = resultado;
+            TempData["estado"] = tipoResultado;
+            if (tipoResultado == "danger")
+            {
+                return View();
+            }
+            else
+            {
+                return View("RespuestaConsultaClientes", usuarios);
+            }
         }
 
         // POST: Usuarios/Create
@@ -47,13 +58,22 @@ namespace ServiciosDigitalesProy.Controllers
         [HttpPost]
         public ActionResult AdicionarCliente(Usuario user)
         {
-            string resp;
+            string resultado = "", tipoResultado = "";
+
             if (ModelState.IsValid)
             {
-                resp = CatalogoUsuarios.GetInstance().AdicionarCliente(user);
-                return RedirectToAction("ConsultarClientes");
+                CatalogoUsuarios.GetInstance().AdicionarCliente(user,out resultado, out tipoResultado);
+
+                List<Usuario> usuarios;
+                usuarios = CatalogoUsuarios.GetInstance().ConsultarClientes("", ref resultado, ref tipoResultado);
+
+                TempData["mensaje"] = resultado;
+                TempData["estado"] = tipoResultado;
+                return View("RespuestaConsultaClientes", usuarios);
             }
 
+            TempData["mensaje"] = "Por favor verifique los datos ingresados";
+            TempData["estado"] = "danger";
             return View();
         }
 
@@ -61,13 +81,16 @@ namespace ServiciosDigitalesProy.Controllers
         public ActionResult ModificarCliente(string id)
         {
             string resp;
+            string resultado = "", tipoResultado = "";
             List<Usuario> usuarios;
             Usuario usuario;
-            usuarios = CatalogoUsuarios.GetInstance().ConsultarClientes(id);
+            usuarios = CatalogoUsuarios.GetInstance().ConsultarClientes(id, ref resultado, ref tipoResultado);
             if (usuarios.First().estado == "Bloqueado" || usuarios.First().estado == "Eliminado" || usuarios.First().estado == "Inactivo"|| usuarios.First().estado == "")
             {
                 resp = "El usuario no se encuentra Activo";
-                usuarios = CatalogoUsuarios.GetInstance().ConsultarClientes((string)TempData.Peek("identificacionConsulta"));
+                usuarios = CatalogoUsuarios.GetInstance().ConsultarClientes((string)TempData.Peek("identificacionConsulta"), ref resultado, ref tipoResultado);
+                TempData["mensaje"] = resp;
+                TempData["estado"] = "danger";
                 return View("RespuestaConsultaClientes", usuarios);
             }
             usuarios.First().tiposIdentificacion = new SelectList(CatalogoUsuarios.GetInstance().ConsultarTiposIdentificacion(), "id", "Descripcion");
@@ -78,12 +101,16 @@ namespace ServiciosDigitalesProy.Controllers
         [HttpPost]
         public ActionResult UpdateCliente(Usuario user)
         {
-            string resp;
+            string resultado = "", tipoResultado = "";
+            string res, tipoRes;
             if (ModelState.IsValid)
             {
-                resp= CatalogoUsuarios.GetInstance().ModificarCliente(user);
+                CatalogoUsuarios.GetInstance().ModificarCliente(user,out res, out tipoRes);
                 List<Usuario> usuarios;
-                usuarios = CatalogoUsuarios.GetInstance().ConsultarClientes((string)TempData.Peek("identificacionConsulta"));
+                usuarios = CatalogoUsuarios.GetInstance().ConsultarClientes((string)TempData.Peek("identificacionConsulta"), ref resultado, ref tipoResultado);
+                TempData["mensaje"] = res;
+                TempData["estado"] = tipoRes;
+
                 return View("RespuestaConsultaClientes", usuarios);
 
             }
@@ -94,42 +121,61 @@ namespace ServiciosDigitalesProy.Controllers
         [HttpGet]
         public ActionResult CambiarEstadoCliente(string id)
         {
+            string resultado = "", tipoResultado = "";
             List<Usuario> usuarios;
             Usuario usuario;
-            usuarios = CatalogoUsuarios.GetInstance().ConsultarClientes(id);
-            usuario = usuarios.First();
+            usuarios = CatalogoUsuarios.GetInstance().ConsultarClientes(id, ref resultado, ref tipoResultado);
+            try
+            {
+                usuario = usuarios.First();
+                usuario.tiposEstado = new SelectList(CatalogoUsuarios.GetInstance().ConsultarEstadosUsuario(), "id", "Descripcion");
+                return View(usuario);
+            }
+            catch (Exception e)
+            {
+                resultado = e.Message;
+                tipoResultado = "danger";
+            }
             //CatalogoUsuarios.GetInstance().CambiarEstadoCliente(usuario);
-            usuario.tiposEstado = new SelectList(CatalogoUsuarios.GetInstance().ConsultarEstadosUsuario(), "id", "Descripcion");
 
-            return View(usuario);
+            return View(new Usuario{tiposEstado = new SelectList(CatalogoUsuarios.GetInstance().ConsultarEstadosUsuario(), "id", "Descripcion")});
         }
 
         [HttpPost]
         public ActionResult ModificarEstadoCliente(Usuario usuario)
         {
-            string resp;
-            resp = CatalogoUsuarios.GetInstance().CambiarEstadoCliente(usuario);
+            string res, tipoRes;
+            string resultado = "", tipoResultado = "";
+            CatalogoUsuarios.GetInstance().CambiarEstadoCliente(usuario, out res, out tipoRes);
             List<Usuario> usuarios;
-            usuarios = CatalogoUsuarios.GetInstance().ConsultarClientes((string)TempData.Peek("identificacionConsulta"));
+            usuarios = CatalogoUsuarios.GetInstance().ConsultarClientes((string)TempData.Peek("identificacionConsulta"), ref resultado, ref tipoResultado);
+
+            TempData["mensaje"] = res;
+            TempData["estado"] = tipoRes;
             return View("RespuestaConsultaClientes", usuarios);
         }
 
         [HttpGet]
         public ActionResult DetallesCliente(string id)
         {
-            List<Usuario> usuarios = CatalogoUsuarios.GetInstance().ConsultarClientes(id);
+            string resultado = "", tipoResultado = "";
+            List<Usuario> usuarios = CatalogoUsuarios.GetInstance().ConsultarClientes(id, ref resultado, ref tipoResultado);
 
             return View("DetallesCliente",usuarios.First());
         }
 
+
         [HttpGet]
-        public ActionResult VolverDetallesCliente(string id)
+        public ActionResult VolverDetallesCliente(string iden)
         {
+            string resultado = "", tipoResultado = "";
             List<Usuario> usuarios;
-            usuarios = CatalogoUsuarios.GetInstance().ConsultarClientes(id);
+            usuarios = CatalogoUsuarios.GetInstance().ConsultarClientes(iden, ref resultado, ref tipoResultado);
             return View("RespuestaConsultaClientes", usuarios);
         }
 
+       
+        
         #endregion
 
     }

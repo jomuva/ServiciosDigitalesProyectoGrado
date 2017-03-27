@@ -49,16 +49,16 @@ namespace ServiciosDigitalesProy.Catalogos
 
         #region Catalogo Clientes
 
-        public List<Usuario> ConsultarClientes(string ident)
+        public List<Usuario> ConsultarClientes(string ident, ref string resultado, ref string tipoResultado)
         {
             List<Usuario> lista = new List<Usuario>();
 
 
-            if (ident == "")
+            if (ident == ""||ident==null)
                 lista = usuarioDatos.ConsultarClientes();
             else if (ident != "" && lista != null)
             {
-                lista = usuarioDatos.ConsultarCliente(ident);
+                lista = usuarioDatos.ConsultarCliente(ident, ref resultado, ref tipoResultado);
             }
             else
                 lista = null;
@@ -66,27 +66,24 @@ namespace ServiciosDigitalesProy.Catalogos
             return lista;
         }
 
-        public string AdicionarCliente(Usuario cliente)
+        public void AdicionarCliente(Usuario cliente, out string resultado, out string tipoResultado)
         {
             cliente.idRol = 1;
             cliente.idEstado = 1;
-            string resp = usuarioDatos.AdicionarCliente(cliente);
+            usuarioDatos.AdicionarCliente(cliente,out resultado,out tipoResultado);
 
-            return resp;
         }
 
-        public string ModificarCliente(Usuario cliente)
+        public void ModificarCliente(Usuario cliente, out string res, out string tipoRes)
         {
             cliente.idRol = 1;
             cliente.idEstado = 1;
-            string resp = usuarioDatos.ModificarCliente(cliente);
-            return resp;
+            usuarioDatos.ModificarCliente(cliente, out res, out tipoRes);
         }
 
-        public string CambiarEstadoCliente(Usuario cliente)
+        public void CambiarEstadoCliente(Usuario cliente, out string res, out string tipoRes)
         {
-            string resp = usuarioDatos.CambiarEstadoCliente(cliente);
-            return resp;
+            usuarioDatos.CambiarEstadoCliente(cliente, out res, out tipoRes);
         }
         #endregion
 

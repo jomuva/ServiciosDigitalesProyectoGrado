@@ -159,11 +159,16 @@
                     <a href="javascript:;" data-toggle="collapse" data-target="#usuarios"><i class="fa fa-fw fa-dashboard"></i> Usuarios <i class="fa fa-fw fa-caret-down"></i></a>
                     <ul id="usuarios" class="collapse">
                         <li>
-                            @Html.ActionLink("Consultar Clientes","ConsultarClientes","Usuarios")
-                            
+                            @Html.ActionLink("Adicionar Cliente", "AdicionarCliente", "Usuarios")
                         </li>
                         <li>
-                            <a href="#">Consultar Empleados</a>
+                            @Html.ActionLink("Consultar Clientes","ConsultarClientes","Usuarios")
+                        </li>
+                        <li>
+                            @Html.ActionLink("Adicionar Empleado", "AdicionarEmpleado", "Usuarios")
+                        </li>
+                        <li>
+                            @Html.ActionLink("Consultar Empleados", "ConsultarEmpleados", "Usuarios")
                         </li>
                     </ul>
                 </li>

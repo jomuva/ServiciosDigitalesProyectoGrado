@@ -2,21 +2,25 @@
 @*@using ServiciosDigitalesProy.Models
 @model List<TipoIdentificacion>*@
 @{
-    ViewBag.Title = "ConsultarClientes";
+    ViewBag.Title = " Usuarios";
+    ViewBag.SubSeccion = "Consultar Clientes";
 }
 <style>
     .error {
         color: #e20e0e;
     }
 </style>
+
+<h3>@ViewBag.SubSeccion</h3>
+<div class="col-lg-12">
+    <!--breadcrumbs start -->
+    <ul class="breadcrumb">
+        <li><a href="#"><i class="fa fa-th-list"></i>@ViewBag.Title</a></li>
+        <li class="active"><a href="#">@ViewBag.SubSeccion</a></li>
+    </ul>
+    <!--breadcrumbs end -->
+</div>
 <div id="page-wrapper">
-    <div class="row">
-        <div class="col-lg-12">
-            <h1 class="page-header">Consultar Clientes</h1>
-        </div>
-        <!-- /.col-lg-12 -->
-    </div>
-    <!-- /.row -->
     <div class="row">
         <div class="col-lg-6">
             <div class="panel panel-default">
@@ -30,7 +34,7 @@
                             {
                                 <div class="form-group">
                                     <label>Ingrese Nombre o Número de documento</label>
-                                    @Html.TextBox("identificacion", String.Empty, new { @class = "form-control" })
+                                    @Html.TextBox("identificacion", String.Empty, new { @class = "form-control"})
                                 </div>
                                 <button type="submit" name="submitButton" id="submitButton" class="btn btn-primary">Consultar</button>
                              } 
@@ -53,17 +57,17 @@
     //    debug: true,
     //    success: "valid"
     //});
-    //$.validator.addMethod("caracteres", function (value, element) {
-    //    return this.optional(element) || /^[0-9a-zA-ZáéíóúÁÉÍÓÚ ]+$/i.test(value);
-    //}, "No se permiten caracteres especiales");
+    $.validator.addMethod("caracteres", function (value, element) {
+        return this.optional(element) || /^[0-9a-zA-ZáéíóúÁÉÍÓÚ ]+$/i.test(value);
+    }, "No se permiten caracteres especiales");
 
-    //$("#Form1").validate({
-    //    rules: {
-    //        identificacion: {
-    //            caracteres: true
-    //        }
-    //    }
-    //});
+    $("#Form1").validate({
+        rules: {
+            identificacion: {
+                caracteres: true
+            }
+        }
+    });
 
 </script>
 @if ((string)TempData["mensaje"] != null || (string)TempData["mensaje"] != "")

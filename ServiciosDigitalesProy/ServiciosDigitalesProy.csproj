@@ -367,14 +367,20 @@
     <Content Include="Datos\ConexionBd.edmx.diagram">
       <DependentUpon>ConexionBd.edmx</DependentUpon>
     </Content>
-    <Content Include="Views\Usuarios\ConsultarClientes.cshtml" />
+    <Content Include="Views\Usuarios\Clientes\ConsultarClientes.cshtml" />
     <Content Include="ClassDiagram1.cd" />
-    <Content Include="Views\Usuarios\RespuestaConsultaClientes.cshtml" />
-    <Content Include="Views\Usuarios\AdicionarCliente.cshtml" />
-    <Content Include="Views\Usuarios\ModificarCliente.cshtml" />
+    <Content Include="Views\Usuarios\Clientes\RespuestaConsultaClientes.cshtml" />
+    <Content Include="Views\Usuarios\Clientes\AdicionarCliente.cshtml" />
+    <Content Include="Views\Usuarios\Clientes\ModificarCliente.cshtml" />
     <Content Include="favicon" />
-    <Content Include="Views\Usuarios\CambiarEstadoCliente.cshtml" />
-    <Content Include="Views\Usuarios\DetallesCliente.cshtml" />
+    <Content Include="Views\Usuarios\Clientes\CambiarEstadoCliente.cshtml" />
+    <Content Include="Views\Usuarios\Clientes\DetallesCliente.cshtml" />
+    <Content Include="Views\Usuarios\Empleados\AdicionarEmpleado.cshtml" />
+    <Content Include="Views\Usuarios\Empleados\CambiarEstadoEmpleado.cshtml" />
+    <Content Include="Views\Usuarios\Empleados\ConsultarEmpleados.cshtml" />
+    <Content Include="Views\Usuarios\Empleados\DetallesEmpleado.cshtml" />
+    <Content Include="Views\Usuarios\Empleados\ModificarEmpleado.cshtml" />
+    <Content Include="Views\Usuarios\Empleados\RespuestaConsultaEmpleados.cshtml" />
     <None Include="Xcore\Scripts\jquery-1.10.2.intellisense.js" />
     <Content Include="Xcore\Scripts\dataTables.bootstrap.min.js" />
     <Content Include="Xcore\Scripts\dataTables.responsive.js" />

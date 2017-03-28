@@ -1,8 +1,9 @@
-﻿@model IEnumerable<ServiciosDigitalesProy.Models.Usuario>
+﻿@using ServiciosDigitalesProy.Models
+@model ServiciosDigitalesProy.Models.Usuario
 
 @{
     ViewBag.Title = "Usuarios";
-    ViewBag.SubSeccion = "Consulta de Clientes";
+    ViewBag.SubSeccion = "Detalles del Cliente "+Model.nombres;
 }
 
 <h3>@ViewBag.SubSeccion</h3>
@@ -23,13 +24,6 @@
                     <div class="col-lg-12">
                         <section class="panel">
                             <header class="panel-heading tab-bg-dark-navy-blue tab-right ">
-                                <div class="row">
-                                    <div class="col-lg-12">
-                                        <div class="btn-actions">
-                                            @Html.ActionLink("Adicionar", "AdicionarCliente", "", new {@class = "btn btn-primary pull-right" })
-                                        </div>
-                                    </div>
-                                </div>
                                 <ul class="nav nav-tabs pull-right">
                                     <li class="active">
                                         <a data-toggle="tab" href="#home-3">
@@ -51,55 +45,60 @@
                                             <thead>
                                                 <tr>
                                                     <td>
-                                                        <b>Nombres</b>
-</p>                                                    </td>
+                                                        <b>Dirección</b>
+                                                    </td>
                                                     <td>
-                                                        <b>Apellidos</b>
-</td>
+                                                        <b>Sexo</b>
+                                                    </td>
                                                     <td>
-                                                        <b>Identificación</b>
+                                                        <b>User Name</b>
                                                     </td>
                                                     <td>
                                                         <b>Email</b>
                                                     </td>
                                                     <td>
-                                                        <b>Estado</b>
+                                                        <b>Teléfono Celular</b>
+                                                    </td>
+                                                    <td>
+                                                        <b>Teléfono Fijo</b>
                                                     </td>
                                                     <th></th>
                                                 </tr>
                                             </thead>
                                             <tbody>
-                                                @foreach (var item in Model)
-                                                {
                                                     <tr>
                                                         <td>
-                                                            @Html.DisplayFor(modelItem => item.nombres)
+                                                            @Html.DisplayFor(modelItem => Model.direccion)
                                                         </td>
                                                         <td>
-                                                            @Html.DisplayFor(modelItem => item.apellidos)
+                                                            @Html.DisplayFor(modelItem => Model.sexo)
                                                         </td>
                                                         <td>
-                                                            @Html.DisplayFor(modelItem => item.identificacion)
+                                                            @Html.DisplayFor(modelItem => Model.username)
                                                         </td>
                                                         <td>
-                                                            @Html.DisplayFor(modelItem => item.email)
+                                                            @Html.DisplayFor(modelItem => Model.email)
                                                         </td>
                                                         <td>
-                                                            @Html.DisplayFor(modelItem => item.estado)
+                                                            @Html.DisplayFor(modelItem => Model.TelefonoCelular)
                                                         </td>
                                                         <td>
-                                                            @Html.ActionLink("Editar", "ModificarCliente", new {  id=item.identificacion  }) |
-                                                            @Html.ActionLink("Detalles", "DetallesCliente", new { id = item.identificacion }) |
-                                                            @Html.ActionLink("Estado", "CambiarEstadoCliente", new { id = item.identificacion })
+                                                            @Html.DisplayFor(modelItem => Model.TelefonoFijo)
                                                         </td>
+
                                                     </tr>
-                                                }
                                             </tbody>
                                         </table>
                                     </div>
                                     <!-- /.panel-body -->
                                 </div>
                                 <!-- /.panel -->
+                            </div>
+
+                            <div class="form-group">
+                                <div class="col-md-2">
+                                    @Html.ActionLink("Volver", "VolverDetallesCliente", new { id = Model.identificacion }, new { @class = "btn btn-primary" })
+                                </div>
                             </div>
                         </section>
                     </div>
@@ -109,15 +108,4 @@
         </div>
     </div>
 </section>
-@if ((string)TempData["mensaje"] != null || (string)TempData["mensaje"] != "")
-{
-    <script>
-        $(function (msg) {
-            $.bootstrapGrowl('@((string)TempData["mensaje"])', {
-                type: '@((string)TempData["estado"])',
-                offset: { from: 'top', amount: 100 }
-            });
-    });
-    </script>
-}
 

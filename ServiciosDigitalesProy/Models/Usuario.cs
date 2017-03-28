@@ -20,7 +20,6 @@ namespace ServiciosDigitalesProy.Models
             username = "";
             tiposIdentificacion = null ;
             tiposEstado = null;
-            resultado = "";
         }
 
         [RegularExpression(@"^[0-9a-zA-ZáéíóÚ.ÁÉÍÓÚ. ]{1,40}$", ErrorMessage = "Los Caracteres especiales no son permitidos.")]
@@ -35,13 +34,14 @@ namespace ServiciosDigitalesProy.Models
         [Required(AllowEmptyStrings = false, ErrorMessage = "El campo de \"Identificación\" es obligatorio.")]
         public string identificacion { get; set; }
 
+        [RegularExpression("^[0-9]*$", ErrorMessage = "El Teléfono Fijo debe ser numérico")]
         public string TelefonoFijo { get; set; }
 
         [RegularExpression("^[0-9]*$", ErrorMessage = "El Teléfono celular debe ser numérico")]
         [Required(AllowEmptyStrings = false, ErrorMessage = "El campo de \"Teléfono Celular\" es obligatorio.")]
         public string TelefonoCelular { get; set; }
 
-        [RegularExpression(@"^[0-9a-zA-ZáéíóÚ.ÁÉÍÓÚ#. ]{1,40}$", ErrorMessage = "Los Caracteres especiales no son permitidos.")]
+        [RegularExpression(@"^[0-9a-zA-ZáéíóÚ.ÁÉÍÓÚ#-. ]{1,40}$", ErrorMessage = "Los Caracteres especiales no son permitidos.")]
         public string direccion { get; set; }
 
         [Required(AllowEmptyStrings = false, ErrorMessage = "El campo de \"Password\" es obligatorio.")]
@@ -68,10 +68,10 @@ namespace ServiciosDigitalesProy.Models
         public int idEstado { get; set; }
         public int idTipoIdentificacion { get; set; }
         public SelectList tiposIdentificacion { get; set; }
-
         public SelectList tiposEstado { get; set; }
-        public string resultado { get; set; }
+        public string Rol { get; set; }
         public int id { get; set; }
+
 
     }
 

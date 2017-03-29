@@ -69,9 +69,9 @@ namespace ServiciosDigitalesProy.Models
         public int idTipoIdentificacion { get; set; }
         public SelectList tiposIdentificacion { get; set; }
         public SelectList tiposEstado { get; set; }
-        public string Rol { get; set; }
+        public SelectList Roles { get; set; }
         public int id { get; set; }
-
+        public string Rol { get; set; }
 
     }
 

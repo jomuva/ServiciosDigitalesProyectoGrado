@@ -254,6 +254,7 @@ namespace ServiciosDigitalesProy.Controllers
         {
             Usuario user = new Usuario();
             user.tiposIdentificacion = new SelectList(CatalogoUsuarios.GetInstance().ConsultarTiposIdentificacion(), "id", "Descripcion");
+            user.Roles = new SelectList(CatalogoUsuarios.GetInstance().ConsultarRolesEmpleado(), "id", "Descripcion");
             return View("Empleados/AdicionarEmpleado", user);
         }
 
@@ -269,10 +270,10 @@ namespace ServiciosDigitalesProy.Controllers
 
             if (ModelState.IsValid)
             {
-                CatalogoUsuarios.GetInstance().AdicionarCliente(user, out resultado, out tipoResultado);
+                CatalogoUsuarios.GetInstance().AdicionarEmpleado(user, out resultado, out tipoResultado);
 
                 List<Usuario> usuarios;
-                usuarios = CatalogoUsuarios.GetInstance().ConsultarClientes("", ref resultado, ref tipoResultado);
+                usuarios = CatalogoUsuarios.GetInstance().ConsultarEmpleados("", ref resultado, ref tipoResultado);
 
                 TempData["mensaje"] = resultado;
                 TempData["estado"] = tipoResultado;
@@ -296,16 +297,17 @@ namespace ServiciosDigitalesProy.Controllers
             string resultado = "", tipoResultado = "";
             List<Usuario> usuarios;
             Usuario usuario;
-            usuarios = CatalogoUsuarios.GetInstance().ConsultarClientes(id, ref resultado, ref tipoResultado);
+            usuarios = CatalogoUsuarios.GetInstance().ConsultarEmpleados(id, ref resultado, ref tipoResultado);
             if (usuarios.First().estado == "Bloqueado" || usuarios.First().estado == "Eliminado" || usuarios.First().estado == "Inactivo" || usuarios.First().estado == "")
             {
                 resp = "El usuario no se encuentra Activo";
-                usuarios = CatalogoUsuarios.GetInstance().ConsultarClientes((string)TempData.Peek("identificacionConsulta"), ref resultado, ref tipoResultado);
+                usuarios = CatalogoUsuarios.GetInstance().ConsultarEmpleados((string)TempData.Peek("identificacionConsulta"), ref resultado, ref tipoResultado);
                 TempData["mensaje"] = resp;
                 TempData["estado"] = "danger";
                 return View("Empleados/RespuestaConsultaEmpleados", usuarios);
             }
             usuarios.First().tiposIdentificacion = new SelectList(CatalogoUsuarios.GetInstance().ConsultarTiposIdentificacion(), "id", "Descripcion");
+            usuarios.First().Roles = new SelectList(CatalogoUsuarios.GetInstance().ConsultarRolesEmpleado(), "id", "Descripcion");
             usuario = usuarios.First();
             return View("Empleados/ModificarEmpleado", usuario);
         }
@@ -322,9 +324,9 @@ namespace ServiciosDigitalesProy.Controllers
             string res, tipoRes;
             if (ModelState.IsValid)
             {
-                CatalogoUsuarios.GetInstance().ModificarCliente(user, out res, out tipoRes);
+                CatalogoUsuarios.GetInstance().ModificarEmpleado(user, out res, out tipoRes);
                 List<Usuario> usuarios;
-                usuarios = CatalogoUsuarios.GetInstance().ConsultarClientes((string)TempData.Peek("identificacionConsulta"), ref resultado, ref tipoResultado);
+                usuarios = CatalogoUsuarios.GetInstance().ConsultarEmpleados((string)TempData.Peek("identificacionConsulta"), ref resultado, ref tipoResultado);
                 TempData["mensaje"] = res;
                 TempData["estado"] = tipoRes;
 
@@ -347,7 +349,7 @@ namespace ServiciosDigitalesProy.Controllers
             string resultado = "", tipoResultado = "";
             List<Usuario> usuarios;
             Usuario usuario;
-            usuarios = CatalogoUsuarios.GetInstance().ConsultarClientes(id, ref resultado, ref tipoResultado);
+            usuarios = CatalogoUsuarios.GetInstance().ConsultarEmpleados(id, ref resultado, ref tipoResultado);
             try
             {
                 usuario = usuarios.First();
@@ -373,9 +375,9 @@ namespace ServiciosDigitalesProy.Controllers
         {
             string res, tipoRes;
             string resultado = "", tipoResultado = "";
-            CatalogoUsuarios.GetInstance().CambiarEstadoCliente(usuario, out res, out tipoRes);
+            CatalogoUsuarios.GetInstance().CambiarEstadoEmpleado(usuario, out res, out tipoRes);
             List<Usuario> usuarios;
-            usuarios = CatalogoUsuarios.GetInstance().ConsultarClientes((string)TempData.Peek("identificacionConsulta"), ref resultado, ref tipoResultado);
+            usuarios = CatalogoUsuarios.GetInstance().ConsultarEmpleados((string)TempData.Peek("identificacionConsulta"), ref resultado, ref tipoResultado);
 
             TempData["mensaje"] = res;
             TempData["estado"] = tipoRes;
@@ -392,7 +394,7 @@ namespace ServiciosDigitalesProy.Controllers
         public ActionResult DetallesEmpleado(string id)
         {
             string resultado = "", tipoResultado = "";
-            List<Usuario> usuarios = CatalogoUsuarios.GetInstance().ConsultarClientes(id, ref resultado, ref tipoResultado);
+            List<Usuario> usuarios = CatalogoUsuarios.GetInstance().ConsultarEmpleados(id, ref resultado, ref tipoResultado);
 
             return View("Empleados/DetallesEmpleado", usuarios.First());
         }
@@ -407,8 +409,8 @@ namespace ServiciosDigitalesProy.Controllers
         {
             string resultado = "", tipoResultado = "";
             List<Usuario> usuarios;
-            usuarios = CatalogoUsuarios.GetInstance().ConsultarClientes(iden, ref resultado, ref tipoResultado);
-            return View("Empleados/RespuestaConsultaEmpleado", usuarios);
+            usuarios = CatalogoUsuarios.GetInstance().ConsultarEmpleados(iden, ref resultado, ref tipoResultado);
+            return View("Empleados/RespuestaConsultaEmpleados", usuarios);
         }
         #endregion
     }

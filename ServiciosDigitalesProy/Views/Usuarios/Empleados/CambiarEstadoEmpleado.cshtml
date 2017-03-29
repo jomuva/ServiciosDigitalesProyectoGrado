@@ -2,7 +2,7 @@
 @model ServiciosDigitalesProy.Models.Usuario
 @{
     ViewBag.Title = " Usuarios";
-    ViewBag.SubSeccion = "Modificar Estado del Cliente";
+    ViewBag.SubSeccion = "Modificar Estado del Empleado";
 }
 
 <h3>@ViewBag.SubSeccion</h3>
@@ -20,12 +20,12 @@
         <div class="col-lg-6">
             <div class="panel panel-default">
                 <div class="panel-heading">
-                    Datos del cliente
+                    Datos del Empleado
                 </div>
                 <div class="panel-body">
                     <div class="row">
                         <div class="col-lg-6">
-                            @using (Html.BeginForm("ModificarEstadoCliente", "Usuarios", FormMethod.Post))
+                            @using (Html.BeginForm("ModificarEstadoEmpleado", "Usuarios", FormMethod.Post))
                             {
                                 <div class="form-group">
                                     <label>No Identificación</label>

@@ -52,6 +52,24 @@ namespace ServiciosDigitalesProy.Datos
             return Estados.ToList();
         }
 
+        /// <summary>
+        /// Consulta los roles de un empleado en BD
+        /// </summary>
+        /// <returns></returns>
+        public List<Rol> ConsultarRolEmpleado()
+        {
+            var Roles = from Ti in conexion.ROL
+                        where Ti.id_rol != 1
+
+                          select new Rol
+                          {
+                              Descripcion = Ti.descripcion,
+                              id = Ti.id_rol
+
+                          };
+            return Roles.ToList();
+        }
+
 
         #region ClientesBd
 
@@ -413,7 +431,9 @@ namespace ServiciosDigitalesProy.Datos
                     var Empleado = from usuario in conexion.USUARIO
                                   join es in conexion.ESTADO_USUARIO
                                    on usuario.id_estado_usuario equals es.id_estado
-                                  where (usuario.id_rol_usuario == 2 || usuario.id_rol_usuario == 3 || usuario.id_rol_usuario == 4) && usuario.identificacion == id.ToString()
+                                     join roles in conexion.ROL
+                                     on usuario.id_rol_usuario equals roles.id_rol
+                                   where (usuario.id_rol_usuario == 2 || usuario.id_rol_usuario == 3 || usuario.id_rol_usuario == 4) && usuario.identificacion == id.ToString()
                                   select new Usuario
                                   {
                                       nombres = usuario.nombres,
@@ -424,6 +444,7 @@ namespace ServiciosDigitalesProy.Datos
                                       email = usuario.correo,
                                       sexo = usuario.sexo,
                                       estado = es.descripcion,
+                                      Rol = roles.descripcion
                                   };
 
                     List<Usuario> usuario2 = Empleado.ToList();
@@ -451,7 +472,9 @@ namespace ServiciosDigitalesProy.Datos
                     var empleado = from usuario in conexion.USUARIO
                                   join es in conexion.ESTADO_USUARIO
                                    on usuario.id_estado_usuario equals es.id_estado
-                                  where (usuario.id_rol_usuario == 2 || usuario.id_rol_usuario == 3 || usuario.id_rol_usuario == 4) && usuario.nombres == data.ToString()
+                                     join roles in conexion.ROL
+                                     on usuario.id_rol_usuario equals roles.id_rol
+                                   where (usuario.id_rol_usuario == 2 || usuario.id_rol_usuario == 3 || usuario.id_rol_usuario == 4) && usuario.nombres == data.ToString()
                                   select new Usuario
                                   {
                                       nombres = usuario.nombres,
@@ -461,7 +484,8 @@ namespace ServiciosDigitalesProy.Datos
                                       direccion = usuario.direccion,
                                       email = usuario.correo,
                                       sexo = usuario.sexo,
-                                      estado = es.descripcion
+                                      estado = es.descripcion,
+                                      Rol = roles.descripcion
                                   };
 
                     List<Usuario> usuario2 = empleado.ToList();
@@ -628,6 +652,8 @@ namespace ServiciosDigitalesProy.Datos
                     USUARIO.correo = usuario.email;
                     USUARIO.sexo = usuario.sexo;
                     USUARIO.password = usuario.password;
+                    USUARIO.id_rol_usuario = usuario.idRol;
+                    
                 }
                 conexion.SaveChanges();
 
@@ -658,6 +684,15 @@ namespace ServiciosDigitalesProy.Datos
                 }
 
                 conexion.SaveChanges();
+
+                if (usuario.TelefonoFijo != "")
+                {
+                    TELEFONO_USUARIO Telefono2 = new TELEFONO_USUARIO();
+                    Telefono2.id_usuario_telefono = user.id;
+                    Telefono2.numero_telefono = usuario.TelefonoFijo;
+                    conexion.TELEFONO_USUARIO.Add(Telefono2);
+                    conexion.SaveChanges();
+                }
                 res = "Empleado Modificado correctamente";
                 tipoRes = "success";
             }

@@ -47,6 +47,8 @@ namespace ServiciosDigitalesProy.Catalogos
             return (List<EstadosUsuario>)usuarioDatos.ConsultarEstadosUsuario();
         }
 
+        
+
         #region Catalogo Clientes
 
         /// <summary>
@@ -148,7 +150,6 @@ namespace ServiciosDigitalesProy.Catalogos
         /// <param name="tipoResultado"></param>
         public void AdicionarEmpleado(Usuario cliente, out string resultado, out string tipoResultado)
         {
-            cliente.idRol = 1;
             cliente.idEstado = 1;
             usuarioDatos.AdicionarEmpleado(cliente, out resultado, out tipoResultado);
 
@@ -162,7 +163,6 @@ namespace ServiciosDigitalesProy.Catalogos
         /// <param name="tipoRes"></param>
         public void ModificarEmpleado(Usuario cliente, out string res, out string tipoRes)
         {
-            cliente.idRol = 1;
             cliente.idEstado = 1;
             usuarioDatos.ModificarEmpleado(cliente, out res, out tipoRes);
         }
@@ -177,6 +177,15 @@ namespace ServiciosDigitalesProy.Catalogos
         public void CambiarEstadoEmpleado(Usuario empleado, out string res, out string tipoRes)
         {
             usuarioDatos.CambiarEstadoEmpleado(empleado, out res, out tipoRes);
+        }
+
+        /// <summary>
+        /// Consulta los roles que un empleado puede tener
+        /// </summary>
+        /// <returns></returns>
+        public List<Rol> ConsultarRolesEmpleado()
+        {
+            return (List<Rol>)usuarioDatos.ConsultarRolEmpleado();
         }
         #endregion
     }

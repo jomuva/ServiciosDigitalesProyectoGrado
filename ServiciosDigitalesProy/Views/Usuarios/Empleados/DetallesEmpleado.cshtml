@@ -2,8 +2,8 @@
 @model ServiciosDigitalesProy.Models.Usuario
 
 @{
-    ViewBag.Title = "Usuarios";
-    ViewBag.SubSeccion = "Detalles del Cliente "+Model.nombres;
+    ViewBag.Title = " Usuarios";
+    ViewBag.SubSeccion = "Detalles del Empleado "+Model.nombres;
 }
 
 <h3>@ViewBag.SubSeccion</h3>
@@ -37,7 +37,7 @@
                             <div class="col-lg-12">
                                 <div class="panel panel-default">
                                     <div class="panel-heading">
-                                        Base de datos Clientes
+                                        Base de datos Empleados
                                     </div>
                                     <!-- /.panel-heading -->
                                     <div class="panel-body">
@@ -97,7 +97,7 @@
 
                             <div class="form-group">
                                 <div class="col-md-2">
-                                    @Html.ActionLink("Volver", "VolverDetallesCliente", new { id = Model.identificacion }, new { @class = "btn btn-primary" })
+                                    @Html.ActionLink("Volver", "VolverDetallesEmpleado", new { id = Model.identificacion }, new { @class = "btn btn-primary" })
                                 </div>
                             </div>
                         </section>

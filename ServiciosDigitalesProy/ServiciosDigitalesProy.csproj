@@ -312,6 +312,7 @@
       <DependentUpon>Global.asax</DependentUpon>
     </Compile>
     <Compile Include="Models\EstadosUsuario.cs" />
+    <Compile Include="Models\Rol.cs" />
     <Compile Include="Models\TipoIdentificacion.cs" />
     <Compile Include="Models\TelefonoUsuario.cs" />
     <Compile Include="Models\Usuario.cs" />

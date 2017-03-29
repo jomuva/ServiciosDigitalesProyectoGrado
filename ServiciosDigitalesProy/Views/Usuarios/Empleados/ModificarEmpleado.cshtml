@@ -3,7 +3,7 @@
 
 @{
     ViewBag.Title = "Usuarios";
-    ViewBag.SubSeccion = "Modificar Cliente";
+    ViewBag.SubSeccion = "Modificar Empleado";
 }
 
 <h3>@ViewBag.SubSeccion</h3>
@@ -16,7 +16,7 @@
     <!--breadcrumbs end -->
 </div>
 
-@using (Html.BeginForm("UpdateCliente", "Usuarios"))
+@using (Html.BeginForm("UpdateEmpleado", "Usuarios"))
 {
     @Html.AntiForgeryToken()
 
@@ -54,6 +54,13 @@
                 @Html.ValidationMessageFor(model => model.identificacion, "", new { @class = "text-danger" })
             </div>
             @Html.Hidden("identificacion", Model.identificacion)
+        </div>
+
+        <div class="form-group">
+            @Html.Label("Rol :", htmlAttributes: new { @class = "control-label col-md-4" })
+            <div class="col-md-8">
+                @Html.DropDownListFor(x => x.idRol, Model.Roles, null, new { @class = "form-control" })
+            </div>
         </div>
 
         <div class="form-group">
@@ -133,7 +140,7 @@
                 <input type="submit" value="Modificar" class="btn btn-success" />
             </div>
             <div class="col-md-2">
-                @Html.ActionLink("Volver", "VolverDetallesCliente", new { id = Model.identificacion }, new { @class = "btn btn-primary" })
+                @Html.ActionLink("Volver", "VolverDetallesEmpleado", new { id = Model.identificacion }, new { @class = "btn btn-primary" })
             </div>
         </div>
 

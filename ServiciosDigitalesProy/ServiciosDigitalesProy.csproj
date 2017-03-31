@@ -220,94 +220,6 @@
     <Compile Include="Controllers\HomeController.cs" />
     <Compile Include="Controllers\ManageController.cs" />
     <Compile Include="Controllers\UsuariosController.cs" />
-    <Compile Include="Datos\CATEGORIA_ELEMENTO.cs">
-      <DependentUpon>ConexionBd.tt</DependentUpon>
-    </Compile>
-    <Compile Include="Datos\ConexionBd.Context.cs">
-      <AutoGen>True</AutoGen>
-      <DesignTime>True</DesignTime>
-      <DependentUpon>ConexionBd.Context.tt</DependentUpon>
-    </Compile>
-    <Compile Include="Datos\ConexionBd.cs">
-      <AutoGen>True</AutoGen>
-      <DesignTime>True</DesignTime>
-      <DependentUpon>ConexionBd.tt</DependentUpon>
-    </Compile>
-    <Compile Include="Datos\ConexionBd.Designer.cs">
-      <AutoGen>True</AutoGen>
-      <DesignTime>True</DesignTime>
-      <DependentUpon>ConexionBd.edmx</DependentUpon>
-    </Compile>
-    <Compile Include="Datos\DETALLE_FACTURA.cs">
-      <DependentUpon>ConexionBd.tt</DependentUpon>
-    </Compile>
-    <Compile Include="Datos\ELEMENTO.cs">
-      <DependentUpon>ConexionBd.tt</DependentUpon>
-    </Compile>
-    <Compile Include="Datos\ESCALADO.cs">
-      <DependentUpon>ConexionBd.tt</DependentUpon>
-    </Compile>
-    <Compile Include="Datos\ESTADO_FACTURA.cs">
-      <DependentUpon>ConexionBd.tt</DependentUpon>
-    </Compile>
-    <Compile Include="Datos\ESTADO_PRODUCTO.cs">
-      <DependentUpon>ConexionBd.tt</DependentUpon>
-    </Compile>
-    <Compile Include="Datos\ESTADO_SOLICITUD.cs">
-      <DependentUpon>ConexionBd.tt</DependentUpon>
-    </Compile>
-    <Compile Include="Datos\ESTADO_USUARIO.cs">
-      <DependentUpon>ConexionBd.tt</DependentUpon>
-    </Compile>
-    <Compile Include="Datos\FACTURA.cs">
-      <DependentUpon>ConexionBd.tt</DependentUpon>
-    </Compile>
-    <Compile Include="Datos\HISTORICO.cs">
-      <DependentUpon>ConexionBd.tt</DependentUpon>
-    </Compile>
-    <Compile Include="Datos\INVENTARIO.cs">
-      <DependentUpon>ConexionBd.tt</DependentUpon>
-    </Compile>
-    <Compile Include="Datos\PRIORIDAD.cs">
-      <DependentUpon>ConexionBd.tt</DependentUpon>
-    </Compile>
-    <Compile Include="Datos\PRODUCTO.cs">
-      <DependentUpon>ConexionBd.tt</DependentUpon>
-    </Compile>
-    <Compile Include="Datos\ROL.cs">
-      <DependentUpon>ConexionBd.tt</DependentUpon>
-    </Compile>
-    <Compile Include="Datos\SERVICIO.cs">
-      <DependentUpon>ConexionBd.tt</DependentUpon>
-    </Compile>
-    <Compile Include="Datos\SERVICIO_ELEMENTO.cs">
-      <DependentUpon>ConexionBd.tt</DependentUpon>
-    </Compile>
-    <Compile Include="Datos\SOLICITUD.cs">
-      <DependentUpon>ConexionBd.tt</DependentUpon>
-    </Compile>
-    <Compile Include="Datos\sp_helpdiagramdefinition_Result.cs">
-      <DependentUpon>ConexionBd.tt</DependentUpon>
-    </Compile>
-    <Compile Include="Datos\sp_helpdiagrams_Result.cs">
-      <DependentUpon>ConexionBd.tt</DependentUpon>
-    </Compile>
-    <Compile Include="Datos\sysdiagrams.cs">
-      <DependentUpon>ConexionBd.tt</DependentUpon>
-    </Compile>
-    <Compile Include="Datos\TELEFONO_USUARIO.cs">
-      <DependentUpon>ConexionBd.tt</DependentUpon>
-    </Compile>
-    <Compile Include="Datos\TIPO_ELEMENTO.cs">
-      <DependentUpon>ConexionBd.tt</DependentUpon>
-    </Compile>
-    <Compile Include="Datos\TIPO_IDENTIFICACION_USUARIO.cs">
-      <DependentUpon>ConexionBd.tt</DependentUpon>
-    </Compile>
-    <Compile Include="Datos\USUARIO.cs">
-      <DependentUpon>ConexionBd.tt</DependentUpon>
-    </Compile>
-    <Compile Include="Datos\UsuarioDatos.cs" />
     <Compile Include="Global.asax.cs">
       <DependentUpon>Global.asax</DependentUpon>
     </Compile>
@@ -323,16 +235,6 @@
     <Compile Include="Startup.cs" />
   </ItemGroup>
   <ItemGroup>
-    <Content Include="Datos\ConexionBd.Context.tt">
-      <Generator>TextTemplatingFileGenerator</Generator>
-      <DependentUpon>ConexionBd.edmx</DependentUpon>
-      <LastGenOutput>ConexionBd.Context.cs</LastGenOutput>
-    </Content>
-    <Content Include="Datos\ConexionBd.tt">
-      <Generator>TextTemplatingFileGenerator</Generator>
-      <DependentUpon>ConexionBd.edmx</DependentUpon>
-      <LastGenOutput>ConexionBd.cs</LastGenOutput>
-    </Content>
     <Content Include="faviconproy.ico" />
     <Content Include="Xcore\Content\bootstrap-theme.css" />
     <Content Include="Xcore\Content\bootstrap-theme.min.css" />
@@ -361,13 +263,6 @@
     <Content Include="Xcore\Imagenes\LogoServiciosDigitales2.jpg" />
     <Content Include="Views\Home\Index.cshtml" />
     <Content Include="Views\Home\contacto.cshtml" />
-    <EntityDeploy Include="Datos\ConexionBd.edmx">
-      <Generator>EntityModelCodeGenerator</Generator>
-      <LastGenOutput>ConexionBd.Designer.cs</LastGenOutput>
-    </EntityDeploy>
-    <Content Include="Datos\ConexionBd.edmx.diagram">
-      <DependentUpon>ConexionBd.edmx</DependentUpon>
-    </Content>
     <Content Include="Views\Usuarios\Clientes\ConsultarClientes.cshtml" />
     <Content Include="ClassDiagram1.cd" />
     <Content Include="Views\Usuarios\Clientes\RespuestaConsultaClientes.cshtml" />
@@ -450,6 +345,12 @@
   </ItemGroup>
   <ItemGroup>
     <Service Include="{508349B6-6B84-4DF5-91F0-309BEEBAD82D}" />
+  </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\Persistencia\Persistencia.csproj">
+      <Project>{113aece2-c495-46dd-8678-72499a1387a2}</Project>
+      <Name>Persistencia</Name>
+    </ProjectReference>
   </ItemGroup>
   <PropertyGroup>
     <VisualStudioVersion Condition="'$(VisualStudioVersion)' == ''">10.0</VisualStudioVersion>

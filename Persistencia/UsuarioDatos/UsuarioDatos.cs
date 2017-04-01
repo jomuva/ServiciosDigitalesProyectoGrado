@@ -86,7 +86,7 @@ namespace Persistencia.UsuarioDatos
             object users = null;
             bool result = int.TryParse(data, out id);
             try
-            {
+            { 
                 if (result == true)
                 {
                     var telefonoCliente = from TelUsuario in conexion.TELEFONO_USUARIO

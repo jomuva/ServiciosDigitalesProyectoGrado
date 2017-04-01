@@ -82,15 +82,15 @@ namespace ServiciosDigitalesProy.Catalogos
 
 
 
-        //#region Catalogo Clientes
+        #region Catalogo Clientes
 
-        ///// <summary>
-        ///// recibe el filtro de consulta y lo envía a la clase UsuarioDatos para realizar la busqueda en BD
-        ///// </summary>
-        ///// <param name="ident"></param>
-        ///// <param name="resultado"></param>
-        ///// <param name="tipoResultado"></param>
-        ///// <returns></returns>
+        /// <summary>
+        /// recibe el filtro de consulta y lo envía a la clase UsuarioDatos para realizar la busqueda en BD
+        /// </summary>
+        /// <param name="ident"></param>
+        /// <param name="resultado"></param>
+        /// <param name="tipoResultado"></param>
+        /// <returns></returns>
         public List<Usuario> ConsultarClientes(string ident, ref string resultado, ref string tipoResultado)
         {
             object oUsers;
@@ -166,12 +166,12 @@ namespace ServiciosDigitalesProy.Catalogos
         }
 
 
-        ///// <summary>
-        ///// envía la información recogida desde el controlador a la clase que conecta con base de datos
-        ///// </summary>
-        ///// <param name="cliente"></param>
-        ///// <param name="resultado"></param>
-        ///// <param name="tipoResultado"></param>
+        /// <summary>
+        /// envía la información recogida desde el controlador a la clase que conecta con base de datos
+        /// </summary>
+        /// <param name="cliente"></param>
+        /// <param name="resultado"></param>
+        /// <param name="tipoResultado"></param>
         public void AdicionarCliente(Usuario cliente, out string resultado, out string tipoResultado)
         {
             cliente.idRol = 1;
@@ -186,18 +186,22 @@ namespace ServiciosDigitalesProy.Catalogos
                                           );
         }
 
-        ///// <summary>
-        ///// recoge la informacion enviada por el controlador para así complementarla y enviarla a la clase UsuarioDatos y asi enviarla a BD
-        ///// </summary>
-        ///// <param name="cliente"></param>
-        ///// <param name="res"></param>
-        ///// <param name="tipoRes"></param>
-        //public void ModificarCliente(Usuario cliente, out string res, out string tipoRes)
-        //{
-        //    cliente.idRol = 1;
-        //    cliente.idEstado = 1;
-        //    usuarioDatos.ModificarCliente(cliente, out res, out tipoRes);
-        //}
+        /// <summary>
+        /// recoge la informacion enviada por el controlador para así complementarla y enviarla a la clase UsuarioDatos y asi enviarla a BD
+        /// </summary>
+        /// <param name="cliente"></param>
+        /// <param name="res"></param>
+        /// <param name="tipoRes"></param>
+        public void ModificarCliente(Usuario cliente, out string res, out string tipoRes)
+        {
+            usuarioDatos.ModificarCliente
+                                        (   
+                                            cliente.TelefonoFijo, cliente.TelefonoCelular, cliente.username,
+                                            cliente.email, cliente.identificacion, cliente.nombres, cliente.apellidos,
+                                            cliente.direccion, cliente.sexo, cliente.password, cliente.idTipoIdentificacion,
+                                            out res, out tipoRes
+                                        );
+        }
 
 
         ///// <summary>
@@ -210,80 +214,171 @@ namespace ServiciosDigitalesProy.Catalogos
         {
             usuarioDatos.CambiarEstadoCliente(cliente.idEstado, cliente.identificacion, out res, out tipoRes);
         }
-        //#endregion
+        #endregion
 
-        //#region Catalogo Empleados
-        ///// <summary>
-        ///// recibe el filtro de consulta y lo envía a la clase UsuarioDatos para realizar la busqueda en BD
-        ///// </summary>
-        ///// <param name="ident"></param>
-        ///// <param name="resultado"></param>
-        ///// <param name="tipoResultado"></param>
-        ///// <returns></returns>
-        //public List<Usuario> ConsultarEmpleados(string ident, ref string resultado, ref string tipoResultado)
-        //{
-        //    List<Usuario> lista = new List<Usuario>();
-
-
-        //    if (ident == "" || ident == null)
-        //        lista = usuarioDatos.ConsultarEmpleados();
-        //    else if (ident != "" && lista != null)
-        //    {
-        //        lista = usuarioDatos.ConsultarEmpleado(ident, ref resultado, ref tipoResultado);
-        //    }
-        //    else
-        //        lista = null;
-
-        //    return lista;
-        //}
+        #region Catalogo Empleados
+        /// <summary>
+        /// recibe el filtro de consulta y lo envía a la clase UsuarioDatos para realizar la busqueda en BD
+        /// </summary>
+        /// <param name="ident"></param>
+        /// <param name="resultado"></param>
+        /// <param name="tipoResultado"></param>
+        /// <returns></returns>
+        public List<Usuario> ConsultarEmpleados(string ident, ref string resultado, ref string tipoResultado)
+        {
+            object oUsers;
+            object otelefonos = null;
+            string dynObj, dynObj2;
+            dynamic dyn, dyn2;
+            List<Usuario> ListaUsuarios = new List<Usuario>();
+            List<TelefonoUsuario> telefonos = new List<TelefonoUsuario>();
 
 
-        ///// <summary>
-        ///// envía la información recogida desde el controlador a la clase que conecta con base de datos
-        ///// </summary>
-        ///// <param name="cliente"></param>
-        ///// <param name="resultado"></param>
-        ///// <param name="tipoResultado"></param>
-        //public void AdicionarEmpleado(Usuario cliente, out string resultado, out string tipoResultado)
-        //{
-        //    cliente.idEstado = 1;
-        //    usuarioDatos.AdicionarEmpleado(cliente, out resultado, out tipoResultado);
+            if (ident == "" || ident == null)
+            {
+                oUsers = usuarioDatos.ConsultarEmpleados();
+                dynObj = JsonConvert.SerializeObject(oUsers);
+                dyn = JsonConvert.DeserializeObject(dynObj);
 
-        //}
+                foreach (var item in dyn)
+                {
+                    ListaUsuarios.Add(new Usuario
+                    {
+                        nombres = item.nombres,
+                        apellidos = item.apellidos,
+                        identificacion = item.identificacion,
+                        username = item.username,
+                        direccion = item.direccion,
+                        email = item.email,
+                        sexo = item.sexo,
+                        estado = item.estado,
+                        Rol = item.Rol
 
-        ///// <summary>
-        ///// recoge la informacion enviada por el controlador para así complementarla y enviarla a la clase UsuarioDatos y asi enviarla a BD
-        ///// </summary>
-        ///// <param name="cliente"></param>
-        ///// <param name="res"></param>
-        ///// <param name="tipoRes"></param>
-        //public void ModificarEmpleado(Usuario cliente, out string res, out string tipoRes)
-        //{
-        //    cliente.idEstado = 1;
-        //    usuarioDatos.ModificarEmpleado(cliente, out res, out tipoRes);
-        //}
+                    });
+
+                }
 
 
-        ///// <summary>
-        ///// recoge la informacion necesario desde el controlador para asi enviarlo a la clase UsuarioDatos y actualizarla en BD
-        ///// </summary>
-        ///// <param name="empleado"></param>
-        ///// <param name="res"></param>
-        ///// <param name="tipoRes"></param>
-        //public void CambiarEstadoEmpleado(Usuario empleado, out string res, out string tipoRes)
-        //{
-        //    usuarioDatos.CambiarEstadoEmpleado(empleado, out res, out tipoRes);
-        //}
+            }
+            else if (ident != "")
+            {
+                oUsers = usuarioDatos.ConsultarEmpleado(ident, ref otelefonos, ref resultado, ref tipoResultado);
 
-        ///// <summary>
-        ///// Consulta los roles que un empleado puede tener
-        ///// </summary>
-        ///// <returns></returns>
-        //public List<Rol> ConsultarRolesEmpleado()
-        //{
-        //    return (List<Rol>)usuarioDatos.ConsultarRolEmpleado();
-        //}
-        //#endregion
+                dynObj = JsonConvert.SerializeObject(oUsers);
+                dyn = JsonConvert.DeserializeObject(dynObj);
+
+                dynObj2 = JsonConvert.SerializeObject(otelefonos);
+                dyn2 = JsonConvert.DeserializeObject(dynObj2);
+
+                foreach (var item in dyn)
+                {
+                    ListaUsuarios.Add(new Usuario
+                    {
+                        nombres = item.nombres,
+                        apellidos = item.apellidos,
+                        identificacion = item.identificacion,
+                        username = item.username,
+                        direccion = item.direccion,
+                        email = item.email,
+                        sexo = item.sexo,
+                        estado = item.estado,
+                        Rol = item.Rol
+                    });
+                }
+
+                foreach (var item in dyn2)
+                {
+                    telefonos.Add(new TelefonoUsuario
+                    {
+                        numero_telefono = item.numero_telefono,
+                        id_usuario_telefono = item.id_usuario_telefono
+                    });
+                }
+
+                ListaUsuarios[0].TelefonoCelular = telefonos[0].numero_telefono;
+                ListaUsuarios[0].TelefonoFijo = telefonos.Count == 1 ? "" : telefonos[1].numero_telefono;
+
+            }
+            else
+                oUsers = null;
+
+            return ListaUsuarios;
+        }
+
+
+        /// <summary>
+        /// envía la información recogida desde el controlador a la clase que conecta con base de datos
+        /// </summary>
+        /// <param name="cliente"></param>
+        /// <param name="resultado"></param>
+        /// <param name="tipoResultado"></param>
+        public void AdicionarEmpleado(Usuario cliente, out string resultado, out string tipoResultado)
+        {
+            cliente.idEstado = 1;
+            usuarioDatos.AdicionarEmpleado
+                                    (
+                                         cliente.TelefonoFijo, cliente.TelefonoCelular, cliente.username, cliente.email,
+                                         cliente.identificacion, cliente.nombres, cliente.apellidos, cliente.direccion,
+                                         cliente.sexo, cliente.password, cliente.idRol, cliente.idEstado, cliente.idTipoIdentificacion,
+                                        out resultado, out tipoResultado
+                                    );
+
+        }
+
+        /// <summary>
+        /// recoge la informacion enviada por el controlador para así complementarla y enviarla a la clase UsuarioDatos y asi enviarla a BD
+        /// </summary>
+        /// <param name="cliente"></param>
+        /// <param name="res"></param>
+        /// <param name="tipoRes"></param>
+        public void ModificarEmpleado(Usuario cliente, out string res, out string tipoRes)
+        {
+            cliente.idEstado = 1;
+            usuarioDatos.ModificarEmpleado
+                                           (
+                                                cliente.TelefonoFijo, cliente.TelefonoCelular, cliente.username,
+                                                cliente.email, cliente.identificacion, cliente.nombres, cliente.apellidos,
+                                                cliente.direccion, cliente.sexo, cliente.password, cliente.idTipoIdentificacion, 
+                                                cliente.idRol, out res, out tipoRes
+                                           );
+        }
+
+
+        /// <summary>
+        /// recoge la informacion necesario desde el controlador para asi enviarlo a la clase UsuarioDatos y actualizarla en BD
+        /// </summary>
+        /// <param name="empleado"></param>
+        /// <param name="res"></param>
+        /// <param name="tipoRes"></param>
+        public void CambiarEstadoEmpleado(Usuario empleado, out string res, out string tipoRes)
+        {
+            usuarioDatos.CambiarEstadoEmpleado(empleado.identificacion, empleado.idEstado, out res, out tipoRes);
+        }
+
+        /// <summary>
+        /// Consulta los roles que un empleado puede tener
+        /// </summary>
+        /// <returns></returns>
+        public List<Rol> ConsultarRolesEmpleado()
+        {
+            List<Rol> Roles = new List<Rol>();
+            var roles = usuarioDatos.ConsultarRolEmpleado();
+
+            string dynObj = JsonConvert.SerializeObject(roles);
+            dynamic dyn = JsonConvert.DeserializeObject(dynObj);
+
+            foreach (var data in dyn)
+            {
+                Roles.Add(new Rol
+                {
+                    id = data.id,
+                    Descripcion = data.Descripcion,
+                });
+            }
+
+            return Roles;
+        }
+        #endregion
     }
 
 

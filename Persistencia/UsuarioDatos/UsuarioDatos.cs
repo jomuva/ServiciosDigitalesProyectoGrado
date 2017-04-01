@@ -301,62 +301,65 @@ namespace Persistencia.UsuarioDatos
         ///// <param name="usuario"></param>
         ///// <param name="res"></param>
         ///// <param name="tipoRes"></param>
-        //public void ModificarCliente(Usuario usuario, out string res, out string tipoRes)
-        //{
+        public void ModificarCliente(
+                    string TelefonoFijo, string TelefonoCelular, string username,
+                    string email, string identificacion, string nombres, string apellidos, 
+                    string direccion, string sexo, string password, int idTipoIdentificacion, 
+                    out string res, out string tipoRes)
+        {
 
-        //    try
-        //    {
-        //        var queryUSUARIO = from USU in conexion.USUARIO
-        //                           where USU.identificacion == usuario.identificacion
-        //                           select USU;
-        //        foreach (var USUARIO in queryUSUARIO)
-        //        {
-        //            USUARIO.apellidos = usuario.apellidos;
-        //            USUARIO.nombres = usuario.nombres;
-        //            USUARIO.direccion = usuario.direccion;
-        //            USUARIO.correo = usuario.email;
-        //            USUARIO.sexo = usuario.sexo;
-        //            USUARIO.password = usuario.password;
-        //        }
-        //        conexion.SaveChanges();
+            try
+            {
+                var queryUSUARIO = from USU in conexion.USUARIO
+                                   where USU.identificacion == identificacion
+                                   select USU;
+                foreach (var USUARIO in queryUSUARIO)
+                {
+                    USUARIO.apellidos = apellidos;
+                    USUARIO.nombres = nombres;
+                    USUARIO.direccion = direccion;
+                    USUARIO.correo = email;
+                    USUARIO.sexo = sexo;
+                    USUARIO.password = password;
+                }
+                conexion.SaveChanges();
 
-        //        var idUsu = from u in conexion.USUARIO
-        //                    where u.identificacion == usuario.identificacion
-        //                    select new Usuario
-        //                    {
-        //                        id = u.id_usuario
-        //                    };
+                var idUsu = from u in conexion.USUARIO
+                            where u.identificacion == identificacion
+                            select new 
+                            {
+                                id = u.id_usuario
+                            };
 
-        //        Usuario user = idUsu.First();
-        //        var queryTelefono = from tel in conexion.TELEFONO_USUARIO
-        //                            join usu in conexion.USUARIO
-        //                            on tel.id_usuario_telefono equals usu.id_usuario
-        //                            where usu.identificacion == usuario.identificacion
-        //                            select tel;
-        //        int i = 0;
-        //        foreach (var tele in queryTelefono)
-        //        {
-        //            tele.id_usuario_telefono = user.id;
-        //            if(i==0)
-        //                 tele.numero_telefono = usuario.TelefonoCelular;
-        //            else
-        //            {
-        //                tele.numero_telefono = usuario.TelefonoFijo;
-        //            }
-        //            i++;
-        //        }
+                var queryTelefono = from tel in conexion.TELEFONO_USUARIO
+                                    join usu in conexion.USUARIO
+                                    on tel.id_usuario_telefono equals usu.id_usuario
+                                    where usu.identificacion == identificacion
+                                    select tel;
+                int i = 0;
+                foreach (var tele in queryTelefono)
+                {
+                    tele.id_usuario_telefono = Convert.ToInt32(idUsu.FirstOrDefault().id); 
+                    if (i == 0)
+                        tele.numero_telefono = TelefonoCelular;
+                    else
+                    {
+                        tele.numero_telefono = TelefonoFijo;
+                    }
+                    i++;
+                }
 
-        //        conexion.SaveChanges();
-        //        res = "Cliente Modificado correctamente";
-        //        tipoRes = "success";
-        //    }
-        //    catch (Exception e)
-        //    {
-        //        res = e.Message;
-        //        tipoRes = "danger";
-        //    }
+                conexion.SaveChanges();
+                res = "Cliente Modificado correctamente";
+                tipoRes = "success";
+            }
+            catch (Exception e)
+            {
+                res = e.Message;
+                tipoRes = "danger";
+            }
 
-        //}
+        }
 
         ///// <summary>
         ///// modifica el estado del cliente solicitado en base de datos
@@ -399,349 +402,353 @@ namespace Persistencia.UsuarioDatos
 
         #endregion
 
-        //#region EmpleadosBd
+        #region EmpleadosBd
 
-        ///// <summary>
-        ///// Retorna un Empleado en especial segun id
-        ///// </summary>
-        ///// <param name="id"></param>
-        ///// <returns>Usuario</returns>
-        //public List<Usuario> ConsultarEmpleado(string data, ref string resultado, ref string tipoResultado)
-        //{
+        /// <summary>
+        /// Retorna un Empleado en especial segun id
+        /// </summary>
+        /// <param name="id"></param>
+        /// <returns>Usuario</returns>
+        public object ConsultarEmpleado(string data, ref object telefonos, ref string resultado, ref string tipoResultado)
+        {
 
-        //    int id = 0;
-        //    List<Usuario> users = new List<Usuario>();
+            int id = 0;
+            object users = null;
 
-        //    bool result = int.TryParse(data, out id);
-        //    try
-        //    {
-        //        if (result == true)
-        //        {
-        //            var telefonoEmpleado = from TelUsuario in conexion.TELEFONO_USUARIO
-        //                                  join usu in conexion.USUARIO
-        //                                    on TelUsuario.id_usuario_telefono equals usu.id_usuario
-        //                                  where usu.identificacion == id.ToString()
-        //                                  select new TelefonoUsuario
-        //                                  {
-        //                                      numero_telefono = TelUsuario.numero_telefono,
-        //                                      id_usuario_telefono = usu.id_usuario,
-        //                                  };
-        //            List<TelefonoUsuario> Telefonos = telefonoEmpleado.ToList();
+            bool result = int.TryParse(data, out id);
+            try
+            {
+                if (result == true)
+                {
+                    var telefonoEmpleado = from TelUsuario in conexion.TELEFONO_USUARIO
+                                           join usu in conexion.USUARIO
+                                             on TelUsuario.id_usuario_telefono equals usu.id_usuario
+                                           where usu.identificacion == id.ToString()
+                                           select new 
+                                           {
+                                               numero_telefono = TelUsuario.numero_telefono,
+                                               id_usuario_telefono = usu.id_usuario,
+                                           };
+                    telefonos = telefonoEmpleado.ToList();
 
-        //            var Empleado = from usuario in conexion.USUARIO
-        //                          join es in conexion.ESTADO_USUARIO
-        //                           on usuario.id_estado_usuario equals es.id_estado
-        //                             join roles in conexion.ROL
-        //                             on usuario.id_rol_usuario equals roles.id_rol
-        //                           where (usuario.id_rol_usuario == 2 || usuario.id_rol_usuario == 3 || usuario.id_rol_usuario == 4) && usuario.identificacion == id.ToString()
-        //                          select new Usuario
-        //                          {
-        //                              nombres = usuario.nombres,
-        //                              apellidos = usuario.apellidos,
-        //                              identificacion = usuario.identificacion,
-        //                              username = usuario.usuario_login,
-        //                              direccion = usuario.direccion,
-        //                              email = usuario.correo,
-        //                              sexo = usuario.sexo,
-        //                              estado = es.descripcion,
-        //                              Rol = roles.descripcion
-        //                          };
+                    var Empleado = from usuario in conexion.USUARIO
+                                   join es in conexion.ESTADO_USUARIO
+                                    on usuario.id_estado_usuario equals es.id_estado
+                                   join roles in conexion.ROL
+                                   on usuario.id_rol_usuario equals roles.id_rol
+                                   where (usuario.id_rol_usuario == 2 || usuario.id_rol_usuario == 3 || usuario.id_rol_usuario == 4) && usuario.identificacion == id.ToString()
+                                   select new 
+                                   {
+                                       nombres = usuario.nombres,
+                                       apellidos = usuario.apellidos,
+                                       identificacion = usuario.identificacion,
+                                       username = usuario.usuario_login,
+                                       direccion = usuario.direccion,
+                                       email = usuario.correo,
+                                       sexo = usuario.sexo,
+                                       estado = es.descripcion,
+                                       Rol = roles.descripcion
+                                   };
 
-        //            List<Usuario> usuario2 = Empleado.ToList();
-        //            usuario2.First().TelefonoCelular = Telefonos[0].numero_telefono;
-        //            usuario2.First().TelefonoFijo = Telefonos.Count == 1 ? "" : Telefonos[1].numero_telefono;
+                    //List<Usuario> usuario2 = Empleado.ToList();
+                    //usuario2.First().TelefonoCelular = Telefonos[0].numero_telefono;
+                    //usuario2.First().TelefonoFijo = Telefonos.Count == 1 ? "" : Telefonos[1].numero_telefono;
 
-        //            resultado = "Consulta Exitosa";
-        //            tipoResultado = "info";
+                    resultado = "Consulta Exitosa";
+                    tipoResultado = "info";
 
-        //            return usuario2;
-        //        }
-        //        else
-        //        {
-        //            var telefonoEmpleado = from TelUsuario in conexion.TELEFONO_USUARIO
-        //                                  join usu in conexion.USUARIO
-        //                                    on TelUsuario.id_usuario_telefono equals usu.id_usuario
-        //                                  where usu.nombres == data.ToString()
-        //                                  select new TelefonoUsuario
-        //                                  {
-        //                                      numero_telefono = TelUsuario.numero_telefono,
-        //                                      id_usuario_telefono = usu.id_usuario,
-        //                                  };
-        //            List<TelefonoUsuario> Telefonos = telefonoEmpleado.ToList();
+                    return Empleado.ToList();
+                }
+                else
+                {
+                    var telefonoEmpleado = from TelUsuario in conexion.TELEFONO_USUARIO
+                                           join usu in conexion.USUARIO
+                                             on TelUsuario.id_usuario_telefono equals usu.id_usuario
+                                           where usu.nombres == data.ToString()
+                                           select new 
+                                           {
+                                               numero_telefono = TelUsuario.numero_telefono,
+                                               id_usuario_telefono = usu.id_usuario,
+                                           };
+                    telefonos = telefonoEmpleado.ToList();
 
-        //            var empleado = from usuario in conexion.USUARIO
-        //                          join es in conexion.ESTADO_USUARIO
-        //                           on usuario.id_estado_usuario equals es.id_estado
-        //                             join roles in conexion.ROL
-        //                             on usuario.id_rol_usuario equals roles.id_rol
-        //                           where (usuario.id_rol_usuario == 2 || usuario.id_rol_usuario == 3 || usuario.id_rol_usuario == 4) && usuario.nombres == data.ToString()
-        //                          select new Usuario
-        //                          {
-        //                              nombres = usuario.nombres,
-        //                              apellidos = usuario.apellidos,
-        //                              identificacion = usuario.identificacion,
-        //                              username = usuario.usuario_login,
-        //                              direccion = usuario.direccion,
-        //                              email = usuario.correo,
-        //                              sexo = usuario.sexo,
-        //                              estado = es.descripcion,
-        //                              Rol = roles.descripcion
-        //                          };
+                    var empleado = from usuario in conexion.USUARIO
+                                   join es in conexion.ESTADO_USUARIO
+                                    on usuario.id_estado_usuario equals es.id_estado
+                                   join roles in conexion.ROL
+                                   on usuario.id_rol_usuario equals roles.id_rol
+                                   where (usuario.id_rol_usuario == 2 || usuario.id_rol_usuario == 3 || usuario.id_rol_usuario == 4) && usuario.nombres == data.ToString()
+                                   select new 
+                                   {
+                                       nombres = usuario.nombres,
+                                       apellidos = usuario.apellidos,
+                                       identificacion = usuario.identificacion,
+                                       username = usuario.usuario_login,
+                                       direccion = usuario.direccion,
+                                       email = usuario.correo,
+                                       sexo = usuario.sexo,
+                                       estado = es.descripcion,
+                                       Rol = roles.descripcion
+                                   };
 
-        //            List<Usuario> usuario2 = empleado.ToList();
-        //            usuario2.First().TelefonoCelular = Telefonos[0].numero_telefono;
-        //            usuario2.First().TelefonoFijo = Telefonos.Count == 1 ? "" : Telefonos[1].numero_telefono;
+                    //List<Usuario> usuario2 = empleado.ToList();
+                    //usuario2.First().TelefonoCelular = Telefonos[0].numero_telefono;
+                    //usuario2.First().TelefonoFijo = Telefonos.Count == 1 ? "" : Telefonos[1].numero_telefono;
 
-        //            resultado = "Consulta Exitosa";
-        //            tipoResultado = "info";
+                    resultado = "Consulta Exitosa";
+                    tipoResultado = "info";
 
-        //            return usuario2;
-        //        }
-        //    }
-        //    catch (Exception ex)
-        //    {
-        //        resultado = ex.Message;
-        //        tipoResultado = "danger";
-        //    }
+                    return empleado.ToList();
+                }
+            }
+            catch (Exception ex)
+            {
+                resultado = ex.Message;
+                tipoResultado = "danger";
+            }
 
-        //    return users;
+            return users;
 
-        //}
+        }
 
-        ///// <summary>
-        ///// Consulta el total de empleados que hay en BD
-        ///// </summary>
-        ///// <returns>Lista de Empleados</returns>
-        //public List<Usuario> ConsultarEmpleados()
-        //{
+        /// <summary>
+        /// Consulta el total de empleados que hay en BD
+        /// </summary>
+        /// <returns>Lista de Empleados</returns>
+        public object ConsultarEmpleados()
+        {
 
-        //    string resultado;
-        //    List<Usuario> lista = new List<Usuario>();
+            string resultado;
+            object lista = null;
+            try
+            {
+                var Empleados = from usuario in conexion.USUARIO
+                                join es in conexion.ESTADO_USUARIO
+                                 on usuario.id_estado_usuario equals es.id_estado
+                                join roles in conexion.ROL
+                                 on usuario.id_rol_usuario equals roles.id_rol
+                                where usuario.id_rol_usuario == 2 || usuario.id_rol_usuario == 3 || usuario.id_rol_usuario == 4
 
-        //    try
-        //    {
-        //        var Empleados = from usuario in conexion.USUARIO
-        //                       join es in conexion.ESTADO_USUARIO
-        //                        on usuario.id_estado_usuario equals es.id_estado
-        //                       join roles in conexion.ROL
-        //                        on usuario.id_rol_usuario equals roles.id_rol 
-        //                       where usuario.id_rol_usuario == 2 || usuario.id_rol_usuario == 3 || usuario.id_rol_usuario == 4
+                                select new 
+                                {
+                                    nombres = usuario.nombres,
+                                    apellidos = usuario.apellidos,
+                                    identificacion = usuario.identificacion,
+                                    username = usuario.usuario_login,
+                                    direccion = usuario.direccion,
+                                    email = usuario.correo,
+                                    sexo = usuario.sexo,
+                                    estado = es.descripcion,
+                                    Rol = roles.descripcion
+                                };
 
-        //                       select new Usuario
-        //                       {
-        //                           nombres = usuario.nombres,
-        //                           apellidos = usuario.apellidos,
-        //                           identificacion = usuario.identificacion,
-        //                           username = usuario.usuario_login,
-        //                           direccion = usuario.direccion,
-        //                           email = usuario.correo,
-        //                           sexo = usuario.sexo,
-        //                           estado = es.descripcion,
-        //                           Rol = roles.descripcion
-        //                       };
+                return Empleados.ToList();
+            }
+            catch (Exception ex)
+            {
+                resultado = ex.Message;
+            }
 
-        //        return (List<Usuario>)Empleados.ToList();
-        //    }
-        //    catch (Exception ex)
-        //    {
-        //        resultado = ex.Message;
-        //        //lista.Add(new Usuario { resultado = resultado });
-        //    }
-
-        //    return lista;
-        //}
+            return lista;
+        }
 
 
-        ///// <summary>
-        ///// Adiciona un empleado a la base de datos
-        ///// </summary>
-        ///// <param name="usuario"></param>
-        ///// <param name="resultado"></param>
-        ///// <param name="tipoResultado"></param>
-        //public void AdicionarEmpleado(Usuario usuario, out string resultado, out string tipoResultado)
-        //{
-        //    usuario.TelefonoFijo = usuario.TelefonoFijo == null ? "" : usuario.TelefonoFijo;
-        //    var us = from u in conexion.USUARIO
-        //             where u.usuario_login == usuario.username
-        //             select u;
+        /// <summary>
+        /// Adiciona un empleado a la base de datos
+        /// </summary>
+        /// <param name="usuario"></param>
+        /// <param name="resultado"></param>
+        /// <param name="tipoResultado"></param>
+        public void AdicionarEmpleado(
+                            string TelefonoFijo, string TelefonoCelular, string username, string email,
+                            string identificacion, string nombres, string apellidos, string direccion,
+                            string sexo, string password, int idRol, int idEstado, int idTipoIdentificacion,
+                            out string resultado, out string tipoResultado)
+        {
+            TelefonoFijo = TelefonoFijo == null ? "" : TelefonoFijo;
+            var us = from u in conexion.USUARIO
+                     where u.usuario_login == username
+                     select u;
 
-        //    var mail = from m in conexion.USUARIO
-        //               where m.correo == usuario.email
-        //               select m;
+            var mail = from m in conexion.USUARIO
+                       where m.correo == email
+                       select m;
 
-        //    var identificac = from m in conexion.USUARIO
-        //                      where m.identificacion == usuario.identificacion
-        //                      select m;
-        //    if (!us.Any() && !mail.Any() && !identificac.Any())
-        //    {
-        //        try
-        //        {
-        //            USUARIO USER = new USUARIO();
-        //            USER.nombres = usuario.nombres;
-        //            USER.apellidos = usuario.apellidos;
-        //            USER.correo = usuario.email;
-        //            USER.direccion = usuario.direccion;
-        //            USER.sexo = (usuario.sexo).ToString();
-        //            USER.usuario_login = usuario.username;
-        //            USER.password = usuario.password;
-        //            USER.identificacion = usuario.identificacion;
-        //            USER.id_rol_usuario = usuario.idRol;
-        //            USER.id_estado_usuario = usuario.idEstado;
-        //            USER.id_tipo_Identificacion_usuario = usuario.idTipoIdentificacion;
+            var identificac = from m in conexion.USUARIO
+                              where m.identificacion == identificacion
+                              select m;
+            if (!us.Any() && !mail.Any() && !identificac.Any())
+            {
+                try
+                {
+                    USUARIO USER = new USUARIO();
+                    USER.nombres = nombres;
+                    USER.apellidos = apellidos;
+                    USER.correo = email;
+                    USER.direccion = direccion;
+                    USER.sexo = sexo;
+                    USER.usuario_login = username;
+                    USER.password = password;
+                    USER.identificacion = identificacion;
+                    USER.id_rol_usuario = idRol;
+                    USER.id_estado_usuario = idEstado;
+                    USER.id_tipo_Identificacion_usuario = idTipoIdentificacion;
 
-        //            conexion.USUARIO.Add(USER);
-        //            conexion.SaveChanges();
+                    conexion.USUARIO.Add(USER);
+                    conexion.SaveChanges();
 
-        //            var idUsu = from u in conexion.USUARIO
-        //                        where u.identificacion == usuario.identificacion
-        //                        select new Usuario
-        //                        {
-        //                            id = u.id_usuario
-        //                        };
+                    var idUsu = from u in conexion.USUARIO
+                                where u.identificacion == identificacion
+                                select new 
+                                {
+                                    id = u.id_usuario
+                                };
 
-        //            Usuario user = idUsu.First();
-        //            TELEFONO_USUARIO Telefono = new TELEFONO_USUARIO();
-        //            Telefono.id_usuario_telefono = user.id;
-        //            Telefono.numero_telefono = usuario.TelefonoCelular;
-        //            conexion.TELEFONO_USUARIO.Add(Telefono);
-        //            conexion.SaveChanges();
+                    TELEFONO_USUARIO Telefono = new TELEFONO_USUARIO();
+                    Telefono.id_usuario_telefono = Convert.ToInt32(idUsu.FirstOrDefault().id);
+                    Telefono.numero_telefono = TelefonoCelular;
+                    conexion.TELEFONO_USUARIO.Add(Telefono);
+                    conexion.SaveChanges();
 
-        //            if (usuario.TelefonoFijo != "")
-        //            {
-        //                TELEFONO_USUARIO Telefono2 = new TELEFONO_USUARIO();
-        //                Telefono2.id_usuario_telefono = user.id;
-        //                Telefono2.numero_telefono = usuario.TelefonoFijo;
-        //                conexion.TELEFONO_USUARIO.Add(Telefono2);
-        //                conexion.SaveChanges();
-        //            }
+                    if (TelefonoFijo != "")
+                    {
+                        TELEFONO_USUARIO Telefono2 = new TELEFONO_USUARIO();
+                        Telefono2.id_usuario_telefono = Convert.ToInt32(idUsu.FirstOrDefault().id);
+                        Telefono2.numero_telefono = TelefonoFijo;
+                        conexion.TELEFONO_USUARIO.Add(Telefono2);
+                        conexion.SaveChanges();
+                    }
 
-        //        }
-        //        catch (Exception e)
-        //        {
-        //            resultado = e.Message;
-        //        }
-        //        resultado = "Empleado registrado correctamente";
-        //        tipoResultado = "success";
-        //    }
-        //    else
-        //    {
-        //        resultado = "Ya existe un empleado registrado con el nombre de usuario, email o identificación ingresado";
-        //        tipoResultado = "danger";
-        //    }
-        //}
+                }
+                catch (Exception e)
+                {
+                    resultado = e.Message;
+                }
+                resultado = "Empleado registrado correctamente";
+                tipoResultado = "success";
+            }
+            else
+            {
+                resultado = "Ya existe un empleado registrado con el nombre de usuario, email o identificación ingresado";
+                tipoResultado = "danger";
+            }
+        }
 
-        ///// <summary>
-        ///// Modifica un empleado en específico y lo actualiza en base de datos
-        ///// </summary>
-        ///// <param name="usuario"></param>
-        ///// <param name="res"></param>
-        ///// <param name="tipoRes"></param>
-        //public void ModificarEmpleado(Usuario usuario, out string res, out string tipoRes)
-        //{
+        /// <summary>
+        /// Modifica un empleado en específico y lo actualiza en base de datos
+        /// </summary>
+        /// <param name="usuario"></param>
+        /// <param name="res"></param>
+        /// <param name="tipoRes"></param>
+        public void ModificarEmpleado(
+                                     string TelefonoFijo, string TelefonoCelular, string username,
+                                     string email, string identificacion, string nombres, string apellidos,
+                                     string direccion, string sexo, string password, int idTipoIdentificacion, int idRol,
+                                     out string res, out string tipoRes)
+        {
 
-        //    try
-        //    {
-        //        var queryUSUARIO = from USU in conexion.USUARIO
-        //                           where USU.identificacion == usuario.identificacion
-        //                           select USU;
-        //        foreach (var USUARIO in queryUSUARIO)
-        //        {
-        //            USUARIO.apellidos = usuario.apellidos;
-        //            USUARIO.nombres = usuario.nombres;
-        //            USUARIO.direccion = usuario.direccion;
-        //            USUARIO.correo = usuario.email;
-        //            USUARIO.sexo = usuario.sexo;
-        //            USUARIO.password = usuario.password;
-        //            USUARIO.id_rol_usuario = usuario.idRol;
+            try
+            {
+                var queryUSUARIO = from USU in conexion.USUARIO
+                                   where USU.identificacion == identificacion
+                                   select USU;
+                foreach (var USUARIO in queryUSUARIO)
+                {
+                    USUARIO.apellidos = apellidos;
+                    USUARIO.nombres = nombres;
+                    USUARIO.direccion = direccion;
+                    USUARIO.correo = email;
+                    USUARIO.sexo = sexo;
+                    USUARIO.password = password;
+                    USUARIO.id_rol_usuario = idRol;
 
-        //        }
-        //        conexion.SaveChanges();
+                }
+                conexion.SaveChanges();
 
-        //        var idUsu = from u in conexion.USUARIO
-        //                    where u.identificacion == usuario.identificacion
-        //                    select new Usuario
-        //                    {
-        //                        id = u.id_usuario
-        //                    };
+                var idUsu = from u in conexion.USUARIO
+                            where u.identificacion == identificacion
+                            select new 
+                            {
+                                id = u.id_usuario
+                            };
 
-        //        Usuario user = idUsu.First();
-        //        var queryTelefono = from tel in conexion.TELEFONO_USUARIO
-        //                            join usu in conexion.USUARIO
-        //                            on tel.id_usuario_telefono equals usu.id_usuario
-        //                            where usu.identificacion == usuario.identificacion
-        //                            select tel;
-        //        int i = 0;
-        //        foreach (var tele in queryTelefono)
-        //        {
-        //            tele.id_usuario_telefono = user.id;
-        //            if (i == 0)
-        //                tele.numero_telefono = usuario.TelefonoCelular;
-        //            else
-        //            {
-        //                tele.numero_telefono = usuario.TelefonoFijo;
-        //            }
-        //            i++;
-        //        }
+                var queryTelefono = from tel in conexion.TELEFONO_USUARIO
+                                    join usu in conexion.USUARIO
+                                    on tel.id_usuario_telefono equals usu.id_usuario
+                                    where usu.identificacion == identificacion
+                                    select tel;
+                int i = 0;
+                foreach (var tele in queryTelefono)
+                {
+                    tele.id_usuario_telefono = Convert.ToInt32(idUsu.FirstOrDefault().id);
+                    if (i == 0)
+                        tele.numero_telefono = TelefonoCelular;
+                    else
+                    {
+                        tele.numero_telefono = TelefonoFijo;
+                    }
+                    i++;
+                }
 
-        //        conexion.SaveChanges();
+                conexion.SaveChanges();
 
-        //        if (usuario.TelefonoFijo != "")
-        //        {
-        //            TELEFONO_USUARIO Telefono2 = new TELEFONO_USUARIO();
-        //            Telefono2.id_usuario_telefono = user.id;
-        //            Telefono2.numero_telefono = usuario.TelefonoFijo;
-        //            conexion.TELEFONO_USUARIO.Add(Telefono2);
-        //            conexion.SaveChanges();
-        //        }
-        //        res = "Empleado Modificado correctamente";
-        //        tipoRes = "success";
-        //    }
-        //    catch (Exception e)
-        //    {
-        //        res = e.Message;
-        //        tipoRes = "danger";
-        //    }
+                if (TelefonoFijo != "")
+                {
+                    TELEFONO_USUARIO Telefono2 = new TELEFONO_USUARIO();
+                    Telefono2.id_usuario_telefono = Convert.ToInt32(idUsu.FirstOrDefault().id);
+                    Telefono2.numero_telefono = TelefonoFijo;
+                    conexion.TELEFONO_USUARIO.Add(Telefono2);
+                    conexion.SaveChanges();
+                }
+                res = "Empleado Modificado correctamente";
+                tipoRes = "success";
+            }
+            catch (Exception e)
+            {
+                res = e.Message;
+                tipoRes = "danger";
+            }
 
-        //}
+        }
 
-        ///// <summary>
-        ///// modifica el estado del Empleado solicitado en base de datos
-        ///// </summary>
-        ///// <param name="usuario"></param>
-        ///// <param name="res"></param>
-        ///// <param name="tipoRes"></param>
-        //public void CambiarEstadoEmpleado(Usuario usuario, out string res, out string tipoRes)
-        //{
+        /// <summary>
+        /// modifica el estado del Empleado solicitado en base de datos
+        /// </summary>
+        /// <param name="usuario"></param>
+        /// <param name="res"></param>
+        /// <param name="tipoRes"></param>
+        public void CambiarEstadoEmpleado(string identificacion, int idEstado, out string res, out string tipoRes)
+        {
 
-        //    try
-        //    {
-        //        var queryUSUARIO = from USU in conexion.USUARIO
-        //                           where USU.identificacion == usuario.identificacion
-        //                           select USU;
-        //        foreach (var USUARIO in queryUSUARIO)
-        //        {
-        //            USUARIO.id_estado_usuario = usuario.idEstado;
-        //        }
-        //        if (queryUSUARIO.Count() == 0)
-        //        {
-        //            res = "La Operación no Produjo ningun resultado";
-        //            tipoRes = "danger";
-        //        }
-        //        else
-        //        {
-        //            res = "Estado del Empleado actualizado correctamente";
-        //            tipoRes = "success";
-        //        }
-        //        conexion.SaveChanges();
-        //    }
-        //    catch (Exception e)
-        //    {
-        //        res = e.Message;
-        //        tipoRes = "danger";
-        //    }
+            try
+            {
+                var queryUSUARIO = from USU in conexion.USUARIO
+                                   where USU.identificacion == identificacion
+                                   select USU;
+                foreach (var USUARIO in queryUSUARIO)
+                {
+                    USUARIO.id_estado_usuario = idEstado;
+                }
+                if (queryUSUARIO.Count() == 0)
+                {
+                    res = "La Operación no Produjo ningun resultado";
+                    tipoRes = "danger";
+                }
+                else
+                {
+                    res = "Estado del Empleado actualizado correctamente";
+                    tipoRes = "success";
+                }
+                conexion.SaveChanges();
+            }
+            catch (Exception e)
+            {
+                res = e.Message;
+                tipoRes = "danger";
+            }
 
 
-        //}
-        //#endregion
+        }
+        #endregion
     }
 }

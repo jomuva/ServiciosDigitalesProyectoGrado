@@ -82,56 +82,56 @@ namespace ServiciosDigitalesProy.Controllers
             return View("Clientes/AdicionarCliente");
         }
 
-        ///// <summary>
-        ///// Abre el formulario para modificar el cliente con los campos permitidos
-        ///// </summary>
-        ///// <param name="id"></param>
-        ///// <returns></returns>
-        //[HttpGet]
-        //public ActionResult ModificarCliente(string id)
-        //{
-        //    string resp;
-        //    string resultado = "", tipoResultado = "";
-        //    List<Usuario> usuarios;
-        //    Usuario usuario;
-        //    usuarios = CatalogoUsuarios.GetInstance().ConsultarClientes(id, ref resultado, ref tipoResultado);
-        //    if (usuarios.First().estado == "Bloqueado" || usuarios.First().estado == "Eliminado" || usuarios.First().estado == "Inactivo"|| usuarios.First().estado == "")
-        //    {
-        //        resp = "El usuario no se encuentra Activo";
-        //        usuarios = CatalogoUsuarios.GetInstance().ConsultarClientes((string)TempData.Peek("identificacionConsulta"), ref resultado, ref tipoResultado);
-        //        TempData["mensaje"] = resp;
-        //        TempData["estado"] = "danger";
-        //        return View("Clientes/RespuestaConsultaClientes", usuarios);
-        //    }
-        //    usuarios.First().tiposIdentificacion = new SelectList(CatalogoUsuarios.GetInstance().ConsultarTiposIdentificacion(), "id", "Descripcion");
-        //    usuario = usuarios.First();
-        //    return View("Clientes/ModificarCliente",usuario);
-        //}
+        /// <summary>
+        /// Abre el formulario para modificar el cliente con los campos permitidos
+        /// </summary>
+        /// <param name="id"></param>
+        /// <returns></returns>
+        [HttpGet]
+        public ActionResult ModificarCliente(string id)
+        {
+            string resp;
+            string resultado = "", tipoResultado = "";
+            List<Usuario> usuarios;
+            Usuario usuario;
+            usuarios = CatalogoUsuarios.GetInstance().ConsultarClientes(id, ref resultado, ref tipoResultado);
+            if (usuarios.First().estado == "Bloqueado" || usuarios.First().estado == "Eliminado" || usuarios.First().estado == "Inactivo" || usuarios.First().estado == "")
+            {
+                resp = "El usuario no se encuentra Activo";
+                usuarios = CatalogoUsuarios.GetInstance().ConsultarClientes((string)TempData.Peek("identificacionConsulta"), ref resultado, ref tipoResultado);
+                TempData["mensaje"] = resp;
+                TempData["estado"] = "danger";
+                return View("Clientes/RespuestaConsultaClientes", usuarios);
+            }
+            usuarios.First().tiposIdentificacion = new SelectList(CatalogoUsuarios.GetInstance().ConsultarTiposIdentificacion(), "id", "Descripcion");
+            usuario = usuarios.First();
+            return View("Clientes/ModificarCliente", usuario);
+        }
 
-        ///// <summary>
-        ///// Envía el formulario a la lógica de negocio para posteriormente adicionarlo a la base de datos
-        ///// </summary>
-        ///// <param name="user"></param>
-        ///// <returns></returns>
-        //[HttpPost]
-        //public ActionResult UpdateCliente(Usuario user)
-        //{
-        //    string resultado = "", tipoResultado = "";
-        //    string res, tipoRes;
-        //    if (ModelState.IsValid)
-        //    {
-        //        CatalogoUsuarios.GetInstance().ModificarCliente(user,out res, out tipoRes);
-        //        List<Usuario> usuarios;
-        //        usuarios = CatalogoUsuarios.GetInstance().ConsultarClientes((string)TempData.Peek("identificacionConsulta"), ref resultado, ref tipoResultado);
-        //        TempData["mensaje"] = res;
-        //        TempData["estado"] = tipoRes;
+        /// <summary>
+        /// Envía el formulario a la lógica de negocio para posteriormente adicionarlo a la base de datos
+        /// </summary>
+        /// <param name="user"></param>
+        /// <returns></returns>
+        [HttpPost]
+        public ActionResult UpdateCliente(Usuario user)
+        {
+            string resultado = "", tipoResultado = "";
+            string res, tipoRes;
+            if (ModelState.IsValid)
+            {
+                CatalogoUsuarios.GetInstance().ModificarCliente(user, out res, out tipoRes);
+                List<Usuario> usuarios;
+                usuarios = CatalogoUsuarios.GetInstance().ConsultarClientes((string)TempData.Peek("identificacionConsulta"), ref resultado, ref tipoResultado);
+                TempData["mensaje"] = res;
+                TempData["estado"] = tipoRes;
 
-        //        return View("Clientes/RespuestaConsultaClientes", usuarios);
+                return View("Clientes/RespuestaConsultaClientes", usuarios);
 
-        //    }
+            }
 
-        //    return RedirectToAction("Clientes/ModificarCliente",user.identificacion);
-        //}
+            return RedirectToAction("Clientes/ModificarCliente", user.identificacion);
+        }
 
 
         ///// <summary>
@@ -181,235 +181,235 @@ namespace ServiciosDigitalesProy.Controllers
         }
 
 
-        ///// <summary>
-        ///// Muestra el detalle de datos de un cliente en específico
-        ///// </summary>
-        ///// <param name="id"></param>
-        ///// <returns></returns>
-        //[HttpGet]
-        //public ActionResult DetallesCliente(string id)
-        //{
-        //    string resultado = "", tipoResultado = "";
-        //    List<Usuario> usuarios = CatalogoUsuarios.GetInstance().ConsultarClientes(id, ref resultado, ref tipoResultado);
+        /// <summary>
+        /// Muestra el detalle de datos de un cliente en específico
+        /// </summary>
+        /// <param name="id"></param>
+        /// <returns></returns>
+        [HttpGet]
+        public ActionResult DetallesCliente(string id)
+        {
+            string resultado = "", tipoResultado = "";
+            List<Usuario> usuarios = CatalogoUsuarios.GetInstance().ConsultarClientes(id, ref resultado, ref tipoResultado);
 
-        //    return View("Clientes/DetallesCliente",usuarios.First());
-        //}
+            return View("Clientes/DetallesCliente", usuarios.First());
+        }
 
-        ///// <summary>
-        ///// permite volver al menu anterior de consulta general de clientes
-        ///// </summary>
-        ///// <param name="iden"></param>
-        ///// <returns></returns>
-        //[HttpGet]
-        //public ActionResult VolverDetallesCliente(string iden)
-        //{
-        //    string resultado = "", tipoResultado = "";
-        //    List<Usuario> usuarios;
-        //    usuarios = CatalogoUsuarios.GetInstance().ConsultarClientes(iden, ref resultado, ref tipoResultado);
-        //    return View("Clientes/RespuestaConsultaClientes", usuarios);
-        //}
+        /// <summary>
+        /// permite volver al menu anterior de consulta general de clientes
+        /// </summary>
+        /// <param name="iden"></param>
+        /// <returns></returns>
+        [HttpGet]
+        public ActionResult VolverDetallesCliente(string iden)
+        {
+            string resultado = "", tipoResultado = "";
+            List<Usuario> usuarios;
+            usuarios = CatalogoUsuarios.GetInstance().ConsultarClientes(iden, ref resultado, ref tipoResultado);
+            return View("Clientes/RespuestaConsultaClientes", usuarios);
+        }
 
-        //#endregion
+        #endregion
 
-        //#region Empleados
-        //[HttpGet]
-        //public ActionResult ConsultarEmpleados()
-        //{
-        //    return View("Empleados/ConsultarEmpleados");
-        //}
+        #region Empleados
+        [HttpGet]
+        public ActionResult ConsultarEmpleados()
+        {
+            return View("Empleados/ConsultarEmpleados");
+        }
 
-        ///// <summary>
-        ///// Consulta Los clientes segun su identificación.  si el valor es vacio, entonces trae la consulta total
-        ///// </summary>
-        ///// <param name="identificacion"></param>
-        ///// <returns></returns>
-        //[HttpPost]
-        //public ActionResult ConsultarEmpleados(string identificacion)
-        //{
+        /// <summary>
+        /// Consulta Los clientes segun su identificación.  si el valor es vacio, entonces trae la consulta total
+        /// </summary>
+        /// <param name="identificacion"></param>
+        /// <returns></returns>
+        [HttpPost]
+        public ActionResult ConsultarEmpleados(string identificacion)
+        {
 
-        //    string resultado = "", tipoResultado = "";
-        //    List<Usuario> usuarios;
-        //    usuarios = CatalogoUsuarios.GetInstance().ConsultarEmpleados(identificacion, ref resultado, ref tipoResultado);
-        //    TempData["identificacionConsulta"] = identificacion;
-        //    TempData["mensaje"] = resultado;
-        //    TempData["estado"] = tipoResultado;
-        //    if (tipoResultado == "danger")
-        //    {
-        //        return View("Empleados/ConsultarEmpleados");
-        //    }
-        //    else
-        //    {
-        //        return View("Empleados/RespuestaConsultaEmpleados", usuarios);
-        //    }
-        //}
+            string resultado = "", tipoResultado = "";
+            List<Usuario> usuarios;
+            usuarios = CatalogoUsuarios.GetInstance().ConsultarEmpleados(identificacion, ref resultado, ref tipoResultado);
+            TempData["identificacionConsulta"] = identificacion;
+            TempData["mensaje"] = resultado;
+            TempData["estado"] = tipoResultado;
+            if (tipoResultado == "danger")
+            {
+                return View("Empleados/ConsultarEmpleados");
+            }
+            else
+            {
+                return View("Empleados/RespuestaConsultaEmpleados", usuarios);
+            }
+        }
 
-        ///// <summary>
-        ///// Abre el formulario principal para adicionar cliente
-        ///// </summary>
-        ///// <returns></returns>
-        //[HttpGet]
-        //public ActionResult AdicionarEmpleado()
-        //{
-        //    Usuario user = new Usuario();
-        //    user.tiposIdentificacion = new SelectList(CatalogoUsuarios.GetInstance().ConsultarTiposIdentificacion(), "id", "Descripcion");
-        //    user.Roles = new SelectList(CatalogoUsuarios.GetInstance().ConsultarRolesEmpleado(), "id", "Descripcion");
-        //    return View("Empleados/AdicionarEmpleado", user);
-        //}
+        /// <summary>
+        /// Abre el formulario principal para adicionar cliente
+        /// </summary>
+        /// <returns></returns>
+        [HttpGet]
+        public ActionResult AdicionarEmpleado()
+        {
+            Usuario user = new Usuario();
+            user.tiposIdentificacion = new SelectList(CatalogoUsuarios.GetInstance().ConsultarTiposIdentificacion(), "id", "Descripcion");
+            user.Roles = new SelectList(CatalogoUsuarios.GetInstance().ConsultarRolesEmpleado(), "id", "Descripcion");
+            return View("Empleados/AdicionarEmpleado", user);
+        }
 
-        ///// <summary>
-        ///// envía el formulario a la logica y posteriormente a la base de datos para adicionar al cliente
-        ///// </summary>
-        ///// <param name="user"></param>
-        ///// <returns></returns>
-        //[HttpPost]
-        //public ActionResult AdicionarEmpleado(Usuario user)
-        //{
-        //    string resultado = "", tipoResultado = "";
+        /// <summary>
+        /// envía el formulario a la logica y posteriormente a la base de datos para adicionar al cliente
+        /// </summary>
+        /// <param name="user"></param>
+        /// <returns></returns>
+        [HttpPost]
+        public ActionResult AdicionarEmpleado(Usuario user)
+        {
+            string resultado = "", tipoResultado = "";
 
-        //    if (ModelState.IsValid)
-        //    {
-        //        CatalogoUsuarios.GetInstance().AdicionarEmpleado(user, out resultado, out tipoResultado);
+            if (ModelState.IsValid)
+            {
+                CatalogoUsuarios.GetInstance().AdicionarEmpleado(user, out resultado, out tipoResultado);
 
-        //        List<Usuario> usuarios;
-        //        usuarios = CatalogoUsuarios.GetInstance().ConsultarEmpleados("", ref resultado, ref tipoResultado);
+                List<Usuario> usuarios;
+                usuarios = CatalogoUsuarios.GetInstance().ConsultarEmpleados("", ref resultado, ref tipoResultado);
 
-        //        TempData["mensaje"] = resultado;
-        //        TempData["estado"] = tipoResultado;
-        //        return View("Empleados/RespuestaConsultaEmpleados", usuarios);
-        //    }
+                TempData["mensaje"] = resultado;
+                TempData["estado"] = tipoResultado;
+                return View("Empleados/RespuestaConsultaEmpleados", usuarios);
+            }
 
-        //    TempData["mensaje"] = "Por favor verifique los datos ingresados";
-        //    TempData["estado"] = "danger";
-        //    return View("Empleados/AdicionarEmpleado");
-        //}
+            TempData["mensaje"] = "Por favor verifique los datos ingresados";
+            TempData["estado"] = "danger";
+            return View("Empleados/AdicionarEmpleado");
+        }
 
-        ///// <summary>
-        ///// Abre el formulario para modificar el cliente con los campos permitidos
-        ///// </summary>
-        ///// <param name="id"></param>
-        ///// <returns></returns>
-        //[HttpGet]
-        //public ActionResult ModificarEmpleado(string id)
-        //{
-        //    string resp;
-        //    string resultado = "", tipoResultado = "";
-        //    List<Usuario> usuarios;
-        //    Usuario usuario;
-        //    usuarios = CatalogoUsuarios.GetInstance().ConsultarEmpleados(id, ref resultado, ref tipoResultado);
-        //    if (usuarios.First().estado == "Bloqueado" || usuarios.First().estado == "Eliminado" || usuarios.First().estado == "Inactivo" || usuarios.First().estado == "")
-        //    {
-        //        resp = "El usuario no se encuentra Activo";
-        //        usuarios = CatalogoUsuarios.GetInstance().ConsultarEmpleados((string)TempData.Peek("identificacionConsulta"), ref resultado, ref tipoResultado);
-        //        TempData["mensaje"] = resp;
-        //        TempData["estado"] = "danger";
-        //        return View("Empleados/RespuestaConsultaEmpleados", usuarios);
-        //    }
-        //    usuarios.First().tiposIdentificacion = new SelectList(CatalogoUsuarios.GetInstance().ConsultarTiposIdentificacion(), "id", "Descripcion");
-        //    usuarios.First().Roles = new SelectList(CatalogoUsuarios.GetInstance().ConsultarRolesEmpleado(), "id", "Descripcion");
-        //    usuario = usuarios.First();
-        //    return View("Empleados/ModificarEmpleado", usuario);
-        //}
+        /// <summary>
+        /// Abre el formulario para modificar el cliente con los campos permitidos
+        /// </summary>
+        /// <param name="id"></param>
+        /// <returns></returns>
+        [HttpGet]
+        public ActionResult ModificarEmpleado(string id)
+        {
+            string resp;
+            string resultado = "", tipoResultado = "";
+            List<Usuario> usuarios;
+            Usuario usuario;
+            usuarios = CatalogoUsuarios.GetInstance().ConsultarEmpleados(id, ref resultado, ref tipoResultado);
+            if (usuarios.First().estado == "Bloqueado" || usuarios.First().estado == "Eliminado" || usuarios.First().estado == "Inactivo" || usuarios.First().estado == "")
+            {
+                resp = "El usuario no se encuentra Activo";
+                usuarios = CatalogoUsuarios.GetInstance().ConsultarEmpleados((string)TempData.Peek("identificacionConsulta"), ref resultado, ref tipoResultado);
+                TempData["mensaje"] = resp;
+                TempData["estado"] = "danger";
+                return View("Empleados/RespuestaConsultaEmpleados", usuarios);
+            }
+            usuarios.First().tiposIdentificacion = new SelectList(CatalogoUsuarios.GetInstance().ConsultarTiposIdentificacion(), "id", "Descripcion");
+            usuarios.First().Roles = new SelectList(CatalogoUsuarios.GetInstance().ConsultarRolesEmpleado(), "id", "Descripcion");
+            usuario = usuarios.First();
+            return View("Empleados/ModificarEmpleado", usuario);
+        }
 
-        ///// <summary>
-        ///// Envía el formulario a la lógica de negocio para posteriormente adicionarlo a la base de datos
-        ///// </summary>
-        ///// <param name="user"></param>
-        ///// <returns></returns>
-        //[HttpPost]
-        //public ActionResult UpdateEmpleado(Usuario user)
-        //{
-        //    string resultado = "", tipoResultado = "";
-        //    string res, tipoRes;
-        //    if (ModelState.IsValid)
-        //    {
-        //        CatalogoUsuarios.GetInstance().ModificarEmpleado(user, out res, out tipoRes);
-        //        List<Usuario> usuarios;
-        //        usuarios = CatalogoUsuarios.GetInstance().ConsultarEmpleados((string)TempData.Peek("identificacionConsulta"), ref resultado, ref tipoResultado);
-        //        TempData["mensaje"] = res;
-        //        TempData["estado"] = tipoRes;
+        /// <summary>
+        /// Envía el formulario a la lógica de negocio para posteriormente adicionarlo a la base de datos
+        /// </summary>
+        /// <param name="user"></param>
+        /// <returns></returns>
+        [HttpPost]
+        public ActionResult UpdateEmpleado(Usuario user)
+        {
+            string resultado = "", tipoResultado = "";
+            string res, tipoRes;
+            if (ModelState.IsValid)
+            {
+                CatalogoUsuarios.GetInstance().ModificarEmpleado(user, out res, out tipoRes);
+                List<Usuario> usuarios;
+                usuarios = CatalogoUsuarios.GetInstance().ConsultarEmpleados((string)TempData.Peek("identificacionConsulta"), ref resultado, ref tipoResultado);
+                TempData["mensaje"] = res;
+                TempData["estado"] = tipoRes;
 
-        //        return View("Empleados/RespuestaConsultaEmpleados", usuarios);
+                return View("Empleados/RespuestaConsultaEmpleados", usuarios);
 
-        //    }
+            }
 
-        //    return RedirectToAction("Empleados/ModificarEmpleado", user.identificacion);
-        //}
-
-
-        ///// <summary>
-        ///// Abre la vista principal para cambiar el estado del cliente
-        ///// </summary>
-        ///// <param name="id"></param>
-        ///// <returns></returns>
-        //[HttpGet]
-        //public ActionResult CambiarEstadoEmpleado(string id)
-        //{
-        //    string resultado = "", tipoResultado = "";
-        //    List<Usuario> usuarios;
-        //    Usuario usuario;
-        //    usuarios = CatalogoUsuarios.GetInstance().ConsultarEmpleados(id, ref resultado, ref tipoResultado);
-        //    try
-        //    {
-        //        usuario = usuarios.First();
-        //        usuario.tiposEstado = new SelectList(CatalogoUsuarios.GetInstance().ConsultarEstadosUsuario(), "id", "Descripcion");
-        //        return View("Empleados/CambiarEstadoEmpleado", usuario);
-        //    }
-        //    catch (Exception e)
-        //    {
-        //        resultado = e.Message;
-        //        tipoResultado = "danger";
-        //    }
-        //    return View("Empleados/CambiarEstadoEmpleado", new Usuario { tiposEstado = new SelectList(CatalogoUsuarios.GetInstance().ConsultarEstadosUsuario(), "id", "Descripcion") });
-        //}
+            return RedirectToAction("Empleados/ModificarEmpleado", user.identificacion);
+        }
 
 
-        ///// <summary>
-        ///// Envía el formulario para cambiar el estado del cliente seleccionado
-        ///// </summary>
-        ///// <param name="usuario"></param>
-        ///// <returns></returns>
-        //[HttpPost]
-        //public ActionResult ModificarEstadoEmpleado(Usuario usuario)
-        //{
-        //    string res, tipoRes;
-        //    string resultado = "", tipoResultado = "";
-        //    CatalogoUsuarios.GetInstance().CambiarEstadoEmpleado(usuario, out res, out tipoRes);
-        //    List<Usuario> usuarios;
-        //    usuarios = CatalogoUsuarios.GetInstance().ConsultarEmpleados((string)TempData.Peek("identificacionConsulta"), ref resultado, ref tipoResultado);
+        /// <summary>
+        /// Abre la vista principal para cambiar el estado del cliente
+        /// </summary>
+        /// <param name="id"></param>
+        /// <returns></returns>
+        [HttpGet]
+        public ActionResult CambiarEstadoEmpleado(string id)
+        {
+            string resultado = "", tipoResultado = "";
+            List<Usuario> usuarios;
+            Usuario usuario;
+            usuarios = CatalogoUsuarios.GetInstance().ConsultarEmpleados(id, ref resultado, ref tipoResultado);
+            try
+            {
+                usuario = usuarios.First();
+                usuario.tiposEstado = new SelectList(CatalogoUsuarios.GetInstance().ConsultarEstadosUsuario(), "id", "Descripcion");
+                return View("Empleados/CambiarEstadoEmpleado", usuario);
+            }
+            catch (Exception e)
+            {
+                resultado = e.Message;
+                tipoResultado = "danger";
+            }
+            return View("Empleados/CambiarEstadoEmpleado", new Usuario { tiposEstado = new SelectList(CatalogoUsuarios.GetInstance().ConsultarEstadosUsuario(), "id", "Descripcion") });
+        }
 
-        //    TempData["mensaje"] = res;
-        //    TempData["estado"] = tipoRes;
-        //    return View("Empleados/RespuestaConsultaEmpleados", usuarios);
-        //}
+
+        /// <summary>
+        /// Envía el formulario para cambiar el estado del cliente seleccionado
+        /// </summary>
+        /// <param name="usuario"></param>
+        /// <returns></returns>
+        [HttpPost]
+        public ActionResult ModificarEstadoEmpleado(Usuario usuario)
+        {
+            string res, tipoRes;
+            string resultado = "", tipoResultado = "";
+            CatalogoUsuarios.GetInstance().CambiarEstadoEmpleado(usuario, out res, out tipoRes);
+            List<Usuario> usuarios;
+            usuarios = CatalogoUsuarios.GetInstance().ConsultarEmpleados((string)TempData.Peek("identificacionConsulta"), ref resultado, ref tipoResultado);
+
+            TempData["mensaje"] = res;
+            TempData["estado"] = tipoRes;
+            return View("Empleados/RespuestaConsultaEmpleados", usuarios);
+        }
 
 
-        ///// <summary>
-        ///// Muestra el detalle de datos de un cliente en específico
-        ///// </summary>
-        ///// <param name="id"></param>
-        ///// <returns></returns>
-        //[HttpGet]
-        //public ActionResult DetallesEmpleado(string id)
-        //{
-        //    string resultado = "", tipoResultado = "";
-        //    List<Usuario> usuarios = CatalogoUsuarios.GetInstance().ConsultarEmpleados(id, ref resultado, ref tipoResultado);
+        /// <summary>
+        /// Muestra el detalle de datos de un cliente en específico
+        /// </summary>
+        /// <param name="id"></param>
+        /// <returns></returns>
+        [HttpGet]
+        public ActionResult DetallesEmpleado(string id)
+        {
+            string resultado = "", tipoResultado = "";
+            List<Usuario> usuarios = CatalogoUsuarios.GetInstance().ConsultarEmpleados(id, ref resultado, ref tipoResultado);
 
-        //    return View("Empleados/DetallesEmpleado", usuarios.First());
-        //}
+            return View("Empleados/DetallesEmpleado", usuarios.First());
+        }
 
-        ///// <summary>
-        ///// permite volver al menu anterior de consulta general de clientes
-        ///// </summary>
-        ///// <param name="iden"></param>
-        ///// <returns></returns>
-        //[HttpGet]
-        //public ActionResult VolverDetallesEmpleado(string iden)
-        //{
-        //    string resultado = "", tipoResultado = "";
-        //    List<Usuario> usuarios;
-        //    usuarios = CatalogoUsuarios.GetInstance().ConsultarEmpleados(iden, ref resultado, ref tipoResultado);
-        //    return View("Empleados/RespuestaConsultaEmpleados", usuarios);
-        //}
+        /// <summary>
+        /// permite volver al menu anterior de consulta general de clientes
+        /// </summary>
+        /// <param name="iden"></param>
+        /// <returns></returns>
+        [HttpGet]
+        public ActionResult VolverDetallesEmpleado(string iden)
+        {
+            string resultado = "", tipoResultado = "";
+            List<Usuario> usuarios;
+            usuarios = CatalogoUsuarios.GetInstance().ConsultarEmpleados(iden, ref resultado, ref tipoResultado);
+            return View("Empleados/RespuestaConsultaEmpleados", usuarios);
+        }
         #endregion
     }
 }

@@ -15,10 +15,10 @@ namespace Persistencia
     using System.Data.Entity.Core.Objects;
     using System.Linq;
     
-    public partial class bdServiciosDigitalesProyEntities1 : DbContext
+    public partial class bdServiciosDigitalesProyEntities : DbContext
     {
-        public bdServiciosDigitalesProyEntities1()
-            : base("name=bdServiciosDigitalesProyEntities1")
+        public bdServiciosDigitalesProyEntities()
+            : base("name=bdServiciosDigitalesProyEntities")
         {
         }
     
@@ -49,6 +49,31 @@ namespace Persistencia
         public virtual DbSet<TIPO_ELEMENTO> TIPO_ELEMENTO { get; set; }
         public virtual DbSet<TIPO_IDENTIFICACION_USUARIO> TIPO_IDENTIFICACION_USUARIO { get; set; }
         public virtual DbSet<USUARIO> USUARIO { get; set; }
+    
+        public virtual int InsertarProducto(Nullable<int> id_estado_prod, string nombre_prod, Nullable<decimal> precio_costo, Nullable<decimal> precio_venta, Nullable<int> cantidad)
+        {
+            var id_estado_prodParameter = id_estado_prod.HasValue ?
+                new ObjectParameter("id_estado_prod", id_estado_prod) :
+                new ObjectParameter("id_estado_prod", typeof(int));
+    
+            var nombre_prodParameter = nombre_prod != null ?
+                new ObjectParameter("nombre_prod", nombre_prod) :
+                new ObjectParameter("nombre_prod", typeof(string));
+    
+            var precio_costoParameter = precio_costo.HasValue ?
+                new ObjectParameter("precio_costo", precio_costo) :
+                new ObjectParameter("precio_costo", typeof(decimal));
+    
+            var precio_ventaParameter = precio_venta.HasValue ?
+                new ObjectParameter("precio_venta", precio_venta) :
+                new ObjectParameter("precio_venta", typeof(decimal));
+    
+            var cantidadParameter = cantidad.HasValue ?
+                new ObjectParameter("cantidad", cantidad) :
+                new ObjectParameter("cantidad", typeof(int));
+    
+            return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction("InsertarProducto", id_estado_prodParameter, nombre_prodParameter, precio_costoParameter, precio_ventaParameter, cantidadParameter);
+        }
     
         public virtual int sp_alterdiagram(string diagramname, Nullable<int> owner_id, Nullable<int> version, byte[] definition)
         {

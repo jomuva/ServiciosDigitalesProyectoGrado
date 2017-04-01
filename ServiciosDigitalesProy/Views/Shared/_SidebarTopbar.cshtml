@@ -126,10 +126,10 @@
                     <a href="javascript:;" data-toggle="collapse" data-target="#productos"><i class="fa fa-fw fa-desktop"></i> Productos <i class="fa fa-fw fa-caret-down"></i></a>
                     <ul id="productos" class="collapse">
                         <li>
-                            <a href="~/Views/Home/Index.cshtml">Consultar</a>
+                            @Html.ActionLink("Adicionar Producto", "InsertarProducto", "Productos")
                         </li>
                         <li>
-                            <a href="#">Dropdown Item</a>
+                            <a href="~/Views/Home/Index.cshtml">Consultar</a>
                         </li>
                     </ul>
                 </li>

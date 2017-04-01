@@ -493,6 +493,13 @@
           </ReferentialConstraint>
         </Association>
         <Function Name="fn_diagramobjects" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="true" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo" ReturnType="int" />
+        <Function Name="InsertarProducto" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
+          <Parameter Name="id_estado_prod" Type="int" Mode="In" />
+          <Parameter Name="nombre_prod" Type="varchar" Mode="In" />
+          <Parameter Name="precio_costo" Type="decimal" Mode="In" />
+          <Parameter Name="precio_venta" Type="decimal" Mode="In" />
+          <Parameter Name="cantidad" Type="int" Mode="In" />
+        </Function>
         <Function Name="sp_alterdiagram" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
           <Parameter Name="diagramname" Type="nvarchar" Mode="In" />
           <Parameter Name="owner_id" Type="int" Mode="In" />
@@ -1183,7 +1190,7 @@
             </Dependent>
           </ReferentialConstraint>
         </Association>
-        <EntityContainer Name="bdServiciosDigitalesProyEntities1" annotation:LazyLoadingEnabled="true">
+        <EntityContainer Name="bdServiciosDigitalesProyEntities" annotation:LazyLoadingEnabled="true">
           <EntitySet Name="CATEGORIA_ELEMENTO" EntityType="Self.CATEGORIA_ELEMENTO" />
           <EntitySet Name="DETALLE_FACTURA" EntityType="Self.DETALLE_FACTURA" />
           <EntitySet Name="ELEMENTO" EntityType="Self.ELEMENTO" />
@@ -1302,6 +1309,13 @@
             <End Role="TIPO_IDENTIFICACION_USUARIO" EntitySet="TIPO_IDENTIFICACION_USUARIO" />
             <End Role="USUARIO" EntitySet="USUARIO" />
           </AssociationSet>
+          <FunctionImport Name="InsertarProducto">
+            <Parameter Name="id_estado_prod" Mode="In" Type="Int32" />
+            <Parameter Name="nombre_prod" Mode="In" Type="String" />
+            <Parameter Name="precio_costo" Mode="In" Type="Decimal" />
+            <Parameter Name="precio_venta" Mode="In" Type="Decimal" />
+            <Parameter Name="cantidad" Mode="In" Type="Int32" />
+          </FunctionImport>
           <FunctionImport Name="sp_alterdiagram">
             <Parameter Name="diagramname" Mode="In" Type="String" />
             <Parameter Name="owner_id" Mode="In" Type="Int32" />
@@ -1349,7 +1363,7 @@
     <!-- C-S mapping content -->
     <edmx:Mappings>
       <Mapping Space="C-S" xmlns="http://schemas.microsoft.com/ado/2009/11/mapping/cs">
-        <EntityContainerMapping StorageEntityContainer="bdServiciosDigitalesProyModelStoreContainer" CdmEntityContainer="bdServiciosDigitalesProyEntities1">
+        <EntityContainerMapping StorageEntityContainer="bdServiciosDigitalesProyModelStoreContainer" CdmEntityContainer="bdServiciosDigitalesProyEntities">
           <EntitySetMapping Name="CATEGORIA_ELEMENTO">
             <EntityTypeMapping TypeName="bdServiciosDigitalesProyModel.CATEGORIA_ELEMENTO">
               <MappingFragment StoreEntitySet="CATEGORIA_ELEMENTO">
@@ -1571,6 +1585,7 @@
               </MappingFragment>
             </EntityTypeMapping>
           </EntitySetMapping>
+          <FunctionImportMapping FunctionImportName="InsertarProducto" FunctionName="bdServiciosDigitalesProyModel.Store.InsertarProducto" />
           <FunctionImportMapping FunctionImportName="sp_alterdiagram" FunctionName="bdServiciosDigitalesProyModel.Store.sp_alterdiagram" />
           <FunctionImportMapping FunctionImportName="sp_creatediagram" FunctionName="bdServiciosDigitalesProyModel.Store.sp_creatediagram" />
           <FunctionImportMapping FunctionImportName="sp_dropdiagram" FunctionName="bdServiciosDigitalesProyModel.Store.sp_dropdiagram" />

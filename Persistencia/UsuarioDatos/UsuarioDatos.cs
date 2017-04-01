@@ -80,6 +80,7 @@ namespace Persistencia.UsuarioDatos
         ///// <returns>Usuario</returns>
         public object ConsultarCliente(string data, ref object telefonos, ref string resultado, ref string tipoResultado)
         {
+            
 
             int id = 0;
             object users = null;

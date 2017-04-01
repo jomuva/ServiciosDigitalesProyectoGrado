@@ -241,6 +241,7 @@
   </ItemGroup>
   <ItemGroup>
     <Content Include="faviconproy.ico" />
+    <Content Include="ScriptSQL\ScriptBdProyectoGrado.sql" />
     <Content Include="Xcore\Content\bootstrap-theme.css" />
     <Content Include="Xcore\Content\bootstrap-theme.min.css" />
     <Content Include="Xcore\Content\bootstrap.css" />

@@ -7,11 +7,6 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ServiciosDigitalesProy", "S
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Persistencia", "Persistencia\Persistencia.csproj", "{113AECE2-C495-46DD-8678-72499A1387A2}"
 EndProject
-Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Documentos", "Documentos", "{6F50C81E-DD51-47F3-86D1-1B95674BF85B}"
-	ProjectSection(SolutionItems) = preProject
-		..\..\Users\Jonathan\Documents\Universidad\Proyecto de Grado\Implementacion Proyecto\ScriptBdProyectoGrado.sql = ..\..\Users\Jonathan\Documents\Universidad\Proyecto de Grado\Implementacion Proyecto\ScriptBdProyectoGrado.sql
-	EndProjectSection
-EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU

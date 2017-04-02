@@ -75,6 +75,15 @@
       <DesignTime>True</DesignTime>
       <DependentUpon>ConexionBD.edmx</DependentUpon>
     </Compile>
+    <Compile Include="ConsultarProductos_Result.cs">
+      <DependentUpon>ConexionBD.tt</DependentUpon>
+    </Compile>
+    <Compile Include="ConsultarProductoXCodigo_Result.cs">
+      <DependentUpon>ConexionBD.tt</DependentUpon>
+    </Compile>
+    <Compile Include="ConsultarProductoXNombre_Result.cs">
+      <DependentUpon>ConexionBD.tt</DependentUpon>
+    </Compile>
     <Compile Include="DETALLE_FACTURA.cs">
       <DependentUpon>ConexionBD.tt</DependentUpon>
     </Compile>

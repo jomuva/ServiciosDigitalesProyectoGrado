@@ -284,6 +284,10 @@
     <Content Include="Views\Usuarios\Empleados\ModificarEmpleado.cshtml" />
     <Content Include="Views\Usuarios\Empleados\RespuestaConsultaEmpleados.cshtml" />
     <Content Include="Views\Productos\AdicionarProducto.cshtml" />
+    <Content Include="Views\Productos\ConsultarProductos.cshtml" />
+    <Content Include="Views\Productos\RespuestaConsultaProductos.cshtml" />
+    <Content Include="Views\Productos\ModificarProducto.cshtml" />
+    <Content Include="Views\Productos\CambiarEstadoProducto.cshtml" />
     <None Include="Xcore\Scripts\jquery-1.10.2.intellisense.js" />
     <Content Include="Xcore\Scripts\dataTables.bootstrap.min.js" />
     <Content Include="Xcore\Scripts\dataTables.responsive.js" />

@@ -4,7 +4,7 @@
   <edmx:Runtime>
     <!-- SSDL content -->
     <edmx:StorageModels>
-      <Schema Namespace="bdServiciosDigitalesProyModel.Store" Provider="System.Data.SqlClient" ProviderManifestToken="2012" Alias="Self" xmlns:store="http://schemas.microsoft.com/ado/2007/12/edm/EntityStoreSchemaGenerator" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm/ssdl">
+    <Schema Namespace="bdServiciosDigitalesProyModel.Store" Provider="System.Data.SqlClient" ProviderManifestToken="2012" Alias="Self" xmlns:store="http://schemas.microsoft.com/ado/2007/12/edm/EntityStoreSchemaGenerator" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm/ssdl">
         <EntityType Name="CATEGORIA_ELEMENTO">
           <Key>
             <PropertyRef Name="id_categoria_elemento" />
@@ -492,6 +492,23 @@
             </Dependent>
           </ReferentialConstraint>
         </Association>
+        <Function Name="ActualizarProducto" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
+          <Parameter Name="idProd" Type="int" Mode="In" />
+          <Parameter Name="nombre_prod" Type="varchar" Mode="In" />
+          <Parameter Name="precio_costo" Type="decimal" Mode="In" />
+          <Parameter Name="precio_venta" Type="decimal" Mode="In" />
+        </Function>
+        <Function Name="CambiarEstadoProducto" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
+          <Parameter Name="idProd" Type="int" Mode="In" />
+          <Parameter Name="idEstado" Type="int" Mode="In" />
+        </Function>
+        <Function Name="ConsultarProductos" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo" />
+        <Function Name="ConsultarProductoXCodigo" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
+          <Parameter Name="codigo" Type="int" Mode="In" />
+        </Function>
+        <Function Name="ConsultarProductoXNombre" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
+          <Parameter Name="nombr" Type="varchar" Mode="In" />
+        </Function>
         <Function Name="fn_diagramobjects" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="true" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo" ReturnType="int" />
         <Function Name="InsertarProducto" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
           <Parameter Name="id_estado_prod" Type="int" Mode="In" />
@@ -650,8 +667,7 @@
             <End Role="DETALLE_FACTURA" EntitySet="DETALLE_FACTURA" />
           </AssociationSet>
         </EntityContainer>
-      </Schema>
-    </edmx:StorageModels>
+      </Schema></edmx:StorageModels>
     <!-- CSDL content -->
     <edmx:ConceptualModels>
       <Schema Namespace="bdServiciosDigitalesProyModel" Alias="Self" annotation:UseStrongSpatialTypes="false" xmlns:annotation="http://schemas.microsoft.com/ado/2009/02/edm/annotation" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm">
@@ -1190,7 +1206,7 @@
             </Dependent>
           </ReferentialConstraint>
         </Association>
-        <EntityContainer Name="bdServiciosDigitalesProyEntities" annotation:LazyLoadingEnabled="true">
+        <EntityContainer Name="bdServiciosDigitalesProyEntities1" annotation:LazyLoadingEnabled="true">
           <EntitySet Name="CATEGORIA_ELEMENTO" EntityType="Self.CATEGORIA_ELEMENTO" />
           <EntitySet Name="DETALLE_FACTURA" EntityType="Self.DETALLE_FACTURA" />
           <EntitySet Name="ELEMENTO" EntityType="Self.ELEMENTO" />
@@ -1309,6 +1325,12 @@
             <End Role="TIPO_IDENTIFICACION_USUARIO" EntitySet="TIPO_IDENTIFICACION_USUARIO" />
             <End Role="USUARIO" EntitySet="USUARIO" />
           </AssociationSet>
+          <FunctionImport Name="ConsultarProductoXCodigo" ReturnType="Collection(bdServiciosDigitalesProyModel.ConsultarProductoXCodigo_Result)">
+          <Parameter Name="codigo" Mode="In" Type="Int32" />
+          </FunctionImport>
+          <FunctionImport Name="ConsultarProductoXNombre" ReturnType="Collection(bdServiciosDigitalesProyModel.ConsultarProductoXNombre_Result)">
+          <Parameter Name="nombr" Mode="In" Type="String" />
+          </FunctionImport>
           <FunctionImport Name="InsertarProducto">
             <Parameter Name="id_estado_prod" Mode="In" Type="Int32" />
             <Parameter Name="nombre_prod" Mode="In" Type="String" />
@@ -1346,7 +1368,32 @@
             <Parameter Name="new_diagramname" Mode="In" Type="String" />
           </FunctionImport>
           <FunctionImport Name="sp_upgraddiagrams" />
+          <FunctionImport Name="ConsultarProductos" ReturnType="Collection(bdServiciosDigitalesProyModel.ConsultarProductos_Result)" />
+          <FunctionImport Name="ActualizarProducto">
+            <Parameter Name="idProd" Mode="In" Type="Int32" />
+            <Parameter Name="nombre_prod" Mode="In" Type="String" />
+            <Parameter Name="precio_costo" Mode="In" Type="Decimal" />
+            <Parameter Name="precio_venta" Mode="In" Type="Decimal" />
+          </FunctionImport>
+          <FunctionImport Name="CambiarEstadoProducto">
+            <Parameter Name="idProd" Mode="In" Type="Int32" />
+            <Parameter Name="idEstado" Mode="In" Type="Int32" />
+          </FunctionImport>
         </EntityContainer>
+        <ComplexType Name="ConsultarProductoXCodigo_Result">
+          <Property Type="Int32" Name="id_producto" Nullable="false" />
+          <Property Type="Int32" Name="id_estado_producto" Nullable="false" />
+          <Property Type="String" Name="nombre_producto" Nullable="false" MaxLength="100" />
+          <Property Type="Decimal" Name="precio_costo" Nullable="true" Precision="20" Scale="4" />
+          <Property Type="Decimal" Name="precio_venta" Nullable="true" Precision="20" Scale="4" />
+        </ComplexType>
+        <ComplexType Name="ConsultarProductoXNombre_Result">
+          <Property Type="Int32" Name="id_producto" Nullable="false" />
+          <Property Type="Int32" Name="id_estado_producto" Nullable="false" />
+          <Property Type="String" Name="nombre_producto" Nullable="false" MaxLength="100" />
+          <Property Type="Decimal" Name="precio_costo" Nullable="true" Precision="20" Scale="4" />
+          <Property Type="Decimal" Name="precio_venta" Nullable="true" Precision="20" Scale="4" />
+        </ComplexType>
         <ComplexType Name="sp_helpdiagramdefinition_Result">
           <Property Type="Int32" Name="version" Nullable="true" />
           <Property Type="Binary" Name="definition" Nullable="true" />
@@ -1358,12 +1405,19 @@
           <Property Type="String" Name="Owner" Nullable="true" MaxLength="128" />
           <Property Type="Int32" Name="OwnerID" Nullable="false" />
         </ComplexType>
+        <ComplexType Name="ConsultarProductos_Result">
+          <Property Type="Int32" Name="id_producto" Nullable="false" />
+          <Property Type="Int32" Name="id_estado_producto" Nullable="false" />
+          <Property Type="String" Name="nombre_producto" Nullable="false" MaxLength="100" />
+          <Property Type="Decimal" Name="precio_costo" Nullable="true" Precision="20" Scale="4" />
+          <Property Type="Decimal" Name="precio_venta" Nullable="true" Precision="20" Scale="4" />
+        </ComplexType>
       </Schema>
     </edmx:ConceptualModels>
     <!-- C-S mapping content -->
     <edmx:Mappings>
       <Mapping Space="C-S" xmlns="http://schemas.microsoft.com/ado/2009/11/mapping/cs">
-        <EntityContainerMapping StorageEntityContainer="bdServiciosDigitalesProyModelStoreContainer" CdmEntityContainer="bdServiciosDigitalesProyEntities">
+        <EntityContainerMapping StorageEntityContainer="bdServiciosDigitalesProyModelStoreContainer" CdmEntityContainer="bdServiciosDigitalesProyEntities1">
           <EntitySetMapping Name="CATEGORIA_ELEMENTO">
             <EntityTypeMapping TypeName="bdServiciosDigitalesProyModel.CATEGORIA_ELEMENTO">
               <MappingFragment StoreEntitySet="CATEGORIA_ELEMENTO">
@@ -1585,6 +1639,28 @@
               </MappingFragment>
             </EntityTypeMapping>
           </EntitySetMapping>
+          <FunctionImportMapping FunctionImportName="ConsultarProductoXCodigo" FunctionName="bdServiciosDigitalesProyModel.Store.ConsultarProductoXCodigo">
+            <ResultMapping>
+              <ComplexTypeMapping TypeName="bdServiciosDigitalesProyModel.ConsultarProductoXCodigo_Result">
+                <ScalarProperty Name="id_producto" ColumnName="id_producto" />
+                <ScalarProperty Name="id_estado_producto" ColumnName="id_estado_producto" />
+                <ScalarProperty Name="nombre_producto" ColumnName="nombre_producto" />
+                <ScalarProperty Name="precio_costo" ColumnName="precio_costo" />
+                <ScalarProperty Name="precio_venta" ColumnName="precio_venta" />
+              </ComplexTypeMapping>
+            </ResultMapping>
+          </FunctionImportMapping>
+          <FunctionImportMapping FunctionImportName="ConsultarProductoXNombre" FunctionName="bdServiciosDigitalesProyModel.Store.ConsultarProductoXNombre">
+            <ResultMapping>
+              <ComplexTypeMapping TypeName="bdServiciosDigitalesProyModel.ConsultarProductoXNombre_Result">
+                <ScalarProperty Name="id_producto" ColumnName="id_producto" />
+                <ScalarProperty Name="id_estado_producto" ColumnName="id_estado_producto" />
+                <ScalarProperty Name="nombre_producto" ColumnName="nombre_producto" />
+                <ScalarProperty Name="precio_costo" ColumnName="precio_costo" />
+                <ScalarProperty Name="precio_venta" ColumnName="precio_venta" />
+              </ComplexTypeMapping>
+            </ResultMapping>
+          </FunctionImportMapping>
           <FunctionImportMapping FunctionImportName="InsertarProducto" FunctionName="bdServiciosDigitalesProyModel.Store.InsertarProducto" />
           <FunctionImportMapping FunctionImportName="sp_alterdiagram" FunctionName="bdServiciosDigitalesProyModel.Store.sp_alterdiagram" />
           <FunctionImportMapping FunctionImportName="sp_creatediagram" FunctionName="bdServiciosDigitalesProyModel.Store.sp_creatediagram" />
@@ -1610,6 +1686,19 @@
           </FunctionImportMapping>
           <FunctionImportMapping FunctionImportName="sp_renamediagram" FunctionName="bdServiciosDigitalesProyModel.Store.sp_renamediagram" />
           <FunctionImportMapping FunctionImportName="sp_upgraddiagrams" FunctionName="bdServiciosDigitalesProyModel.Store.sp_upgraddiagrams" />
+          <FunctionImportMapping FunctionImportName="ConsultarProductos" FunctionName="bdServiciosDigitalesProyModel.Store.ConsultarProductos">
+            <ResultMapping>
+              <ComplexTypeMapping TypeName="bdServiciosDigitalesProyModel.ConsultarProductos_Result">
+                <ScalarProperty Name="id_producto" ColumnName="id_producto" />
+                <ScalarProperty Name="id_estado_producto" ColumnName="id_estado_producto" />
+                <ScalarProperty Name="nombre_producto" ColumnName="nombre_producto" />
+                <ScalarProperty Name="precio_costo" ColumnName="precio_costo" />
+                <ScalarProperty Name="precio_venta" ColumnName="precio_venta" />
+              </ComplexTypeMapping>
+            </ResultMapping>
+          </FunctionImportMapping>
+          <FunctionImportMapping FunctionImportName="ActualizarProducto" FunctionName="bdServiciosDigitalesProyModel.Store.ActualizarProducto" />
+          <FunctionImportMapping FunctionImportName="CambiarEstadoProducto" FunctionName="bdServiciosDigitalesProyModel.Store.CambiarEstadoProducto" />
         </EntityContainerMapping>
       </Mapping>
     </edmx:Mappings>

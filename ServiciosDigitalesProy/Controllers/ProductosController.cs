@@ -43,7 +43,133 @@ namespace ServiciosDigitalesProy.Controllers
         }
 
 
+        [HttpGet]
+        public ActionResult ConsultarProductos()
+        {
+            return View("ConsultarProductos");
+        }
 
-      
+       
+        [HttpPost]
+        public ActionResult ConsultarProductos(string identificacion)
+        {
+
+            string resultado = "", tipoResultado = "";
+            List<Producto> productos;
+            productos = CatalogoProductos.GetInstance().ConsultarProductos(identificacion, ref resultado, ref tipoResultado);
+            TempData["identificacionConsulta"] = identificacion;
+            TempData["mensaje"] = resultado;
+            TempData["estado"] = tipoResultado;
+            if (tipoResultado == "danger")
+            {
+                return View("ConsultarProductos");
+            }
+            else
+            {
+                return View("RespuestaConsultaProductos", productos);
+            }
+        }
+
+        /// <summary>
+        /// Muestra la vista del formulario para actualizar producto
+        /// </summary>
+        /// <param name="id"></param>
+        /// <returns></returns>
+        [HttpGet]
+        public ActionResult ModificarProducto(string id)
+        {
+            string resultado = "", tipoResultado = "";
+            List<Producto> productos;
+            Producto producto;
+            productos = CatalogoProductos.GetInstance().ConsultarProductos(id, ref resultado, ref tipoResultado);
+
+            productos.First().estadosProducto = new SelectList(CatalogoProductos.GetInstance().ConsultarEstadosProducto(), "id", "Descripcion");
+            producto = productos.First();
+            return View("ModificarProducto", producto);
+        }
+
+        /// <summary>
+        /// Actualiza el producto seleccionado
+        /// </summary>
+        /// <param name="prod"></param>
+        /// <returns></returns>
+        [HttpPost]
+        public ActionResult UpdateProducto(Producto prod)
+        {
+            string resultado = "", tipoResultado = "";
+            string res="", tipoRes="";
+            if (ModelState.IsValid)
+            {
+                CatalogoProductos.GetInstance().ModificarProducto(prod, ref res, ref tipoRes);
+                List<Producto> productos;
+                productos = CatalogoProductos.GetInstance().ConsultarProductos((string)TempData.Peek("identificacionConsulta"), ref resultado, ref tipoResultado);
+                TempData["mensaje"] = res;
+                TempData["estado"] = tipoRes;
+
+                return View("RespuestaConsultaProductos", productos);
+
+            }
+
+            return RedirectToAction("ModificarProducto", prod.id_producto);
+        }
+
+        /// <summary>
+        /// Muestra la vista para cambiar el estado del producto
+        /// </summary>
+        /// <param name="id"></param>
+        /// <returns></returns>
+        [HttpGet]
+        public ActionResult CambiarEstadoProducto(string id)
+        {
+            string resultado = "", tipoResultado = "";
+            List<Producto> productos;
+            Producto producto;
+            productos = CatalogoProductos.GetInstance().ConsultarProductos(id, ref resultado, ref tipoResultado);
+            try
+            {
+                producto = productos.First();
+                producto.estadosProducto = new SelectList(CatalogoProductos.GetInstance().ConsultarEstadosProducto(), "id", "Descripcion");
+                return View("CambiarEstadoProducto", producto);
+            }
+            catch (Exception e)
+            {
+                resultado = e.Message;
+                tipoResultado = "danger";
+            }
+            return View("CambiarEstadoProducto", new Producto { estadosProducto = new SelectList(CatalogoProductos.GetInstance().ConsultarEstadosProducto(), "id", "Descripcion") });
+        }
+
+
+        ///// <summary>
+        ///// Envía el formulario para cambiar el estado del cliente seleccionado
+        ///// </summary>
+        ///// <param name="usuario"></param>
+        ///// <returns></returns>
+        [HttpPost]
+        public ActionResult ModificarEstadoProducto(Producto producto)
+        {
+            string res, tipoRes;
+            string resultado = "", tipoResultado = "";
+            CatalogoProductos.GetInstance().CambiarEstadoProducto(producto, out res, out tipoRes);
+            List<Producto> productos;
+            productos = CatalogoProductos.GetInstance().ConsultarProductos((string)TempData.Peek("identificacionConsulta"), ref resultado, ref tipoResultado);
+
+            TempData["mensaje"] = res;
+            TempData["estado"] = tipoRes;
+            return View("RespuestaConsultaProductos", productos);
+        }
+
+
+        [HttpGet]
+        public ActionResult VolverDetallesProducto(string iden)
+        {
+            string resultado = "", tipoResultado = "";
+            List<Producto> productos;
+            productos = CatalogoProductos.GetInstance().ConsultarProductos(iden, ref resultado, ref tipoResultado);
+            return View("RespuestaConsultaProductos", productos);
+        }
+
+
+
     }
 }

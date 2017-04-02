@@ -15,10 +15,10 @@ namespace Persistencia
     using System.Data.Entity.Core.Objects;
     using System.Linq;
     
-    public partial class bdServiciosDigitalesProyEntities : DbContext
+    public partial class bdServiciosDigitalesProyEntities1 : DbContext
     {
-        public bdServiciosDigitalesProyEntities()
-            : base("name=bdServiciosDigitalesProyEntities")
+        public bdServiciosDigitalesProyEntities1()
+            : base("name=bdServiciosDigitalesProyEntities1")
         {
         }
     
@@ -49,6 +49,24 @@ namespace Persistencia
         public virtual DbSet<TIPO_ELEMENTO> TIPO_ELEMENTO { get; set; }
         public virtual DbSet<TIPO_IDENTIFICACION_USUARIO> TIPO_IDENTIFICACION_USUARIO { get; set; }
         public virtual DbSet<USUARIO> USUARIO { get; set; }
+    
+        public virtual ObjectResult<ConsultarProductoXCodigo_Result> ConsultarProductoXCodigo(Nullable<int> codigo)
+        {
+            var codigoParameter = codigo.HasValue ?
+                new ObjectParameter("codigo", codigo) :
+                new ObjectParameter("codigo", typeof(int));
+    
+            return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction<ConsultarProductoXCodigo_Result>("ConsultarProductoXCodigo", codigoParameter);
+        }
+    
+        public virtual ObjectResult<ConsultarProductoXNombre_Result> ConsultarProductoXNombre(string nombr)
+        {
+            var nombrParameter = nombr != null ?
+                new ObjectParameter("nombr", nombr) :
+                new ObjectParameter("nombr", typeof(string));
+    
+            return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction<ConsultarProductoXNombre_Result>("ConsultarProductoXNombre", nombrParameter);
+        }
     
         public virtual int InsertarProducto(Nullable<int> id_estado_prod, string nombre_prod, Nullable<decimal> precio_costo, Nullable<decimal> precio_venta, Nullable<int> cantidad)
         {
@@ -176,6 +194,45 @@ namespace Persistencia
         public virtual int sp_upgraddiagrams()
         {
             return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction("sp_upgraddiagrams");
+        }
+    
+        public virtual ObjectResult<ConsultarProductos_Result> ConsultarProductos()
+        {
+            return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction<ConsultarProductos_Result>("ConsultarProductos");
+        }
+    
+        public virtual int ActualizarProducto(Nullable<int> idProd, string nombre_prod, Nullable<decimal> precio_costo, Nullable<decimal> precio_venta)
+        {
+            var idProdParameter = idProd.HasValue ?
+                new ObjectParameter("idProd", idProd) :
+                new ObjectParameter("idProd", typeof(int));
+    
+            var nombre_prodParameter = nombre_prod != null ?
+                new ObjectParameter("nombre_prod", nombre_prod) :
+                new ObjectParameter("nombre_prod", typeof(string));
+    
+            var precio_costoParameter = precio_costo.HasValue ?
+                new ObjectParameter("precio_costo", precio_costo) :
+                new ObjectParameter("precio_costo", typeof(decimal));
+    
+            var precio_ventaParameter = precio_venta.HasValue ?
+                new ObjectParameter("precio_venta", precio_venta) :
+                new ObjectParameter("precio_venta", typeof(decimal));
+    
+            return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction("ActualizarProducto", idProdParameter, nombre_prodParameter, precio_costoParameter, precio_ventaParameter);
+        }
+    
+        public virtual int CambiarEstadoProducto(Nullable<int> idProd, Nullable<int> idEstado)
+        {
+            var idProdParameter = idProd.HasValue ?
+                new ObjectParameter("idProd", idProd) :
+                new ObjectParameter("idProd", typeof(int));
+    
+            var idEstadoParameter = idEstado.HasValue ?
+                new ObjectParameter("idEstado", idEstado) :
+                new ObjectParameter("idEstado", typeof(int));
+    
+            return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction("CambiarEstadoProducto", idProdParameter, idEstadoParameter);
         }
     }
 }

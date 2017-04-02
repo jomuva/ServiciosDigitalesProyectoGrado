@@ -8,6 +8,7 @@ namespace ServiciosDigitalesProy.Models
     {
         public Producto()
         {
+            id_producto = 0;
             nombre = "";
             id_estado = 0;
             precio_costo = 0;
@@ -24,6 +25,8 @@ namespace ServiciosDigitalesProy.Models
 
         [Required(AllowEmptyStrings = false, ErrorMessage = "El campo de \"precio_venta\" es obligatorio.")]
         public double precio_venta { get; set; }
+
+        public int id_producto { get; set; }
 
         public SelectList estadosProducto { get; set; }
        

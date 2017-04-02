@@ -15,7 +15,7 @@ namespace Persistencia.UsuarioDatos
         /// <summary>
         /// Objeto conexionque genera conexion a la base de datos
         /// </summary>
-        private bdServiciosDigitalesProyEntities conexion = new bdServiciosDigitalesProyEntities();
+        private bdServiciosDigitalesProyEntities1 conexion = new bdServiciosDigitalesProyEntities1();
 
         /// <summary>
         /// Método de consulta de los tipos de identificacion en BD

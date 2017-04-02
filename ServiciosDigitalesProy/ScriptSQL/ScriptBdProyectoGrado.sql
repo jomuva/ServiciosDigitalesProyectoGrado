@@ -563,6 +563,87 @@ END
 GO
 
 
+--PROCEDIMIENTO ALMACENADO PARA CONSULTAR UN PRODUCTO POR CODIGO.  ADICIONAL A ELLO ACTUALIZA EL ESTADO DEL PRODUCTO EN CASO TAL QUE NO HAYAN UNIDADES EN INVENTARIO
+CREATE PROCEDURE ConsultarProductoXCodigo
+@codigo int
+AS
+BEGIN
+
+DECLARE @cantidadProd int,
+		@idProd int;
+
+SET @idProd = (SELECT id_producto FROM PRODUCTO WHERE id_producto = @codigo);
+SET	@cantidadProd = (SELECT cantidad_existencias FROM INVENTARIO WHERE id_producto_inventario = @idProd ); 
+
+IF(@cantidadProd=0)
+	BEGIN
+		UPDATE PRODUCTO SET id_estado_producto = 2 WHERE id_producto = @idProd
+	END
+END
+
+SELECT id_producto,id_estado_producto,nombre_producto,precio_costo,precio_venta FROM PRODUCTO
+WHERE id_producto = @codigo
+
+GO
+
+
+--PROCEDIMIENTO ALMACENADO PARA CONSULTAR UN PRODUCTO POR NOMBRE.  ADICIONAL A ELLO ACTUALIZA EL ESTADO DEL PRODUCTO EN CASO TAL QUE NO HAYAN UNIDADES EN INVENTARIO
+CREATE PROCEDURE ConsultarProductoXNombre 
+@nombr VARCHAR(100)
+AS
+BEGIN
+
+DECLARE @cantidadProd int,
+		@idProd int;
+
+SET @idProd = (SELECT id_producto FROM PRODUCTO WHERE nombre_producto = @nombr);
+SET	@cantidadProd = (SELECT cantidad_existencias FROM INVENTARIO WHERE id_producto_inventario = @idProd ); 
+
+IF(@cantidadProd=0)
+	BEGIN
+		UPDATE PRODUCTO SET id_estado_producto = 2 WHERE id_producto = @idProd
+	END
+END
+
+SELECT id_producto,id_estado_producto,nombre_producto,precio_costo,precio_venta FROM PRODUCTO
+WHERE nombre_producto = @nombr
+
+GO
+
+
+--PROCEDIMIENTO ALMACENADO PARA CONSULTAR TODOS LOS PRODUCTOS
+CREATE PROCEDURE ConsultarProductoS
+AS
+BEGIN
+SELECT id_producto,id_estado_producto,nombre_producto,precio_costo,precio_venta FROM PRODUCTO
+GO
+
+--PROCEDIMIENTO ALMACENADO PARA ACTUALIZAR EL PRODUCTO SEGUN EL ID
+CREATE PROC ActualizarProducto
+@idProd int,
+@nombre_prod VARCHAR(100),
+@precio_costo DECIMAL(20,4),
+@precio_venta DECIMAL (20,4)
+as
+BEGIN 
+
+UPDATE PRODUCTO SET nombre_producto=@nombre_prod, precio_costo=@precio_costo, precio_venta=@precio_venta WHERE id_producto = @idProd
+
+END
+GO
+
+--PROCEDIMIENTO ALMACENADO PARA ACTUALIZAR EL ESTADO DEL PRODUCTO
+CREATE PROC CambiarEstadoProducto
+@idProd int,
+@idEstado int
+
+as
+BEGIN 
+
+UPDATE PRODUCTO SET id_estado_producto=@idEstado WHERE id_producto = @idProd
+
+END
+GO
 	
 	
 	

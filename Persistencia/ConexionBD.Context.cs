@@ -44,7 +44,6 @@ namespace Persistencia
         public virtual DbSet<SERVICIO> SERVICIO { get; set; }
         public virtual DbSet<SERVICIO_ELEMENTO> SERVICIO_ELEMENTO { get; set; }
         public virtual DbSet<SOLICITUD> SOLICITUD { get; set; }
-        public virtual DbSet<sysdiagrams> sysdiagrams { get; set; }
         public virtual DbSet<TELEFONO_USUARIO> TELEFONO_USUARIO { get; set; }
         public virtual DbSet<TIPO_ELEMENTO> TIPO_ELEMENTO { get; set; }
         public virtual DbSet<TIPO_IDENTIFICACION_USUARIO> TIPO_IDENTIFICACION_USUARIO { get; set; }
@@ -233,6 +232,33 @@ namespace Persistencia
                 new ObjectParameter("idEstado", typeof(int));
     
             return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction("CambiarEstadoProducto", idProdParameter, idEstadoParameter);
+        }
+    
+        public virtual int AgregarServicio(string descripc)
+        {
+            var descripcParameter = descripc != null ?
+                new ObjectParameter("descripc", descripc) :
+                new ObjectParameter("descripc", typeof(string));
+    
+            return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction("AgregarServicio", descripcParameter);
+        }
+    
+        public virtual ObjectResult<ConsultarServicios_Result> ConsultarServicios()
+        {
+            return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction<ConsultarServicios_Result>("ConsultarServicios");
+        }
+    
+        public virtual int ActualizarServicio(Nullable<int> idserv, string descripc)
+        {
+            var idservParameter = idserv.HasValue ?
+                new ObjectParameter("idserv", idserv) :
+                new ObjectParameter("idserv", typeof(int));
+    
+            var descripcParameter = descripc != null ?
+                new ObjectParameter("descripc", descripc) :
+                new ObjectParameter("descripc", typeof(string));
+    
+            return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction("ActualizarServicio", idservParameter, descripcParameter);
         }
     }
 }

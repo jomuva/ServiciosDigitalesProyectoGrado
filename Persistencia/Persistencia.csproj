@@ -84,6 +84,9 @@
     <Compile Include="ConsultarProductoXNombre_Result.cs">
       <DependentUpon>ConexionBD.tt</DependentUpon>
     </Compile>
+    <Compile Include="ConsultarServicios_Result.cs">
+      <DependentUpon>ConexionBD.tt</DependentUpon>
+    </Compile>
     <Compile Include="DETALLE_FACTURA.cs">
       <DependentUpon>ConexionBD.tt</DependentUpon>
     </Compile>
@@ -128,6 +131,7 @@
     <Compile Include="SERVICIO.cs">
       <DependentUpon>ConexionBD.tt</DependentUpon>
     </Compile>
+    <Compile Include="ServiciosDatos\ServiciosDatos.cs" />
     <Compile Include="SERVICIO_ELEMENTO.cs">
       <DependentUpon>ConexionBD.tt</DependentUpon>
     </Compile>
@@ -138,9 +142,6 @@
       <DependentUpon>ConexionBD.tt</DependentUpon>
     </Compile>
     <Compile Include="sp_helpdiagrams_Result.cs">
-      <DependentUpon>ConexionBD.tt</DependentUpon>
-    </Compile>
-    <Compile Include="sysdiagrams.cs">
       <DependentUpon>ConexionBD.tt</DependentUpon>
     </Compile>
     <Compile Include="TELEFONO_USUARIO.cs">

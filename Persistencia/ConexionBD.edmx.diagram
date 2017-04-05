@@ -22,7 +22,6 @@
         <EntityTypeShape EntityType="bdServiciosDigitalesProyModel.SERVICIO" Width="1.5" PointX="6" PointY="24.75" IsExpanded="true" />
         <EntityTypeShape EntityType="bdServiciosDigitalesProyModel.SERVICIO_ELEMENTO" Width="1.5" PointX="8.25" PointY="22" IsExpanded="true" />
         <EntityTypeShape EntityType="bdServiciosDigitalesProyModel.SOLICITUD" Width="1.5" PointX="10.5" PointY="6.125" IsExpanded="true" />
-        <EntityTypeShape EntityType="bdServiciosDigitalesProyModel.sysdiagrams" Width="1.5" PointX="10.75" PointY="1.25" IsExpanded="true" />
         <EntityTypeShape EntityType="bdServiciosDigitalesProyModel.TELEFONO_USUARIO" Width="1.5" PointX="5.25" PointY="16.875" IsExpanded="true" />
         <EntityTypeShape EntityType="bdServiciosDigitalesProyModel.TIPO_ELEMENTO" Width="1.5" PointX="3.75" PointY="22.375" IsExpanded="true" />
         <EntityTypeShape EntityType="bdServiciosDigitalesProyModel.TIPO_IDENTIFICACION_USUARIO" Width="1.5" PointX="0.75" PointY="10.375" IsExpanded="true" />

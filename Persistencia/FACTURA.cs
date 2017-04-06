@@ -19,6 +19,8 @@ namespace Persistencia
         {
             this.DETALLE_FACTURA = new HashSet<DETALLE_FACTURA>();
             this.SOLICITUD = new HashSet<SOLICITUD>();
+            this.DETALLE_FACTURA_PRODUCTO = new HashSet<DETALLE_FACTURA_PRODUCTO>();
+            this.DETALLE_FACTURA_SOLICITUD = new HashSet<DETALLE_FACTURA_SOLICITUD>();
         }
     
         public int id_factura { get; set; }
@@ -34,5 +36,9 @@ namespace Persistencia
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
         public virtual ICollection<SOLICITUD> SOLICITUD { get; set; }
         public virtual USUARIO USUARIO { get; set; }
+        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
+        public virtual ICollection<DETALLE_FACTURA_PRODUCTO> DETALLE_FACTURA_PRODUCTO { get; set; }
+        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
+        public virtual ICollection<DETALLE_FACTURA_SOLICITUD> DETALLE_FACTURA_SOLICITUD { get; set; }
     }
 }

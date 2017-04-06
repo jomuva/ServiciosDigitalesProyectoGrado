@@ -90,6 +90,12 @@
     <Compile Include="DETALLE_FACTURA.cs">
       <DependentUpon>ConexionBD.tt</DependentUpon>
     </Compile>
+    <Compile Include="DETALLE_FACTURA_PRODUCTO.cs">
+      <DependentUpon>ConexionBD.tt</DependentUpon>
+    </Compile>
+    <Compile Include="DETALLE_FACTURA_SOLICITUD.cs">
+      <DependentUpon>ConexionBD.tt</DependentUpon>
+    </Compile>
     <Compile Include="ELEMENTO.cs">
       <DependentUpon>ConexionBD.tt</DependentUpon>
     </Compile>
@@ -138,10 +144,19 @@
     <Compile Include="SOLICITUD.cs">
       <DependentUpon>ConexionBD.tt</DependentUpon>
     </Compile>
+    <Compile Include="sp_helpdiagramdefinition1_Result.cs">
+      <DependentUpon>ConexionBD.tt</DependentUpon>
+    </Compile>
     <Compile Include="sp_helpdiagramdefinition_Result.cs">
       <DependentUpon>ConexionBD.tt</DependentUpon>
     </Compile>
+    <Compile Include="sp_helpdiagrams1_Result.cs">
+      <DependentUpon>ConexionBD.tt</DependentUpon>
+    </Compile>
     <Compile Include="sp_helpdiagrams_Result.cs">
+      <DependentUpon>ConexionBD.tt</DependentUpon>
+    </Compile>
+    <Compile Include="sysdiagrams.cs">
       <DependentUpon>ConexionBD.tt</DependentUpon>
     </Compile>
     <Compile Include="TELEFONO_USUARIO.cs">

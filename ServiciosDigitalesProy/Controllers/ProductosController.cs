@@ -38,7 +38,7 @@ namespace ServiciosDigitalesProy.Controllers
 
             TempData["mensaje"] = "Por favor verifique los datos ingresados";
             TempData["estado"] = "danger";
-            return View("Clientes/AdicionarCliente");
+            return View("AdicionarProducto", model);
 
         }
 

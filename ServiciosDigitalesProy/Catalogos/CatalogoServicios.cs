@@ -68,7 +68,33 @@ namespace ServiciosDigitalesProy.Catalogos
                 ListaServicios.Add(new Servicio
                 {
                     id_servicio = item.id_servicio,
-                    descripcion = item.descripcion
+                    descripcion = item.descripcion_servicio
+                });
+            }
+
+            return ListaServicios;
+        }
+
+
+        public List<Servicio> ConsultarServicio(int id,ref string resultado, ref string tipoResultado)
+        {
+            object oUsers;
+            string dynObj;
+            dynamic dyn;
+            List<Servicio> ListaServicios = new List<Servicio>();
+
+
+            oUsers = serviciosdatos.ConsultarServicio(id,ref resultado, ref tipoResultado);
+
+            dynObj = JsonConvert.SerializeObject(oUsers);
+            dyn = JsonConvert.DeserializeObject(dynObj);
+
+            foreach (var item in dyn)
+            {
+                ListaServicios.Add(new Servicio
+                {
+                    id_servicio = id,
+                    descripcion = item
                 });
             }
 

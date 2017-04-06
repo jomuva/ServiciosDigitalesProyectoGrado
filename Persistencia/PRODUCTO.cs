@@ -19,6 +19,7 @@ namespace Persistencia
         {
             this.DETALLE_FACTURA = new HashSet<DETALLE_FACTURA>();
             this.INVENTARIO = new HashSet<INVENTARIO>();
+            this.DETALLE_FACTURA_PRODUCTO = new HashSet<DETALLE_FACTURA_PRODUCTO>();
         }
     
         public int id_producto { get; set; }
@@ -32,5 +33,7 @@ namespace Persistencia
         public virtual ESTADO_PRODUCTO ESTADO_PRODUCTO { get; set; }
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
         public virtual ICollection<INVENTARIO> INVENTARIO { get; set; }
+        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
+        public virtual ICollection<DETALLE_FACTURA_PRODUCTO> DETALLE_FACTURA_PRODUCTO { get; set; }
     }
 }

@@ -221,6 +221,7 @@
     <Compile Include="Controllers\AccountController.cs" />
     <Compile Include="Controllers\HomeController.cs" />
     <Compile Include="Controllers\ManageController.cs" />
+    <Compile Include="Controllers\ServiciosController.cs" />
     <Compile Include="Controllers\ProductosController.cs" />
     <Compile Include="Controllers\UsuariosController.cs" />
     <Compile Include="Global.asax.cs">
@@ -290,6 +291,9 @@
     <Content Include="Views\Productos\RespuestaConsultaProductos.cshtml" />
     <Content Include="Views\Productos\ModificarProducto.cshtml" />
     <Content Include="Views\Productos\CambiarEstadoProducto.cshtml" />
+    <Content Include="Views\Servicios\AdicionarServicio.cshtml" />
+    <Content Include="Views\Servicios\ConsultaServicios.cshtml" />
+    <Content Include="Views\Servicios\ModificarServicio.cshtml" />
     <None Include="Xcore\Scripts\jquery-1.10.2.intellisense.js" />
     <Content Include="Xcore\Scripts\dataTables.bootstrap.min.js" />
     <Content Include="Xcore\Scripts\dataTables.responsive.js" />

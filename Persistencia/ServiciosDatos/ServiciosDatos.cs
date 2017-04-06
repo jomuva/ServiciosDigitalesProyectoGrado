@@ -52,7 +52,34 @@ namespace Persistencia.UsuarioDatos
             object servicios=null;
             try
             {
-                 servicios = conexion.ConsultarProductos().ToList();
+                 servicios = conexion.ConsultarServicios().ToList();
+
+                resultado = "Consulta Exitosa";
+                tipoResultado = "info";
+                return servicios;
+            }
+            catch (Exception ex)
+            {
+                resultado = ex.Message;
+                tipoResultado = "danger";
+            }
+
+            return servicios;
+        }
+
+        /// <summary>
+        /// Consulta un servicio segun id
+        /// </summary>
+        /// <param name="id"></param>
+        /// <param name="resultado"></param>
+        /// <param name="tipoResultado"></param>
+        /// <returns></returns>
+        public object ConsultarServicio(int id,ref string resultado, ref string tipoResultado)
+        {
+            object servicios = null;
+            try
+            {
+                servicios = conexion.ConsultarServicio(id).ToList();
 
                 resultado = "Consulta Exitosa";
                 tipoResultado = "info";

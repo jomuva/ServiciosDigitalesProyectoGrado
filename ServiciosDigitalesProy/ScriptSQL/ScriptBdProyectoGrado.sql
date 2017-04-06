@@ -165,12 +165,23 @@ INSERT INTO [dbo].[TELEFONO_USUARIO]
 		   ,[numero_telefono])
      VALUES
             (1,'3202637423'),
+			(1,'6317901'),
 		    (2,'3118406383'),
-		    (1,'6317901'),
-			(3,'3202151445'),	
+			(2,'5154811'),
+			(3,'3202151445'),
+			(3,'3118406383'),
 			(4,'3102511455'),
 		    (4,'3251225'),
-		    (5,'3162515512')
+		    (5,'3162515512'),
+			(5,'6317323'),
+			(6,'3215154848'),
+			(6,'4625148'),
+			(7,'3165518596'),
+			(7,'6458413'),
+			(8,'3005146655'),
+			(8,'7451232'),
+			(9,'3515121320'),
+			(9,'2515446')
 	GO
 
 	
@@ -190,12 +201,12 @@ INSERT INTO [dbo].[SERVICIO]
 			('Diseño Gráfico'),
 			('Impresión B&N'),
 			('Impresión Color'),
-		    ('Reparación de Periféricos'),
-		    ('Mantenimiento de Impresoras'),
 			('Transfer de Videos'),
 			('Quemado de CD'),
 			('Quemado de DVD'),
-			('Trabajo en Computador')
+			('Trabajo en Computador'),
+			('Mantenimiento Correctivo Impresora'),
+			('Mantenimiento Preventivo Impresora')
 	GO
 	
 
@@ -239,33 +250,6 @@ INSERT INTO [dbo].[ELEMENTO]
 			('FSD5','SDFHJ568653H','W1907','HP',NULL,NULL,NULL,NULL,8,5),
 			('RWE3','UYTRYTJRGHJ23453','X541U','ASUS','8GB','1TB',NULL,'WINDOWS 10',1,1)
 			
-	GO
-
-
--- TABLA  SERVICIOS_ELEMENTO, ASOCIA EL ELEMENTO CON LOS SERVICIOS   Y LE DA UN PRECIO
-create table SERVICIO_ELEMENTO(
-id_servicio_elemento int not null IDENTITY,
-id_servicio int not null,
-id_elemento int,
-precio  decimal(20,3),
-primary key (id_servicio_elemento), 
-	CONSTRAINT  fk_servicio
-			FOREIGN KEY ( id_servicio  )
-			REFERENCES   SERVICIO ( id_servicio  ),
-	CONSTRAINT  fk_elemento
-			FOREIGN KEY ( id_elemento  )
-			REFERENCES   ELEMENTO ( id_elemento  ),		
-);
-INSERT INTO [dbo].[SERVICIO_ELEMENTO]
-           ([id_servicio]
-		   ,[id_elemento]
-		   ,[precio])
-     VALUES
-            (1,1,70000),
-			(2,2,25000),
-			(9,3,30000),
-			(11,NULL,6000),
-			(10,4,15000)
 	GO
 
 	
@@ -354,8 +338,8 @@ id_solicitud int not null IDENTITY,
 id_prioridad_solicitud int not null,
 id_estado_solicitud int not null,
 id_usuario_solicitud int not null,
-id_servicio_elemento_solicitud int not null,
-id_factura int not null,
+id_servicio_solicitud int not null,
+id_elemento_solicitud int,
 fecha_solicitud  date,
 primary key (id_solicitud),
 	CONSTRAINT  fk_prioridad_solicitud
@@ -367,26 +351,26 @@ primary key (id_solicitud),
 	CONSTRAINT  fk_usuario_solicitud
 			FOREIGN KEY ( id_usuario_solicitud  )
 			REFERENCES   USUARIO ( id_usuario  ),	
-	CONSTRAINT  fk_servicio_elemento_solicitud
-			FOREIGN KEY ( id_servicio_elemento_solicitud  )
-			REFERENCES   SERVICIO_ELEMENTO ( id_servicio_elemento  ),	
-	CONSTRAINT  fk_factura
-			FOREIGN KEY ( id_factura  )
-			REFERENCES   FACTURA ( id_factura  ),				
+	CONSTRAINT  fk_servicio_solicitud
+			FOREIGN KEY ( id_servicio_solicitud  )
+			REFERENCES   SERVICIO ( id_servicio  ),	
+	CONSTRAINT  fk_elemento_solicitud
+			FOREIGN KEY ( id_elemento_solicitud  )
+			REFERENCES   ELEMENTO ( id_elemento  ), 		
 );
 INSERT INTO [dbo].[SOLICITUD]
            ([id_prioridad_solicitud]
 		   ,[id_estado_solicitud]
 		   ,[id_usuario_solicitud]
-		   ,[id_servicio_elemento_solicitud]
-		   ,[id_factura]
+		   ,[id_servicio_solicitud]
+		   ,[id_elemento_solicitud]
 		   ,[fecha_solicitud])
      VALUES
             (1,2,6,1,1,'2016-11-29'),
 			(2,5,7,2,2,'2016-12-13'),
-			(3,3,3,3,3,'2017-02-10'),
-			(2,4,4,4,4,'2017-02-25'),
-			(1,1,5,5,5,'2017-03-03')
+			(3,3,3,12,3,'2017-02-10'),
+			(2,4,4,8,4,'2017-02-25'),
+			(1,1,5,1,6,'2017-03-03')
 	GO
 	
 -- TABLA  ESCALADO, A QUE USUARIO SE LE ESCALA LA SOLICITUD
@@ -507,7 +491,7 @@ INSERT INTO [dbo].[INVENTARIO]
 	GO	
 	
 	-- TABLA  DETALLE_FACTURA, TABLA QUE AGRUPA LA INFORMACION DE LA FACTURA CON EL PRODUCTO Y EL CLIENTE
-create table DETALLE_FACTURA(
+create table DETALLE_FACTURA_PRODUCTO(
 id_detalle_factura int not null IDENTITY,
 id_producto_detalle_factura int,
 id_vendedor_usuario int not null,
@@ -517,14 +501,14 @@ primary key (id_detalle_factura),
 	CONSTRAINT  fk_producto_detalle_factura
 			FOREIGN KEY ( id_producto_detalle_factura  )
 			REFERENCES   PRODUCTO ( id_producto  ),	
-	CONSTRAINT  fk_vendedor_usuario
+	CONSTRAINT  fk_vendedor_usuario_detalle_producto
 			FOREIGN KEY ( id_vendedor_usuario  )
 			REFERENCES   USUARIO ( id_usuario  ),	
-	CONSTRAINT  fk_factura_detalle_factura
+	CONSTRAINT  fk_factura_detalle_factura_producto
 			FOREIGN KEY ( id_factura_detalle_factura  )
 			REFERENCES   FACTURA ( id_factura  ),			
 );
-INSERT INTO [dbo].[DETALLE_FACTURA]
+INSERT INTO [dbo].[DETALLE_FACTURA_PRODUCTO]
            ([id_producto_detalle_factura]
 		   ,[id_vendedor_usuario]
 		   ,[id_factura_detalle_factura]
@@ -538,6 +522,39 @@ INSERT INTO [dbo].[DETALLE_FACTURA]
 		
 	GO	
 
+	
+	
+	-- TABLA  DETALLE_FACTURA, TABLA QUE AGRUPA LA INFORMACION DE LA FACTURA CON  LA SOLICITUD Y EL CLIENTE
+create table DETALLE_FACTURA_SOLICITUD(
+id_detalle_factura_solicitud int not null IDENTITY,
+id_solicitud_detalle_factura int,
+id_vendedor_usuario int not null,
+id_factura_detalle_factura int not null,
+cantidad_venta int not null,
+primary key (id_detalle_factura_solicitud),
+	CONSTRAINT  fk_solicitud_detalle_factura
+			FOREIGN KEY ( id_solicitud_detalle_factura  )
+			REFERENCES   SOLICITUD ( id_solicitud  ),	
+	CONSTRAINT  fk_vendedor_usuario_detalle_solicitud
+			FOREIGN KEY ( id_vendedor_usuario  )
+			REFERENCES   USUARIO ( id_usuario  ),	
+	CONSTRAINT  fk_factura_detalle_factura_solicitud
+			FOREIGN KEY ( id_factura_detalle_factura  )
+			REFERENCES   FACTURA ( id_factura  ),			
+);
+INSERT INTO [dbo].[DETALLE_FACTURA_SOLICITUD]
+           ([id_solicitud_detalle_factura]
+		   ,[id_vendedor_usuario]
+		   ,[id_factura_detalle_factura]
+		   ,[cantidad_venta])
+     VALUES
+            (1,1,1,1),
+			(2,2,2,1),
+			(3,2,3,1),
+			(4,2,4,1),
+			(5,2,5,1)
+		
+	GO
 --PROCEDIMIENTO ALMACENADO PARA INSERTAR PRODUCTO
 
 	CREATE PROC InsertarProducto
@@ -588,7 +605,7 @@ GO
 
 
 --PROCEDIMIENTO ALMACENADO PARA CONSULTAR UN PRODUCTO POR NOMBRE.  ADICIONAL A ELLO ACTUALIZA EL ESTADO DEL PRODUCTO EN CASO TAL QUE NO HAYAN UNIDADES EN INVENTARIO
-CREATE PROCEDURE ConsultarProductoXNombre 
+CREATE PROC ConsultarProductoXNombre 
 @nombr VARCHAR(100)
 AS
 BEGIN
@@ -612,10 +629,11 @@ GO
 
 
 --PROCEDIMIENTO ALMACENADO PARA CONSULTAR TODOS LOS PRODUCTOS
-CREATE PROCEDURE ConsultarProductoS
+CREATE PROC ConsultarProductos
 AS
 BEGIN
 SELECT id_producto,id_estado_producto,nombre_producto,precio_costo,precio_venta FROM PRODUCTO
+END
 GO
 
 --PROCEDIMIENTO ALMACENADO PARA ACTUALIZAR EL PRODUCTO SEGUN EL ID
@@ -644,6 +662,52 @@ UPDATE PRODUCTO SET id_estado_producto=@idEstado WHERE id_producto = @idProd
 
 END
 GO
+
+--PROCEDIMIENTO ALMACENADO PARA crear un servicio
+
+CREATE PROC AgregarServicio
+@descripc VARCHAR(50)
+as
+BEGIN 
+
+INSERT INTO SERVICIO (descripcion_servicio)
+VALUES (@descripc);
+
+END
+GO
+
+--PROCEDIMIENTO ALMACENADO PARA consultar los servicios
+CREATE PROC ConsultarServicios
+AS
+BEGIN
+SELECT id_servicio,descripcion_servicio FROM SERVICIO
+END
+GO
+
+--PROCEDIMIENTO ALMACENADO PARA actualizar un servicio
+
+CREATE PROC ActualizarServicio
+@idserv int,
+@descripc VARCHAR(50)
+as
+BEGIN 
+
+UPDATE SERVICIO SET descripcion_servicio=@descripc WHERE id_servicio = @idserv
+
+END
+GO
+
+--PROCEDIMIENTO ALMACENADO PARA consultar un unico servicio
+CREATE PROCEDURE ConsultarServicio
+@codigo int
+AS
+BEGIN
+SELECT descripcion_servicio FROM SERVICIO
+WHERE id_servicio = @codigo
+END
+
+GO
+
 	
 	
 	

@@ -17,9 +17,8 @@ namespace Persistencia
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2214:DoNotCallOverridableMethodsInConstructors")]
         public PRODUCTO()
         {
-            this.DETALLE_FACTURA = new HashSet<DETALLE_FACTURA>();
-            this.INVENTARIO = new HashSet<INVENTARIO>();
             this.DETALLE_FACTURA_PRODUCTO = new HashSet<DETALLE_FACTURA_PRODUCTO>();
+            this.INVENTARIO = new HashSet<INVENTARIO>();
         }
     
         public int id_producto { get; set; }
@@ -29,11 +28,9 @@ namespace Persistencia
         public Nullable<decimal> precio_venta { get; set; }
     
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
-        public virtual ICollection<DETALLE_FACTURA> DETALLE_FACTURA { get; set; }
+        public virtual ICollection<DETALLE_FACTURA_PRODUCTO> DETALLE_FACTURA_PRODUCTO { get; set; }
         public virtual ESTADO_PRODUCTO ESTADO_PRODUCTO { get; set; }
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
         public virtual ICollection<INVENTARIO> INVENTARIO { get; set; }
-        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
-        public virtual ICollection<DETALLE_FACTURA_PRODUCTO> DETALLE_FACTURA_PRODUCTO { get; set; }
     }
 }

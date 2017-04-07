@@ -6,16 +6,15 @@ namespace Persistencia.UsuarioDatos
 {
     public class ProductoDatos
     {
-
+        private conexion conexion = new conexion();
         public ProductoDatos()
         {
 
         }
 
         /// <summary>
-        /// Objeto conexionque genera conexion a la base de datos
+        /// Objeto conexion.conexionesque genera conexion.conexiones a la base de datos
         /// </summary>
-        private bdServiciosDigitalesProyEntities1 conexion = new bdServiciosDigitalesProyEntities1();
 
         /// <summary>
         /// agrega el producto a la BD
@@ -32,8 +31,8 @@ namespace Persistencia.UsuarioDatos
         {
             try
             {
-                conexion.InsertarProducto(estadoProd,nombre,Convert.ToDecimal(precioCosto),Convert.ToDecimal(precioVenta),cantidad);
-                conexion.SaveChanges();
+                conexion.conexiones.InsertarProducto(estadoProd,nombre,Convert.ToDecimal(precioCosto),Convert.ToDecimal(precioVenta),cantidad);
+                conexion.conexiones.SaveChanges();
 
                 resultado = "Se ha insertado el producto exitosamente";
                 tipoResultado = "success";
@@ -52,7 +51,7 @@ namespace Persistencia.UsuarioDatos
         /// <returns> lista de estados </returns>
         public object ConsultarEstadosProducto()
         {
-            var estadosProd = from es in conexion.ESTADO_PRODUCTO
+            var estadosProd = from es in conexion.conexiones.ESTADO_PRODUCTO
 
                              select new
                              {
@@ -82,7 +81,7 @@ namespace Persistencia.UsuarioDatos
             {
                 if (result == true)
                 {
-                    var consulta = conexion.ConsultarProductoXCodigo(id).ToList();
+                    var consulta = conexion.conexiones.ConsultarProductoXCodigo(id).ToList();
                     resultado = "Consulta Exitosa";
                     tipoResultado = "info";
 
@@ -90,7 +89,7 @@ namespace Persistencia.UsuarioDatos
                 }
                 else
                 {
-                    var consulta = conexion.ConsultarProductoXNombre(data).ToList();
+                    var consulta = conexion.conexiones.ConsultarProductoXNombre(data).ToList();
                     resultado = "Consulta Exitosa";
                     tipoResultado = "info";
 
@@ -120,7 +119,7 @@ namespace Persistencia.UsuarioDatos
             object lista = null;
             try
             {
-                var productos = conexion.ConsultarProductos().ToList();
+                var productos = conexion.conexiones.ConsultarProductos().ToList();
 
                 resultado = "Consulta Exitosa";
                 tipoResultado = "info";
@@ -150,8 +149,8 @@ namespace Persistencia.UsuarioDatos
         {
             try
             {
-                conexion.ActualizarProducto(idProd,nombre,Convert.ToDecimal(precioCosto),Convert.ToDecimal(precioVenta));
-                conexion.SaveChanges();
+                conexion.conexiones.ActualizarProducto(idProd,nombre,Convert.ToDecimal(precioCosto),Convert.ToDecimal(precioVenta));
+                conexion.conexiones.SaveChanges();
                 resultado = "Producto Modificado correctamente";
                 tipoResultado = "success";
             }
@@ -174,8 +173,8 @@ namespace Persistencia.UsuarioDatos
         {
             try
             {
-                conexion.CambiarEstadoProducto(identificacion,idEstado);
-                conexion.SaveChanges();
+                conexion.conexiones.CambiarEstadoProducto(identificacion,idEstado);
+                conexion.conexiones.SaveChanges();
                 res = "Estado del producto actualizado correctamente";
                 tipoRes = "success";
             }

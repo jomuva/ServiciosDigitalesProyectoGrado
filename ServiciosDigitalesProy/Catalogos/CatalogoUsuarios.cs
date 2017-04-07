@@ -29,7 +29,7 @@ namespace ServiciosDigitalesProy.Catalogos
             return catalogoUsuarios;
         }
 
-       
+
         /// <summary>
         /// Consulta los tipos de identificación traidos desde la clase UsuarioDatos
         /// </summary>
@@ -37,7 +37,7 @@ namespace ServiciosDigitalesProy.Catalogos
         public List<TipoIdentificacion> ConsultarTiposIdentificacion()
         {
             List<TipoIdentificacion> Tipos = new List<TipoIdentificacion>();
-           var tipos = usuarioDatos.ConsultarTiposIdentificacion();
+            var tipos = usuarioDatos.ConsultarTiposIdentificacion();
 
             string dynObj = JsonConvert.SerializeObject(tipos);
             dynamic dyn = JsonConvert.DeserializeObject(dynObj);
@@ -94,70 +94,75 @@ namespace ServiciosDigitalesProy.Catalogos
         public List<Usuario> ConsultarClientes(string ident, ref string resultado, ref string tipoResultado)
         {
             object oUsers;
-            object otelefonos=null;
-            string dynObj,dynObj2;
-            dynamic dyn,dyn2;
+            object otelefonos = null;
+            string dynObj, dynObj2;
+            dynamic dyn, dyn2;
             List<Usuario> ListaUsuarios = new List<Usuario>();
             List<TelefonoUsuario> telefonos = new List<TelefonoUsuario>();
 
             if (ident == "" || ident == null)
             {
                 oUsers = usuarioDatos.ConsultarClientes();
-                dynObj = JsonConvert.SerializeObject(oUsers);
-                dyn = JsonConvert.DeserializeObject(dynObj);
-
-                foreach (var item in dyn)
+                if (tipoResultado != "danger")
                 {
-                    ListaUsuarios.Add(new Usuario
-                    {
-                        nombres = item.nombres,
-                        apellidos = item.apellidos,
-                        identificacion = item.identificacion,
-                        username = item.username,
-                        direccion = item.direccion,
-                        email = item.email,
-                        sexo = item.sexo,
-                        estado = item.estado
-                    });
-                }
+                    dynObj = JsonConvert.SerializeObject(oUsers);
+                    dyn = JsonConvert.DeserializeObject(dynObj);
 
+                    foreach (var item in dyn)
+                    {
+                        ListaUsuarios.Add(new Usuario
+                        {
+                            nombres = item.nombres,
+                            apellidos = item.apellidos,
+                            identificacion = item.identificacion,
+                            username = item.username,
+                            direccion = item.direccion,
+                            email = item.email,
+                            sexo = item.sexo,
+                            estado = item.estado
+                        });
+                    }
+                }
             }
             else if (ident != "")
             {
                 oUsers = usuarioDatos.ConsultarCliente(ident, ref otelefonos, ref resultado, ref tipoResultado);
-                dynObj = JsonConvert.SerializeObject(oUsers);
-                dyn = JsonConvert.DeserializeObject(dynObj);
 
-                dynObj2 = JsonConvert.SerializeObject(otelefonos);
-                dyn2 = JsonConvert.DeserializeObject(dynObj2);
+                if (tipoResultado != "danger") { 
+                    dynObj = JsonConvert.SerializeObject(oUsers);
+                    dyn = JsonConvert.DeserializeObject(dynObj);
 
-                foreach (var item in dyn)
-                {
-                    ListaUsuarios.Add(new Usuario
+                    dynObj2 = JsonConvert.SerializeObject(otelefonos);
+                    dyn2 = JsonConvert.DeserializeObject(dynObj2);
+
+                    foreach (var item in dyn)
                     {
-                        nombres = item.nombres,
-                        apellidos = item.apellidos,
-                        identificacion = item.identificacion,
-                        username = item.username,
-                        direccion = item.direccion,
-                        email = item.email,
-                        sexo = item.sexo,
-                        estado = item.estado
-                    });
-                }
+                        ListaUsuarios.Add(new Usuario
+                        {
+                            nombres = item.nombres,
+                            apellidos = item.apellidos,
+                            identificacion = item.identificacion,
+                            username = item.username,
+                            direccion = item.direccion,
+                            email = item.email,
+                            sexo = item.sexo,
+                            estado = item.estado
+                        });
+                    }
 
-                foreach (var item in dyn2)
-                {
-                    telefonos.Add(new TelefonoUsuario
+                    foreach (var item in dyn2)
                     {
-                        numero_telefono = item.numero_telefono,
-                        id_usuario_telefono = item.id_usuario_telefono
-                    });
+                        telefonos.Add(new TelefonoUsuario
+                        {
+                            numero_telefono = item.numero_telefono,
+                            id_usuario_telefono = item.id_usuario_telefono
+                        });
+                    }
+
+                    ListaUsuarios[0].TelefonoCelular = telefonos[0].numero_telefono;
+                    ListaUsuarios[0].TelefonoFijo = telefonos.Count == 1 ? "" : telefonos[1].numero_telefono;
                 }
-
-                ListaUsuarios[0].TelefonoCelular = telefonos[0].numero_telefono;
-                ListaUsuarios[0].TelefonoFijo = telefonos.Count == 1 ? "" : telefonos[1].numero_telefono;
-
+                
             }
             else
                 oUsers = null;
@@ -176,7 +181,7 @@ namespace ServiciosDigitalesProy.Catalogos
         {
             cliente.idRol = 1;
             cliente.idEstado = 1;
-            usuarioDatos.AdicionarCliente( 
+            usuarioDatos.AdicionarCliente(
                                             cliente.TelefonoFijo, cliente.TelefonoCelular, cliente.username,
                                             cliente.email, cliente.identificacion, cliente.nombres,
                                             cliente.apellidos, cliente.direccion,
@@ -195,7 +200,7 @@ namespace ServiciosDigitalesProy.Catalogos
         public void ModificarCliente(Usuario cliente, out string res, out string tipoRes)
         {
             usuarioDatos.ModificarCliente
-                                        (   
+                                        (
                                             cliente.TelefonoFijo, cliente.TelefonoCelular, cliente.username,
                                             cliente.email, cliente.identificacion, cliente.nombres, cliente.apellidos,
                                             cliente.direccion, cliente.sexo, cliente.password, cliente.idTipoIdentificacion,
@@ -237,25 +242,28 @@ namespace ServiciosDigitalesProy.Catalogos
             if (ident == "" || ident == null)
             {
                 oUsers = usuarioDatos.ConsultarEmpleados();
-                dynObj = JsonConvert.SerializeObject(oUsers);
-                dyn = JsonConvert.DeserializeObject(dynObj);
-
-                foreach (var item in dyn)
+                if (tipoResultado != "danger")
                 {
-                    ListaUsuarios.Add(new Usuario
+                    dynObj = JsonConvert.SerializeObject(oUsers);
+                    dyn = JsonConvert.DeserializeObject(dynObj);
+
+                    foreach (var item in dyn)
                     {
-                        nombres = item.nombres,
-                        apellidos = item.apellidos,
-                        identificacion = item.identificacion,
-                        username = item.username,
-                        direccion = item.direccion,
-                        email = item.email,
-                        sexo = item.sexo,
-                        estado = item.estado,
-                        Rol = item.Rol
+                        ListaUsuarios.Add(new Usuario
+                        {
+                            nombres = item.nombres,
+                            apellidos = item.apellidos,
+                            identificacion = item.identificacion,
+                            username = item.username,
+                            direccion = item.direccion,
+                            email = item.email,
+                            sexo = item.sexo,
+                            estado = item.estado,
+                            Rol = item.Rol
 
-                    });
+                        });
 
+                    }
                 }
 
 
@@ -263,41 +271,42 @@ namespace ServiciosDigitalesProy.Catalogos
             else if (ident != "")
             {
                 oUsers = usuarioDatos.ConsultarEmpleado(ident, ref otelefonos, ref resultado, ref tipoResultado);
-
-                dynObj = JsonConvert.SerializeObject(oUsers);
-                dyn = JsonConvert.DeserializeObject(dynObj);
-
-                dynObj2 = JsonConvert.SerializeObject(otelefonos);
-                dyn2 = JsonConvert.DeserializeObject(dynObj2);
-
-                foreach (var item in dyn)
+                if (tipoResultado != "danger")
                 {
-                    ListaUsuarios.Add(new Usuario
+                    dynObj = JsonConvert.SerializeObject(oUsers);
+                    dyn = JsonConvert.DeserializeObject(dynObj);
+
+                    dynObj2 = JsonConvert.SerializeObject(otelefonos);
+                    dyn2 = JsonConvert.DeserializeObject(dynObj2);
+
+                    foreach (var item in dyn)
                     {
-                        nombres = item.nombres,
-                        apellidos = item.apellidos,
-                        identificacion = item.identificacion,
-                        username = item.username,
-                        direccion = item.direccion,
-                        email = item.email,
-                        sexo = item.sexo,
-                        estado = item.estado,
-                        Rol = item.Rol
-                    });
-                }
+                        ListaUsuarios.Add(new Usuario
+                        {
+                            nombres = item.nombres,
+                            apellidos = item.apellidos,
+                            identificacion = item.identificacion,
+                            username = item.username,
+                            direccion = item.direccion,
+                            email = item.email,
+                            sexo = item.sexo,
+                            estado = item.estado,
+                            Rol = item.Rol
+                        });
+                    }
 
-                foreach (var item in dyn2)
-                {
-                    telefonos.Add(new TelefonoUsuario
+                    foreach (var item in dyn2)
                     {
-                        numero_telefono = item.numero_telefono,
-                        id_usuario_telefono = item.id_usuario_telefono
-                    });
+                        telefonos.Add(new TelefonoUsuario
+                        {
+                            numero_telefono = item.numero_telefono,
+                            id_usuario_telefono = item.id_usuario_telefono
+                        });
+                    }
+
+                    ListaUsuarios[0].TelefonoCelular = telefonos[0].numero_telefono;
+                    ListaUsuarios[0].TelefonoFijo = telefonos.Count == 1 ? "" : telefonos[1].numero_telefono;
                 }
-
-                ListaUsuarios[0].TelefonoCelular = telefonos[0].numero_telefono;
-                ListaUsuarios[0].TelefonoFijo = telefonos.Count == 1 ? "" : telefonos[1].numero_telefono;
-
             }
             else
                 oUsers = null;
@@ -338,7 +347,7 @@ namespace ServiciosDigitalesProy.Catalogos
                                            (
                                                 cliente.TelefonoFijo, cliente.TelefonoCelular, cliente.username,
                                                 cliente.email, cliente.identificacion, cliente.nombres, cliente.apellidos,
-                                                cliente.direccion, cliente.sexo, cliente.password, cliente.idTipoIdentificacion, 
+                                                cliente.direccion, cliente.sexo, cliente.password, cliente.idTipoIdentificacion,
                                                 cliente.idRol, out res, out tipoRes
                                            );
         }

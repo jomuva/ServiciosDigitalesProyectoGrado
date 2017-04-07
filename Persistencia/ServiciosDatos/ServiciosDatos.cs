@@ -6,16 +6,13 @@ namespace Persistencia.UsuarioDatos
 {
     public class ServiciosDatos
     {
+        private conexion conexion = new conexion();
 
         public ServiciosDatos()
         {
 
         }
 
-        /// <summary>
-        /// Objeto conexionque genera conexion a la base de datos
-        /// </summary>
-        private bdServiciosDigitalesProyEntities1 conexion = new bdServiciosDigitalesProyEntities1();
 
         /// <summary>
         /// Agrega el servicio a la BD
@@ -27,8 +24,8 @@ namespace Persistencia.UsuarioDatos
         {
             try
             {
-                conexion.AgregarServicio(descripcion);
-                conexion.SaveChanges();
+                conexion.conexiones.AgregarServicio(descripcion);
+                conexion.conexiones.SaveChanges();
 
                 resultado = "Se ha agregado el servicio exitosamente";
                 tipoResultado = "success";
@@ -52,7 +49,7 @@ namespace Persistencia.UsuarioDatos
             object servicios=null;
             try
             {
-                 servicios = conexion.ConsultarServicios().ToList();
+                 servicios = conexion.conexiones.ConsultarServicios().ToList();
 
                 resultado = "Consulta Exitosa";
                 tipoResultado = "info";
@@ -79,7 +76,7 @@ namespace Persistencia.UsuarioDatos
             object servicios = null;
             try
             {
-                servicios = conexion.ConsultarServicio(id).ToList();
+                servicios = conexion.conexiones.ConsultarServicio(id).ToList();
 
                 resultado = "Consulta Exitosa";
                 tipoResultado = "info";
@@ -107,8 +104,8 @@ namespace Persistencia.UsuarioDatos
         {
             try
             {
-                conexion.ActualizarServicio(idServ, descripcion);
-                conexion.SaveChanges();
+                conexion.conexiones.ActualizarServicio(idServ, descripcion);
+                conexion.conexiones.SaveChanges();
                 resultado = "Servicio Modificado correctamente";
                 tipoResultado = "success";
             }

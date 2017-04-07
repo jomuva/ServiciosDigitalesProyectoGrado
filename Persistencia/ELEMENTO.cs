@@ -17,7 +17,6 @@ namespace Persistencia
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2214:DoNotCallOverridableMethodsInConstructors")]
         public ELEMENTO()
         {
-            this.SERVICIO_ELEMENTO = new HashSet<SERVICIO_ELEMENTO>();
             this.SOLICITUD = new HashSet<SOLICITUD>();
         }
     
@@ -35,9 +34,7 @@ namespace Persistencia
     
         public virtual CATEGORIA_ELEMENTO CATEGORIA_ELEMENTO { get; set; }
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
-        public virtual ICollection<SERVICIO_ELEMENTO> SERVICIO_ELEMENTO { get; set; }
-        public virtual TIPO_ELEMENTO TIPO_ELEMENTO { get; set; }
-        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
         public virtual ICollection<SOLICITUD> SOLICITUD { get; set; }
+        public virtual TIPO_ELEMENTO TIPO_ELEMENTO { get; set; }
     }
 }

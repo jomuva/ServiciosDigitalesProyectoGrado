@@ -87,7 +87,7 @@ namespace ServiciosDigitalesProy.Controllers
                 TempData["mensaje"] = res;
                 TempData["estado"] = tipoRes;
 
-                return View("ConsultaServicios", servicios);
+                return View("RespuestaConsultaProductos", servicios);
 
             }
 

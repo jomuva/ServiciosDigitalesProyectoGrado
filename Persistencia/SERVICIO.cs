@@ -17,15 +17,12 @@ namespace Persistencia
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2214:DoNotCallOverridableMethodsInConstructors")]
         public SERVICIO()
         {
-            this.SERVICIO_ELEMENTO = new HashSet<SERVICIO_ELEMENTO>();
             this.SOLICITUD = new HashSet<SOLICITUD>();
         }
     
         public int id_servicio { get; set; }
         public string descripcion_servicio { get; set; }
     
-        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
-        public virtual ICollection<SERVICIO_ELEMENTO> SERVICIO_ELEMENTO { get; set; }
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
         public virtual ICollection<SOLICITUD> SOLICITUD { get; set; }
     }

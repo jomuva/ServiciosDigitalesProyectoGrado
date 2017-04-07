@@ -32,6 +32,7 @@ namespace ServiciosDigitalesProy.Models
 
         [RegularExpression("^[0-9]*$", ErrorMessage = "El Teléfono celular debe ser numérico")]
         [Required(AllowEmptyStrings = false, ErrorMessage = "El campo de \"Identificación\" es obligatorio.")]
+        //[Range(6, 10, ErrorMessage = "La {0} debe estar entre {1} y {2} dígitos.")]
         public string identificacion { get; set; }
 
         [RegularExpression("^[0-9]*$", ErrorMessage = "El Teléfono Fijo debe ser numérico")]

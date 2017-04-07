@@ -24,6 +24,7 @@ namespace ServiciosDigitalesProy.Controllers
         {
 
             string resultado = "", tipoResultado = "";
+            string resultado2 = "", tipoResultado2 = "";
             if (ModelState.IsValid)
             {
                 CatalogoProductos.GetInstance().InsertarProducto(model, out resultado, out tipoResultado);
@@ -33,7 +34,9 @@ namespace ServiciosDigitalesProy.Controllers
 
                 TempData["mensaje"] = resultado;
                 TempData["estado"] = tipoResultado;
-                return View("Clientes/RespuestaConsultaClientes");
+                List<Producto> productos;
+                productos = CatalogoProductos.GetInstance().ConsultarProductos("", ref resultado2, ref tipoResultado2);
+                return View("RespuestaConsultaProductos", productos);
             }
 
             TempData["mensaje"] = "Por favor verifique los datos ingresados";

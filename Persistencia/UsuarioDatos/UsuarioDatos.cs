@@ -6,23 +6,22 @@ namespace Persistencia.UsuarioDatos
 {
     public class UsuarioDatos
     {
-
+        private conexion conexion  = new conexion();
         public UsuarioDatos()
         {
 
         }
 
         /// <summary>
-        /// Objeto conexionque genera conexion a la base de datos
+        /// Objeto conexion.conexionesque genera conexion.conexiones a la base de datos
         /// </summary>
-        private bdServiciosDigitalesProyEntities1 conexion = new bdServiciosDigitalesProyEntities1();
 
         /// <summary>
         /// Método de consulta de los tipos de identificacion en BD
         /// </summary>
         public object ConsultarTiposIdentificacion()
         {
-            var tiposIdent = from Ti in conexion.TIPO_IDENTIFICACION_USUARIO
+            var tiposIdent = from Ti in conexion.conexiones.TIPO_IDENTIFICACION_USUARIO
 
                              select new 
                              {
@@ -40,7 +39,7 @@ namespace Persistencia.UsuarioDatos
         /// <returns></returns>
         public object ConsultarEstadosUsuario()
         {
-            var Estados = from Ti in conexion.ESTADO_USUARIO
+            var Estados = from Ti in conexion.conexiones.ESTADO_USUARIO
 
                           select new 
                           {
@@ -57,7 +56,7 @@ namespace Persistencia.UsuarioDatos
         ///// <returns></returns>
         public object ConsultarRolEmpleado()
         {
-            var Roles = from Ti in conexion.ROL
+            var Roles = from Ti in conexion.conexiones.ROL
                         where Ti.id_rol != 1
 
                         select new 
@@ -89,8 +88,8 @@ namespace Persistencia.UsuarioDatos
             { 
                 if (result == true)
                 {
-                    var telefonoCliente = from TelUsuario in conexion.TELEFONO_USUARIO
-                                          join usu in conexion.USUARIO
+                    var telefonoCliente = from TelUsuario in conexion.conexiones.TELEFONO_USUARIO
+                                          join usu in conexion.conexiones.USUARIO
                                             on TelUsuario.id_usuario_telefono equals usu.id_usuario
                                           where usu.identificacion == id.ToString()
                                           select new 
@@ -100,8 +99,8 @@ namespace Persistencia.UsuarioDatos
                                           };
                     telefonos = telefonoCliente.ToList();
 
-                    var cliente = from usuario in conexion.USUARIO
-                                  join es in conexion.ESTADO_USUARIO
+                    var cliente = from usuario in conexion.conexiones.USUARIO
+                                  join es in conexion.conexiones.ESTADO_USUARIO
                                    on usuario.id_estado_usuario equals es.id_estado
                                   where usuario.id_rol_usuario == 1 && usuario.identificacion == id.ToString()
                                   select new 
@@ -116,19 +115,24 @@ namespace Persistencia.UsuarioDatos
                                       estado = es.descripcion,
                                   };
 
-                    //List<Usuario> usuario2 = cliente.ToList();
-                    //usuario2.First().TelefonoCelular = Telefonos[0].numero_telefono;
-                    //usuario2.First().TelefonoFijo = Telefonos.Count == 1 ? "" : Telefonos[1].numero_telefono;
 
-                    resultado = "Consulta Exitosa";
-                    tipoResultado = "info";
+                    if (cliente.ToList().Count == 0)
+                    {
+                        resultado = "El cliente no existe en la base de datos";
+                        tipoResultado = "danger";
+                    }
+                    else
+                    {
+                        resultado = "Consulta Exitosa";
+                        tipoResultado = "info";
+                    }
 
                     return cliente.ToList();
                 }
                 else
                 {
-                    var telefonoCliente = from TelUsuario in conexion.TELEFONO_USUARIO
-                                          join usu in conexion.USUARIO
+                    var telefonoCliente = from TelUsuario in conexion.conexiones.TELEFONO_USUARIO
+                                          join usu in conexion.conexiones.USUARIO
                                             on TelUsuario.id_usuario_telefono equals usu.id_usuario
                                           where usu.nombres == data.ToString()
                                           select new 
@@ -138,8 +142,8 @@ namespace Persistencia.UsuarioDatos
                                           };
                     telefonos = telefonoCliente.ToList();
 
-                    var cliente = from usuario in conexion.USUARIO
-                                  join es in conexion.ESTADO_USUARIO
+                    var cliente = from usuario in conexion.conexiones.USUARIO
+                                  join es in conexion.conexiones.ESTADO_USUARIO
                                    on usuario.id_estado_usuario equals es.id_estado
                                   where usuario.id_rol_usuario == 1 && usuario.nombres == data.ToString()
                                   select new 
@@ -154,13 +158,16 @@ namespace Persistencia.UsuarioDatos
                                       estado = es.descripcion
                                   };
 
-                    //List<Usuario> usuario2 = cliente.ToList();
-                    //usuario2.First().TelefonoCelular = Telefonos[0].numero_telefono;
-                    //usuario2.First().TelefonoFijo = Telefonos.Count == 1 ? "" : Telefonos[1].numero_telefono;
-
-                    resultado = "Consulta Exitosa";
-                    tipoResultado = "info";
-
+                    
+                    if (cliente.ToList().Count == 0)
+                    {
+                        resultado = "El cliente no existe en la base de datos";
+                        tipoResultado = "danger";
+                    }else
+                    {
+                        resultado = "Consulta Exitosa";
+                        tipoResultado = "info";
+                    }
                     return cliente.ToList();
                 }
             }
@@ -186,8 +193,8 @@ namespace Persistencia.UsuarioDatos
             object lista = null;
             try
             {
-                var clientes = from usuario in conexion.USUARIO
-                               join es in conexion.ESTADO_USUARIO
+                var clientes = from usuario in conexion.conexiones.USUARIO
+                               join es in conexion.conexiones.ESTADO_USUARIO
                                 on usuario.id_estado_usuario equals es.id_estado
                                where usuario.id_rol_usuario == 1
 
@@ -228,15 +235,15 @@ namespace Persistencia.UsuarioDatos
                 out string resultado, out string tipoResultado)
         {
             TelefonoFijo = TelefonoFijo == null ? "" : TelefonoFijo;
-            var us = from u in conexion.USUARIO
+            var us = from u in conexion.conexiones.USUARIO
                      where u.usuario_login == username
                      select u;
 
-            var mail = from m in conexion.USUARIO
+            var mail = from m in conexion.conexiones.USUARIO
                        where m.correo == email
                        select m;
 
-            var identificac = from m in conexion.USUARIO
+            var identificac = from m in conexion.conexiones.USUARIO
                               where m.identificacion == identificacion
                               select m;
             if (!us.Any() && !mail.Any() && !identificac.Any())
@@ -256,10 +263,10 @@ namespace Persistencia.UsuarioDatos
                     USER.id_estado_usuario = idEstado;
                     USER.id_tipo_Identificacion_usuario = idTipoIdentificacion;
 
-                    conexion.USUARIO.Add(USER);
-                    conexion.SaveChanges();
+                    conexion.conexiones.USUARIO.Add(USER);
+                    conexion.conexiones.SaveChanges();
 
-                    var idUsu = from u in conexion.USUARIO
+                    var idUsu = from u in conexion.conexiones.USUARIO
                                 where u.identificacion == identificacion
                                 select new 
                                 {
@@ -269,16 +276,16 @@ namespace Persistencia.UsuarioDatos
                     TELEFONO_USUARIO Telefono = new TELEFONO_USUARIO();
                     Telefono.id_usuario_telefono = Convert.ToInt32(idUsu.FirstOrDefault().id);
                     Telefono.numero_telefono = TelefonoCelular;
-                    conexion.TELEFONO_USUARIO.Add(Telefono);
-                    conexion.SaveChanges();
+                    conexion.conexiones.TELEFONO_USUARIO.Add(Telefono);
+                    conexion.conexiones.SaveChanges();
 
                     if (TelefonoFijo != "")
                     {
                         TELEFONO_USUARIO Telefono2 = new TELEFONO_USUARIO();
                         Telefono2.id_usuario_telefono = Convert.ToInt32(idUsu.FirstOrDefault().id);
                         Telefono2.numero_telefono = TelefonoFijo;
-                        conexion.TELEFONO_USUARIO.Add(Telefono2);
-                        conexion.SaveChanges();
+                        conexion.conexiones.TELEFONO_USUARIO.Add(Telefono2);
+                        conexion.conexiones.SaveChanges();
                     }
 
                 }
@@ -311,7 +318,7 @@ namespace Persistencia.UsuarioDatos
 
             try
             {
-                var queryUSUARIO = from USU in conexion.USUARIO
+                var queryUSUARIO = from USU in conexion.conexiones.USUARIO
                                    where USU.identificacion == identificacion
                                    select USU;
                 foreach (var USUARIO in queryUSUARIO)
@@ -323,17 +330,17 @@ namespace Persistencia.UsuarioDatos
                     USUARIO.sexo = sexo;
                     USUARIO.password = password;
                 }
-                conexion.SaveChanges();
+                conexion.conexiones.SaveChanges();
 
-                var idUsu = from u in conexion.USUARIO
+                var idUsu = from u in conexion.conexiones.USUARIO
                             where u.identificacion == identificacion
                             select new 
                             {
                                 id = u.id_usuario
                             };
 
-                var queryTelefono = from tel in conexion.TELEFONO_USUARIO
-                                    join usu in conexion.USUARIO
+                var queryTelefono = from tel in conexion.conexiones.TELEFONO_USUARIO
+                                    join usu in conexion.conexiones.USUARIO
                                     on tel.id_usuario_telefono equals usu.id_usuario
                                     where usu.identificacion == identificacion
                                     select tel;
@@ -350,7 +357,7 @@ namespace Persistencia.UsuarioDatos
                     i++;
                 }
 
-                conexion.SaveChanges();
+                conexion.conexiones.SaveChanges();
                 res = "Cliente Modificado correctamente";
                 tipoRes = "success";
             }
@@ -373,7 +380,7 @@ namespace Persistencia.UsuarioDatos
 
             try
             {
-                var queryUSUARIO = from USU in conexion.USUARIO
+                var queryUSUARIO = from USU in conexion.conexiones.USUARIO
                                    where USU.identificacion == identificacion
                                    select USU;
                 foreach (var USUARIO in queryUSUARIO)
@@ -390,7 +397,7 @@ namespace Persistencia.UsuarioDatos
                     res = "Estado del cliente actualizado correctamente";
                     tipoRes = "success";
                 }
-                conexion.SaveChanges();
+                conexion.conexiones.SaveChanges();
             }
             catch (Exception e)
             {
@@ -421,8 +428,8 @@ namespace Persistencia.UsuarioDatos
             {
                 if (result == true)
                 {
-                    var telefonoEmpleado = from TelUsuario in conexion.TELEFONO_USUARIO
-                                           join usu in conexion.USUARIO
+                    var telefonoEmpleado = from TelUsuario in conexion.conexiones.TELEFONO_USUARIO
+                                           join usu in conexion.conexiones.USUARIO
                                              on TelUsuario.id_usuario_telefono equals usu.id_usuario
                                            where usu.identificacion == id.ToString()
                                            select new 
@@ -432,10 +439,10 @@ namespace Persistencia.UsuarioDatos
                                            };
                     telefonos = telefonoEmpleado.ToList();
 
-                    var Empleado = from usuario in conexion.USUARIO
-                                   join es in conexion.ESTADO_USUARIO
+                    var Empleado = from usuario in conexion.conexiones.USUARIO
+                                   join es in conexion.conexiones.ESTADO_USUARIO
                                     on usuario.id_estado_usuario equals es.id_estado
-                                   join roles in conexion.ROL
+                                   join roles in conexion.conexiones.ROL
                                    on usuario.id_rol_usuario equals roles.id_rol
                                    where (usuario.id_rol_usuario == 2 || usuario.id_rol_usuario == 3 || usuario.id_rol_usuario == 4) && usuario.identificacion == id.ToString()
                                    select new 
@@ -451,19 +458,23 @@ namespace Persistencia.UsuarioDatos
                                        Rol = roles.descripcion
                                    };
 
-                    //List<Usuario> usuario2 = Empleado.ToList();
-                    //usuario2.First().TelefonoCelular = Telefonos[0].numero_telefono;
-                    //usuario2.First().TelefonoFijo = Telefonos.Count == 1 ? "" : Telefonos[1].numero_telefono;
-
-                    resultado = "Consulta Exitosa";
-                    tipoResultado = "info";
+                    if (Empleado.ToList().Count == 0)
+                    {
+                        resultado = "El empleado no existe en la base de datos";
+                        tipoResultado = "danger";
+                    }
+                    else
+                    {
+                        resultado = "Consulta Exitosa";
+                        tipoResultado = "info";
+                    }
 
                     return Empleado.ToList();
                 }
                 else
                 {
-                    var telefonoEmpleado = from TelUsuario in conexion.TELEFONO_USUARIO
-                                           join usu in conexion.USUARIO
+                    var telefonoEmpleado = from TelUsuario in conexion.conexiones.TELEFONO_USUARIO
+                                           join usu in conexion.conexiones.USUARIO
                                              on TelUsuario.id_usuario_telefono equals usu.id_usuario
                                            where usu.nombres == data.ToString()
                                            select new 
@@ -473,10 +484,10 @@ namespace Persistencia.UsuarioDatos
                                            };
                     telefonos = telefonoEmpleado.ToList();
 
-                    var empleado = from usuario in conexion.USUARIO
-                                   join es in conexion.ESTADO_USUARIO
+                    var empleado = from usuario in conexion.conexiones.USUARIO
+                                   join es in conexion.conexiones.ESTADO_USUARIO
                                     on usuario.id_estado_usuario equals es.id_estado
-                                   join roles in conexion.ROL
+                                   join roles in conexion.conexiones.ROL
                                    on usuario.id_rol_usuario equals roles.id_rol
                                    where (usuario.id_rol_usuario == 2 || usuario.id_rol_usuario == 3 || usuario.id_rol_usuario == 4) && usuario.nombres == data.ToString()
                                    select new 
@@ -492,12 +503,16 @@ namespace Persistencia.UsuarioDatos
                                        Rol = roles.descripcion
                                    };
 
-                    //List<Usuario> usuario2 = empleado.ToList();
-                    //usuario2.First().TelefonoCelular = Telefonos[0].numero_telefono;
-                    //usuario2.First().TelefonoFijo = Telefonos.Count == 1 ? "" : Telefonos[1].numero_telefono;
-
-                    resultado = "Consulta Exitosa";
-                    tipoResultado = "info";
+                    if (empleado.ToList().Count == 0)
+                    {
+                        resultado = "El empleado no existe en la base de datos";
+                        tipoResultado = "danger";
+                    }
+                    else
+                    {
+                        resultado = "Consulta Exitosa";
+                        tipoResultado = "info";
+                    }
 
                     return empleado.ToList();
                 }
@@ -523,10 +538,10 @@ namespace Persistencia.UsuarioDatos
             object lista = null;
             try
             {
-                var Empleados = from usuario in conexion.USUARIO
-                                join es in conexion.ESTADO_USUARIO
+                var Empleados = from usuario in conexion.conexiones.USUARIO
+                                join es in conexion.conexiones.ESTADO_USUARIO
                                  on usuario.id_estado_usuario equals es.id_estado
-                                join roles in conexion.ROL
+                                join roles in conexion.conexiones.ROL
                                  on usuario.id_rol_usuario equals roles.id_rol
                                 where usuario.id_rol_usuario == 2 || usuario.id_rol_usuario == 3 || usuario.id_rol_usuario == 4
 
@@ -567,15 +582,15 @@ namespace Persistencia.UsuarioDatos
                             out string resultado, out string tipoResultado)
         {
             TelefonoFijo = TelefonoFijo == null ? "" : TelefonoFijo;
-            var us = from u in conexion.USUARIO
+            var us = from u in conexion.conexiones.USUARIO
                      where u.usuario_login == username
                      select u;
 
-            var mail = from m in conexion.USUARIO
+            var mail = from m in conexion.conexiones.USUARIO
                        where m.correo == email
                        select m;
 
-            var identificac = from m in conexion.USUARIO
+            var identificac = from m in conexion.conexiones.USUARIO
                               where m.identificacion == identificacion
                               select m;
             if (!us.Any() && !mail.Any() && !identificac.Any())
@@ -595,10 +610,10 @@ namespace Persistencia.UsuarioDatos
                     USER.id_estado_usuario = idEstado;
                     USER.id_tipo_Identificacion_usuario = idTipoIdentificacion;
 
-                    conexion.USUARIO.Add(USER);
-                    conexion.SaveChanges();
+                    conexion.conexiones.USUARIO.Add(USER);
+                    conexion.conexiones.SaveChanges();
 
-                    var idUsu = from u in conexion.USUARIO
+                    var idUsu = from u in conexion.conexiones.USUARIO
                                 where u.identificacion == identificacion
                                 select new 
                                 {
@@ -608,16 +623,16 @@ namespace Persistencia.UsuarioDatos
                     TELEFONO_USUARIO Telefono = new TELEFONO_USUARIO();
                     Telefono.id_usuario_telefono = Convert.ToInt32(idUsu.FirstOrDefault().id);
                     Telefono.numero_telefono = TelefonoCelular;
-                    conexion.TELEFONO_USUARIO.Add(Telefono);
-                    conexion.SaveChanges();
+                    conexion.conexiones.TELEFONO_USUARIO.Add(Telefono);
+                    conexion.conexiones.SaveChanges();
 
                     if (TelefonoFijo != "")
                     {
                         TELEFONO_USUARIO Telefono2 = new TELEFONO_USUARIO();
                         Telefono2.id_usuario_telefono = Convert.ToInt32(idUsu.FirstOrDefault().id);
                         Telefono2.numero_telefono = TelefonoFijo;
-                        conexion.TELEFONO_USUARIO.Add(Telefono2);
-                        conexion.SaveChanges();
+                        conexion.conexiones.TELEFONO_USUARIO.Add(Telefono2);
+                        conexion.conexiones.SaveChanges();
                     }
 
                 }
@@ -650,7 +665,7 @@ namespace Persistencia.UsuarioDatos
 
             try
             {
-                var queryUSUARIO = from USU in conexion.USUARIO
+                var queryUSUARIO = from USU in conexion.conexiones.USUARIO
                                    where USU.identificacion == identificacion
                                    select USU;
                 foreach (var USUARIO in queryUSUARIO)
@@ -664,17 +679,17 @@ namespace Persistencia.UsuarioDatos
                     USUARIO.id_rol_usuario = idRol;
 
                 }
-                conexion.SaveChanges();
+                conexion.conexiones.SaveChanges();
 
-                var idUsu = from u in conexion.USUARIO
+                var idUsu = from u in conexion.conexiones.USUARIO
                             where u.identificacion == identificacion
                             select new 
                             {
                                 id = u.id_usuario
                             };
 
-                var queryTelefono = from tel in conexion.TELEFONO_USUARIO
-                                    join usu in conexion.USUARIO
+                var queryTelefono = from tel in conexion.conexiones.TELEFONO_USUARIO
+                                    join usu in conexion.conexiones.USUARIO
                                     on tel.id_usuario_telefono equals usu.id_usuario
                                     where usu.identificacion == identificacion
                                     select tel;
@@ -691,15 +706,15 @@ namespace Persistencia.UsuarioDatos
                     i++;
                 }
 
-                conexion.SaveChanges();
+                conexion.conexiones.SaveChanges();
 
                 if (TelefonoFijo != "")
                 {
                     TELEFONO_USUARIO Telefono2 = new TELEFONO_USUARIO();
                     Telefono2.id_usuario_telefono = Convert.ToInt32(idUsu.FirstOrDefault().id);
                     Telefono2.numero_telefono = TelefonoFijo;
-                    conexion.TELEFONO_USUARIO.Add(Telefono2);
-                    conexion.SaveChanges();
+                    conexion.conexiones.TELEFONO_USUARIO.Add(Telefono2);
+                    conexion.conexiones.SaveChanges();
                 }
                 res = "Empleado Modificado correctamente";
                 tipoRes = "success";
@@ -723,7 +738,7 @@ namespace Persistencia.UsuarioDatos
 
             try
             {
-                var queryUSUARIO = from USU in conexion.USUARIO
+                var queryUSUARIO = from USU in conexion.conexiones.USUARIO
                                    where USU.identificacion == identificacion
                                    select USU;
                 foreach (var USUARIO in queryUSUARIO)
@@ -740,7 +755,7 @@ namespace Persistencia.UsuarioDatos
                     res = "Estado del Empleado actualizado correctamente";
                     tipoRes = "success";
                 }
-                conexion.SaveChanges();
+                conexion.conexiones.SaveChanges();
             }
             catch (Exception e)
             {

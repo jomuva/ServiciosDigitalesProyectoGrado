@@ -22,6 +22,7 @@ namespace Persistencia
     
         public int id_prioridad { get; set; }
         public string descripcion_prioridad { get; set; }
+        public Nullable<int> tiempo_solucion { get; set; }
     
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
         public virtual ICollection<SOLICITUD> SOLICITUD { get; set; }

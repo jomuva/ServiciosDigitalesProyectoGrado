@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Web;
 using ServiciosDigitalesProy.Models;
-using Persistencia.UsuarioDatos;
+using Persistencia.ServiciosDatos;
 using Newtonsoft.Json;
 
 namespace ServiciosDigitalesProy.Catalogos
@@ -94,7 +94,7 @@ namespace ServiciosDigitalesProy.Catalogos
                 ListaServicios.Add(new Servicio
                 {
                     id_servicio = id,
-                    descripcion = item
+                    descripcion = item.descripcion_servicio
                 });
             }
 

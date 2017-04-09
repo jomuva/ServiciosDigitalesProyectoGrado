@@ -217,21 +217,29 @@
     <Compile Include="App_Start\Startup.Auth.cs" />
     <Compile Include="Catalogos\CatalogoServicios.cs" />
     <Compile Include="Catalogos\CatalogoProductos.cs" />
+    <Compile Include="Catalogos\CatalogoSolicitudes.cs" />
     <Compile Include="Catalogos\CatalogoUsuarios.cs" />
     <Compile Include="Controllers\AccountController.cs" />
     <Compile Include="Controllers\HomeController.cs" />
     <Compile Include="Controllers\ManageController.cs" />
+    <Compile Include="Controllers\SolicitudesController.cs" />
     <Compile Include="Controllers\ServiciosController.cs" />
     <Compile Include="Controllers\ProductosController.cs" />
     <Compile Include="Controllers\UsuariosController.cs" />
     <Compile Include="Global.asax.cs">
       <DependentUpon>Global.asax</DependentUpon>
     </Compile>
+    <Compile Include="Models\EstadoSolicitud.cs" />
     <Compile Include="Models\EstadosUsuario.cs" />
     <Compile Include="Models\Inventario.cs" />
+    <Compile Include="Models\Elemento.cs" />
+    <Compile Include="Models\Solicitud.cs" />
     <Compile Include="Models\Servicio.cs" />
     <Compile Include="Models\Rol.cs" />
     <Compile Include="Models\EstadoProducto.cs" />
+    <Compile Include="Models\PrioridadSolicitud.cs" />
+    <Compile Include="Models\CategoriaElemento.cs" />
+    <Compile Include="Models\TipoElemento.cs" />
     <Compile Include="Models\TipoIdentificacion.cs" />
     <Compile Include="Models\TelefonoUsuario.cs" />
     <Compile Include="Models\Producto.cs" />
@@ -244,6 +252,7 @@
   </ItemGroup>
   <ItemGroup>
     <Content Include="faviconproy.ico" />
+    <Content Include="ScriptSQL\JOB Actualizar Estado Solicitud.sql" />
     <Content Include="ScriptSQL\ScriptBdProyectoGrado.sql" />
     <Content Include="Xcore\Content\bootstrap-theme.css" />
     <Content Include="Xcore\Content\bootstrap-theme.min.css" />
@@ -294,6 +303,8 @@
     <Content Include="Views\Servicios\AdicionarServicio.cshtml" />
     <Content Include="Views\Servicios\ConsultaServicios.cshtml" />
     <Content Include="Views\Servicios\ModificarServicio.cshtml" />
+    <Content Include="Views\Solicitudes\ConsultarSolicitudes.cshtml" />
+    <Content Include="Views\Solicitudes\ConsultaElemento.cshtml" />
     <None Include="Xcore\Scripts\jquery-1.10.2.intellisense.js" />
     <Content Include="Xcore\Scripts\dataTables.bootstrap.min.js" />
     <Content Include="Xcore\Scripts\dataTables.responsive.js" />

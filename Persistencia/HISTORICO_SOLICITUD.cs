@@ -10,13 +10,17 @@
 namespace Persistencia
 {
     using System;
+    using System.Collections.Generic;
     
-    public partial class sp_helpdiagrams_Result
+    public partial class HISTORICO_SOLICITUD
     {
-        public string Database { get; set; }
-        public string Name { get; set; }
-        public int ID { get; set; }
-        public string Owner { get; set; }
-        public int OwnerID { get; set; }
+        public int id_historico { get; set; }
+        public int id_usuario_historico { get; set; }
+        public int id_solicitud_historico { get; set; }
+        public string descripcion_historico { get; set; }
+        public Nullable<System.DateTime> fecha_historico { get; set; }
+    
+        public virtual SOLICITUD SOLICITUD { get; set; }
+        public virtual USUARIO USUARIO { get; set; }
     }
 }

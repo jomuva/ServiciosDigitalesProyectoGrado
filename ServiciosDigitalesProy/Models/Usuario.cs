@@ -22,6 +22,13 @@ namespace ServiciosDigitalesProy.Models
             tiposEstado = null;
         }
 
+        public Usuario(string identif, string apellidos, string nombres)
+        {
+            this.identificacion = identif;
+            this.apellidos = apellidos;
+            this.nombres = nombres;
+        }
+
         [RegularExpression(@"^[0-9a-zA-ZáéíóÚ.ÁÉÍÓÚ. ]{1,40}$", ErrorMessage = "Los Caracteres especiales no son permitidos.")]
         [Required(AllowEmptyStrings = false, ErrorMessage = "El campo de \"Nombres\" es obligatorio.")]
         public string nombres { get; set; }

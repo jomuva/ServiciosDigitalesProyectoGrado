@@ -10,16 +10,10 @@
 namespace Persistencia
 {
     using System;
-    using System.Collections.Generic;
     
-    public partial class HISTORICO
+    public partial class ConsultarServicio_Result
     {
-        public int id_historico { get; set; }
-        public int id_usuario_historico { get; set; }
-        public int id_solicitud_historico { get; set; }
-        public string descripcion_historico { get; set; }
-    
-        public virtual SOLICITUD SOLICITUD { get; set; }
-        public virtual USUARIO USUARIO { get; set; }
+        public int id_servicio { get; set; }
+        public string descripcion_servicio { get; set; }
     }
 }

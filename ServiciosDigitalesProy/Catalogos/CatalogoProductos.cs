@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Web;
 using ServiciosDigitalesProy.Models;
-using Persistencia.UsuarioDatos;
+using Persistencia.ProductoDatos;
 using Newtonsoft.Json;
 
 namespace ServiciosDigitalesProy.Catalogos

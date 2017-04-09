@@ -139,6 +139,7 @@ INSERT INTO [dbo].[USUARIO]
 		   ,[usuario_login]
 		   ,[password])
      VALUES
+			(1,1,2,'1020727312','Servicios Digitales','System','No Address','system@gmail.com','M','system','system'),
             (1,1,2,'1020727312','Munoz Vargas','Jonathan','Calle 123 No 34 - 34','jomuva@gmail.com','M','jomuva','jomuva'),
 			(1,1,3,'1094572195','Ortiz Ortiz','Carlos Daniel','Calle 45 No 56 - 56','carlos5ort@hotmail.com','M','cortiz','cortiz'),
 		  	(1,1,1,'54151221','perez ortiz','andres','Calle 112 No 23 - 56','aperez@hotmail.com','M','aperez','aperez'),
@@ -243,6 +244,7 @@ INSERT INTO [dbo].[ELEMENTO]
 		   ,[id_tipo_elemento]
 		   ,[id_categoria_elemento])
      VALUES
+			(NULL,NULL,'No tiene elemento asignado',NULL,NULL,NULL,NULL,NULL,1,1),
             ('4ASD','QWERQRQRQWERWE','SJH2323','SONY','2GB','1TB','T45R','WINDOWS 10',1,1),
 		    ('4EGD','UYTRYTJRGHJ23453','PAVILION 3433','HP','8GB','1TB','WERT','WINDOWS 10',1,1),
 			('RET4','WERTWFGW54','TX150','EPSON',NULL,NULL,NULL,NULL,4,5),
@@ -257,14 +259,16 @@ INSERT INTO [dbo].[ELEMENTO]
 create table PRIORIDAD(
 id_prioridad int not null IDENTITY,
 descripcion_prioridad varchar(50),
+tiempo_solucion int,
 primary key (id_prioridad) 	
 );
 INSERT INTO [dbo].[PRIORIDAD]
-           ([descripcion_prioridad])
+           ([descripcion_prioridad]
+		   ,[tiempo_solucion])
      VALUES
-            ('Alta'),
-			('Media'),
-			('Baja')
+            ('Alta',2),
+			('Media',10),
+			('Baja',30)
 	GO
 
 
@@ -281,7 +285,8 @@ INSERT INTO [dbo].[ESTADO_SOLICITUD]
 			('En Progreso'),
 			('En Espera'),
 			('En Cola'),
-			('Por Aprobar')
+			('Por Aprobar'),
+			('Vencida')
 	GO		
 
 
@@ -304,7 +309,7 @@ INSERT INTO [dbo].[ESTADO_FACTURA]
 	-- TABLA  FACTURA, TABLA QUE CONTIENE LOS REGISTROS DE LA FACTURA DE VENTA GENERADA
 create table FACTURA(
 id_factura int not null IDENTITY,
-fecha date not null,
+fecha DATETIME not null,
 id_usuario_factura int not null,
 id_estado_factura int not null,
 abono decimal(30,4) not null,
@@ -324,11 +329,11 @@ INSERT INTO [dbo].[FACTURA]
 		   ,[abono]
 		   ,[guardar_total])
      VALUES
-            ('2016-11-29',3,3,20000,95000),
-			('2016-12-13',4,1,0,60000),
-			('2017-02-10',5,1,0,70000),
-			('2017-02-25',6,4,0,55000),
-			('2017-03-03',7,4,10000,40000)
+            ('2016-11-29 02:57:24.480',3,3,20000,95000),
+			('2016-12-13 02:57:24.480',4,1,0,60000),
+			('2017-02-10 02:57:24.480',5,1,0,70000),
+			('2017-02-25 02:57:24.480',6,4,0,55000),
+			('2017-03-03 02:57:24.480',7,4,10000,40000)
 		
 	GO	
 
@@ -340,7 +345,8 @@ id_estado_solicitud int not null,
 id_usuario_solicitud int not null,
 id_servicio_solicitud int not null,
 id_elemento_solicitud int,
-fecha_solicitud  date,
+fecha_solicitud  DATETIME,
+descripcion VARCHAR(300),
 primary key (id_solicitud),
 	CONSTRAINT  fk_prioridad_solicitud
 			FOREIGN KEY ( id_prioridad_solicitud  )
@@ -364,13 +370,15 @@ INSERT INTO [dbo].[SOLICITUD]
 		   ,[id_usuario_solicitud]
 		   ,[id_servicio_solicitud]
 		   ,[id_elemento_solicitud]
-		   ,[fecha_solicitud])
+		   ,[fecha_solicitud]
+		   ,descripcion)
      VALUES
-            (1,2,6,1,1,'2016-11-29'),
-			(2,5,7,2,2,'2016-12-13'),
-			(3,3,3,12,3,'2017-02-10'),
-			(2,4,4,8,4,'2017-02-25'),
-			(1,1,5,1,6,'2017-03-03')
+            (1,2,6,1,5,'2017-04-08 02:57:24.480','Por favor Instalar autocad'),
+			(2,5,7,2,2,'2017-04-08 02:57:24.480','Por favor limpiar pantalla'),
+			(3,3,8,12,3,'2017-02-10 02:57:24.480','Sin novedad'),
+			(2,4,4,8,4,'2017-02-25 02:57:24.480','Conseguir cable'),
+			(1,1,5,1,6,'2017-03-03 02:57:24.480','Sin novedad'),
+			(2,5,8,10,1,'2017-04-08 02:57:24.480','Por favor realizar label con título de la universidad')
 	GO
 	
 -- TABLA  ESCALADO, A QUE USUARIO SE LE ESCALA LA SOLICITUD
@@ -400,12 +408,13 @@ INSERT INTO [dbo].[ESCALADO]
 
 	
 	-- TABLA  HISTORICO, TABLA QUE CONTIENE EL HISTORICO DE LOS SERVICIOS Y TIENE ASOCIADAS LAS TABLAS DE USUARIO Y SOLICIUD
-create table HISTORICO(
+create table HISTORICO_SOLICITUD(
 id_historico int not null IDENTITY,
 id_usuario_historico int not null,
 id_solicitud_historico int not null,
-descripcion_historico varchar(100) not null
-primary key (id_historico)
+descripcion_historico varchar(100) not null,
+fecha_historico DATETIME,
+primary key (id_historico),
 	CONSTRAINT  fk_usuario_historico
 			FOREIGN KEY ( id_usuario_historico  )
 			REFERENCES   USUARIO ( id_usuario  ),
@@ -413,16 +422,17 @@ primary key (id_historico)
 			FOREIGN KEY ( id_solicitud_historico  )
 			REFERENCES   SOLICITUD ( id_solicitud  ),			
 );
-INSERT INTO [dbo].[HISTORICO]
+INSERT INTO [dbo].[HISTORICO_SOLICITUD]
            ([id_usuario_historico]
 		   ,[id_solicitud_historico]
-		   ,[descripcion_historico])
+		   ,[descripcion_historico]
+		   ,[fecha_historico])
      VALUES
-            (1,1,'Se realiza mantenimiento a satisfaccion del cliente'),
-			(2,2, 'El cliente realiza mantenimiento'),
-			(1,3,'Se repara el teclado y el mouse del cliente'),
-			(2,4,'se hace pruebas en el servicio contratado'),
-			(2,5,'se realizan pruebas de calidad en el servicio solicitado por el cliente')
+            (1,1,'Se realiza mantenimiento a satisfaccion del cliente','2017-04-08 02:57:24.480'),
+			(2,2, 'El cliente realiza mantenimiento','2017-04-07 02:57:24.480'),
+			(1,3,'Se repara el teclado y el mouse del cliente','2017-03-06 02:57:24.480'),
+			(2,4,'se hace pruebas en el servicio contratado','2017-04-08 02:57:24.480'),
+			(2,5,'se realizan pruebas de calidad en el servicio solicitado por el cliente','2017-04-06 02:57:24.480')
 		
 	GO
 
@@ -471,7 +481,7 @@ create table INVENTARIO(
 id_inventario int not null IDENTITY,
 id_producto_inventario int not null,
 cantidad_existencias int not null,
-fecha_actualizacion_inventario date not null,
+fecha_actualizacion_inventario DATETIME not null,
 primary key (id_inventario),
 	CONSTRAINT  fk_producto_inventario
 			FOREIGN KEY ( id_producto_inventario  )
@@ -482,11 +492,11 @@ INSERT INTO [dbo].[INVENTARIO]
 		   ,[cantidad_existencias]
 		   ,[fecha_actualizacion_inventario])
      VALUES
-            (1,25,'2017-01-01'),
-			(2,15,'2017-01-01'),
-			(3,20,'2017-01-01'),
-			(4,18,'2017-01-01'),
-			(5,6,'2017-01-01')
+            (1,25,'2017-01-01 02:57:24.480'),
+			(2,15,'2017-01-01 02:57:24.480'),
+			(3,20,'2017-01-01 02:57:24.480'),
+			(4,18,'2017-01-01 02:57:24.480'),
+			(5,6,'2017-01-01 02:57:24.480')
 		
 	GO	
 	
@@ -570,7 +580,8 @@ INSERT INTO PRODUCTO (id_estado_producto,nombre_producto,precio_costo,precio_ven
 VALUES (@id_estado_prod,@nombre_prod,@precio_costo,@precio_venta);
 
 declare  @id_prod int,
-         @fecha datetimeoffset = switchoffset (CONVERT(datetimeoffset, GETDATE()), '-05:00');
+         @fecha DATETIME;
+SET @fecha =  (SELECT CURRENT_TIMESTAMP);		 
 SET @id_prod = (SELECT id_producto FROM PRODUCTO WHERE nombre_producto = @nombre_prod);
 
 INSERT INTO INVENTARIO (id_producto_inventario,cantidad_existencias,fecha_actualizacion_inventario)
@@ -702,14 +713,148 @@ CREATE PROCEDURE ConsultarServicio
 @codigo int
 AS
 BEGIN
-SELECT descripcion_servicio FROM SERVICIO
+SELECT id_servicio,descripcion_servicio FROM SERVICIO
 WHERE id_servicio = @codigo
 END
 
 GO
 
+--PROCEDIMIENTO ALMACENADO PARA  agregar un elemento 
+
+CREATE PROC AgregarElemento
+@id_categ int,
+@id_tipo_elem int,
+@serial VARCHAR(4),
+@placa VARCHAR(30),
+@modelo VARCHAR(30),
+@marca VARCHAR(15),
+@ram VARCHAR(10),
+@rom VARCHAR(15),
+@serial_bateria VARCHAR(4),
+@SO VARCHAR(20)
+
+as
+BEGIN 
+DECLARE @idElemento int
+INSERT INTO ELEMENTO(serial,placa,modelo,marca,ram,rom,serial_bateria,sistema_operativo,id_tipo_elemento,id_categoria_elemento)
+VALUES (@serial,@placa,@modelo,@marca,@ram,@rom,@serial_bateria,@SO,@id_tipo_elem,@id_categ);
+SET @idElemento = @@IDENTITY
+
+SELECT id_elemento FROM ELEMENTO WHERE id_elemento = @idElemento 
+
+END
+GO
+
+--PROCEDIMIENTO ALMACENADO PARA GENERAR UNA SOLICITUD DE SERVICIO 
+CREATE PROC GenerarSolicitud
+@id_prioridad int,
+@id_estado int,
+@id_cliente int,
+@id_servicio int, 
+@id_elemento int,
+@descripcion VARCHAR(300)
+as
+BEGIN 
+declare @fecha DATETIME,
+@id_solicitudFinal int;
+SET @fecha = (SELECT CURRENT_TIMESTAMP);
+
+IF(@id_elemento=0)
+	BEGIN
+		INSERT INTO SOLICITUD (id_prioridad_solicitud,id_estado_solicitud,id_usuario_solicitud,id_servicio_solicitud,fecha_solicitud,descripcion)
+		VALUES (@id_prioridad,@id_estado,@id_cliente,@id_servicio,@fecha,@descripcion);
+		SET @id_solicitudFinal = @@IDENTITY
+	END
+ELSE
+	BEGIN
+		INSERT INTO SOLICITUD (id_prioridad_solicitud,id_estado_solicitud,id_usuario_solicitud,id_servicio_solicitud,id_elemento_solicitud,fecha_solicitud,descripcion)
+		VALUES (@id_prioridad,@id_estado,@id_cliente,@id_servicio,@id_elemento,@fecha,@descripcion);
+		SET @id_solicitudFinal = @@IDENTITY
+	END
+END
+	INSERT INTO HISTORICO_SOLICITUD (id_usuario_historico,id_solicitud_historico,descripcion_historico)
+	VALUES (@id_cliente,@id_solicitudFinal,'Se crea la solicitud del cliente, pendiente por asignar técnico')
+		
+GO
+
+
+--PROCEDIMIENTO ALMACENADO PARA CONSULTAR TODOS LOS TIPOS DE PRIORIDAD QUE HAY PARA LA SOLICITUD
+CREATE PROCEDURE ConsultarTiposPrioridad
+AS
+BEGIN
+SELECT id_prioridad,descripcion_prioridad FROM PRIORIDAD
+END
+GO
+
+--PROCEDIMIENTO ALMACENADO PARA CONSULTAR TODOS LOS ESTADOS DE SOLICITUD EXISTENTES EN BD
+CREATE PROCEDURE ConsultarEstadosSolicitud
+AS
+BEGIN
+SELECT id_estado_solicitud,descripcion FROM ESTADO_SOLICITUD
+END
+GO
+
+--PROCEDIMIENTO ALMACENADO PARA CONSULTAR el id de un usuario segun su numero de identificacion
+CREATE PROCEDURE Consultar_id_UsuarioXIdentificacion
+@codigo int
+AS
+BEGIN
+SELECT id_usuario FROM USUARIO WHERE identificacion = @codigo
+END
+GO
+
+--PROCEDIMIENTO ALMACENADO PARA ACTUALIZAR ESTADO DE LA SOLICITUD DE MANERA AUTOMATICA SEGUN LA PRIORIDAD EL ESTADO Y EL TIEMPO DE SOLICITUD
+CREATE PROCEDURE ActualizarEstadoSolicitud_Automatico
+AS
+declare @Inicio DATETIME,
+		@Fin DATETIME,
+		@TotalRegistros int,
+		@Resultado int,
+		@tiempoSoluc int,
+		@estadoSolic int,
+		@Descrip_estado_anterior VARCHAR(50),
+		@Descrip_historico VARCHAR(100);
+SET @TotalRegistros =  (SELECT COUNT(*) FROM SOLICITUD);
+BEGIN
+WHILE @TotalRegistros > 0
+	BEGIN
+		SET @Inicio = (SELECT fecha_solicitud FROM SOLICITUD WHERE id_solicitud =  @TotalRegistros)
+		SET @Fin = (SELECT CURRENT_TIMESTAMP)
+		SET @estadoSolic = (SELECT id_estado_solicitud FROM SOLICITUD WHERE id_solicitud = @TotalRegistros)
+		SET @tiempoSoluc = (SELECT PRIORIDAD.tiempo_solucion FROM PRIORIDAD INNER JOIN SOLICITUD ON PRIORIDAD.id_prioridad = SOLICITUD.id_prioridad_solicitud WHERE id_solicitud = @TotalRegistros)
+		SET @Resultado =  (SELECT  DATEDIFF(minute, @Inicio, @Fin) as [MinutosTranscurridos] FROM SOLICITUD WHERE id_solicitud = @TotalRegistros)
+		SET @Descrip_estado_anterior = (SELECT ESTADO_SOLICITUD.descripcion FROM ESTADO_SOLICITUD INNER JOIN SOLICITUD ON ESTADO_SOLICITUD.id_estado_solicitud = SOLICITUD.id_estado_solicitud WHERE id_solicitud =  @TotalRegistros)
+		IF(@tiempoSoluc < @Resultado AND @estadoSolic <> 1 )
+			BEGIN
+				UPDATE SOLICITUD SET id_estado_solicitud = 6 WHERE id_solicitud = @TotalRegistros
+				SET @Descrip_historico = ('Se ha modificado el estado de la solicitud de '+@Descrip_estado_anterior+' a Vencido')
+				INSERT INTO HISTORICO_SOLICITUD (id_usuario_historico,id_solicitud_historico,descripcion_historico,fecha_historico)
+				VALUES (1,@TotalRegistros,@Descrip_historico,CURRENT_TIMESTAMP)
+			END
+		SET @TotalRegistros = @TotalRegistros -1
+	END
+END
+GO
+
+--PROCEDIMIENTO ALMACENADO PARA CONSULTAR SOLICITUDES TOTALES
+CREATE PROCEDURE ConsultarSolicitudes
+AS
+BEGIN
+SELECT        USUARIO.identificacion, USUARIO.apellidos, USUARIO.nombres,SOLICITUD.id_solicitud, SOLICITUD.descripcion, SOLICITUD.fecha_solicitud, PRIORIDAD.descripcion_prioridad, ESTADO_SOLICITUD.descripcion AS Estado, 
+                         TIPO_ELEMENTO.descripcion_elemento, SERVICIO.descripcion_servicio, ELEMENTO.serial, ELEMENTO.modelo, ELEMENTO.marca
+FROM            SOLICITUD INNER JOIN
+                         ELEMENTO ON ELEMENTO.id_elemento = SOLICITUD.id_elemento_solicitud INNER JOIN
+                         ESTADO_SOLICITUD ON SOLICITUD.id_estado_solicitud = ESTADO_SOLICITUD.id_estado_solicitud INNER JOIN
+                         PRIORIDAD ON SOLICITUD.id_prioridad_solicitud = PRIORIDAD.id_prioridad INNER JOIN
+                         SERVICIO ON SOLICITUD.id_servicio_solicitud = SERVICIO.id_servicio INNER JOIN
+                         TIPO_ELEMENTO ON ELEMENTO.id_tipo_elemento = TIPO_ELEMENTO.id_tipo_elemento INNER JOIN
+                         USUARIO ON SOLICITUD.id_usuario_solicitud = USUARIO.id_usuario
+END
+GO
+
 	
-	
+
+
 	
 	
 	

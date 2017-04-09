@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Web;
-namespace Persistencia.UsuarioDatos
+namespace Persistencia.ServiciosDatos
 {
     public class ServiciosDatos
     {

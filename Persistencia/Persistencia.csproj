@@ -75,6 +75,9 @@
       <DesignTime>True</DesignTime>
       <DependentUpon>ConexionBD.edmx</DependentUpon>
     </Compile>
+    <Compile Include="ConsultarEstadosSolicitud_Result.cs">
+      <DependentUpon>ConexionBD.tt</DependentUpon>
+    </Compile>
     <Compile Include="ConsultarProductos_Result.cs">
       <DependentUpon>ConexionBD.tt</DependentUpon>
     </Compile>
@@ -85,6 +88,15 @@
       <DependentUpon>ConexionBD.tt</DependentUpon>
     </Compile>
     <Compile Include="ConsultarServicios_Result.cs">
+      <DependentUpon>ConexionBD.tt</DependentUpon>
+    </Compile>
+    <Compile Include="ConsultarServicio_Result.cs">
+      <DependentUpon>ConexionBD.tt</DependentUpon>
+    </Compile>
+    <Compile Include="ConsultarSolicitudes_Result.cs">
+      <DependentUpon>ConexionBD.tt</DependentUpon>
+    </Compile>
+    <Compile Include="ConsultarTiposPrioridad_Result.cs">
       <DependentUpon>ConexionBD.tt</DependentUpon>
     </Compile>
     <Compile Include="DETALLE_FACTURA_PRODUCTO.cs">
@@ -114,7 +126,7 @@
     <Compile Include="FACTURA.cs">
       <DependentUpon>ConexionBD.tt</DependentUpon>
     </Compile>
-    <Compile Include="HISTORICO.cs">
+    <Compile Include="HISTORICO_SOLICITUD.cs">
       <DependentUpon>ConexionBD.tt</DependentUpon>
     </Compile>
     <Compile Include="INVENTARIO.cs">
@@ -135,18 +147,11 @@
       <DependentUpon>ConexionBD.tt</DependentUpon>
     </Compile>
     <Compile Include="ServiciosDatos\ServiciosDatos.cs" />
+    <Compile Include="conexion.cs" />
     <Compile Include="SOLICITUD.cs">
       <DependentUpon>ConexionBD.tt</DependentUpon>
     </Compile>
-    <Compile Include="sp_helpdiagramdefinition_Result.cs">
-      <DependentUpon>ConexionBD.tt</DependentUpon>
-    </Compile>
-    <Compile Include="sp_helpdiagrams_Result.cs">
-      <DependentUpon>ConexionBD.tt</DependentUpon>
-    </Compile>
-    <Compile Include="sysdiagrams.cs">
-      <DependentUpon>ConexionBD.tt</DependentUpon>
-    </Compile>
+    <Compile Include="SolicitudesDatos\SolicitudesDatos.cs" />
     <Compile Include="TELEFONO_USUARIO.cs">
       <DependentUpon>ConexionBD.tt</DependentUpon>
     </Compile>
@@ -159,7 +164,6 @@
     <Compile Include="USUARIO.cs">
       <DependentUpon>ConexionBD.tt</DependentUpon>
     </Compile>
-    <Compile Include="conexion.cs" />
     <Compile Include="UsuarioDatos\UsuarioDatos.cs" />
   </ItemGroup>
   <ItemGroup>

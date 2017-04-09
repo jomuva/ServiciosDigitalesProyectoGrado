@@ -19,7 +19,7 @@ namespace Persistencia
         {
             this.DETALLE_FACTURA_SOLICITUD = new HashSet<DETALLE_FACTURA_SOLICITUD>();
             this.ESCALADO = new HashSet<ESCALADO>();
-            this.HISTORICO = new HashSet<HISTORICO>();
+            this.HISTORICO_SOLICITUD = new HashSet<HISTORICO_SOLICITUD>();
         }
     
         public int id_solicitud { get; set; }
@@ -29,6 +29,7 @@ namespace Persistencia
         public int id_servicio_solicitud { get; set; }
         public Nullable<int> id_elemento_solicitud { get; set; }
         public Nullable<System.DateTime> fecha_solicitud { get; set; }
+        public string descripcion { get; set; }
     
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
         public virtual ICollection<DETALLE_FACTURA_SOLICITUD> DETALLE_FACTURA_SOLICITUD { get; set; }
@@ -37,7 +38,7 @@ namespace Persistencia
         public virtual ICollection<ESCALADO> ESCALADO { get; set; }
         public virtual ESTADO_SOLICITUD ESTADO_SOLICITUD { get; set; }
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
-        public virtual ICollection<HISTORICO> HISTORICO { get; set; }
+        public virtual ICollection<HISTORICO_SOLICITUD> HISTORICO_SOLICITUD { get; set; }
         public virtual PRIORIDAD PRIORIDAD { get; set; }
         public virtual SERVICIO SERVICIO { get; set; }
         public virtual USUARIO USUARIO { get; set; }

@@ -10,7 +10,8 @@ namespace ServiciosDigitalesProy.Controllers
     public class SolicitudesController : Controller
     {
 
-      
+
+        [Authorize(Order =1,Roles ="Administrador",Users ="Jonathan")]
         [HttpGet]
         public ActionResult ConsultarSolicitudes()
         {
@@ -73,8 +74,11 @@ namespace ServiciosDigitalesProy.Controllers
         [HttpPost]
         public ActionResult CrearElemento(Elemento elemento)
         {
-       
-            return View(elemento);
+            string resultado = "", tipoResultado = "";
+            CatalogoSolicitudes.GetInstance().AgregarElemento(elemento,ref resultado,ref tipoResultado);
+            TempData["mensaje"] = resultado;
+            TempData["estado"] = tipoResultado;
+            return View("ConsultarSolicitudes", Session["solicitudes"] as List<Solicitud>);
         }
 
 

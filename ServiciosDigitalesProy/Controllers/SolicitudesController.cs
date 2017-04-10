@@ -11,7 +11,7 @@ namespace ServiciosDigitalesProy.Controllers
     {
 
 
-        [Authorize(Order =1,Roles ="Administrador",Users ="Jonathan")]
+        //[Authorize(Order =1,Roles ="Administrador",Users ="Jonathan")]
         [HttpGet]
         public ActionResult ConsultarSolicitudes()
         {

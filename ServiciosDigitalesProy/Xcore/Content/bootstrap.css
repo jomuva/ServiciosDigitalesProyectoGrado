@@ -3379,7 +3379,7 @@ select[multiple].input-group-sm > .input-group-btn > .btn {
   font-size: 14px;
   font-weight: normal;
   line-height: 1;
-  color: #555;
+  color: #428bca;
   text-align: center;
   background-color: #eee;
   border: 1px solid #ccc;
@@ -3421,6 +3421,7 @@ select[multiple].input-group-sm > .input-group-btn > .btn {
 .input-group-btn:first-child > .btn-group:not(:first-child) > .btn {
   border-top-left-radius: 0;
   border-bottom-left-radius: 0;
+  height: 30.5px;
 }
 .input-group-addon:last-child {
   border-left: 0;

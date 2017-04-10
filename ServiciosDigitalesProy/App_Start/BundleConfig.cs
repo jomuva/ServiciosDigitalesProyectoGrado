@@ -20,7 +20,8 @@ namespace ServiciosDigitalesProy
                         "~/Xcore/Scripts/modernizr-*"));
 
             bundles.Add(new ScriptBundle("~/bundles/Personalizacion").Include(
-                        "~/Xcore/Scripts/PersonalizadosJS.js"));
+                        "~/Xcore/Scripts/PersonalizadosJS.js",
+                        "~/Xcore/Scripts/Formulario/index.js"));
 
             bundles.Add(new ScriptBundle("~/bundles/bootstrap").Include(
                       "~/Xcore/Scripts/bootstrap.js",
@@ -49,6 +50,11 @@ namespace ServiciosDigitalesProy
                       "~/Xcore/Content/Theme/default.css",
                       "~/Xcore/Content/Theme/yellow.css",
                       "~/Xcore/Content/font-awesome/css/font-awesome.min.css"));
+
+            bundles.Add(new StyleBundle("~/Content/css/Formulario").Include(
+                     "~/Xcore/Content/Formulario/bootstrap-theme.min.css",
+                     "~/Xcore/Content/Formulario/bootstrapValidator.min.css",
+                     "~/Xcore/Content/Formulario/style.css"));
 
 
         }

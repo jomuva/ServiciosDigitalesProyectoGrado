@@ -29,6 +29,72 @@ namespace ServiciosDigitalesProy.Catalogos
             return catalogoSolicitudes;
         }
 
+        #region Elemento
+
+        /// <summary>
+        /// Consulta los tipos de elemento y los convierte a modelo 
+        /// </summary>
+        /// <returns></returns>
+        public List<TipoElemento> ConsultarTiposElemento()
+        {
+            List<TipoElemento> Tipos = new List<TipoElemento>();
+            var tipos = solicitudesDatos.ConsultarTiposElemento();
+
+            string dynObj = JsonConvert.SerializeObject(tipos);
+            dynamic dyn = JsonConvert.DeserializeObject(dynObj);
+
+            foreach (var data in dyn)
+            {
+                Tipos.Add(new TipoElemento
+                {
+                    id = data.id_tipo_elemento,
+                    Descripcion = data.descripcion_elemento,
+                });
+            }
+
+            return Tipos;
+        }
+
+        /// <summary>
+        /// Consulta las categorias de elemento y las convierte a modelo
+        /// </summary>
+        /// <returns></returns>
+        public List<CategoriaElemento> ConsultarCategoriasElemento()
+        {
+            List<CategoriaElemento> Tipos = new List<CategoriaElemento>();
+            var tipos = solicitudesDatos.ConsultarCategoriasElemento();
+
+            string dynObj = JsonConvert.SerializeObject(tipos);
+            dynamic dyn = JsonConvert.DeserializeObject(dynObj);
+
+            foreach (var data in dyn)
+            {
+                Tipos.Add(new CategoriaElemento
+                {
+                    id = data.id_categoria_elemento,
+                    Descripcion = data.descripcion_categoria_elemento,
+                });
+            }
+
+            return Tipos;
+        }
+        /// <summary>
+        /// Envia informacion a la capa de persistencia para adicionar un elemento
+        /// </summary>
+        /// <param name="elemento"></param>
+        /// <param name="resultado"></param>
+        /// <param name="tipoResultado"></param>
+        public void AgregarElemento(Elemento elemento, ref string resultado, ref string tipoResultado)
+        {
+            solicitudesDatos.AgregarElemento(
+                                                elemento.serial, elemento.placa, elemento.modelo, elemento.marca, elemento.ram,
+                                                elemento.rom, elemento.serialBateria, elemento.SO,
+                                                elemento.tipoElemento.id, elemento.categoriaElemento.id,
+                                                ref resultado, ref tipoResultado
+                                                );
+        }
+
+        #endregion
         /// <summary>
         /// Consulta el total de solicitudes y en este metodo los convierte a Objeto Solicitud
         /// </summary>
@@ -67,21 +133,7 @@ namespace ServiciosDigitalesProy.Catalogos
         }
 
 
-        /// <summary>
-        /// Envia informacion a la capa de persistencia para adicionar un elemento
-        /// </summary>
-        /// <param name="elemento"></param>
-        /// <param name="resultado"></param>
-        /// <param name="tipoResultado"></param>
-        public void AgregarElemento(Elemento elemento, ref string resultado, ref string tipoResultado)
-        {
-            solicitudesDatos.AgregarElemento(
-                                                elemento.serial,elemento.placa, elemento.modelo, elemento.marca, elemento.ram,
-                                                elemento.rom, elemento.serialBateria, elemento.SO,
-                                                elemento.tipoElemento.id, elemento.categoriaElemento.id,
-                                                ref resultado,ref tipoResultado
-                                                );
-        }
+        
 
         /// <summary>
         /// Agrega una solicitud y verificar si la solicitud tiene un elemento para agregar o no

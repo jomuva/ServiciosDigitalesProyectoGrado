@@ -75,6 +75,9 @@
       <DesignTime>True</DesignTime>
       <DependentUpon>ConexionBD.edmx</DependentUpon>
     </Compile>
+    <Compile Include="ConsultarCategoriasElemento_Result.cs">
+      <DependentUpon>ConexionBD.tt</DependentUpon>
+    </Compile>
     <Compile Include="ConsultarEstadosSolicitud_Result.cs">
       <DependentUpon>ConexionBD.tt</DependentUpon>
     </Compile>
@@ -94,6 +97,9 @@
       <DependentUpon>ConexionBD.tt</DependentUpon>
     </Compile>
     <Compile Include="ConsultarSolicitudes_Result.cs">
+      <DependentUpon>ConexionBD.tt</DependentUpon>
+    </Compile>
+    <Compile Include="ConsultarTiposElemento_Result.cs">
       <DependentUpon>ConexionBD.tt</DependentUpon>
     </Compile>
     <Compile Include="ConsultarTiposPrioridad_Result.cs">
@@ -152,6 +158,15 @@
       <DependentUpon>ConexionBD.tt</DependentUpon>
     </Compile>
     <Compile Include="SolicitudesDatos\SolicitudesDatos.cs" />
+    <Compile Include="sp_helpdiagramdefinition_Result.cs">
+      <DependentUpon>ConexionBD.tt</DependentUpon>
+    </Compile>
+    <Compile Include="sp_helpdiagrams_Result.cs">
+      <DependentUpon>ConexionBD.tt</DependentUpon>
+    </Compile>
+    <Compile Include="sysdiagrams.cs">
+      <DependentUpon>ConexionBD.tt</DependentUpon>
+    </Compile>
     <Compile Include="TELEFONO_USUARIO.cs">
       <DependentUpon>ConexionBD.tt</DependentUpon>
     </Compile>

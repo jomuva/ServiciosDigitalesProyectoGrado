@@ -19,6 +19,9 @@ namespace ServiciosDigitalesProy
             bundles.Add(new ScriptBundle("~/bundles/modernizr").Include(
                         "~/Xcore/Scripts/modernizr-*"));
 
+            bundles.Add(new ScriptBundle("~/bundles/Personalizacion").Include(
+                        "~/Xcore/Scripts/PersonalizadosJS.js"));
+
             bundles.Add(new ScriptBundle("~/bundles/bootstrap").Include(
                       "~/Xcore/Scripts/bootstrap.js",
                       "~/Xcore/Scripts/respond.js",
@@ -27,6 +30,9 @@ namespace ServiciosDigitalesProy
                       "~/Xcore/Scripts/dataTables.responsive.js",
                       "~/Xcore/Scripts/notify.js",
                       "~/Xcore/Scripts/notify.min.js",
+                      "~/Xcore/Scripts/jquery-1.10.2",
+                      "~/Xcore/Scripts/app.js",
+                      "~/Xcore/Scripts/vendor.js",
                       "~/Xcore/Scripts/jquery.bootstrap-growl.js",
                       "~/Xcore/Scripts/jquery.bootstrap-growl.min.js"));
 
@@ -34,7 +40,14 @@ namespace ServiciosDigitalesProy
                       "~/Xcore/Content/bootstrap.css",
                       "~/Xcore/Content/site.css",
                       "~/Xcore/Content/sb-admin.css",
+                       "~/Xcore/Content/jquery.dataTables.min.css",
                       "~/Xcore/Content/font-awesome/css/font-awesome.css",
+                      "~/Xcore/Content/boton-menu-dinamico.css",
+                      "~/Xcore/Content/vendor.css",
+                      "~/Xcore/Content/Theme/blue-sky.css",
+                      "~/Xcore/Content/Theme/blue.css",
+                      "~/Xcore/Content/Theme/default.css",
+                      "~/Xcore/Content/Theme/yellow.css",
                       "~/Xcore/Content/font-awesome/css/font-awesome.min.css"));
 
 

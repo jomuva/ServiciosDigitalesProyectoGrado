@@ -72,6 +72,45 @@ namespace Persistencia.SolicitudesDatos
             return consulta;
         }
 
+        /// <summary>
+        /// Consultar los tipos de elemento de los elementos
+        /// </summary>
+        /// <param name="resultado"></param>
+        /// <param name="tipoResultado"></param>
+        /// <returns></returns>
+        public object ConsultarTiposElemento()
+        {
+            object consulta = null;
+            try
+            {
+                consulta = conexion.conexiones.ConsultarTiposElemento().ToList();
+               
+            }
+            catch (Exception e)
+            {
+               
+            }
+            return consulta;
+        }
+
+        /// <summary>
+        /// Consulta las categorias posibles de un elemento
+        /// </summary>
+        /// <returns></returns>
+        public object ConsultarCategoriasElemento()
+        {
+            object consulta = null;
+            try
+            {
+                consulta = conexion.conexiones.ConsultarCategoriasElemento().ToList();
+
+            }
+            catch (Exception e)
+            {
+
+            }
+            return consulta;
+        }
 
         /// <summary>
         /// Consulta los estados posibles de la solicitud y los trae en una lista

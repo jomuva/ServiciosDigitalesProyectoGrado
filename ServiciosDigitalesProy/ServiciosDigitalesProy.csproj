@@ -261,11 +261,17 @@
     <Content Include="Xcore\Content\font-awesome\css\font-awesome.css" />
     <Content Include="Xcore\Content\font-awesome\css\font-awesome.min.css" />
     <Content Include="Xcore\Content\font-awesome\fonts\fontawesome-webfont.svg" />
+    <Content Include="Xcore\Content\jquery.dataTables.min.css" />
     <Content Include="Xcore\Content\jquery.validate.bootstrap.css" />
     <Content Include="Xcore\Content\sb-admin.css" />
     <Content Include="favicon.ico" />
     <Content Include="Global.asax" />
     <Content Include="Xcore\Content\Site.css" />
+    <Content Include="Xcore\Content\Theme\blue-sky.css" />
+    <Content Include="Xcore\Content\Theme\blue.css" />
+    <Content Include="Xcore\Content\Theme\default.css" />
+    <Content Include="Xcore\Content\Theme\red.css" />
+    <Content Include="Xcore\Content\Theme\yellow.css" />
     <Content Include="Xcore\Imagenes\paginaPrincipal.JPG" />
     <Content Include="Xcore\Scripts\bootstrap.js" />
     <Content Include="Xcore\Scripts\bootstrap.min.js" />
@@ -305,6 +311,10 @@
     <Content Include="Views\Servicios\ModificarServicio.cshtml" />
     <Content Include="Views\Solicitudes\ConsultarSolicitudes.cshtml" />
     <Content Include="Views\Solicitudes\ConsultaElemento.cshtml" />
+    <Content Include="Views\Solicitudes\VerSolicitud.cshtml" />
+    <Content Include="Views\Solicitudes\Partials\_Script.cshtml" />
+    <Content Include="App_Settings\Spanish.json" />
+    <Content Include="Views\Solicitudes\CrearElemento.cshtml" />
     <None Include="Xcore\Scripts\jquery-1.10.2.intellisense.js" />
     <Content Include="Xcore\Scripts\dataTables.bootstrap.min.js" />
     <Content Include="Xcore\Scripts\dataTables.responsive.js" />
@@ -322,6 +332,7 @@
     <Content Include="Xcore\Scripts\jquery.validate.unobtrusive.js" />
     <Content Include="Xcore\Scripts\jquery.validate.unobtrusive.min.js" />
     <Content Include="Xcore\Scripts\modernizr-2.6.2.js" />
+    <Content Include="Xcore\Scripts\PersonalizadosJS.js" />
     <Content Include="Xcore\Scripts\notify.js" />
     <Content Include="Xcore\Scripts\notify.min.js" />
     <Content Include="Xcore\Scripts\respond.js" />

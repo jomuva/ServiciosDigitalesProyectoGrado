@@ -51,6 +51,7 @@
         <AssociationConnector Association="bdServiciosDigitalesProyModel.fk_usuario_solicitud" ManuallyRouted="false" />
         <AssociationConnector Association="bdServiciosDigitalesProyModel.fk_usuario_telefono" ManuallyRouted="false" />
         <AssociationConnector Association="bdServiciosDigitalesProyModel.fk_tipo_Identificacion_usuario" ManuallyRouted="false" />
+        <EntityTypeShape EntityType="bdServiciosDigitalesProyModel.sysdiagrams" Width="1.5" PointX="0.75" PointY="0.75" />
       </Diagram>
     </edmx:Diagrams>
   </edmx:Designer>

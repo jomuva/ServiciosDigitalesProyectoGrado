@@ -1,0 +1,831 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Schema Namespace="bdServiciosDigitalesProyModel" Alias="Self" annotation:UseStrongSpatialTypes="false" xmlns:annotation="http://schemas.microsoft.com/ado/2009/02/edm/annotation" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm">
+  <EntityType Name="CATEGORIA_ELEMENTO">
+    <Key>
+      <PropertyRef Name="id_categoria_elemento" />
+    </Key>
+    <Property Name="id_categoria_elemento" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+    <Property Name="descripcion_categoria_elemento" Type="String" MaxLength="50" FixedLength="false" Unicode="false" Nullable="false" />
+    <NavigationProperty Name="ELEMENTO" Relationship="Self.fk_categoria_elemento" FromRole="CATEGORIA_ELEMENTO" ToRole="ELEMENTO" />
+  </EntityType>
+  <EntityType Name="DETALLE_FACTURA_PRODUCTO">
+    <Key>
+      <PropertyRef Name="id_detalle_factura" />
+    </Key>
+    <Property Name="id_detalle_factura" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+    <Property Name="id_producto_detalle_factura" Type="Int32" />
+    <Property Name="id_vendedor_usuario" Type="Int32" Nullable="false" />
+    <Property Name="id_factura_detalle_factura" Type="Int32" Nullable="false" />
+    <Property Name="cantidad_venta" Type="Int32" Nullable="false" />
+    <NavigationProperty Name="FACTURA" Relationship="Self.fk_factura_detalle_factura_producto" FromRole="DETALLE_FACTURA_PRODUCTO" ToRole="FACTURA" />
+    <NavigationProperty Name="PRODUCTO" Relationship="Self.fk_producto_detalle_factura" FromRole="DETALLE_FACTURA_PRODUCTO" ToRole="PRODUCTO" />
+    <NavigationProperty Name="USUARIO" Relationship="Self.fk_vendedor_usuario_detalle_producto" FromRole="DETALLE_FACTURA_PRODUCTO" ToRole="USUARIO" />
+  </EntityType>
+  <EntityType Name="DETALLE_FACTURA_SOLICITUD">
+    <Key>
+      <PropertyRef Name="id_detalle_factura_solicitud" />
+    </Key>
+    <Property Name="id_detalle_factura_solicitud" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+    <Property Name="id_solicitud_detalle_factura" Type="Int32" />
+    <Property Name="id_vendedor_usuario" Type="Int32" Nullable="false" />
+    <Property Name="id_factura_detalle_factura" Type="Int32" Nullable="false" />
+    <Property Name="cantidad_venta" Type="Int32" Nullable="false" />
+    <NavigationProperty Name="FACTURA" Relationship="Self.fk_factura_detalle_factura_solicitud" FromRole="DETALLE_FACTURA_SOLICITUD" ToRole="FACTURA" />
+    <NavigationProperty Name="SOLICITUD" Relationship="Self.fk_solicitud_detalle_factura" FromRole="DETALLE_FACTURA_SOLICITUD" ToRole="SOLICITUD" />
+    <NavigationProperty Name="USUARIO" Relationship="Self.fk_vendedor_usuario_detalle_solicitud" FromRole="DETALLE_FACTURA_SOLICITUD" ToRole="USUARIO" />
+  </EntityType>
+  <EntityType Name="ELEMENTO">
+    <Key>
+      <PropertyRef Name="id_elemento" />
+    </Key>
+    <Property Name="id_elemento" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+    <Property Name="serial" Type="String" MaxLength="4" FixedLength="false" Unicode="false" />
+    <Property Name="placa" Type="String" MaxLength="30" FixedLength="false" Unicode="false" />
+    <Property Name="modelo" Type="String" MaxLength="30" FixedLength="false" Unicode="false" />
+    <Property Name="marca" Type="String" MaxLength="15" FixedLength="false" Unicode="false" />
+    <Property Name="ram" Type="String" MaxLength="10" FixedLength="false" Unicode="false" />
+    <Property Name="rom" Type="String" MaxLength="15" FixedLength="false" Unicode="false" />
+    <Property Name="serial_bateria" Type="String" MaxLength="4" FixedLength="false" Unicode="false" />
+    <Property Name="sistema_operativo" Type="String" MaxLength="20" FixedLength="false" Unicode="false" />
+    <Property Name="id_tipo_elemento" Type="Int32" Nullable="false" />
+    <Property Name="id_categoria_elemento" Type="Int32" Nullable="false" />
+    <NavigationProperty Name="CATEGORIA_ELEMENTO" Relationship="Self.fk_categoria_elemento" FromRole="ELEMENTO" ToRole="CATEGORIA_ELEMENTO" />
+    <NavigationProperty Name="SOLICITUD" Relationship="Self.fk_elemento_solicitud" FromRole="ELEMENTO" ToRole="SOLICITUD" />
+    <NavigationProperty Name="TIPO_ELEMENTO" Relationship="Self.fk_tipo_elemento" FromRole="ELEMENTO" ToRole="TIPO_ELEMENTO" />
+  </EntityType>
+  <EntityType Name="ESCALADO">
+    <Key>
+      <PropertyRef Name="id_escalado" />
+    </Key>
+    <Property Name="id_escalado" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+    <Property Name="id_solicitud_escalado" Type="Int32" />
+    <Property Name="id_usuario_escalado" Type="Int32" />
+    <NavigationProperty Name="SOLICITUD" Relationship="Self.fk_solicitud_escalado" FromRole="ESCALADO" ToRole="SOLICITUD" />
+    <NavigationProperty Name="USUARIO" Relationship="Self.fk_usuario_escalado" FromRole="ESCALADO" ToRole="USUARIO" />
+  </EntityType>
+  <EntityType Name="ESTADO_FACTURA">
+    <Key>
+      <PropertyRef Name="id_estado_factura" />
+    </Key>
+    <Property Name="id_estado_factura" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+    <Property Name="descripcion_estado_factura" Type="String" MaxLength="15" FixedLength="false" Unicode="false" Nullable="false" />
+    <NavigationProperty Name="FACTURA" Relationship="Self.fk_estado_factura" FromRole="ESTADO_FACTURA" ToRole="FACTURA" />
+  </EntityType>
+  <EntityType Name="ESTADO_PRODUCTO">
+    <Key>
+      <PropertyRef Name="id_estado_producto" />
+    </Key>
+    <Property Name="id_estado_producto" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+    <Property Name="descripcion_estado_producto" Type="String" MaxLength="15" FixedLength="false" Unicode="false" Nullable="false" />
+    <NavigationProperty Name="PRODUCTO" Relationship="Self.fk_estado_producto" FromRole="ESTADO_PRODUCTO" ToRole="PRODUCTO" />
+  </EntityType>
+  <EntityType Name="ESTADO_SOLICITUD">
+    <Key>
+      <PropertyRef Name="id_estado_solicitud" />
+    </Key>
+    <Property Name="id_estado_solicitud" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+    <Property Name="descripcion" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
+    <NavigationProperty Name="SOLICITUD" Relationship="Self.fk_estado_solicitud" FromRole="ESTADO_SOLICITUD" ToRole="SOLICITUD" />
+  </EntityType>
+  <EntityType Name="ESTADO_USUARIO">
+    <Key>
+      <PropertyRef Name="id_estado" />
+    </Key>
+    <Property Name="id_estado" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+    <Property Name="descripcion" Type="String" MaxLength="20" FixedLength="false" Unicode="false" Nullable="false" />
+    <NavigationProperty Name="USUARIO" Relationship="Self.fk_estado_usuario" FromRole="ESTADO_USUARIO" ToRole="USUARIO" />
+  </EntityType>
+  <EntityType Name="FACTURA">
+    <Key>
+      <PropertyRef Name="id_factura" />
+    </Key>
+    <Property Name="id_factura" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+    <Property Name="fecha" Type="DateTime" Nullable="false" Precision="3" />
+    <Property Name="id_usuario_factura" Type="Int32" Nullable="false" />
+    <Property Name="id_estado_factura" Type="Int32" Nullable="false" />
+    <Property Name="abono" Type="Decimal" Precision="30" Scale="4" Nullable="false" />
+    <Property Name="guardar_total" Type="Decimal" Precision="30" Scale="4" Nullable="false" />
+    <NavigationProperty Name="DETALLE_FACTURA_PRODUCTO" Relationship="Self.fk_factura_detalle_factura_producto" FromRole="FACTURA" ToRole="DETALLE_FACTURA_PRODUCTO" />
+    <NavigationProperty Name="DETALLE_FACTURA_SOLICITUD" Relationship="Self.fk_factura_detalle_factura_solicitud" FromRole="FACTURA" ToRole="DETALLE_FACTURA_SOLICITUD" />
+    <NavigationProperty Name="ESTADO_FACTURA" Relationship="Self.fk_estado_factura" FromRole="FACTURA" ToRole="ESTADO_FACTURA" />
+    <NavigationProperty Name="USUARIO" Relationship="Self.fk_usuario_factura" FromRole="FACTURA" ToRole="USUARIO" />
+  </EntityType>
+  <EntityType Name="HISTORICO_SOLICITUD">
+    <Key>
+      <PropertyRef Name="id_historico" />
+    </Key>
+    <Property Name="id_historico" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+    <Property Name="id_usuario_historico" Type="Int32" Nullable="false" />
+    <Property Name="id_solicitud_historico" Type="Int32" Nullable="false" />
+    <Property Name="descripcion_historico" Type="String" MaxLength="100" FixedLength="false" Unicode="false" Nullable="false" />
+    <Property Name="fecha_historico" Type="DateTime" Precision="3" />
+    <NavigationProperty Name="SOLICITUD" Relationship="Self.fk_solicitud_historico" FromRole="HISTORICO_SOLICITUD" ToRole="SOLICITUD" />
+    <NavigationProperty Name="USUARIO" Relationship="Self.fk_usuario_historico" FromRole="HISTORICO_SOLICITUD" ToRole="USUARIO" />
+  </EntityType>
+  <EntityType Name="INVENTARIO">
+    <Key>
+      <PropertyRef Name="id_inventario" />
+    </Key>
+    <Property Name="id_inventario" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+    <Property Name="id_producto_inventario" Type="Int32" Nullable="false" />
+    <Property Name="cantidad_existencias" Type="Int32" Nullable="false" />
+    <Property Name="fecha_actualizacion_inventario" Type="DateTime" Nullable="false" Precision="3" />
+    <NavigationProperty Name="PRODUCTO" Relationship="Self.fk_producto_inventario" FromRole="INVENTARIO" ToRole="PRODUCTO" />
+  </EntityType>
+  <EntityType Name="PERMISO">
+    <Key>
+      <PropertyRef Name="permisoID" />
+    </Key>
+    <Property Name="permisoID" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+    <Property Name="modulo" Type="String" MaxLength="20" FixedLength="false" Unicode="false" />
+    <Property Name="descripcion" Type="String" MaxLength="100" FixedLength="false" Unicode="false" />
+    <NavigationProperty Name="ROL" Relationship="Self.PERMISO_DENEGADO_POR_ROL" FromRole="PERMISO" ToRole="ROL" />
+  </EntityType>
+  <EntityType Name="PRIORIDAD">
+    <Key>
+      <PropertyRef Name="id_prioridad" />
+    </Key>
+    <Property Name="id_prioridad" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+    <Property Name="descripcion_prioridad" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
+    <Property Name="tiempo_solucion" Type="Int32" />
+    <NavigationProperty Name="SOLICITUD" Relationship="Self.fk_prioridad_solicitud" FromRole="PRIORIDAD" ToRole="SOLICITUD" />
+  </EntityType>
+  <EntityType Name="PRODUCTO">
+    <Key>
+      <PropertyRef Name="id_producto" />
+    </Key>
+    <Property Name="id_producto" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+    <Property Name="id_estado_producto" Type="Int32" Nullable="false" />
+    <Property Name="nombre_producto" Type="String" MaxLength="100" FixedLength="false" Unicode="false" Nullable="false" />
+    <Property Name="precio_costo" Type="Decimal" Precision="20" Scale="4" />
+    <Property Name="precio_venta" Type="Decimal" Precision="20" Scale="4" />
+    <NavigationProperty Name="DETALLE_FACTURA_PRODUCTO" Relationship="Self.fk_producto_detalle_factura" FromRole="PRODUCTO" ToRole="DETALLE_FACTURA_PRODUCTO" />
+    <NavigationProperty Name="ESTADO_PRODUCTO" Relationship="Self.fk_estado_producto" FromRole="PRODUCTO" ToRole="ESTADO_PRODUCTO" />
+    <NavigationProperty Name="INVENTARIO" Relationship="Self.fk_producto_inventario" FromRole="PRODUCTO" ToRole="INVENTARIO" />
+  </EntityType>
+  <EntityType Name="ROL">
+    <Key>
+      <PropertyRef Name="id_rol" />
+    </Key>
+    <Property Name="id_rol" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+    <Property Name="descripcion" Type="String" MaxLength="50" FixedLength="false" Unicode="false" Nullable="false" />
+    <NavigationProperty Name="USUARIO" Relationship="Self.fk_rol_usuario" FromRole="ROL" ToRole="USUARIO" />
+    <NavigationProperty Name="PERMISO" Relationship="Self.PERMISO_DENEGADO_POR_ROL" FromRole="ROL" ToRole="PERMISO" />
+  </EntityType>
+  <EntityType Name="SERVICIO">
+    <Key>
+      <PropertyRef Name="id_servicio" />
+    </Key>
+    <Property Name="id_servicio" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+    <Property Name="descripcion_servicio" Type="String" MaxLength="50" FixedLength="false" Unicode="false" Nullable="false" />
+    <NavigationProperty Name="SOLICITUD" Relationship="Self.fk_servicio_solicitud" FromRole="SERVICIO" ToRole="SOLICITUD" />
+  </EntityType>
+  <EntityType Name="SOLICITUD">
+    <Key>
+      <PropertyRef Name="id_solicitud" />
+    </Key>
+    <Property Name="id_solicitud" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+    <Property Name="id_prioridad_solicitud" Type="Int32" Nullable="false" />
+    <Property Name="id_estado_solicitud" Type="Int32" Nullable="false" />
+    <Property Name="id_usuario_solicitud" Type="Int32" Nullable="false" />
+    <Property Name="id_servicio_solicitud" Type="Int32" Nullable="false" />
+    <Property Name="id_elemento_solicitud" Type="Int32" />
+    <Property Name="fecha_solicitud" Type="DateTime" Precision="3" />
+    <Property Name="descripcion" Type="String" MaxLength="300" FixedLength="false" Unicode="false" />
+    <NavigationProperty Name="DETALLE_FACTURA_SOLICITUD" Relationship="Self.fk_solicitud_detalle_factura" FromRole="SOLICITUD" ToRole="DETALLE_FACTURA_SOLICITUD" />
+    <NavigationProperty Name="ELEMENTO" Relationship="Self.fk_elemento_solicitud" FromRole="SOLICITUD" ToRole="ELEMENTO" />
+    <NavigationProperty Name="ESCALADO" Relationship="Self.fk_solicitud_escalado" FromRole="SOLICITUD" ToRole="ESCALADO" />
+    <NavigationProperty Name="ESTADO_SOLICITUD" Relationship="Self.fk_estado_solicitud" FromRole="SOLICITUD" ToRole="ESTADO_SOLICITUD" />
+    <NavigationProperty Name="HISTORICO_SOLICITUD" Relationship="Self.fk_solicitud_historico" FromRole="SOLICITUD" ToRole="HISTORICO_SOLICITUD" />
+    <NavigationProperty Name="PRIORIDAD" Relationship="Self.fk_prioridad_solicitud" FromRole="SOLICITUD" ToRole="PRIORIDAD" />
+    <NavigationProperty Name="SERVICIO" Relationship="Self.fk_servicio_solicitud" FromRole="SOLICITUD" ToRole="SERVICIO" />
+    <NavigationProperty Name="USUARIO" Relationship="Self.fk_usuario_solicitud" FromRole="SOLICITUD" ToRole="USUARIO" />
+  </EntityType>
+  <EntityType Name="TELEFONO_USUARIO">
+    <Key>
+      <PropertyRef Name="id_telefono" />
+    </Key>
+    <Property Name="id_telefono" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+    <Property Name="id_usuario_telefono" Type="Int32" Nullable="false" />
+    <Property Name="numero_telefono" Type="String" MaxLength="15" FixedLength="false" Unicode="false" />
+    <NavigationProperty Name="USUARIO" Relationship="Self.fk_usuario_telefono" FromRole="TELEFONO_USUARIO" ToRole="USUARIO" />
+  </EntityType>
+  <EntityType Name="TIPO_ELEMENTO">
+    <Key>
+      <PropertyRef Name="id_tipo_elemento" />
+    </Key>
+    <Property Name="id_tipo_elemento" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+    <Property Name="descripcion_elemento" Type="String" MaxLength="50" FixedLength="false" Unicode="false" Nullable="false" />
+    <NavigationProperty Name="ELEMENTO" Relationship="Self.fk_tipo_elemento" FromRole="TIPO_ELEMENTO" ToRole="ELEMENTO" />
+  </EntityType>
+  <EntityType Name="TIPO_IDENTIFICACION_USUARIO">
+    <Key>
+      <PropertyRef Name="id_tipo_identificacion" />
+    </Key>
+    <Property Name="id_tipo_identificacion" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+    <Property Name="descripcion_tipo_identificacion" Type="String" MaxLength="50" FixedLength="false" Unicode="false" Nullable="false" />
+    <NavigationProperty Name="USUARIO" Relationship="Self.fk_tipo_Identificacion_usuario" FromRole="TIPO_IDENTIFICACION_USUARIO" ToRole="USUARIO" />
+  </EntityType>
+  <EntityType Name="USUARIO">
+    <Key>
+      <PropertyRef Name="id_usuario" />
+    </Key>
+    <Property Name="id_usuario" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+    <Property Name="id_tipo_Identificacion_usuario" Type="Int32" Nullable="false" />
+    <Property Name="id_estado_usuario" Type="Int32" Nullable="false" />
+    <Property Name="id_rol_usuario" Type="Int32" Nullable="false" />
+    <Property Name="identificacion" Type="String" MaxLength="15" FixedLength="false" Unicode="false" Nullable="false" />
+    <Property Name="apellidos" Type="String" MaxLength="30" FixedLength="false" Unicode="false" Nullable="false" />
+    <Property Name="nombres" Type="String" MaxLength="30" FixedLength="false" Unicode="false" Nullable="false" />
+    <Property Name="direccion" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
+    <Property Name="correo" Type="String" MaxLength="50" FixedLength="false" Unicode="false" Nullable="false" />
+    <Property Name="sexo" Type="String" MaxLength="1" FixedLength="true" Unicode="false" Nullable="false" />
+    <Property Name="usuario_login" Type="String" MaxLength="15" FixedLength="false" Unicode="false" Nullable="false" />
+    <Property Name="password" Type="String" MaxLength="50" FixedLength="false" Unicode="true" Nullable="false" />
+    <NavigationProperty Name="DETALLE_FACTURA_PRODUCTO" Relationship="Self.fk_vendedor_usuario_detalle_producto" FromRole="USUARIO" ToRole="DETALLE_FACTURA_PRODUCTO" />
+    <NavigationProperty Name="DETALLE_FACTURA_SOLICITUD" Relationship="Self.fk_vendedor_usuario_detalle_solicitud" FromRole="USUARIO" ToRole="DETALLE_FACTURA_SOLICITUD" />
+    <NavigationProperty Name="ESCALADO" Relationship="Self.fk_usuario_escalado" FromRole="USUARIO" ToRole="ESCALADO" />
+    <NavigationProperty Name="ESTADO_USUARIO" Relationship="Self.fk_estado_usuario" FromRole="USUARIO" ToRole="ESTADO_USUARIO" />
+    <NavigationProperty Name="FACTURA" Relationship="Self.fk_usuario_factura" FromRole="USUARIO" ToRole="FACTURA" />
+    <NavigationProperty Name="HISTORICO_SOLICITUD" Relationship="Self.fk_usuario_historico" FromRole="USUARIO" ToRole="HISTORICO_SOLICITUD" />
+    <NavigationProperty Name="ROL" Relationship="Self.fk_rol_usuario" FromRole="USUARIO" ToRole="ROL" />
+    <NavigationProperty Name="SOLICITUD" Relationship="Self.fk_usuario_solicitud" FromRole="USUARIO" ToRole="SOLICITUD" />
+    <NavigationProperty Name="TELEFONO_USUARIO" Relationship="Self.fk_usuario_telefono" FromRole="USUARIO" ToRole="TELEFONO_USUARIO" />
+    <NavigationProperty Name="TIPO_IDENTIFICACION_USUARIO" Relationship="Self.fk_tipo_Identificacion_usuario" FromRole="USUARIO" ToRole="TIPO_IDENTIFICACION_USUARIO" />
+  </EntityType>
+  <Association Name="fk_categoria_elemento">
+    <End Role="CATEGORIA_ELEMENTO" Type="Self.CATEGORIA_ELEMENTO" Multiplicity="1" />
+    <End Role="ELEMENTO" Type="Self.ELEMENTO" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="CATEGORIA_ELEMENTO">
+        <PropertyRef Name="id_categoria_elemento" />
+      </Principal>
+      <Dependent Role="ELEMENTO">
+        <PropertyRef Name="id_categoria_elemento" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="fk_factura_detalle_factura_producto">
+    <End Role="FACTURA" Type="Self.FACTURA" Multiplicity="1" />
+    <End Role="DETALLE_FACTURA_PRODUCTO" Type="Self.DETALLE_FACTURA_PRODUCTO" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="FACTURA">
+        <PropertyRef Name="id_factura" />
+      </Principal>
+      <Dependent Role="DETALLE_FACTURA_PRODUCTO">
+        <PropertyRef Name="id_factura_detalle_factura" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="fk_producto_detalle_factura">
+    <End Role="PRODUCTO" Type="Self.PRODUCTO" Multiplicity="0..1" />
+    <End Role="DETALLE_FACTURA_PRODUCTO" Type="Self.DETALLE_FACTURA_PRODUCTO" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="PRODUCTO">
+        <PropertyRef Name="id_producto" />
+      </Principal>
+      <Dependent Role="DETALLE_FACTURA_PRODUCTO">
+        <PropertyRef Name="id_producto_detalle_factura" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="fk_vendedor_usuario_detalle_producto">
+    <End Role="USUARIO" Type="Self.USUARIO" Multiplicity="1" />
+    <End Role="DETALLE_FACTURA_PRODUCTO" Type="Self.DETALLE_FACTURA_PRODUCTO" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="USUARIO">
+        <PropertyRef Name="id_usuario" />
+      </Principal>
+      <Dependent Role="DETALLE_FACTURA_PRODUCTO">
+        <PropertyRef Name="id_vendedor_usuario" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="fk_factura_detalle_factura_solicitud">
+    <End Role="FACTURA" Type="Self.FACTURA" Multiplicity="1" />
+    <End Role="DETALLE_FACTURA_SOLICITUD" Type="Self.DETALLE_FACTURA_SOLICITUD" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="FACTURA">
+        <PropertyRef Name="id_factura" />
+      </Principal>
+      <Dependent Role="DETALLE_FACTURA_SOLICITUD">
+        <PropertyRef Name="id_factura_detalle_factura" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="fk_solicitud_detalle_factura">
+    <End Role="SOLICITUD" Type="Self.SOLICITUD" Multiplicity="0..1" />
+    <End Role="DETALLE_FACTURA_SOLICITUD" Type="Self.DETALLE_FACTURA_SOLICITUD" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="SOLICITUD">
+        <PropertyRef Name="id_solicitud" />
+      </Principal>
+      <Dependent Role="DETALLE_FACTURA_SOLICITUD">
+        <PropertyRef Name="id_solicitud_detalle_factura" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="fk_vendedor_usuario_detalle_solicitud">
+    <End Role="USUARIO" Type="Self.USUARIO" Multiplicity="1" />
+    <End Role="DETALLE_FACTURA_SOLICITUD" Type="Self.DETALLE_FACTURA_SOLICITUD" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="USUARIO">
+        <PropertyRef Name="id_usuario" />
+      </Principal>
+      <Dependent Role="DETALLE_FACTURA_SOLICITUD">
+        <PropertyRef Name="id_vendedor_usuario" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="fk_elemento_solicitud">
+    <End Role="ELEMENTO" Type="Self.ELEMENTO" Multiplicity="0..1" />
+    <End Role="SOLICITUD" Type="Self.SOLICITUD" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="ELEMENTO">
+        <PropertyRef Name="id_elemento" />
+      </Principal>
+      <Dependent Role="SOLICITUD">
+        <PropertyRef Name="id_elemento_solicitud" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="fk_tipo_elemento">
+    <End Role="TIPO_ELEMENTO" Type="Self.TIPO_ELEMENTO" Multiplicity="1" />
+    <End Role="ELEMENTO" Type="Self.ELEMENTO" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="TIPO_ELEMENTO">
+        <PropertyRef Name="id_tipo_elemento" />
+      </Principal>
+      <Dependent Role="ELEMENTO">
+        <PropertyRef Name="id_tipo_elemento" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="fk_solicitud_escalado">
+    <End Role="SOLICITUD" Type="Self.SOLICITUD" Multiplicity="0..1" />
+    <End Role="ESCALADO" Type="Self.ESCALADO" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="SOLICITUD">
+        <PropertyRef Name="id_solicitud" />
+      </Principal>
+      <Dependent Role="ESCALADO">
+        <PropertyRef Name="id_solicitud_escalado" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="fk_usuario_escalado">
+    <End Role="USUARIO" Type="Self.USUARIO" Multiplicity="0..1" />
+    <End Role="ESCALADO" Type="Self.ESCALADO" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="USUARIO">
+        <PropertyRef Name="id_usuario" />
+      </Principal>
+      <Dependent Role="ESCALADO">
+        <PropertyRef Name="id_usuario_escalado" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="fk_estado_factura">
+    <End Role="ESTADO_FACTURA" Type="Self.ESTADO_FACTURA" Multiplicity="1" />
+    <End Role="FACTURA" Type="Self.FACTURA" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="ESTADO_FACTURA">
+        <PropertyRef Name="id_estado_factura" />
+      </Principal>
+      <Dependent Role="FACTURA">
+        <PropertyRef Name="id_estado_factura" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="fk_estado_producto">
+    <End Role="ESTADO_PRODUCTO" Type="Self.ESTADO_PRODUCTO" Multiplicity="1" />
+    <End Role="PRODUCTO" Type="Self.PRODUCTO" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="ESTADO_PRODUCTO">
+        <PropertyRef Name="id_estado_producto" />
+      </Principal>
+      <Dependent Role="PRODUCTO">
+        <PropertyRef Name="id_estado_producto" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="fk_estado_solicitud">
+    <End Role="ESTADO_SOLICITUD" Type="Self.ESTADO_SOLICITUD" Multiplicity="1" />
+    <End Role="SOLICITUD" Type="Self.SOLICITUD" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="ESTADO_SOLICITUD">
+        <PropertyRef Name="id_estado_solicitud" />
+      </Principal>
+      <Dependent Role="SOLICITUD">
+        <PropertyRef Name="id_estado_solicitud" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="fk_estado_usuario">
+    <End Role="ESTADO_USUARIO" Type="Self.ESTADO_USUARIO" Multiplicity="1" />
+    <End Role="USUARIO" Type="Self.USUARIO" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="ESTADO_USUARIO">
+        <PropertyRef Name="id_estado" />
+      </Principal>
+      <Dependent Role="USUARIO">
+        <PropertyRef Name="id_estado_usuario" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="fk_usuario_factura">
+    <End Role="USUARIO" Type="Self.USUARIO" Multiplicity="1" />
+    <End Role="FACTURA" Type="Self.FACTURA" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="USUARIO">
+        <PropertyRef Name="id_usuario" />
+      </Principal>
+      <Dependent Role="FACTURA">
+        <PropertyRef Name="id_usuario_factura" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="fk_solicitud_historico">
+    <End Role="SOLICITUD" Type="Self.SOLICITUD" Multiplicity="1" />
+    <End Role="HISTORICO_SOLICITUD" Type="Self.HISTORICO_SOLICITUD" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="SOLICITUD">
+        <PropertyRef Name="id_solicitud" />
+      </Principal>
+      <Dependent Role="HISTORICO_SOLICITUD">
+        <PropertyRef Name="id_solicitud_historico" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="fk_usuario_historico">
+    <End Role="USUARIO" Type="Self.USUARIO" Multiplicity="1" />
+    <End Role="HISTORICO_SOLICITUD" Type="Self.HISTORICO_SOLICITUD" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="USUARIO">
+        <PropertyRef Name="id_usuario" />
+      </Principal>
+      <Dependent Role="HISTORICO_SOLICITUD">
+        <PropertyRef Name="id_usuario_historico" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="fk_producto_inventario">
+    <End Role="PRODUCTO" Type="Self.PRODUCTO" Multiplicity="1" />
+    <End Role="INVENTARIO" Type="Self.INVENTARIO" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="PRODUCTO">
+        <PropertyRef Name="id_producto" />
+      </Principal>
+      <Dependent Role="INVENTARIO">
+        <PropertyRef Name="id_producto_inventario" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="fk_prioridad_solicitud">
+    <End Role="PRIORIDAD" Type="Self.PRIORIDAD" Multiplicity="1" />
+    <End Role="SOLICITUD" Type="Self.SOLICITUD" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="PRIORIDAD">
+        <PropertyRef Name="id_prioridad" />
+      </Principal>
+      <Dependent Role="SOLICITUD">
+        <PropertyRef Name="id_prioridad_solicitud" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="fk_rol_usuario">
+    <End Role="ROL" Type="Self.ROL" Multiplicity="1" />
+    <End Role="USUARIO" Type="Self.USUARIO" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="ROL">
+        <PropertyRef Name="id_rol" />
+      </Principal>
+      <Dependent Role="USUARIO">
+        <PropertyRef Name="id_rol_usuario" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="fk_servicio_solicitud">
+    <End Role="SERVICIO" Type="Self.SERVICIO" Multiplicity="1" />
+    <End Role="SOLICITUD" Type="Self.SOLICITUD" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="SERVICIO">
+        <PropertyRef Name="id_servicio" />
+      </Principal>
+      <Dependent Role="SOLICITUD">
+        <PropertyRef Name="id_servicio_solicitud" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="fk_usuario_solicitud">
+    <End Role="USUARIO" Type="Self.USUARIO" Multiplicity="1" />
+    <End Role="SOLICITUD" Type="Self.SOLICITUD" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="USUARIO">
+        <PropertyRef Name="id_usuario" />
+      </Principal>
+      <Dependent Role="SOLICITUD">
+        <PropertyRef Name="id_usuario_solicitud" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="fk_usuario_telefono">
+    <End Role="USUARIO" Type="Self.USUARIO" Multiplicity="1" />
+    <End Role="TELEFONO_USUARIO" Type="Self.TELEFONO_USUARIO" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="USUARIO">
+        <PropertyRef Name="id_usuario" />
+      </Principal>
+      <Dependent Role="TELEFONO_USUARIO">
+        <PropertyRef Name="id_usuario_telefono" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="fk_tipo_Identificacion_usuario">
+    <End Role="TIPO_IDENTIFICACION_USUARIO" Type="Self.TIPO_IDENTIFICACION_USUARIO" Multiplicity="1" />
+    <End Role="USUARIO" Type="Self.USUARIO" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="TIPO_IDENTIFICACION_USUARIO">
+        <PropertyRef Name="id_tipo_identificacion" />
+      </Principal>
+      <Dependent Role="USUARIO">
+        <PropertyRef Name="id_tipo_Identificacion_usuario" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="PERMISO_DENEGADO_POR_ROL">
+    <End Role="ROL" Type="Self.ROL" Multiplicity="*" />
+    <End Role="PERMISO" Type="Self.PERMISO" Multiplicity="*" />
+  </Association>
+  <EntityContainer Name="bdServiciosDigitalesProyEntities2" annotation:LazyLoadingEnabled="true">
+    <EntitySet Name="CATEGORIA_ELEMENTO" EntityType="Self.CATEGORIA_ELEMENTO" />
+    <EntitySet Name="DETALLE_FACTURA_PRODUCTO" EntityType="Self.DETALLE_FACTURA_PRODUCTO" />
+    <EntitySet Name="DETALLE_FACTURA_SOLICITUD" EntityType="Self.DETALLE_FACTURA_SOLICITUD" />
+    <EntitySet Name="ELEMENTO" EntityType="Self.ELEMENTO" />
+    <EntitySet Name="ESCALADO" EntityType="Self.ESCALADO" />
+    <EntitySet Name="ESTADO_FACTURA" EntityType="Self.ESTADO_FACTURA" />
+    <EntitySet Name="ESTADO_PRODUCTO" EntityType="Self.ESTADO_PRODUCTO" />
+    <EntitySet Name="ESTADO_SOLICITUD" EntityType="Self.ESTADO_SOLICITUD" />
+    <EntitySet Name="ESTADO_USUARIO" EntityType="Self.ESTADO_USUARIO" />
+    <EntitySet Name="FACTURA" EntityType="Self.FACTURA" />
+    <EntitySet Name="HISTORICO_SOLICITUD" EntityType="Self.HISTORICO_SOLICITUD" />
+    <EntitySet Name="INVENTARIO" EntityType="Self.INVENTARIO" />
+    <EntitySet Name="PERMISO" EntityType="Self.PERMISO" />
+    <EntitySet Name="PRIORIDAD" EntityType="Self.PRIORIDAD" />
+    <EntitySet Name="PRODUCTO" EntityType="Self.PRODUCTO" />
+    <EntitySet Name="ROL" EntityType="Self.ROL" />
+    <EntitySet Name="SERVICIO" EntityType="Self.SERVICIO" />
+    <EntitySet Name="SOLICITUD" EntityType="Self.SOLICITUD" />
+    <EntitySet Name="TELEFONO_USUARIO" EntityType="Self.TELEFONO_USUARIO" />
+    <EntitySet Name="TIPO_ELEMENTO" EntityType="Self.TIPO_ELEMENTO" />
+    <EntitySet Name="TIPO_IDENTIFICACION_USUARIO" EntityType="Self.TIPO_IDENTIFICACION_USUARIO" />
+    <EntitySet Name="USUARIO" EntityType="Self.USUARIO" />
+    <AssociationSet Name="fk_categoria_elemento" Association="Self.fk_categoria_elemento">
+      <End Role="CATEGORIA_ELEMENTO" EntitySet="CATEGORIA_ELEMENTO" />
+      <End Role="ELEMENTO" EntitySet="ELEMENTO" />
+    </AssociationSet>
+    <AssociationSet Name="fk_factura_detalle_factura_producto" Association="Self.fk_factura_detalle_factura_producto">
+      <End Role="FACTURA" EntitySet="FACTURA" />
+      <End Role="DETALLE_FACTURA_PRODUCTO" EntitySet="DETALLE_FACTURA_PRODUCTO" />
+    </AssociationSet>
+    <AssociationSet Name="fk_producto_detalle_factura" Association="Self.fk_producto_detalle_factura">
+      <End Role="PRODUCTO" EntitySet="PRODUCTO" />
+      <End Role="DETALLE_FACTURA_PRODUCTO" EntitySet="DETALLE_FACTURA_PRODUCTO" />
+    </AssociationSet>
+    <AssociationSet Name="fk_vendedor_usuario_detalle_producto" Association="Self.fk_vendedor_usuario_detalle_producto">
+      <End Role="USUARIO" EntitySet="USUARIO" />
+      <End Role="DETALLE_FACTURA_PRODUCTO" EntitySet="DETALLE_FACTURA_PRODUCTO" />
+    </AssociationSet>
+    <AssociationSet Name="fk_factura_detalle_factura_solicitud" Association="Self.fk_factura_detalle_factura_solicitud">
+      <End Role="FACTURA" EntitySet="FACTURA" />
+      <End Role="DETALLE_FACTURA_SOLICITUD" EntitySet="DETALLE_FACTURA_SOLICITUD" />
+    </AssociationSet>
+    <AssociationSet Name="fk_solicitud_detalle_factura" Association="Self.fk_solicitud_detalle_factura">
+      <End Role="SOLICITUD" EntitySet="SOLICITUD" />
+      <End Role="DETALLE_FACTURA_SOLICITUD" EntitySet="DETALLE_FACTURA_SOLICITUD" />
+    </AssociationSet>
+    <AssociationSet Name="fk_vendedor_usuario_detalle_solicitud" Association="Self.fk_vendedor_usuario_detalle_solicitud">
+      <End Role="USUARIO" EntitySet="USUARIO" />
+      <End Role="DETALLE_FACTURA_SOLICITUD" EntitySet="DETALLE_FACTURA_SOLICITUD" />
+    </AssociationSet>
+    <AssociationSet Name="fk_elemento_solicitud" Association="Self.fk_elemento_solicitud">
+      <End Role="ELEMENTO" EntitySet="ELEMENTO" />
+      <End Role="SOLICITUD" EntitySet="SOLICITUD" />
+    </AssociationSet>
+    <AssociationSet Name="fk_tipo_elemento" Association="Self.fk_tipo_elemento">
+      <End Role="TIPO_ELEMENTO" EntitySet="TIPO_ELEMENTO" />
+      <End Role="ELEMENTO" EntitySet="ELEMENTO" />
+    </AssociationSet>
+    <AssociationSet Name="fk_solicitud_escalado" Association="Self.fk_solicitud_escalado">
+      <End Role="SOLICITUD" EntitySet="SOLICITUD" />
+      <End Role="ESCALADO" EntitySet="ESCALADO" />
+    </AssociationSet>
+    <AssociationSet Name="fk_usuario_escalado" Association="Self.fk_usuario_escalado">
+      <End Role="USUARIO" EntitySet="USUARIO" />
+      <End Role="ESCALADO" EntitySet="ESCALADO" />
+    </AssociationSet>
+    <AssociationSet Name="fk_estado_factura" Association="Self.fk_estado_factura">
+      <End Role="ESTADO_FACTURA" EntitySet="ESTADO_FACTURA" />
+      <End Role="FACTURA" EntitySet="FACTURA" />
+    </AssociationSet>
+    <AssociationSet Name="fk_estado_producto" Association="Self.fk_estado_producto">
+      <End Role="ESTADO_PRODUCTO" EntitySet="ESTADO_PRODUCTO" />
+      <End Role="PRODUCTO" EntitySet="PRODUCTO" />
+    </AssociationSet>
+    <AssociationSet Name="fk_estado_solicitud" Association="Self.fk_estado_solicitud">
+      <End Role="ESTADO_SOLICITUD" EntitySet="ESTADO_SOLICITUD" />
+      <End Role="SOLICITUD" EntitySet="SOLICITUD" />
+    </AssociationSet>
+    <AssociationSet Name="fk_estado_usuario" Association="Self.fk_estado_usuario">
+      <End Role="ESTADO_USUARIO" EntitySet="ESTADO_USUARIO" />
+      <End Role="USUARIO" EntitySet="USUARIO" />
+    </AssociationSet>
+    <AssociationSet Name="fk_usuario_factura" Association="Self.fk_usuario_factura">
+      <End Role="USUARIO" EntitySet="USUARIO" />
+      <End Role="FACTURA" EntitySet="FACTURA" />
+    </AssociationSet>
+    <AssociationSet Name="fk_solicitud_historico" Association="Self.fk_solicitud_historico">
+      <End Role="SOLICITUD" EntitySet="SOLICITUD" />
+      <End Role="HISTORICO_SOLICITUD" EntitySet="HISTORICO_SOLICITUD" />
+    </AssociationSet>
+    <AssociationSet Name="fk_usuario_historico" Association="Self.fk_usuario_historico">
+      <End Role="USUARIO" EntitySet="USUARIO" />
+      <End Role="HISTORICO_SOLICITUD" EntitySet="HISTORICO_SOLICITUD" />
+    </AssociationSet>
+    <AssociationSet Name="fk_producto_inventario" Association="Self.fk_producto_inventario">
+      <End Role="PRODUCTO" EntitySet="PRODUCTO" />
+      <End Role="INVENTARIO" EntitySet="INVENTARIO" />
+    </AssociationSet>
+    <AssociationSet Name="fk_prioridad_solicitud" Association="Self.fk_prioridad_solicitud">
+      <End Role="PRIORIDAD" EntitySet="PRIORIDAD" />
+      <End Role="SOLICITUD" EntitySet="SOLICITUD" />
+    </AssociationSet>
+    <AssociationSet Name="fk_rol_usuario" Association="Self.fk_rol_usuario">
+      <End Role="ROL" EntitySet="ROL" />
+      <End Role="USUARIO" EntitySet="USUARIO" />
+    </AssociationSet>
+    <AssociationSet Name="fk_servicio_solicitud" Association="Self.fk_servicio_solicitud">
+      <End Role="SERVICIO" EntitySet="SERVICIO" />
+      <End Role="SOLICITUD" EntitySet="SOLICITUD" />
+    </AssociationSet>
+    <AssociationSet Name="fk_usuario_solicitud" Association="Self.fk_usuario_solicitud">
+      <End Role="USUARIO" EntitySet="USUARIO" />
+      <End Role="SOLICITUD" EntitySet="SOLICITUD" />
+    </AssociationSet>
+    <AssociationSet Name="fk_usuario_telefono" Association="Self.fk_usuario_telefono">
+      <End Role="USUARIO" EntitySet="USUARIO" />
+      <End Role="TELEFONO_USUARIO" EntitySet="TELEFONO_USUARIO" />
+    </AssociationSet>
+    <AssociationSet Name="fk_tipo_Identificacion_usuario" Association="Self.fk_tipo_Identificacion_usuario">
+      <End Role="TIPO_IDENTIFICACION_USUARIO" EntitySet="TIPO_IDENTIFICACION_USUARIO" />
+      <End Role="USUARIO" EntitySet="USUARIO" />
+    </AssociationSet>
+    <AssociationSet Name="PERMISO_DENEGADO_POR_ROL" Association="Self.PERMISO_DENEGADO_POR_ROL">
+      <End Role="ROL" EntitySet="ROL" />
+      <End Role="PERMISO" EntitySet="PERMISO" />
+    </AssociationSet>
+    <FunctionImport Name="ActualizarEstadoSolicitud_Automatico" />
+    <FunctionImport Name="ActualizarProducto">
+      <Parameter Name="idProd" Mode="In" Type="Int32" />
+      <Parameter Name="nombre_prod" Mode="In" Type="String" />
+      <Parameter Name="precio_costo" Mode="In" Type="Decimal" />
+      <Parameter Name="precio_venta" Mode="In" Type="Decimal" />
+    </FunctionImport>
+    <FunctionImport Name="ActualizarServicio">
+      <Parameter Name="idserv" Mode="In" Type="Int32" />
+      <Parameter Name="descripc" Mode="In" Type="String" />
+    </FunctionImport>
+    <FunctionImport Name="AgregarElemento" ReturnType="Collection(Int32)">
+      <Parameter Name="id_categ" Mode="In" Type="Int32" />
+      <Parameter Name="id_tipo_elem" Mode="In" Type="Int32" />
+      <Parameter Name="serial" Mode="In" Type="String" />
+      <Parameter Name="placa" Mode="In" Type="String" />
+      <Parameter Name="modelo" Mode="In" Type="String" />
+      <Parameter Name="marca" Mode="In" Type="String" />
+      <Parameter Name="ram" Mode="In" Type="String" />
+      <Parameter Name="rom" Mode="In" Type="String" />
+      <Parameter Name="serial_bateria" Mode="In" Type="String" />
+      <Parameter Name="SO" Mode="In" Type="String" />
+    </FunctionImport>
+    <FunctionImport Name="AgregarServicio">
+      <Parameter Name="descripc" Mode="In" Type="String" />
+    </FunctionImport>
+    <FunctionImport Name="AgregarUsuario">
+      <Parameter Name="tipoIdent" Mode="In" Type="Int32" />
+      <Parameter Name="estado" Mode="In" Type="Int32" />
+      <Parameter Name="rol" Mode="In" Type="Int32" />
+      <Parameter Name="identif" Mode="In" Type="String" />
+      <Parameter Name="apellidos" Mode="In" Type="String" />
+      <Parameter Name="nombres" Mode="In" Type="String" />
+      <Parameter Name="direccion" Mode="In" Type="String" />
+      <Parameter Name="correo" Mode="In" Type="String" />
+      <Parameter Name="sexo" Mode="In" Type="String" />
+      <Parameter Name="username" Mode="In" Type="String" />
+      <Parameter Name="Passwd" Mode="In" Type="String" />
+    </FunctionImport>
+    <FunctionImport Name="CambiarEstadoProducto">
+      <Parameter Name="idProd" Mode="In" Type="Int32" />
+      <Parameter Name="idEstado" Mode="In" Type="Int32" />
+    </FunctionImport>
+    <FunctionImport Name="Consultar_id_UsuarioXIdentificacion" ReturnType="Collection(Int32)">
+      <Parameter Name="codigo" Mode="In" Type="Int32" />
+    </FunctionImport>
+    <FunctionImport Name="ConsultarEstadosSolicitud" ReturnType="Collection(bdServiciosDigitalesProyModel.ConsultarEstadosSolicitud_Result)" />
+    <FunctionImport Name="ConsultarPermisosXUsuario" ReturnType="Collection(bdServiciosDigitalesProyModel.ConsultarPermisosXUsuario_Result)">
+      <Parameter Name="identif" Mode="In" Type="String" />
+    </FunctionImport>
+    <FunctionImport Name="ConsultarProductos" ReturnType="Collection(bdServiciosDigitalesProyModel.ConsultarProductos_Result)" />
+    <FunctionImport Name="ConsultarProductoXCodigo" ReturnType="Collection(bdServiciosDigitalesProyModel.ConsultarProductoXCodigo_Result)">
+      <Parameter Name="codigo" Mode="In" Type="Int32" />
+    </FunctionImport>
+    <FunctionImport Name="ConsultarProductoXNombre" ReturnType="Collection(bdServiciosDigitalesProyModel.ConsultarProductoXNombre_Result)">
+      <Parameter Name="nombr" Mode="In" Type="String" />
+    </FunctionImport>
+    <FunctionImport Name="ConsultarServicio" ReturnType="Collection(bdServiciosDigitalesProyModel.ConsultarServicio_Result)">
+      <Parameter Name="codigo" Mode="In" Type="Int32" />
+    </FunctionImport>
+    <FunctionImport Name="ConsultarServicios" ReturnType="Collection(bdServiciosDigitalesProyModel.ConsultarServicios_Result)" />
+    <FunctionImport Name="ConsultarSolicitudes" ReturnType="Collection(bdServiciosDigitalesProyModel.ConsultarSolicitudes_Result)" />
+    <FunctionImport Name="ConsultarTiposElemento" ReturnType="Collection(bdServiciosDigitalesProyModel.ConsultarTiposElemento_Result)" />
+    <FunctionImport Name="ConsultarTiposPrioridad" ReturnType="Collection(bdServiciosDigitalesProyModel.ConsultarTiposPrioridad_Result)" />
+    <FunctionImport Name="GenerarSolicitud">
+      <Parameter Name="id_prioridad" Mode="In" Type="Int32" />
+      <Parameter Name="id_estado" Mode="In" Type="Int32" />
+      <Parameter Name="id_cliente" Mode="In" Type="Int32" />
+      <Parameter Name="id_servicio" Mode="In" Type="Int32" />
+      <Parameter Name="id_elemento" Mode="In" Type="Int32" />
+      <Parameter Name="descripcion" Mode="In" Type="String" />
+    </FunctionImport>
+    <FunctionImport Name="InsertarProducto">
+      <Parameter Name="id_estado_prod" Mode="In" Type="Int32" />
+      <Parameter Name="nombre_prod" Mode="In" Type="String" />
+      <Parameter Name="precio_costo" Mode="In" Type="Decimal" />
+      <Parameter Name="precio_venta" Mode="In" Type="Decimal" />
+      <Parameter Name="cantidad" Mode="In" Type="Int32" />
+    </FunctionImport>
+    <FunctionImport Name="ValidarAutenticacionLogin" ReturnType="Collection(String)">
+      <Parameter Name="username" Mode="In" Type="String" />
+      <Parameter Name="passwd" Mode="In" Type="String" />
+    </FunctionImport>
+  </EntityContainer>
+  <ComplexType Name="ConsultarEstadosSolicitud_Result">
+    <Property Type="Int32" Name="id_estado_solicitud" Nullable="false" />
+    <Property Type="String" Name="descripcion" Nullable="true" MaxLength="50" />
+  </ComplexType>
+  <ComplexType Name="ConsultarPermisosXUsuario_Result">
+    <Property Type="String" Name="descripcion" Nullable="true" MaxLength="100" />
+    <Property Type="Int32" Name="permiso_id" Nullable="false" />
+  </ComplexType>
+  <ComplexType Name="ConsultarProductos_Result">
+    <Property Type="Int32" Name="id_producto" Nullable="false" />
+    <Property Type="Int32" Name="id_estado_producto" Nullable="false" />
+    <Property Type="String" Name="nombre_producto" Nullable="false" MaxLength="100" />
+    <Property Type="Decimal" Name="precio_costo" Nullable="true" Precision="20" Scale="4" />
+    <Property Type="Decimal" Name="precio_venta" Nullable="true" Precision="20" Scale="4" />
+  </ComplexType>
+  <ComplexType Name="ConsultarProductoXCodigo_Result">
+    <Property Type="Int32" Name="id_producto" Nullable="false" />
+    <Property Type="Int32" Name="id_estado_producto" Nullable="false" />
+    <Property Type="String" Name="nombre_producto" Nullable="false" MaxLength="100" />
+    <Property Type="Decimal" Name="precio_costo" Nullable="true" Precision="20" Scale="4" />
+    <Property Type="Decimal" Name="precio_venta" Nullable="true" Precision="20" Scale="4" />
+  </ComplexType>
+  <ComplexType Name="ConsultarProductoXNombre_Result">
+    <Property Type="Int32" Name="id_producto" Nullable="false" />
+    <Property Type="Int32" Name="id_estado_producto" Nullable="false" />
+    <Property Type="String" Name="nombre_producto" Nullable="false" MaxLength="100" />
+    <Property Type="Decimal" Name="precio_costo" Nullable="true" Precision="20" Scale="4" />
+    <Property Type="Decimal" Name="precio_venta" Nullable="true" Precision="20" Scale="4" />
+  </ComplexType>
+  <ComplexType Name="ConsultarServicio_Result">
+    <Property Type="Int32" Name="id_servicio" Nullable="false" />
+    <Property Type="String" Name="descripcion_servicio" Nullable="false" MaxLength="50" />
+  </ComplexType>
+  <ComplexType Name="ConsultarServicios_Result">
+    <Property Type="Int32" Name="id_servicio" Nullable="false" />
+    <Property Type="String" Name="descripcion_servicio" Nullable="false" MaxLength="50" />
+  </ComplexType>
+  <ComplexType Name="ConsultarSolicitudes_Result">
+    <Property Type="String" Name="identificacion" Nullable="false" MaxLength="15" />
+    <Property Type="String" Name="apellidos" Nullable="false" MaxLength="30" />
+    <Property Type="String" Name="nombres" Nullable="false" MaxLength="30" />
+    <Property Type="Int32" Name="id_solicitud" Nullable="false" />
+    <Property Type="String" Name="descripcion" Nullable="true" MaxLength="300" />
+    <Property Type="DateTime" Name="fecha_solicitud" Nullable="true" Precision="23" />
+    <Property Type="String" Name="descripcion_prioridad" Nullable="true" MaxLength="50" />
+    <Property Type="String" Name="Estado" Nullable="true" MaxLength="50" />
+    <Property Type="String" Name="descripcion_elemento" Nullable="false" MaxLength="50" />
+    <Property Type="String" Name="descripcion_servicio" Nullable="false" MaxLength="50" />
+    <Property Type="String" Name="serial" Nullable="true" MaxLength="4" />
+    <Property Type="String" Name="modelo" Nullable="true" MaxLength="30" />
+    <Property Type="String" Name="marca" Nullable="true" MaxLength="15" />
+  </ComplexType>
+  <ComplexType Name="ConsultarTiposElemento_Result">
+    <Property Type="Int32" Name="id_tipo_elemento" Nullable="false" />
+    <Property Type="String" Name="descripcion_elemento" Nullable="false" MaxLength="50" />
+  </ComplexType>
+  <ComplexType Name="ConsultarTiposPrioridad_Result">
+    <Property Type="Int32" Name="id_prioridad" Nullable="false" />
+    <Property Type="String" Name="descripcion_prioridad" Nullable="true" MaxLength="50" />
+  </ComplexType>
+</Schema>

@@ -1,0 +1,12 @@
+C:\ProyectoGrado\ProyectoGrado\Persistencia\bin\Debug\Persistencia.dll.config
+C:\ProyectoGrado\ProyectoGrado\Persistencia\bin\Debug\Persistencia.dll
+C:\ProyectoGrado\ProyectoGrado\Persistencia\bin\Debug\Persistencia.pdb
+C:\ProyectoGrado\ProyectoGrado\Persistencia\bin\Debug\EntityFramework.dll
+C:\ProyectoGrado\ProyectoGrado\Persistencia\bin\Debug\EntityFramework.SqlServer.dll
+C:\ProyectoGrado\ProyectoGrado\Persistencia\bin\Debug\Session.dll
+C:\ProyectoGrado\ProyectoGrado\Persistencia\bin\Debug\Session.pdb
+C:\ProyectoGrado\ProyectoGrado\Persistencia\bin\Debug\EntityFramework.xml
+C:\ProyectoGrado\ProyectoGrado\Persistencia\bin\Debug\EntityFramework.SqlServer.xml
+C:\ProyectoGrado\ProyectoGrado\Persistencia\obj\Debug\Persistencia.csprojResolveAssemblyReference.cache
+C:\ProyectoGrado\ProyectoGrado\Persistencia\obj\Debug\Persistencia.dll
+C:\ProyectoGrado\ProyectoGrado\Persistencia\obj\Debug\Persistencia.pdb

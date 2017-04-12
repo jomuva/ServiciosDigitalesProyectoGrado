@@ -66,3 +66,4 @@ C:\ProyectoGrado\ProyectoGrado\ProyectoGrado\bin\es\System.Web.WebPages.Razor.re
 C:\ProyectoGrado\ProyectoGrado\ProyectoGrado\obj\Debug\ProyectoGrado.csprojResolveAssemblyReference.cache
 C:\ProyectoGrado\ProyectoGrado\ProyectoGrado\obj\Debug\ProyectoGrado.dll
 C:\ProyectoGrado\ProyectoGrado\ProyectoGrado\obj\Debug\ProyectoGrado.pdb
+C:\Proyecto de Grado Capas\ServiciosDigitalesProyectoGrado\ProyectoGrado\obj\Debug\ProyectoGrado.csprojResolveAssemblyReference.cache

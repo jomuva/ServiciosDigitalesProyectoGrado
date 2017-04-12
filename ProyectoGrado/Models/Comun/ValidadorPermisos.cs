@@ -17,7 +17,6 @@ namespace Models.Comun
         public static bool TienePermiso(RolesPermisos valor)
         {
             bool resultado = true;
-            //var obj = HttpContext.Current.Response.Cookies.Get("prueba");
             object usuario = ValidadorPermisos.Get();
             List<Permiso> permisos = new List<Permiso>();
             Permiso permiso = new Permiso();

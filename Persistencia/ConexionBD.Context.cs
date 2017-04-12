@@ -214,6 +214,11 @@ namespace Persistencia
             return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction<Nullable<int>>("Consultar_id_UsuarioXIdentificacion", codigoParameter);
         }
     
+        public virtual ObjectResult<ConsultarCategorias_Elemento_Result> ConsultarCategorias_Elemento()
+        {
+            return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction<ConsultarCategorias_Elemento_Result>("ConsultarCategorias_Elemento");
+        }
+    
         public virtual ObjectResult<ConsultarEstadosSolicitud_Result> ConsultarEstadosSolicitud()
         {
             return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction<ConsultarEstadosSolicitud_Result>("ConsultarEstadosSolicitud");

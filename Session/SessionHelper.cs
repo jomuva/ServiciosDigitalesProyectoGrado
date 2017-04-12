@@ -18,6 +18,7 @@ namespace Helper
         public static void DestroyUserSession()
         {
             FormsAuthentication.SignOut();
+            
             //HttpContext.Current.Response.Cookies.Remove("prueba");
         }
         public static int GetUser()
@@ -47,16 +48,13 @@ namespace Helper
             var cookie = FormsAuthentication.GetAuthCookie(username, persist);
 
             cookie.Name = FormsAuthentication.FormsCookieName;
-            cookie.Expires = DateTime.Now.AddMonths(3);
+            cookie.Expires = DateTime.Now.AddMinutes(3);
 
             var ticket = FormsAuthentication.Decrypt(cookie.Value);
             var newTicket = new FormsAuthenticationTicket(ticket.Version, ticket.Name, ticket.IssueDate, ticket.Expiration, ticket.IsPersistent, id);
 
             cookie.Value = FormsAuthentication.Encrypt(newTicket);
             HttpContext.Current.Response.Cookies.Add(cookie);
-        
-            var obj = HttpContext.Current.User;
-
         }
 
 

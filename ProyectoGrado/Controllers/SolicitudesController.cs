@@ -14,7 +14,6 @@ namespace ServiciosDigitalesProy.Controllers
     {
 
 
-        //[Authorize(Order =1,Roles ="Administrador",Users ="Jonathan")]
         [HttpGet]
         [PermisoAttribute(Permiso = RolesPermisos.Puede_consultar_solicitud)]
         public ActionResult ConsultarSolicitudes()

@@ -70,6 +70,9 @@
       <DesignTime>True</DesignTime>
       <DependentUpon>ConexionBD.edmx</DependentUpon>
     </Compile>
+    <Compile Include="ConsultarCategorias_Elemento_Result.cs">
+      <DependentUpon>ConexionBD.tt</DependentUpon>
+    </Compile>
     <Compile Include="ConsultarEstadosSolicitud_Result.cs">
       <DependentUpon>ConexionBD.tt</DependentUpon>
     </Compile>

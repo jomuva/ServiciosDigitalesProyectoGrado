@@ -102,7 +102,7 @@ namespace Persistencia.SolicitudesDatos
             object consulta = null;
             try
             {
-                //consulta = conexion.conexiones.ConsultarCategoriasElemento().ToList();
+                consulta = conexion.conexiones.ConsultarCategorias_Elemento().ToList();
 
             }
             catch (Exception e)

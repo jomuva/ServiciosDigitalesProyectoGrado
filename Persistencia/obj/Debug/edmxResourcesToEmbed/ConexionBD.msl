@@ -240,6 +240,14 @@
     <FunctionImportMapping FunctionImportName="AgregarUsuario" FunctionName="bdServiciosDigitalesProyModel.Store.AgregarUsuario" />
     <FunctionImportMapping FunctionImportName="CambiarEstadoProducto" FunctionName="bdServiciosDigitalesProyModel.Store.CambiarEstadoProducto" />
     <FunctionImportMapping FunctionImportName="Consultar_id_UsuarioXIdentificacion" FunctionName="bdServiciosDigitalesProyModel.Store.Consultar_id_UsuarioXIdentificacion" />
+    <FunctionImportMapping FunctionImportName="ConsultarCategorias_Elemento" FunctionName="bdServiciosDigitalesProyModel.Store.ConsultarCategorias_Elemento">
+      <ResultMapping>
+        <ComplexTypeMapping TypeName="bdServiciosDigitalesProyModel.ConsultarCategorias_Elemento_Result">
+          <ScalarProperty Name="id_categoria_elemento" ColumnName="id_categoria_elemento" />
+          <ScalarProperty Name="descripcion_categoria_elemento" ColumnName="descripcion_categoria_elemento" />
+        </ComplexTypeMapping>
+      </ResultMapping>
+    </FunctionImportMapping>
     <FunctionImportMapping FunctionImportName="ConsultarEstadosSolicitud" FunctionName="bdServiciosDigitalesProyModel.Store.ConsultarEstadosSolicitud">
       <ResultMapping>
         <ComplexTypeMapping TypeName="bdServiciosDigitalesProyModel.ConsultarEstadosSolicitud_Result">

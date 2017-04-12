@@ -12,7 +12,6 @@ using Helper;
 
 namespace ProyectoGrado.Controllers
 {
-    
     public class HomeController : Controller
     {
         [Autenticado]
@@ -65,7 +64,10 @@ namespace ProyectoGrado.Controllers
         {
            
             SessionHelper.DestroyUserSession();
+            Session.Abandon();
             return Redirect("~/");
         }
+
+       
     }
 }

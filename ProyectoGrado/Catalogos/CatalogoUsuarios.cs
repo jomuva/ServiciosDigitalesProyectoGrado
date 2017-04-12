@@ -49,7 +49,6 @@ namespace ServiciosDigitalesProy.Catalogos
                 if (identificacion != "")
                 {
                     usuarioDatos.Autenticarse(identificacion,user.username, ref resultado, ref tipoResultado);
-                    var obj = HttpContext.Current.Response.Cookies.Get(".ASPXAUTH");
                 }else
                 {
                     resultado = "Usuario o Contraseña Incorrecto";

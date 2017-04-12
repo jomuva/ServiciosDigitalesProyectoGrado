@@ -69,12 +69,7 @@ namespace Persistencia.UsuarioDatos
             object usuario = null;
             try
             {
-
-                //var instance = System.Data.Entity.SqlServer.SqlProviderServices.Instance;
                 usuario = conexion.conexiones.ValidarAutenticacionLogin(username, passwd).ToList();
-                //var mail = from m in conexion.conexiones.USUARIO
-                //                where m.usuario_login == username
-                //                select m;
             }
             catch (Exception e)
             {
@@ -89,8 +84,6 @@ namespace Persistencia.UsuarioDatos
             SessionHelper.AddUserToSession(id,username);
             resultado = "Inicio de sesion correcto";
             tipoResultado = "success";
-            
-
         }
 
         /// <summary>

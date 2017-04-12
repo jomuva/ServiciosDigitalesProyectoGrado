@@ -584,6 +584,7 @@
         <Function Name="Consultar_id_UsuarioXIdentificacion" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
           <Parameter Name="codigo" Type="int" Mode="In" />
         </Function>
+        <Function Name="ConsultarCategorias_Elemento" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo" />
         <Function Name="ConsultarEstadosSolicitud" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo" />
         <Function Name="ConsultarPermisosXUsuario" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
           <Parameter Name="identif" Type="varchar" Mode="In" />
@@ -1489,6 +1490,7 @@
           <FunctionImport Name="Consultar_id_UsuarioXIdentificacion" ReturnType="Collection(Int32)">
             <Parameter Name="codigo" Mode="In" Type="Int32" />
           </FunctionImport>
+          <FunctionImport Name="ConsultarCategorias_Elemento" ReturnType="Collection(bdServiciosDigitalesProyModel.ConsultarCategorias_Elemento_Result)" />
           <FunctionImport Name="ConsultarEstadosSolicitud" ReturnType="Collection(bdServiciosDigitalesProyModel.ConsultarEstadosSolicitud_Result)" />
           <FunctionImport Name="ConsultarPermisosXUsuario" ReturnType="Collection(bdServiciosDigitalesProyModel.ConsultarPermisosXUsuario_Result)">
             <Parameter Name="identif" Mode="In" Type="String" />
@@ -1527,6 +1529,10 @@
             <Parameter Name="passwd" Mode="In" Type="String" />
           </FunctionImport>
         </EntityContainer>
+        <ComplexType Name="ConsultarCategorias_Elemento_Result">
+          <Property Type="Int32" Name="id_categoria_elemento" Nullable="false" />
+          <Property Type="String" Name="descripcion_categoria_elemento" Nullable="false" MaxLength="50" />
+        </ComplexType>
         <ComplexType Name="ConsultarEstadosSolicitud_Result">
           <Property Type="Int32" Name="id_estado_solicitud" Nullable="false" />
           <Property Type="String" Name="descripcion" Nullable="true" MaxLength="50" />
@@ -1832,6 +1838,14 @@
           <FunctionImportMapping FunctionImportName="AgregarUsuario" FunctionName="bdServiciosDigitalesProyModel.Store.AgregarUsuario" />
           <FunctionImportMapping FunctionImportName="CambiarEstadoProducto" FunctionName="bdServiciosDigitalesProyModel.Store.CambiarEstadoProducto" />
           <FunctionImportMapping FunctionImportName="Consultar_id_UsuarioXIdentificacion" FunctionName="bdServiciosDigitalesProyModel.Store.Consultar_id_UsuarioXIdentificacion" />
+          <FunctionImportMapping FunctionImportName="ConsultarCategorias_Elemento" FunctionName="bdServiciosDigitalesProyModel.Store.ConsultarCategorias_Elemento">
+            <ResultMapping>
+              <ComplexTypeMapping TypeName="bdServiciosDigitalesProyModel.ConsultarCategorias_Elemento_Result">
+                <ScalarProperty Name="id_categoria_elemento" ColumnName="id_categoria_elemento" />
+                <ScalarProperty Name="descripcion_categoria_elemento" ColumnName="descripcion_categoria_elemento" />
+              </ComplexTypeMapping>
+            </ResultMapping>
+          </FunctionImportMapping>
           <FunctionImportMapping FunctionImportName="ConsultarEstadosSolicitud" FunctionName="bdServiciosDigitalesProyModel.Store.ConsultarEstadosSolicitud">
             <ResultMapping>
               <ComplexTypeMapping TypeName="bdServiciosDigitalesProyModel.ConsultarEstadosSolicitud_Result">

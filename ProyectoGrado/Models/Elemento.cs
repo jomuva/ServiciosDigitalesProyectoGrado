@@ -21,12 +21,13 @@ namespace ServiciosDigitalesProy.Models
             categoriaElemento = new CategoriaElemento();
         }
 
-        public Elemento(string descripcionElemento,string serial, string modelo, string marca)
+        public Elemento(string descripcionCategoria,string descripcionElemento,string serial, string placa,string modelo, string marca,string ram,string rom,string serial_bateria,string sistema_operativo)
         {
             this.serial = serial;
             this.modelo = modelo;
             this.marca = marca;
             this.tipoElemento = new TipoElemento(descripcionElemento);
+            this.categoriaElemento = new CategoriaElemento(descripcionCategoria);
         }
 
         public int id_elemento { get; set; }

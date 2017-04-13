@@ -118,12 +118,33 @@ namespace Persistencia.SolicitudesDatos
         /// <param name="resultado"></param>
         /// <param name="tipoResultado"></param>
         /// <returns></returns>
-        public object ConsultarEstadosSolicitud(ref string resultado, ref string tipoResultado)
+        public object ConsultarEstadosSolicitud()
         {
             object consulta = null;
             try
             {
                 consulta = conexion.conexiones.ConsultarEstadosSolicitud().ToList();
+            }
+            catch (Exception e)
+            {
+            }
+            return consulta;
+        }
+
+
+        /// <summary>
+        /// Consulta el estado de la solicitud segun el id del cliente
+        /// </summary>
+        /// <param name="idCliente"></param>
+        /// <param name="resultado"></param>
+        /// <param name="tipoResultado"></param>
+        /// <returns></returns>
+        public object ConsultarEstadoSolicitud_X_id(int idSolicitud,ref string resultado, ref string tipoResultado)
+        {
+            object consulta = null;
+            try
+            {
+                consulta = conexion.conexiones.ConsultarEstado_Solicitud(idSolicitud).ToList();
                 resultado = "Consulta Exitosa";
                 tipoResultado = "info";
             }
@@ -133,6 +154,33 @@ namespace Persistencia.SolicitudesDatos
                 tipoResultado = "error";
             }
             return consulta;
+        }
+
+        /// <summary>
+        /// modifica el estado de la solicitud segun id de solicitud
+        /// </summary>
+        /// <param name="id"></param>
+        /// <param name=""></param>
+        /// <param name="resultado"></param>
+        /// <param name="tipoResultado"></param>
+        public object CambiarEstadoSolicitud(int idSolicitud,int idEstadoAnterior,int idEstadoNuevo,string identif,ref string resultado, ref string tipoResultado)
+        {
+            object res=null;
+            try
+            {
+                 res = conexion.conexiones.CambiarEstadoSolicitud(idSolicitud,idEstadoAnterior,idEstadoNuevo,identif).ToList();
+                conexion.conexiones.SaveChanges();
+
+                resultado = "Se ha Cambiado el estado de la solicitud "+ idSolicitud + " satisfactoriamente!.  Consulte el Histórico";
+                tipoResultado = "success";
+
+            }
+            catch (Exception ex)
+            {
+                resultado = ex.Message;
+                tipoResultado = "danger";
+            }
+            return res;
         }
 
         /// <summary>
@@ -160,6 +208,44 @@ namespace Persistencia.SolicitudesDatos
 
             return solicitudes;
         }
+
+        public object ConsultarSolicitudesXEmpleado(string identif,ref string resultado, ref string tipoResultado)
+        {
+
+            object solicitudes = null;
+            try
+            {
+                solicitudes = conexion.conexiones.ConsultarSolicitudesXEmpleado(identif).ToList();
+                resultado = "Consulta Exitosa";
+                tipoResultado = "info";
+
+            }
+            catch (Exception ex)
+            {
+                resultado = ex.Message;
+                tipoResultado = "error";
+            }
+
+            return solicitudes;
+        }
+
+
+        public object ConsultaNombresEmpleadosXSolicitud()
+        {
+            object solicitudes = null;
+            try
+            {
+                solicitudes = conexion.conexiones.ConsultaNombresEmpleadosXSolicitud().ToList();
+            }
+            catch (Exception ex)
+            {
+          
+            }
+
+            return solicitudes;
+        }
+
+
 
 
         /// <summary>

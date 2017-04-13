@@ -47,6 +47,22 @@ namespace Persistencia.UsuarioDatos
                           };
             return Estados.ToList();
         }
+        
+        /// <summary>
+        /// Consulta el rol de un usuario segun su numero de documento
+        /// </summary>
+        /// <param name="identif"></param>
+        /// <returns></returns>
+        public object ConsultarRolUsuario(string identif)
+        {
+            try {
+                var obj = conexion.conexiones.ConsultarRolUsuario(identif).ToList();
+                return obj; 
+            }
+            catch { }
+            return null;
+            
+        }
 
         ///// <summary>
         ///// Consulta los roles de un empleado en BD
@@ -120,11 +136,12 @@ namespace Persistencia.UsuarioDatos
         ///// <returns>Usuario</returns>
         public object ConsultarCliente(string data, ref object telefonos, ref string resultado, ref string tipoResultado)
         {
-            
 
             int id = 0;
             object users = null;
             bool result = int.TryParse(data, out id);
+            string ident = id.ToString();
+            
             try
             { 
                 if (result == true)
@@ -132,7 +149,7 @@ namespace Persistencia.UsuarioDatos
                     var telefonoCliente = from TelUsuario in conexion.conexiones.TELEFONO_USUARIO
                                           join usu in conexion.conexiones.USUARIO
                                             on TelUsuario.id_usuario_telefono equals usu.id_usuario
-                                          where usu.identificacion == id.ToString()
+                                          where usu.identificacion == ident
                                           select new 
                                           {
                                               numero_telefono = TelUsuario.numero_telefono,
@@ -143,7 +160,7 @@ namespace Persistencia.UsuarioDatos
                     var cliente = from usuario in conexion.conexiones.USUARIO
                                   join es in conexion.conexiones.ESTADO_USUARIO
                                    on usuario.id_estado_usuario equals es.id_estado
-                                  where usuario.id_rol_usuario == 1 && usuario.identificacion == id.ToString()
+                                  where usuario.id_rol_usuario == 1 && usuario.identificacion == ident
                                   select new 
                                   {
                                       nombres = usuario.nombres,
@@ -175,7 +192,7 @@ namespace Persistencia.UsuarioDatos
                     var telefonoCliente = from TelUsuario in conexion.conexiones.TELEFONO_USUARIO
                                           join usu in conexion.conexiones.USUARIO
                                             on TelUsuario.id_usuario_telefono equals usu.id_usuario
-                                          where usu.nombres == data.ToString()
+                                          where usu.nombres == data
                                           select new 
                                           {
                                               numero_telefono = TelUsuario.numero_telefono,
@@ -186,7 +203,7 @@ namespace Persistencia.UsuarioDatos
                     var cliente = from usuario in conexion.conexiones.USUARIO
                                   join es in conexion.conexiones.ESTADO_USUARIO
                                    on usuario.id_estado_usuario equals es.id_estado
-                                  where usuario.id_rol_usuario == 1 && usuario.nombres == data.ToString()
+                                  where usuario.id_rol_usuario == 1 && usuario.nombres == data
                                   select new 
                                   {
                                       nombres = usuario.nombres,
@@ -468,8 +485,9 @@ namespace Persistencia.UsuarioDatos
 
             int id = 0;
             object users = null;
-
+            
             bool result = int.TryParse(data, out id);
+            string ident = id.ToString();
             try
             {
                 if (result == true)
@@ -477,7 +495,7 @@ namespace Persistencia.UsuarioDatos
                     var telefonoEmpleado = from TelUsuario in conexion.conexiones.TELEFONO_USUARIO
                                            join usu in conexion.conexiones.USUARIO
                                              on TelUsuario.id_usuario_telefono equals usu.id_usuario
-                                           where usu.identificacion == id.ToString()
+                                           where usu.identificacion == ident
                                            select new 
                                            {
                                                numero_telefono = TelUsuario.numero_telefono,
@@ -490,7 +508,7 @@ namespace Persistencia.UsuarioDatos
                                     on usuario.id_estado_usuario equals es.id_estado
                                    join roles in conexion.conexiones.ROL
                                    on usuario.id_rol_usuario equals roles.id_rol
-                                   where (usuario.id_rol_usuario == 2 || usuario.id_rol_usuario == 3 || usuario.id_rol_usuario == 4) && usuario.identificacion == id.ToString()
+                                   where (usuario.id_rol_usuario == 2 || usuario.id_rol_usuario == 3 || usuario.id_rol_usuario == 4) && usuario.identificacion == ident
                                    select new 
                                    {
                                        nombres = usuario.nombres,
@@ -522,7 +540,7 @@ namespace Persistencia.UsuarioDatos
                     var telefonoEmpleado = from TelUsuario in conexion.conexiones.TELEFONO_USUARIO
                                            join usu in conexion.conexiones.USUARIO
                                              on TelUsuario.id_usuario_telefono equals usu.id_usuario
-                                           where usu.nombres == data.ToString()
+                                           where usu.nombres == data
                                            select new 
                                            {
                                                numero_telefono = TelUsuario.numero_telefono,
@@ -535,7 +553,7 @@ namespace Persistencia.UsuarioDatos
                                     on usuario.id_estado_usuario equals es.id_estado
                                    join roles in conexion.conexiones.ROL
                                    on usuario.id_rol_usuario equals roles.id_rol
-                                   where (usuario.id_rol_usuario == 2 || usuario.id_rol_usuario == 3 || usuario.id_rol_usuario == 4) && usuario.nombres == data.ToString()
+                                   where (usuario.id_rol_usuario == 2 || usuario.id_rol_usuario == 3 || usuario.id_rol_usuario == 4) && usuario.nombres == data
                                    select new 
                                    {
                                        nombres = usuario.nombres,

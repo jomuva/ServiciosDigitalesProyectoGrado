@@ -184,6 +184,8 @@
   </ItemGroup>
   <ItemGroup>
     <Content Include="favicon.ico" />
+    <Content Include="ScriptSql\JOB Actualizar Estado Solicitud.sql" />
+    <Content Include="ScriptSql\ScriptBdProyectoGrado.sql" />
     <Content Include="Xcore\Content\bootstrap.css" />
     <Content Include="Xcore\Content\bootstrap.min.css" />
     <Content Include="Xcore\Content\font-awesome\css\font-awesome.css" />
@@ -217,6 +219,7 @@
     <Content Include="Views\Shared\_LoginPartial.cshtml" />
     <Content Include="Views\Shared\_Scripts.cshtml" />
     <Content Include="Views\Shared\_SidebarTopbar.cshtml" />
+    <Content Include="Views\Solicitudes\CambiarEstado.cshtml" />
     <None Include="Xcore\Scripts\jquery-1.10.2.intellisense.js" />
     <Content Include="Xcore\Scripts\Formulario\index.js" />
     <Content Include="Xcore\Scripts\jquery-1.10.2.js" />
@@ -288,7 +291,6 @@
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
-    <Folder Include="ScriptSql\" />
   </ItemGroup>
   <ItemGroup>
     <Content Include="Xcore\Content\fonts\glyphicons-halflings-regular.woff" />

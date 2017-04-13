@@ -17,6 +17,8 @@ namespace ServiciosDigitalesProy.Models
             elemento = new Elemento();
             fecha = new DateTime();
             descripcion = "";
+            Empleado = "";
+            idEmpleado = 0;
         }
 
         public int id_solicitud { get; set; }
@@ -27,6 +29,8 @@ namespace ServiciosDigitalesProy.Models
         public Elemento elemento { get; set; }
         public DateTime fecha { get; set; }
         public string descripcion { get; set; }
+        public string Empleado { get; set; }
+        public int idEmpleado { get; set; }
         public SelectList prioridadSolicitudSelect { get; set; }
         public SelectList estadoSolicitudSelect { get; set; }
 

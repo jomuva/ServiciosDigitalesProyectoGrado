@@ -4,7 +4,9 @@ using System.Linq;
 using System.Web;
 using ServiciosDigitalesProy.Models;
 using Persistencia.SolicitudesDatos;
+using Persistencia.UsuarioDatos;
 using Newtonsoft.Json;
+using Helper;
 
 namespace ServiciosDigitalesProy.Catalogos
 {
@@ -12,10 +14,12 @@ namespace ServiciosDigitalesProy.Catalogos
     {
         private static CatalogoSolicitudes catalogoSolicitudes = null;
         private static SolicitudesDatos solicitudesDatos = null;
+        private static UsuarioDatos usuariosDatos = null;
 
         public CatalogoSolicitudes()
         {
             solicitudesDatos = new SolicitudesDatos();
+            
         }
 
         /// <summary>
@@ -56,6 +60,32 @@ namespace ServiciosDigitalesProy.Catalogos
         }
 
         /// <summary>
+        /// Consulta todos los tips de estado de solicitud para combobox
+        /// </summary>
+        /// <param name="resultado"></param>
+        /// <param name="tipoResultado"></param>
+        /// <returns></returns>
+        public List<EstadoSolicitud> ConsultarEstadosSolicitud()
+        {
+            List<EstadoSolicitud> Tipos = new List<EstadoSolicitud>();
+            var tipos = solicitudesDatos.ConsultarEstadosSolicitud();
+
+            string dynObj = JsonConvert.SerializeObject(tipos);
+            dynamic dyn = JsonConvert.DeserializeObject(dynObj);
+
+            foreach (var data in dyn)
+            {
+                Tipos.Add(new EstadoSolicitud
+                {
+                    id = data.id_estado_solicitud,
+                    Descripcion = data.descripcion,
+                });
+            }
+
+            return Tipos;
+        }
+
+        /// <summary>
         /// Consulta las categorias de elemento y las convierte a modelo
         /// </summary>
         /// <returns></returns>
@@ -77,6 +107,70 @@ namespace ServiciosDigitalesProy.Catalogos
             }
 
             return Tipos;
+        }
+
+        /// <summary>
+        /// Consulta Estado Solicitud segun id solicitud 
+        /// </summary>
+        /// <param name="idSolicitud"></param>
+        /// <param name="resultado"></param>
+        /// <param name="tipoResultado"></param>
+        /// <returns></returns>
+        public Solicitud ConsultaEstadoSolicitud_X_id(int idSolicitud, ref string resultado, ref string tipoResultado)
+        {
+            Solicitud solicitud = new Solicitud();
+            EstadoSolicitud estado = new EstadoSolicitud();
+            var Estado = solicitudesDatos.ConsultarEstadoSolicitud_X_id(idSolicitud, ref resultado, ref tipoResultado);
+
+            if (tipoResultado != "danger")
+            {
+                string dynObj2 = JsonConvert.SerializeObject(Estado);
+                dynamic dyn2 = JsonConvert.DeserializeObject(dynObj2);
+
+                foreach (var item in dyn2)
+                {
+                    estado.id = item.id_estado_solicitud;
+                    estado.Descripcion = item.descripcion;
+                } 
+                //solicitud.estadoSolicitud.id = dyn2.id_estado_solicitud;
+                //solicitud.estadoSolicitud.Descripcion = dyn2.descripcion;
+                resultado = "";
+                tipoResultado = "";
+                solicitud.estadoSolicitud = estado;
+            }
+            return solicitud;
+        }
+
+        /// <summary>
+        /// Envia el nuevo estado de solicitud con el empleado logueado para ingresarlo a la base de datos y su histórico
+        /// </summary>
+        /// <param name="idSolicitud"></param>
+        /// <param name="idEstadoAnterior"></param>
+        /// <param name="idEstadoNuevo"></param>
+        /// <param name="resultado"></param>
+        /// <param name="tipoResultado"></param>
+        public void CambiarEstadoSolicitud(int idSolicitud,int idEstadoAnterior,int idEstadoNuevo, ref string resultado, ref string tipoResultado)
+        {
+            int identifEmpleado = SessionHelper.GetUser();
+            int respInt;
+            string respuesta = "";
+            object resul;
+            resul = solicitudesDatos.CambiarEstadoSolicitud(idSolicitud, idEstadoAnterior, idEstadoNuevo, identifEmpleado.ToString(),ref resultado,ref tipoResultado);
+
+            string dynObj2 = JsonConvert.SerializeObject(resul);
+            dynamic dyn2 = JsonConvert.DeserializeObject(dynObj2);
+
+            foreach (var item in dyn2)
+            {
+                respuesta = item;
+                
+            }
+            respInt = respuesta ==""?respInt=0: Convert.ToInt32(respuesta);
+            if(respInt == 0)
+            {
+                resultado = "El cambio de dicho estado no se puede realizar";
+                tipoResultado = "danger";
+            }
         }
         /// <summary>
         /// Envia informacion a la capa de persistencia para adicionar un elemento
@@ -104,31 +198,65 @@ namespace ServiciosDigitalesProy.Catalogos
         /// <returns></returns>
         public List<Solicitud> ConsultarSolicitudes(ref string resultado, ref string tipoResultado)
         {
-            object oSolicitudes;
-            string dynObj;
-            dynamic dyn;
+            object oSolicitudes,oNombres=null;
+            string dynObj,dynobj2, dynObj3;
+            dynamic dyn,dyn2, dyn3;
+            int Rol=0;
             List<Solicitud> ListaSolicitudes = new List<Solicitud>();
+            string identif = (SessionHelper.GetUser()).ToString();
 
-            oSolicitudes = solicitudesDatos.ConsultarSolicitudes(ref resultado, ref tipoResultado);
+            usuariosDatos = new UsuarioDatos();
+            var oRol = usuariosDatos.ConsultarRolUsuario(identif);
+            dynobj2 = JsonConvert.SerializeObject(oRol);
+            dyn2 = JsonConvert.DeserializeObject(dynobj2);
+            foreach (var item in dyn2) { Rol = item; }
 
+            if (Rol == 2)
+            {
+                oSolicitudes = solicitudesDatos.ConsultarSolicitudes(ref resultado, ref tipoResultado);
+                oNombres = solicitudesDatos.ConsultaNombresEmpleadosXSolicitud();
+               
+            }else
+            {
+                oSolicitudes = solicitudesDatos.ConsultarSolicitudesXEmpleado(identif, ref resultado, ref tipoResultado);
+            }
             dynObj = JsonConvert.SerializeObject(oSolicitudes);
             dyn = JsonConvert.DeserializeObject(dynObj);
-
             foreach (var item in dyn)
             {
                 ListaSolicitudes.Add(new Solicitud
                 {
-                    cliente = new Usuario((string)item.identificacion, (string)item.apellidos, (string)item.nombres),
+                    idEmpleado = item.id_usuario_escalado,
+                    estadoSolicitud = new EstadoSolicitud((string)item.descripcion),
                     id_solicitud = item.id_solicitud,
-                    descripcion = item.descripcion,
-                    fecha = item.fecha_solicitud,
                     prioridadSolicitud = new PrioridadSolicitud((string)item.descripcion_prioridad),
-                    estadoSolicitud = new EstadoSolicitud((string)item.Estado),
-                    elemento = new Elemento((string)item.descripcion_elemento,(string)item.serial,(string)item.modelo,(string)item.marca),
-                    servicio = new Servicio((string)item.descripcion_servicio)            
+                    cliente = new Usuario((string)item.nombres, (string)item.apellidos, (string)item.identificacion),
+                    fecha = item.fecha_solicitud,
+                    elemento = new Elemento((string)item.descripcion_categoria_elemento,(string)item.descripcion_elemento, (string)item.serial, (string)item.placa,(string)item.modelo, (string)item.marca, (string)item.ram, (string)item.rom, (string)item.serial_bateria, (string)item.sistema_operativo),
+                    descripcion = item.Descripcion_Solicitud,
+                    servicio = new Servicio((string)item.descripcion_servicio)
                 });
             }
-
+            if (Rol == 2)
+            {
+                List<Solicitud> solicitudes2 = new List<Solicitud>();
+                dynObj3 = JsonConvert.SerializeObject(oNombres);
+                dyn3 = JsonConvert.DeserializeObject(dynObj3);
+                int tamañoNombres;
+                foreach (var nom in dyn3)
+                {
+                    solicitudes2.Add(new Solicitud
+                    {
+                        Empleado = nom
+                    });
+                }
+                tamañoNombres = solicitudes2.Count;
+                for (int i = 0; i < tamañoNombres; i++)
+                {
+                    ListaSolicitudes[i].Empleado = solicitudes2[i].Empleado;
+                }
+            }
+            
             return ListaSolicitudes;
         }
 

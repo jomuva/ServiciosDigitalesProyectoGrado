@@ -53,7 +53,6 @@
             <PropertyRef Name="id_escalado" />
           </Key>
           <Property Name="id_escalado" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
-          <Property Name="id_solicitud_escalado" Type="int" />
           <Property Name="id_usuario_escalado" Type="int" />
         </EntityType>
         <EntityType Name="ESTADO_FACTURA">
@@ -172,6 +171,7 @@
           <Property Name="id_usuario_solicitud" Type="int" Nullable="false" />
           <Property Name="id_servicio_solicitud" Type="int" Nullable="false" />
           <Property Name="id_elemento_solicitud" Type="int" />
+          <Property Name="id_escalado_solicitud" Type="int" />
           <Property Name="fecha_solicitud" Type="datetime" />
           <Property Name="descripcion" Type="varchar" MaxLength="300" />
         </EntityType>
@@ -235,6 +235,18 @@
             </Principal>
             <Dependent Role="SOLICITUD">
               <PropertyRef Name="id_elemento_solicitud" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="fk_escalado_solicitud">
+          <End Role="ESCALADO" Type="Self.ESCALADO" Multiplicity="0..1" />
+          <End Role="SOLICITUD" Type="Self.SOLICITUD" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="ESCALADO">
+              <PropertyRef Name="id_escalado" />
+            </Principal>
+            <Dependent Role="SOLICITUD">
+              <PropertyRef Name="id_escalado_solicitud" />
             </Dependent>
           </ReferentialConstraint>
         </Association>
@@ -406,18 +418,6 @@
             </Dependent>
           </ReferentialConstraint>
         </Association>
-        <Association Name="fk_solicitud_escalado">
-          <End Role="SOLICITUD" Type="Self.SOLICITUD" Multiplicity="0..1" />
-          <End Role="ESCALADO" Type="Self.ESCALADO" Multiplicity="*" />
-          <ReferentialConstraint>
-            <Principal Role="SOLICITUD">
-              <PropertyRef Name="id_solicitud" />
-            </Principal>
-            <Dependent Role="ESCALADO">
-              <PropertyRef Name="id_solicitud_escalado" />
-            </Dependent>
-          </ReferentialConstraint>
-        </Association>
         <Association Name="fk_solicitud_historico">
           <End Role="SOLICITUD" Type="Self.SOLICITUD" Multiplicity="1" />
           <End Role="HISTORICO_SOLICITUD" Type="Self.HISTORICO_SOLICITUD" Multiplicity="*" />
@@ -581,10 +581,20 @@
           <Parameter Name="idProd" Type="int" Mode="In" />
           <Parameter Name="idEstado" Type="int" Mode="In" />
         </Function>
+        <Function Name="CambiarEstadoSolicitud" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
+          <Parameter Name="idSolicit" Type="int" Mode="In" />
+          <Parameter Name="idEstadoAnterior" Type="int" Mode="In" />
+          <Parameter Name="idEstadoNuevo" Type="int" Mode="In" />
+          <Parameter Name="identifEmpleado" Type="varchar" Mode="In" />
+        </Function>
+        <Function Name="ConsultaNombresEmpleadosXSolicitud" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo" />
         <Function Name="Consultar_id_UsuarioXIdentificacion" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
           <Parameter Name="codigo" Type="int" Mode="In" />
         </Function>
         <Function Name="ConsultarCategorias_Elemento" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo" />
+        <Function Name="ConsultarEstado_Solicitud" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
+          <Parameter Name="idSolic" Type="int" Mode="In" />
+        </Function>
         <Function Name="ConsultarEstadosSolicitud" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo" />
         <Function Name="ConsultarPermisosXUsuario" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
           <Parameter Name="identif" Type="varchar" Mode="In" />
@@ -596,11 +606,17 @@
         <Function Name="ConsultarProductoXNombre" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
           <Parameter Name="nombr" Type="varchar" Mode="In" />
         </Function>
+        <Function Name="ConsultarRolUsuario" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
+          <Parameter Name="identif" Type="varchar" Mode="In" />
+        </Function>
         <Function Name="ConsultarServicio" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
           <Parameter Name="codigo" Type="int" Mode="In" />
         </Function>
         <Function Name="ConsultarServicios" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo" />
         <Function Name="ConsultarSolicitudes" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo" />
+        <Function Name="ConsultarSolicitudesXEmpleado" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
+          <Parameter Name="identif" Type="varchar" Mode="In" />
+        </Function>
         <Function Name="ConsultarTiposElemento" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo" />
         <Function Name="ConsultarTiposPrioridad" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo" />
         <Function Name="GenerarSolicitud" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
@@ -652,6 +668,10 @@
           </AssociationSet>
           <AssociationSet Name="fk_elemento_solicitud" Association="Self.fk_elemento_solicitud">
             <End Role="ELEMENTO" EntitySet="ELEMENTO" />
+            <End Role="SOLICITUD" EntitySet="SOLICITUD" />
+          </AssociationSet>
+          <AssociationSet Name="fk_escalado_solicitud" Association="Self.fk_escalado_solicitud">
+            <End Role="ESCALADO" EntitySet="ESCALADO" />
             <End Role="SOLICITUD" EntitySet="SOLICITUD" />
           </AssociationSet>
           <AssociationSet Name="fk_estado_factura" Association="Self.fk_estado_factura">
@@ -709,10 +729,6 @@
           <AssociationSet Name="fk_solicitud_detalle_factura" Association="Self.fk_solicitud_detalle_factura">
             <End Role="SOLICITUD" EntitySet="SOLICITUD" />
             <End Role="DETALLE_FACTURA_SOLICITUD" EntitySet="DETALLE_FACTURA_SOLICITUD" />
-          </AssociationSet>
-          <AssociationSet Name="fk_solicitud_escalado" Association="Self.fk_solicitud_escalado">
-            <End Role="SOLICITUD" EntitySet="SOLICITUD" />
-            <End Role="ESCALADO" EntitySet="ESCALADO" />
           </AssociationSet>
           <AssociationSet Name="fk_solicitud_historico" Association="Self.fk_solicitud_historico">
             <End Role="SOLICITUD" EntitySet="SOLICITUD" />
@@ -818,9 +834,8 @@
             <PropertyRef Name="id_escalado" />
           </Key>
           <Property Name="id_escalado" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
-          <Property Name="id_solicitud_escalado" Type="Int32" />
           <Property Name="id_usuario_escalado" Type="Int32" />
-          <NavigationProperty Name="SOLICITUD" Relationship="Self.fk_solicitud_escalado" FromRole="ESCALADO" ToRole="SOLICITUD" />
+          <NavigationProperty Name="SOLICITUD" Relationship="Self.fk_escalado_solicitud" FromRole="ESCALADO" ToRole="SOLICITUD" />
           <NavigationProperty Name="USUARIO" Relationship="Self.fk_usuario_escalado" FromRole="ESCALADO" ToRole="USUARIO" />
         </EntityType>
         <EntityType Name="ESTADO_FACTURA">
@@ -950,11 +965,12 @@
           <Property Name="id_usuario_solicitud" Type="Int32" Nullable="false" />
           <Property Name="id_servicio_solicitud" Type="Int32" Nullable="false" />
           <Property Name="id_elemento_solicitud" Type="Int32" />
+          <Property Name="id_escalado_solicitud" Type="Int32" />
           <Property Name="fecha_solicitud" Type="DateTime" Precision="3" />
           <Property Name="descripcion" Type="String" MaxLength="300" FixedLength="false" Unicode="false" />
           <NavigationProperty Name="DETALLE_FACTURA_SOLICITUD" Relationship="Self.fk_solicitud_detalle_factura" FromRole="SOLICITUD" ToRole="DETALLE_FACTURA_SOLICITUD" />
           <NavigationProperty Name="ELEMENTO" Relationship="Self.fk_elemento_solicitud" FromRole="SOLICITUD" ToRole="ELEMENTO" />
-          <NavigationProperty Name="ESCALADO" Relationship="Self.fk_solicitud_escalado" FromRole="SOLICITUD" ToRole="ESCALADO" />
+          <NavigationProperty Name="ESCALADO" Relationship="Self.fk_escalado_solicitud" FromRole="SOLICITUD" ToRole="ESCALADO" />
           <NavigationProperty Name="ESTADO_SOLICITUD" Relationship="Self.fk_estado_solicitud" FromRole="SOLICITUD" ToRole="ESTADO_SOLICITUD" />
           <NavigationProperty Name="HISTORICO_SOLICITUD" Relationship="Self.fk_solicitud_historico" FromRole="SOLICITUD" ToRole="HISTORICO_SOLICITUD" />
           <NavigationProperty Name="PRIORIDAD" Relationship="Self.fk_prioridad_solicitud" FromRole="SOLICITUD" ToRole="PRIORIDAD" />
@@ -1121,15 +1137,15 @@
             </Dependent>
           </ReferentialConstraint>
         </Association>
-        <Association Name="fk_solicitud_escalado">
-          <End Role="SOLICITUD" Type="Self.SOLICITUD" Multiplicity="0..1" />
-          <End Role="ESCALADO" Type="Self.ESCALADO" Multiplicity="*" />
+        <Association Name="fk_escalado_solicitud">
+          <End Role="ESCALADO" Type="Self.ESCALADO" Multiplicity="0..1" />
+          <End Role="SOLICITUD" Type="Self.SOLICITUD" Multiplicity="*" />
           <ReferentialConstraint>
-            <Principal Role="SOLICITUD">
-              <PropertyRef Name="id_solicitud" />
+            <Principal Role="ESCALADO">
+              <PropertyRef Name="id_escalado" />
             </Principal>
-            <Dependent Role="ESCALADO">
-              <PropertyRef Name="id_solicitud_escalado" />
+            <Dependent Role="SOLICITUD">
+              <PropertyRef Name="id_escalado_solicitud" />
             </Dependent>
           </ReferentialConstraint>
         </Association>
@@ -1376,9 +1392,9 @@
             <End Role="TIPO_ELEMENTO" EntitySet="TIPO_ELEMENTO" />
             <End Role="ELEMENTO" EntitySet="ELEMENTO" />
           </AssociationSet>
-          <AssociationSet Name="fk_solicitud_escalado" Association="Self.fk_solicitud_escalado">
-            <End Role="SOLICITUD" EntitySet="SOLICITUD" />
+          <AssociationSet Name="fk_escalado_solicitud" Association="Self.fk_escalado_solicitud">
             <End Role="ESCALADO" EntitySet="ESCALADO" />
+            <End Role="SOLICITUD" EntitySet="SOLICITUD" />
           </AssociationSet>
           <AssociationSet Name="fk_usuario_escalado" Association="Self.fk_usuario_escalado">
             <End Role="USUARIO" EntitySet="USUARIO" />
@@ -1487,10 +1503,20 @@
             <Parameter Name="idProd" Mode="In" Type="Int32" />
             <Parameter Name="idEstado" Mode="In" Type="Int32" />
           </FunctionImport>
+          <FunctionImport Name="CambiarEstadoSolicitud" ReturnType="Collection(Int32)">
+            <Parameter Name="idSolicit" Mode="In" Type="Int32" />
+            <Parameter Name="idEstadoAnterior" Mode="In" Type="Int32" />
+            <Parameter Name="idEstadoNuevo" Mode="In" Type="Int32" />
+            <Parameter Name="identifEmpleado" Mode="In" Type="String" />
+          </FunctionImport>
+          <FunctionImport Name="ConsultaNombresEmpleadosXSolicitud" ReturnType="Collection(String)" />
           <FunctionImport Name="Consultar_id_UsuarioXIdentificacion" ReturnType="Collection(Int32)">
             <Parameter Name="codigo" Mode="In" Type="Int32" />
           </FunctionImport>
           <FunctionImport Name="ConsultarCategorias_Elemento" ReturnType="Collection(bdServiciosDigitalesProyModel.ConsultarCategorias_Elemento_Result)" />
+          <FunctionImport Name="ConsultarEstado_Solicitud" ReturnType="Collection(bdServiciosDigitalesProyModel.ConsultarEstado_Solicitud_Result)">
+            <Parameter Name="idSolic" Mode="In" Type="Int32" />
+          </FunctionImport>
           <FunctionImport Name="ConsultarEstadosSolicitud" ReturnType="Collection(bdServiciosDigitalesProyModel.ConsultarEstadosSolicitud_Result)" />
           <FunctionImport Name="ConsultarPermisosXUsuario" ReturnType="Collection(bdServiciosDigitalesProyModel.ConsultarPermisosXUsuario_Result)">
             <Parameter Name="identif" Mode="In" Type="String" />
@@ -1502,11 +1528,17 @@
           <FunctionImport Name="ConsultarProductoXNombre" ReturnType="Collection(bdServiciosDigitalesProyModel.ConsultarProductoXNombre_Result)">
             <Parameter Name="nombr" Mode="In" Type="String" />
           </FunctionImport>
+          <FunctionImport Name="ConsultarRolUsuario" ReturnType="Collection(Int32)">
+            <Parameter Name="identif" Mode="In" Type="String" />
+          </FunctionImport>
           <FunctionImport Name="ConsultarServicio" ReturnType="Collection(bdServiciosDigitalesProyModel.ConsultarServicio_Result)">
             <Parameter Name="codigo" Mode="In" Type="Int32" />
           </FunctionImport>
           <FunctionImport Name="ConsultarServicios" ReturnType="Collection(bdServiciosDigitalesProyModel.ConsultarServicios_Result)" />
           <FunctionImport Name="ConsultarSolicitudes" ReturnType="Collection(bdServiciosDigitalesProyModel.ConsultarSolicitudes_Result)" />
+          <FunctionImport Name="ConsultarSolicitudesXEmpleado" ReturnType="Collection(bdServiciosDigitalesProyModel.ConsultarSolicitudesXEmpleado_Result)">
+            <Parameter Name="identif" Mode="In" Type="String" />
+          </FunctionImport>
           <FunctionImport Name="ConsultarTiposElemento" ReturnType="Collection(bdServiciosDigitalesProyModel.ConsultarTiposElemento_Result)" />
           <FunctionImport Name="ConsultarTiposPrioridad" ReturnType="Collection(bdServiciosDigitalesProyModel.ConsultarTiposPrioridad_Result)" />
           <FunctionImport Name="GenerarSolicitud">
@@ -1532,6 +1564,10 @@
         <ComplexType Name="ConsultarCategorias_Elemento_Result">
           <Property Type="Int32" Name="id_categoria_elemento" Nullable="false" />
           <Property Type="String" Name="descripcion_categoria_elemento" Nullable="false" MaxLength="50" />
+        </ComplexType>
+        <ComplexType Name="ConsultarEstado_Solicitud_Result">
+          <Property Type="Int32" Name="id_estado_solicitud" Nullable="false" />
+          <Property Type="String" Name="descripcion" Nullable="true" MaxLength="50" />
         </ComplexType>
         <ComplexType Name="ConsultarEstadosSolicitud_Result">
           <Property Type="Int32" Name="id_estado_solicitud" Nullable="false" />
@@ -1571,19 +1607,48 @@
           <Property Type="String" Name="descripcion_servicio" Nullable="false" MaxLength="50" />
         </ComplexType>
         <ComplexType Name="ConsultarSolicitudes_Result">
-          <Property Type="String" Name="identificacion" Nullable="false" MaxLength="15" />
-          <Property Type="String" Name="apellidos" Nullable="false" MaxLength="30" />
-          <Property Type="String" Name="nombres" Nullable="false" MaxLength="30" />
+          <Property Type="Int32" Name="id_usuario_escalado" Nullable="true" />
+          <Property Type="String" Name="descripcion" Nullable="true" MaxLength="50" />
           <Property Type="Int32" Name="id_solicitud" Nullable="false" />
-          <Property Type="String" Name="descripcion" Nullable="true" MaxLength="300" />
-          <Property Type="DateTime" Name="fecha_solicitud" Nullable="true" Precision="23" />
           <Property Type="String" Name="descripcion_prioridad" Nullable="true" MaxLength="50" />
-          <Property Type="String" Name="Estado" Nullable="true" MaxLength="50" />
+          <Property Type="String" Name="nombres" Nullable="false" MaxLength="30" />
+          <Property Type="String" Name="apellidos" Nullable="false" MaxLength="30" />
+          <Property Type="String" Name="identificacion" Nullable="false" MaxLength="15" />
+          <Property Type="DateTime" Name="fecha_solicitud" Nullable="true" Precision="23" />
+          <Property Type="String" Name="descripcion_categoria_elemento" Nullable="false" MaxLength="50" />
           <Property Type="String" Name="descripcion_elemento" Nullable="false" MaxLength="50" />
-          <Property Type="String" Name="descripcion_servicio" Nullable="false" MaxLength="50" />
           <Property Type="String" Name="serial" Nullable="true" MaxLength="4" />
+          <Property Type="String" Name="placa" Nullable="true" MaxLength="30" />
           <Property Type="String" Name="modelo" Nullable="true" MaxLength="30" />
           <Property Type="String" Name="marca" Nullable="true" MaxLength="15" />
+          <Property Type="String" Name="ram" Nullable="true" MaxLength="10" />
+          <Property Type="String" Name="rom" Nullable="true" MaxLength="15" />
+          <Property Type="String" Name="serial_bateria" Nullable="true" MaxLength="4" />
+          <Property Type="String" Name="sistema_operativo" Nullable="true" MaxLength="20" />
+          <Property Type="String" Name="Descripcion_Solicitud" Nullable="true" MaxLength="300" />
+          <Property Type="String" Name="descripcion_servicio" Nullable="false" MaxLength="50" />
+        </ComplexType>
+        <ComplexType Name="ConsultarSolicitudesXEmpleado_Result">
+          <Property Type="Int32" Name="id_usuario_escalado" Nullable="true" />
+          <Property Type="String" Name="descripcion" Nullable="true" MaxLength="50" />
+          <Property Type="Int32" Name="id_solicitud" Nullable="false" />
+          <Property Type="String" Name="descripcion_prioridad" Nullable="true" MaxLength="50" />
+          <Property Type="String" Name="nombres" Nullable="false" MaxLength="30" />
+          <Property Type="String" Name="apellidos" Nullable="false" MaxLength="30" />
+          <Property Type="String" Name="identificacion" Nullable="false" MaxLength="15" />
+          <Property Type="DateTime" Name="fecha_solicitud" Nullable="true" Precision="23" />
+          <Property Type="String" Name="descripcion_categoria_elemento" Nullable="false" MaxLength="50" />
+          <Property Type="String" Name="descripcion_elemento" Nullable="false" MaxLength="50" />
+          <Property Type="String" Name="serial" Nullable="true" MaxLength="4" />
+          <Property Type="String" Name="placa" Nullable="true" MaxLength="30" />
+          <Property Type="String" Name="modelo" Nullable="true" MaxLength="30" />
+          <Property Type="String" Name="marca" Nullable="true" MaxLength="15" />
+          <Property Type="String" Name="ram" Nullable="true" MaxLength="10" />
+          <Property Type="String" Name="rom" Nullable="true" MaxLength="15" />
+          <Property Type="String" Name="serial_bateria" Nullable="true" MaxLength="4" />
+          <Property Type="String" Name="sistema_operativo" Nullable="true" MaxLength="20" />
+          <Property Type="String" Name="Descripcion_Solicitud" Nullable="true" MaxLength="300" />
+          <Property Type="String" Name="descripcion_servicio" Nullable="false" MaxLength="50" />
         </ComplexType>
         <ComplexType Name="ConsultarTiposElemento_Result">
           <Property Type="Int32" Name="id_tipo_elemento" Nullable="false" />
@@ -1650,7 +1715,6 @@
             <EntityTypeMapping TypeName="bdServiciosDigitalesProyModel.ESCALADO">
               <MappingFragment StoreEntitySet="ESCALADO">
                 <ScalarProperty Name="id_escalado" ColumnName="id_escalado" />
-                <ScalarProperty Name="id_solicitud_escalado" ColumnName="id_solicitud_escalado" />
                 <ScalarProperty Name="id_usuario_escalado" ColumnName="id_usuario_escalado" />
               </MappingFragment>
             </EntityTypeMapping>
@@ -1774,6 +1838,7 @@
                 <ScalarProperty Name="id_usuario_solicitud" ColumnName="id_usuario_solicitud" />
                 <ScalarProperty Name="id_servicio_solicitud" ColumnName="id_servicio_solicitud" />
                 <ScalarProperty Name="id_elemento_solicitud" ColumnName="id_elemento_solicitud" />
+                <ScalarProperty Name="id_escalado_solicitud" ColumnName="id_escalado_solicitud" />
                 <ScalarProperty Name="fecha_solicitud" ColumnName="fecha_solicitud" />
                 <ScalarProperty Name="descripcion" ColumnName="descripcion" />
               </MappingFragment>
@@ -1837,12 +1902,22 @@
           <FunctionImportMapping FunctionImportName="AgregarServicio" FunctionName="bdServiciosDigitalesProyModel.Store.AgregarServicio" />
           <FunctionImportMapping FunctionImportName="AgregarUsuario" FunctionName="bdServiciosDigitalesProyModel.Store.AgregarUsuario" />
           <FunctionImportMapping FunctionImportName="CambiarEstadoProducto" FunctionName="bdServiciosDigitalesProyModel.Store.CambiarEstadoProducto" />
+          <FunctionImportMapping FunctionImportName="CambiarEstadoSolicitud" FunctionName="bdServiciosDigitalesProyModel.Store.CambiarEstadoSolicitud" />
+          <FunctionImportMapping FunctionImportName="ConsultaNombresEmpleadosXSolicitud" FunctionName="bdServiciosDigitalesProyModel.Store.ConsultaNombresEmpleadosXSolicitud" />
           <FunctionImportMapping FunctionImportName="Consultar_id_UsuarioXIdentificacion" FunctionName="bdServiciosDigitalesProyModel.Store.Consultar_id_UsuarioXIdentificacion" />
           <FunctionImportMapping FunctionImportName="ConsultarCategorias_Elemento" FunctionName="bdServiciosDigitalesProyModel.Store.ConsultarCategorias_Elemento">
             <ResultMapping>
               <ComplexTypeMapping TypeName="bdServiciosDigitalesProyModel.ConsultarCategorias_Elemento_Result">
                 <ScalarProperty Name="id_categoria_elemento" ColumnName="id_categoria_elemento" />
                 <ScalarProperty Name="descripcion_categoria_elemento" ColumnName="descripcion_categoria_elemento" />
+              </ComplexTypeMapping>
+            </ResultMapping>
+          </FunctionImportMapping>
+          <FunctionImportMapping FunctionImportName="ConsultarEstado_Solicitud" FunctionName="bdServiciosDigitalesProyModel.Store.ConsultarEstado_Solicitud">
+            <ResultMapping>
+              <ComplexTypeMapping TypeName="bdServiciosDigitalesProyModel.ConsultarEstado_Solicitud_Result">
+                <ScalarProperty Name="id_estado_solicitud" ColumnName="id_estado_solicitud" />
+                <ScalarProperty Name="descripcion" ColumnName="descripcion" />
               </ComplexTypeMapping>
             </ResultMapping>
           </FunctionImportMapping>
@@ -1895,6 +1970,7 @@
               </ComplexTypeMapping>
             </ResultMapping>
           </FunctionImportMapping>
+          <FunctionImportMapping FunctionImportName="ConsultarRolUsuario" FunctionName="bdServiciosDigitalesProyModel.Store.ConsultarRolUsuario" />
           <FunctionImportMapping FunctionImportName="ConsultarServicio" FunctionName="bdServiciosDigitalesProyModel.Store.ConsultarServicio">
             <ResultMapping>
               <ComplexTypeMapping TypeName="bdServiciosDigitalesProyModel.ConsultarServicio_Result">
@@ -1914,19 +1990,52 @@
           <FunctionImportMapping FunctionImportName="ConsultarSolicitudes" FunctionName="bdServiciosDigitalesProyModel.Store.ConsultarSolicitudes">
             <ResultMapping>
               <ComplexTypeMapping TypeName="bdServiciosDigitalesProyModel.ConsultarSolicitudes_Result">
-                <ScalarProperty Name="identificacion" ColumnName="identificacion" />
-                <ScalarProperty Name="apellidos" ColumnName="apellidos" />
-                <ScalarProperty Name="nombres" ColumnName="nombres" />
-                <ScalarProperty Name="id_solicitud" ColumnName="id_solicitud" />
+                <ScalarProperty Name="id_usuario_escalado" ColumnName="id_usuario_escalado" />
                 <ScalarProperty Name="descripcion" ColumnName="descripcion" />
-                <ScalarProperty Name="fecha_solicitud" ColumnName="fecha_solicitud" />
+                <ScalarProperty Name="id_solicitud" ColumnName="id_solicitud" />
                 <ScalarProperty Name="descripcion_prioridad" ColumnName="descripcion_prioridad" />
-                <ScalarProperty Name="Estado" ColumnName="Estado" />
+                <ScalarProperty Name="nombres" ColumnName="nombres" />
+                <ScalarProperty Name="apellidos" ColumnName="apellidos" />
+                <ScalarProperty Name="identificacion" ColumnName="identificacion" />
+                <ScalarProperty Name="fecha_solicitud" ColumnName="fecha_solicitud" />
+                <ScalarProperty Name="descripcion_categoria_elemento" ColumnName="descripcion_categoria_elemento" />
                 <ScalarProperty Name="descripcion_elemento" ColumnName="descripcion_elemento" />
-                <ScalarProperty Name="descripcion_servicio" ColumnName="descripcion_servicio" />
                 <ScalarProperty Name="serial" ColumnName="serial" />
+                <ScalarProperty Name="placa" ColumnName="placa" />
                 <ScalarProperty Name="modelo" ColumnName="modelo" />
                 <ScalarProperty Name="marca" ColumnName="marca" />
+                <ScalarProperty Name="ram" ColumnName="ram" />
+                <ScalarProperty Name="rom" ColumnName="rom" />
+                <ScalarProperty Name="serial_bateria" ColumnName="serial_bateria" />
+                <ScalarProperty Name="sistema_operativo" ColumnName="sistema_operativo" />
+                <ScalarProperty Name="Descripcion_Solicitud" ColumnName="Descripcion_Solicitud" />
+                <ScalarProperty Name="descripcion_servicio" ColumnName="descripcion_servicio" />
+              </ComplexTypeMapping>
+            </ResultMapping>
+          </FunctionImportMapping>
+          <FunctionImportMapping FunctionImportName="ConsultarSolicitudesXEmpleado" FunctionName="bdServiciosDigitalesProyModel.Store.ConsultarSolicitudesXEmpleado">
+            <ResultMapping>
+              <ComplexTypeMapping TypeName="bdServiciosDigitalesProyModel.ConsultarSolicitudesXEmpleado_Result">
+                <ScalarProperty Name="id_usuario_escalado" ColumnName="id_usuario_escalado" />
+                <ScalarProperty Name="descripcion" ColumnName="descripcion" />
+                <ScalarProperty Name="id_solicitud" ColumnName="id_solicitud" />
+                <ScalarProperty Name="descripcion_prioridad" ColumnName="descripcion_prioridad" />
+                <ScalarProperty Name="nombres" ColumnName="nombres" />
+                <ScalarProperty Name="apellidos" ColumnName="apellidos" />
+                <ScalarProperty Name="identificacion" ColumnName="identificacion" />
+                <ScalarProperty Name="fecha_solicitud" ColumnName="fecha_solicitud" />
+                <ScalarProperty Name="descripcion_categoria_elemento" ColumnName="descripcion_categoria_elemento" />
+                <ScalarProperty Name="descripcion_elemento" ColumnName="descripcion_elemento" />
+                <ScalarProperty Name="serial" ColumnName="serial" />
+                <ScalarProperty Name="placa" ColumnName="placa" />
+                <ScalarProperty Name="modelo" ColumnName="modelo" />
+                <ScalarProperty Name="marca" ColumnName="marca" />
+                <ScalarProperty Name="ram" ColumnName="ram" />
+                <ScalarProperty Name="rom" ColumnName="rom" />
+                <ScalarProperty Name="serial_bateria" ColumnName="serial_bateria" />
+                <ScalarProperty Name="sistema_operativo" ColumnName="sistema_operativo" />
+                <ScalarProperty Name="Descripcion_Solicitud" ColumnName="Descripcion_Solicitud" />
+                <ScalarProperty Name="descripcion_servicio" ColumnName="descripcion_servicio" />
               </ComplexTypeMapping>
             </ResultMapping>
           </FunctionImportMapping>

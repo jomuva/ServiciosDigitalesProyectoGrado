@@ -48,7 +48,6 @@
       <PropertyRef Name="id_escalado" />
     </Key>
     <Property Name="id_escalado" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
-    <Property Name="id_solicitud_escalado" Type="int" />
     <Property Name="id_usuario_escalado" Type="int" />
   </EntityType>
   <EntityType Name="ESTADO_FACTURA">
@@ -167,6 +166,7 @@
     <Property Name="id_usuario_solicitud" Type="int" Nullable="false" />
     <Property Name="id_servicio_solicitud" Type="int" Nullable="false" />
     <Property Name="id_elemento_solicitud" Type="int" />
+    <Property Name="id_escalado_solicitud" Type="int" />
     <Property Name="fecha_solicitud" Type="datetime" />
     <Property Name="descripcion" Type="varchar" MaxLength="300" />
   </EntityType>
@@ -230,6 +230,18 @@
       </Principal>
       <Dependent Role="SOLICITUD">
         <PropertyRef Name="id_elemento_solicitud" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="fk_escalado_solicitud">
+    <End Role="ESCALADO" Type="Self.ESCALADO" Multiplicity="0..1" />
+    <End Role="SOLICITUD" Type="Self.SOLICITUD" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="ESCALADO">
+        <PropertyRef Name="id_escalado" />
+      </Principal>
+      <Dependent Role="SOLICITUD">
+        <PropertyRef Name="id_escalado_solicitud" />
       </Dependent>
     </ReferentialConstraint>
   </Association>
@@ -401,18 +413,6 @@
       </Dependent>
     </ReferentialConstraint>
   </Association>
-  <Association Name="fk_solicitud_escalado">
-    <End Role="SOLICITUD" Type="Self.SOLICITUD" Multiplicity="0..1" />
-    <End Role="ESCALADO" Type="Self.ESCALADO" Multiplicity="*" />
-    <ReferentialConstraint>
-      <Principal Role="SOLICITUD">
-        <PropertyRef Name="id_solicitud" />
-      </Principal>
-      <Dependent Role="ESCALADO">
-        <PropertyRef Name="id_solicitud_escalado" />
-      </Dependent>
-    </ReferentialConstraint>
-  </Association>
   <Association Name="fk_solicitud_historico">
     <End Role="SOLICITUD" Type="Self.SOLICITUD" Multiplicity="1" />
     <End Role="HISTORICO_SOLICITUD" Type="Self.HISTORICO_SOLICITUD" Multiplicity="*" />
@@ -576,10 +576,20 @@
     <Parameter Name="idProd" Type="int" Mode="In" />
     <Parameter Name="idEstado" Type="int" Mode="In" />
   </Function>
+  <Function Name="CambiarEstadoSolicitud" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
+    <Parameter Name="idSolicit" Type="int" Mode="In" />
+    <Parameter Name="idEstadoAnterior" Type="int" Mode="In" />
+    <Parameter Name="idEstadoNuevo" Type="int" Mode="In" />
+    <Parameter Name="identifEmpleado" Type="varchar" Mode="In" />
+  </Function>
+  <Function Name="ConsultaNombresEmpleadosXSolicitud" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo" />
   <Function Name="Consultar_id_UsuarioXIdentificacion" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
     <Parameter Name="codigo" Type="int" Mode="In" />
   </Function>
   <Function Name="ConsultarCategorias_Elemento" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo" />
+  <Function Name="ConsultarEstado_Solicitud" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
+    <Parameter Name="idSolic" Type="int" Mode="In" />
+  </Function>
   <Function Name="ConsultarEstadosSolicitud" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo" />
   <Function Name="ConsultarPermisosXUsuario" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
     <Parameter Name="identif" Type="varchar" Mode="In" />
@@ -591,11 +601,17 @@
   <Function Name="ConsultarProductoXNombre" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
     <Parameter Name="nombr" Type="varchar" Mode="In" />
   </Function>
+  <Function Name="ConsultarRolUsuario" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
+    <Parameter Name="identif" Type="varchar" Mode="In" />
+  </Function>
   <Function Name="ConsultarServicio" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
     <Parameter Name="codigo" Type="int" Mode="In" />
   </Function>
   <Function Name="ConsultarServicios" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo" />
   <Function Name="ConsultarSolicitudes" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo" />
+  <Function Name="ConsultarSolicitudesXEmpleado" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
+    <Parameter Name="identif" Type="varchar" Mode="In" />
+  </Function>
   <Function Name="ConsultarTiposElemento" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo" />
   <Function Name="ConsultarTiposPrioridad" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo" />
   <Function Name="GenerarSolicitud" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
@@ -647,6 +663,10 @@
     </AssociationSet>
     <AssociationSet Name="fk_elemento_solicitud" Association="Self.fk_elemento_solicitud">
       <End Role="ELEMENTO" EntitySet="ELEMENTO" />
+      <End Role="SOLICITUD" EntitySet="SOLICITUD" />
+    </AssociationSet>
+    <AssociationSet Name="fk_escalado_solicitud" Association="Self.fk_escalado_solicitud">
+      <End Role="ESCALADO" EntitySet="ESCALADO" />
       <End Role="SOLICITUD" EntitySet="SOLICITUD" />
     </AssociationSet>
     <AssociationSet Name="fk_estado_factura" Association="Self.fk_estado_factura">
@@ -704,10 +724,6 @@
     <AssociationSet Name="fk_solicitud_detalle_factura" Association="Self.fk_solicitud_detalle_factura">
       <End Role="SOLICITUD" EntitySet="SOLICITUD" />
       <End Role="DETALLE_FACTURA_SOLICITUD" EntitySet="DETALLE_FACTURA_SOLICITUD" />
-    </AssociationSet>
-    <AssociationSet Name="fk_solicitud_escalado" Association="Self.fk_solicitud_escalado">
-      <End Role="SOLICITUD" EntitySet="SOLICITUD" />
-      <End Role="ESCALADO" EntitySet="ESCALADO" />
     </AssociationSet>
     <AssociationSet Name="fk_solicitud_historico" Association="Self.fk_solicitud_historico">
       <End Role="SOLICITUD" EntitySet="SOLICITUD" />

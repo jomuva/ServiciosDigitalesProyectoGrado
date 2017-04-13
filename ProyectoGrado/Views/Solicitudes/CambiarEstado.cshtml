@@ -1,0 +1,70 @@
+﻿@using ServiciosDigitalesProy.Models
+@model ServiciosDigitalesProy.Models.Solicitud
+@{
+    ViewBag.Title = " Usuarios";
+    ViewBag.SubSeccion = "Cambiar Estado de la solicitud #" + Model.id_solicitud;
+}
+
+<h3>@ViewBag.SubSeccion</h3>
+<div class="col-lg-12">
+    <!--breadcrumbs start -->
+    <ul class="breadcrumb">
+        <li><a href="#"><i class="fa fa-th-list"></i>@ViewBag.Title</a></li>
+        <li class="active"><a href="#">@ViewBag.SubSeccion</a></li>
+    </ul>
+    <!--breadcrumbs end -->
+</div>
+
+<div id="page-wrapper">
+    <div class="row">
+        <div class="col-lg-6">
+            <div class="panel panel-default">
+                <div class="panel-heading">
+                    Estado de la solicitud
+                </div>
+                <div class="panel-body">
+                    <div class="row">
+                        <div class="col-lg-6">
+                            @using (Html.BeginForm("ModificarEstadoSolicitud", "Solicitudes", FormMethod.Post))
+                            {
+                                <div class="form-group">
+                                    <label>Código Solicitud</label>
+                                    @Html.TextBox("Código Solicitud", Model.id_solicitud, new { @class = "form-control", @disabled = "disabled" })
+                                </div>
+                                @Html.Hidden("id_solicitud", Model.id_solicitud)
+
+                                <div class="form-group">
+                                    <label>Estado Actual</label>
+                                    @Html.TextBox("Estado Actual", Model.estadoSolicitud.Descripcion, new { @class = "form-control", @disabled = "disabled" })
+                                </div>
+                                
+                                <div class="form-group">
+                                    <label>Tipos de Estado</label>
+                                    @Html.DropDownListFor(x => x.estadoSolicitud.id, Model.estadoSolicitudSelect, null, new { @class = "form-control" })
+                                </div>
+
+                                <button type="submit" name="submitButton" id="submitButton" class="btn btn-primary">Aceptar</button>
+                            }
+                        </div>
+                    </div>
+                    <!-- /.row (nested) -->
+                </div>
+                <!-- /.panel-body -->
+            </div>
+            <!-- /.panel -->
+        </div>
+        <!-- /.col-lg-6 -->
+    </div>
+    <!-- /.row -->
+</div>
+@if ((string)TempData["mensaje"] != null || (string)TempData["mensaje"] != "")
+{
+    <script>
+        $(function (msg) {
+            $.bootstrapGrowl('@((string)TempData["mensaje"])', {
+                type: '@((string)TempData["estado"])',
+                offset: { from: 'top', amount: 100 }
+            });
+    });
+    </script>
+}

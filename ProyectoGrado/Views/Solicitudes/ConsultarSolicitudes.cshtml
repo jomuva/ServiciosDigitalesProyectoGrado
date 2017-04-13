@@ -142,14 +142,20 @@
                                                             <b>Cod Solicitud</b>
                                                         </td>
                                                         <td>
+                                                            <b>Fecha</b>
+                                                        </td>
+                                                        <td>
                                                             <b>Estado</b>
                                                         </td>
                                                         <td>
-                                                            <b>Documento Cliente</b>
+                                                            <b>Prioridad</b>
                                                         </td>
-                                                        <td>
-                                                            <b>Nombre Cliente</b>
-                                                        </td>
+                                                        @if (ValidadorPermisos.TienePermiso(RolesPermisos.Puede_Ver_Columna_Empleado_Asignado))
+                                                        {
+                                                             <td>
+                                                                <b>Empleado Asignado</b>
+                                                             </td>
+                                                        }
                                                         <td>
                                                             <b></b>
                                                         </td>
@@ -163,14 +169,20 @@
                                                                 @Html.DisplayFor(modelItem => item.id_solicitud)
                                                             </td>
                                                             <td>
-                                                                @Html.DisplayFor(modelItem => item.estadoSolicitud.Descripcion)
+                                                                @Html.DisplayFor(modelItem => item.fecha)
                                                             </td>
                                                             <td>
-                                                                @Html.DisplayFor(modelItem => item.cliente.identificacion)
+                                                                 @Html.DisplayFor(modelItem => item.estadoSolicitud.Descripcion)
                                                             </td>
                                                             <td>
-                                                                @Html.DisplayFor(modelItem => item.cliente.nombres) @Html.DisplayFor(modelItem => item.cliente.apellidos)
+                                                                @Html.DisplayFor(modelItem => item.prioridadSolicitud.Descripcion)
                                                             </td>
+                                                            @if (ValidadorPermisos.TienePermiso(RolesPermisos.Puede_Ver_Columna_Empleado_Asignado))
+                                                            {
+                                                                <td>
+                                                                    @Html.DisplayFor(modelItem => item.Empleado)
+                                                                </td>
+                                                            }
                                                             <td>
                                                                 <a href="@Url.Action("VerSolicitud", null,  new { id = item.id_solicitud})">
                                                                     <span><i class="fa fa-cog fa-2x"></i></span>

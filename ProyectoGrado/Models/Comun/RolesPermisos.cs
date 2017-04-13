@@ -42,10 +42,11 @@ public enum RolesPermisos
             Puede_consultar_historico_solicitud = 20,
             Puede_agregar_anotacion_historico = 21,
             Puede_crear_solicitud = 22,
+            Puede_Ver_Columna_Empleado_Asignado = 30,
         #endregion
 
         #region Inventario
-            Puede_agregar_inventario = 23,
+        Puede_agregar_inventario = 23,
             Puede_consultar_inventario = 24,
             Puede_modificar_inventario = 25,
             Puede_asignar_inventario_sucursal = 26,

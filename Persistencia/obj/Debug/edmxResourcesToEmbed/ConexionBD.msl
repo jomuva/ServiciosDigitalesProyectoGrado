@@ -52,7 +52,6 @@
       <EntityTypeMapping TypeName="bdServiciosDigitalesProyModel.ESCALADO">
         <MappingFragment StoreEntitySet="ESCALADO">
           <ScalarProperty Name="id_escalado" ColumnName="id_escalado" />
-          <ScalarProperty Name="id_solicitud_escalado" ColumnName="id_solicitud_escalado" />
           <ScalarProperty Name="id_usuario_escalado" ColumnName="id_usuario_escalado" />
         </MappingFragment>
       </EntityTypeMapping>
@@ -176,6 +175,7 @@
           <ScalarProperty Name="id_usuario_solicitud" ColumnName="id_usuario_solicitud" />
           <ScalarProperty Name="id_servicio_solicitud" ColumnName="id_servicio_solicitud" />
           <ScalarProperty Name="id_elemento_solicitud" ColumnName="id_elemento_solicitud" />
+          <ScalarProperty Name="id_escalado_solicitud" ColumnName="id_escalado_solicitud" />
           <ScalarProperty Name="fecha_solicitud" ColumnName="fecha_solicitud" />
           <ScalarProperty Name="descripcion" ColumnName="descripcion" />
         </MappingFragment>
@@ -239,12 +239,22 @@
     <FunctionImportMapping FunctionImportName="AgregarServicio" FunctionName="bdServiciosDigitalesProyModel.Store.AgregarServicio" />
     <FunctionImportMapping FunctionImportName="AgregarUsuario" FunctionName="bdServiciosDigitalesProyModel.Store.AgregarUsuario" />
     <FunctionImportMapping FunctionImportName="CambiarEstadoProducto" FunctionName="bdServiciosDigitalesProyModel.Store.CambiarEstadoProducto" />
+    <FunctionImportMapping FunctionImportName="CambiarEstadoSolicitud" FunctionName="bdServiciosDigitalesProyModel.Store.CambiarEstadoSolicitud" />
+    <FunctionImportMapping FunctionImportName="ConsultaNombresEmpleadosXSolicitud" FunctionName="bdServiciosDigitalesProyModel.Store.ConsultaNombresEmpleadosXSolicitud" />
     <FunctionImportMapping FunctionImportName="Consultar_id_UsuarioXIdentificacion" FunctionName="bdServiciosDigitalesProyModel.Store.Consultar_id_UsuarioXIdentificacion" />
     <FunctionImportMapping FunctionImportName="ConsultarCategorias_Elemento" FunctionName="bdServiciosDigitalesProyModel.Store.ConsultarCategorias_Elemento">
       <ResultMapping>
         <ComplexTypeMapping TypeName="bdServiciosDigitalesProyModel.ConsultarCategorias_Elemento_Result">
           <ScalarProperty Name="id_categoria_elemento" ColumnName="id_categoria_elemento" />
           <ScalarProperty Name="descripcion_categoria_elemento" ColumnName="descripcion_categoria_elemento" />
+        </ComplexTypeMapping>
+      </ResultMapping>
+    </FunctionImportMapping>
+    <FunctionImportMapping FunctionImportName="ConsultarEstado_Solicitud" FunctionName="bdServiciosDigitalesProyModel.Store.ConsultarEstado_Solicitud">
+      <ResultMapping>
+        <ComplexTypeMapping TypeName="bdServiciosDigitalesProyModel.ConsultarEstado_Solicitud_Result">
+          <ScalarProperty Name="id_estado_solicitud" ColumnName="id_estado_solicitud" />
+          <ScalarProperty Name="descripcion" ColumnName="descripcion" />
         </ComplexTypeMapping>
       </ResultMapping>
     </FunctionImportMapping>
@@ -297,6 +307,7 @@
         </ComplexTypeMapping>
       </ResultMapping>
     </FunctionImportMapping>
+    <FunctionImportMapping FunctionImportName="ConsultarRolUsuario" FunctionName="bdServiciosDigitalesProyModel.Store.ConsultarRolUsuario" />
     <FunctionImportMapping FunctionImportName="ConsultarServicio" FunctionName="bdServiciosDigitalesProyModel.Store.ConsultarServicio">
       <ResultMapping>
         <ComplexTypeMapping TypeName="bdServiciosDigitalesProyModel.ConsultarServicio_Result">
@@ -316,19 +327,52 @@
     <FunctionImportMapping FunctionImportName="ConsultarSolicitudes" FunctionName="bdServiciosDigitalesProyModel.Store.ConsultarSolicitudes">
       <ResultMapping>
         <ComplexTypeMapping TypeName="bdServiciosDigitalesProyModel.ConsultarSolicitudes_Result">
-          <ScalarProperty Name="identificacion" ColumnName="identificacion" />
-          <ScalarProperty Name="apellidos" ColumnName="apellidos" />
-          <ScalarProperty Name="nombres" ColumnName="nombres" />
-          <ScalarProperty Name="id_solicitud" ColumnName="id_solicitud" />
+          <ScalarProperty Name="id_usuario_escalado" ColumnName="id_usuario_escalado" />
           <ScalarProperty Name="descripcion" ColumnName="descripcion" />
-          <ScalarProperty Name="fecha_solicitud" ColumnName="fecha_solicitud" />
+          <ScalarProperty Name="id_solicitud" ColumnName="id_solicitud" />
           <ScalarProperty Name="descripcion_prioridad" ColumnName="descripcion_prioridad" />
-          <ScalarProperty Name="Estado" ColumnName="Estado" />
+          <ScalarProperty Name="nombres" ColumnName="nombres" />
+          <ScalarProperty Name="apellidos" ColumnName="apellidos" />
+          <ScalarProperty Name="identificacion" ColumnName="identificacion" />
+          <ScalarProperty Name="fecha_solicitud" ColumnName="fecha_solicitud" />
+          <ScalarProperty Name="descripcion_categoria_elemento" ColumnName="descripcion_categoria_elemento" />
           <ScalarProperty Name="descripcion_elemento" ColumnName="descripcion_elemento" />
-          <ScalarProperty Name="descripcion_servicio" ColumnName="descripcion_servicio" />
           <ScalarProperty Name="serial" ColumnName="serial" />
+          <ScalarProperty Name="placa" ColumnName="placa" />
           <ScalarProperty Name="modelo" ColumnName="modelo" />
           <ScalarProperty Name="marca" ColumnName="marca" />
+          <ScalarProperty Name="ram" ColumnName="ram" />
+          <ScalarProperty Name="rom" ColumnName="rom" />
+          <ScalarProperty Name="serial_bateria" ColumnName="serial_bateria" />
+          <ScalarProperty Name="sistema_operativo" ColumnName="sistema_operativo" />
+          <ScalarProperty Name="Descripcion_Solicitud" ColumnName="Descripcion_Solicitud" />
+          <ScalarProperty Name="descripcion_servicio" ColumnName="descripcion_servicio" />
+        </ComplexTypeMapping>
+      </ResultMapping>
+    </FunctionImportMapping>
+    <FunctionImportMapping FunctionImportName="ConsultarSolicitudesXEmpleado" FunctionName="bdServiciosDigitalesProyModel.Store.ConsultarSolicitudesXEmpleado">
+      <ResultMapping>
+        <ComplexTypeMapping TypeName="bdServiciosDigitalesProyModel.ConsultarSolicitudesXEmpleado_Result">
+          <ScalarProperty Name="id_usuario_escalado" ColumnName="id_usuario_escalado" />
+          <ScalarProperty Name="descripcion" ColumnName="descripcion" />
+          <ScalarProperty Name="id_solicitud" ColumnName="id_solicitud" />
+          <ScalarProperty Name="descripcion_prioridad" ColumnName="descripcion_prioridad" />
+          <ScalarProperty Name="nombres" ColumnName="nombres" />
+          <ScalarProperty Name="apellidos" ColumnName="apellidos" />
+          <ScalarProperty Name="identificacion" ColumnName="identificacion" />
+          <ScalarProperty Name="fecha_solicitud" ColumnName="fecha_solicitud" />
+          <ScalarProperty Name="descripcion_categoria_elemento" ColumnName="descripcion_categoria_elemento" />
+          <ScalarProperty Name="descripcion_elemento" ColumnName="descripcion_elemento" />
+          <ScalarProperty Name="serial" ColumnName="serial" />
+          <ScalarProperty Name="placa" ColumnName="placa" />
+          <ScalarProperty Name="modelo" ColumnName="modelo" />
+          <ScalarProperty Name="marca" ColumnName="marca" />
+          <ScalarProperty Name="ram" ColumnName="ram" />
+          <ScalarProperty Name="rom" ColumnName="rom" />
+          <ScalarProperty Name="serial_bateria" ColumnName="serial_bateria" />
+          <ScalarProperty Name="sistema_operativo" ColumnName="sistema_operativo" />
+          <ScalarProperty Name="Descripcion_Solicitud" ColumnName="Descripcion_Solicitud" />
+          <ScalarProperty Name="descripcion_servicio" ColumnName="descripcion_servicio" />
         </ComplexTypeMapping>
       </ResultMapping>
     </FunctionImportMapping>

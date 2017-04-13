@@ -11,7 +11,7 @@ namespace Persistencia
 {
     using System;
     
-    public partial class ConsultarSolicitudes_Result
+    public partial class ConsultarSolicitudesXEmpleado_Result
     {
         public Nullable<int> id_usuario_escalado { get; set; }
         public string descripcion { get; set; }

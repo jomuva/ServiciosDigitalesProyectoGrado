@@ -10,6 +10,11 @@ namespace ServiciosDigitalesProy.Models
             id = 0;
             Descripcion = "";
         }
+
+        public CategoriaElemento(string descripcion)
+        {
+            this.Descripcion = descripcion;
+        }
         public int id { get; set; }
         public string Descripcion { get; set; }
   

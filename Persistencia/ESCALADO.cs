@@ -14,11 +14,17 @@ namespace Persistencia
     
     public partial class ESCALADO
     {
+        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2214:DoNotCallOverridableMethodsInConstructors")]
+        public ESCALADO()
+        {
+            this.SOLICITUD = new HashSet<SOLICITUD>();
+        }
+    
         public int id_escalado { get; set; }
-        public Nullable<int> id_solicitud_escalado { get; set; }
         public Nullable<int> id_usuario_escalado { get; set; }
     
-        public virtual SOLICITUD SOLICITUD { get; set; }
+        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
+        public virtual ICollection<SOLICITUD> SOLICITUD { get; set; }
         public virtual USUARIO USUARIO { get; set; }
     }
 }

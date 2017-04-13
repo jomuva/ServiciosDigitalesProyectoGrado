@@ -17,7 +17,7 @@ namespace ProyectoGrado.Controllers
         [Autenticado]
         public ActionResult Index()
         {
-            TempData["mensaje"] = "Bienvenido!!!";
+            TempData["mensaje"] = "Bienvenido " + SessionHelper.GetNombreUsuarioLogueado() +  "!!!";
             TempData["estado"] = "success";
             return View();
         }

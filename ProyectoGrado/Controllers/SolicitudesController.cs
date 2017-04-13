@@ -53,15 +53,36 @@ namespace ServiciosDigitalesProy.Controllers
         }
 
         [HttpGet]
-        public ActionResult CambiarEstado(object id)
+        public ActionResult CambiarEstado(string id)
         {
+            Solicitud solicitud;
+            int idSolicitud = Convert.ToInt32(id);
             string resultado = "", tipoResultado = "";
-            List<Solicitud> solicitudes;
-            solicitudes = CatalogoSolicitudes.GetInstance().ConsultarSolicitudes(ref resultado, ref tipoResultado);
+
+            solicitud = CatalogoSolicitudes.GetInstance().ConsultaEstadoSolicitud_X_id(idSolicitud,ref resultado, ref tipoResultado);
+            solicitud.id_solicitud = idSolicitud;
+            solicitud.estadoSolicitudSelect = new SelectList(CatalogoSolicitudes.GetInstance().ConsultarEstadosSolicitud(), "id", "Descripcion");
             TempData["mensaje"] = resultado;
             TempData["estado"] = tipoResultado;
-            Session["solicitudes"] = solicitudes;
-            return View(solicitudes);
+            TempData["idEstadoActual"] = solicitud.estadoSolicitud.id;
+            return View(solicitud);
+        }
+
+        
+        [HttpPost]
+        public ActionResult ModificarEstadoSolicitud(Solicitud solicitud)
+        {
+            string res = "", tipores = "";
+            string resultado = "", tipoResultado = "";
+            CatalogoSolicitudes.GetInstance().CambiarEstadoSolicitud
+                                                                (solicitud.id_solicitud, 
+                                                                (int)TempData.Peek("idEstadoActual"),
+                                                                solicitud.estadoSolicitud.id,
+                                                                ref resultado, ref tipoResultado);
+
+            TempData["mensaje"] = resultado;
+            TempData["estado"] = tipoResultado;
+            return View("ConsultarSolicitudes", CatalogoSolicitudes.GetInstance().ConsultarSolicitudes(ref res, ref tipores));
         }
 
 

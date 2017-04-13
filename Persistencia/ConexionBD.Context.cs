@@ -205,6 +205,32 @@ namespace Persistencia
             return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction("CambiarEstadoProducto", idProdParameter, idEstadoParameter);
         }
     
+        public virtual ObjectResult<Nullable<int>> CambiarEstadoSolicitud(Nullable<int> idSolicit, Nullable<int> idEstadoAnterior, Nullable<int> idEstadoNuevo, string identifEmpleado)
+        {
+            var idSolicitParameter = idSolicit.HasValue ?
+                new ObjectParameter("idSolicit", idSolicit) :
+                new ObjectParameter("idSolicit", typeof(int));
+    
+            var idEstadoAnteriorParameter = idEstadoAnterior.HasValue ?
+                new ObjectParameter("idEstadoAnterior", idEstadoAnterior) :
+                new ObjectParameter("idEstadoAnterior", typeof(int));
+    
+            var idEstadoNuevoParameter = idEstadoNuevo.HasValue ?
+                new ObjectParameter("idEstadoNuevo", idEstadoNuevo) :
+                new ObjectParameter("idEstadoNuevo", typeof(int));
+    
+            var identifEmpleadoParameter = identifEmpleado != null ?
+                new ObjectParameter("identifEmpleado", identifEmpleado) :
+                new ObjectParameter("identifEmpleado", typeof(string));
+    
+            return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction<Nullable<int>>("CambiarEstadoSolicitud", idSolicitParameter, idEstadoAnteriorParameter, idEstadoNuevoParameter, identifEmpleadoParameter);
+        }
+    
+        public virtual ObjectResult<string> ConsultaNombresEmpleadosXSolicitud()
+        {
+            return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction<string>("ConsultaNombresEmpleadosXSolicitud");
+        }
+    
         public virtual ObjectResult<Nullable<int>> Consultar_id_UsuarioXIdentificacion(Nullable<int> codigo)
         {
             var codigoParameter = codigo.HasValue ?
@@ -217,6 +243,15 @@ namespace Persistencia
         public virtual ObjectResult<ConsultarCategorias_Elemento_Result> ConsultarCategorias_Elemento()
         {
             return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction<ConsultarCategorias_Elemento_Result>("ConsultarCategorias_Elemento");
+        }
+    
+        public virtual ObjectResult<ConsultarEstado_Solicitud_Result> ConsultarEstado_Solicitud(Nullable<int> idSolic)
+        {
+            var idSolicParameter = idSolic.HasValue ?
+                new ObjectParameter("idSolic", idSolic) :
+                new ObjectParameter("idSolic", typeof(int));
+    
+            return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction<ConsultarEstado_Solicitud_Result>("ConsultarEstado_Solicitud", idSolicParameter);
         }
     
         public virtual ObjectResult<ConsultarEstadosSolicitud_Result> ConsultarEstadosSolicitud()
@@ -256,6 +291,15 @@ namespace Persistencia
             return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction<ConsultarProductoXNombre_Result>("ConsultarProductoXNombre", nombrParameter);
         }
     
+        public virtual ObjectResult<Nullable<int>> ConsultarRolUsuario(string identif)
+        {
+            var identifParameter = identif != null ?
+                new ObjectParameter("identif", identif) :
+                new ObjectParameter("identif", typeof(string));
+    
+            return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction<Nullable<int>>("ConsultarRolUsuario", identifParameter);
+        }
+    
         public virtual ObjectResult<ConsultarServicio_Result> ConsultarServicio(Nullable<int> codigo)
         {
             var codigoParameter = codigo.HasValue ?
@@ -273,6 +317,15 @@ namespace Persistencia
         public virtual ObjectResult<ConsultarSolicitudes_Result> ConsultarSolicitudes()
         {
             return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction<ConsultarSolicitudes_Result>("ConsultarSolicitudes");
+        }
+    
+        public virtual ObjectResult<ConsultarSolicitudesXEmpleado_Result> ConsultarSolicitudesXEmpleado(string identif)
+        {
+            var identifParameter = identif != null ?
+                new ObjectParameter("identif", identif) :
+                new ObjectParameter("identif", typeof(string));
+    
+            return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction<ConsultarSolicitudesXEmpleado_Result>("ConsultarSolicitudesXEmpleado", identifParameter);
         }
     
         public virtual ObjectResult<ConsultarTiposElemento_Result> ConsultarTiposElemento()

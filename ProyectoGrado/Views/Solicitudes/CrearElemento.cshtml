@@ -20,81 +20,111 @@
 {
     @Html.AntiForgeryToken()
 
-    <div class="form-horizontal col-md-8">
+    <div class="form-horizontal col-md-6 col-md-offset-2">
         <hr />
         @Html.ValidationSummary(true, "", new { @class = "text-danger" })
         <div class="form-group">
             @Html.Label("Tipo de Elemento :", htmlAttributes: new { @class = "control-label col-md-4" })
-            <div class="col-md-8">
-                @Html.DropDownListFor(x => x.tipoElemento.id, Model.tiposElementoSelect, null, new { @class = "form-control" })
+            <div class="col-md-8 inputGroupContainer">
+                <div class="input-group">
+                    <span class="input-group-addon"><i class="fa fa-bars"></i></span>
+                    @Html.DropDownListFor(x => x.tipoElemento.id, Model.tiposElementoSelect, null, new { @class = "form-control" })
+                </div>
             </div>
         </div>
         <div class="form-group">
             @Html.Label("Categoría de Elemento :", htmlAttributes: new { @class = "control-label col-md-4" })
-            <div class="col-md-8">
-                @Html.DropDownListFor(x => x.categoriaElemento.id, Model.categoriasElementoSelect, null, new { @class = "form-control" })
+            <div class="col-md-8 inputGroupContainer">
+                <div class="input-group">
+                    <span class="input-group-addon"><i class="fa fa-tags"></i></span>
+                    @Html.DropDownListFor(x => x.categoriaElemento.id, Model.categoriasElementoSelect, null, new { @class = "form-control" })
+                </div>
             </div>
         </div>
         <div class="form-group">
             @Html.Label("Serial:", htmlAttributes: new { @class = "control-label col-md-4" })
-            <div class="col-md-8">
-                @Html.EditorFor(model => model.serial, new { htmlAttributes = new { @class = "form-control", @maxlength = "4" } })
+            <div class="col-md-8 inputGroupContainer">
+                <div class="input-group">
+                    <span class="input-group-addon"><i class="fa fa-barcode"></i></span>
+                    @Html.EditorFor(model => model.serial, new { htmlAttributes = new { @class = "form-control", @maxlength = "4", placeholder = "serial" } })
+                </div>
                 @Html.ValidationMessageFor(model => model.serial, "", new { @class = "text-danger" })
             </div>
         </div>
 
         <div class="form-group">
             @Html.Label("Placa:", htmlAttributes: new { @class = "control-label col-md-4" })
-            <div class="col-md-8">
-                @Html.EditorFor(model => model.placa, new { htmlAttributes = new { @class = "form-control", @maxlength = "30" } })
+            <div class="col-md-8 inputGroupContainer">
+                <div class="input-group">
+                    <span class="input-group-addon"><i class="fa fa-credit-card"></i></span>
+                    @Html.EditorFor(model => model.placa, new { htmlAttributes = new { @class = "form-control", @maxlength = "30", placeholder = "placa" } })
+                </div>
                 @Html.ValidationMessageFor(model => model.placa, "", new { @class = "text-danger" })
             </div>
         </div>
 
         <div class="form-group">
             @Html.Label("Modelo:", htmlAttributes: new { @class = "control-label col-md-4" })
-            <div class="col-md-8">
-                @Html.EditorFor(model => model.modelo, new { htmlAttributes = new { @class = "form-control", @maxlength = "30" } })
+            <div class="col-md-8 inputGroupContainer">
+                <div class="input-group">
+                    <span class="input-group-addon"><i class="fa fa-qrcode"></i></span>
+                    @Html.EditorFor(model => model.modelo, new { htmlAttributes = new { @class = "form-control", @maxlength = "30", placeholder = "modelo" } })
+                </div>
                 @Html.ValidationMessageFor(model => model.modelo, "", new { @class = "text-danger" })
             </div>
         </div>
 
         <div class="form-group">
             @Html.Label("Marca:", htmlAttributes: new { @class = "control-label col-md-4" })
-            <div class="col-md-8">
-                @Html.EditorFor(model => model.marca, new { htmlAttributes = new { @class = "form-control", @maxlength = "15" } })
+            <div class="col-md-8 inputGroupContainer">
+                <div class="input-group">
+                    <span class="input-group-addon"><i class="fa fa-ticket"></i></span>
+                    @Html.EditorFor(model => model.marca, new { htmlAttributes = new { @class = "form-control", @maxlength = "15", placeholder = "marca" } })
+                </div>
                 @Html.ValidationMessageFor(model => model.marca, "", new { @class = "text-danger" })
             </div>
         </div>
 
         <div class="form-group">
             @Html.Label("Ram:", htmlAttributes: new { @class = "control-label col-md-4" })
-            <div class="col-md-8">
-                @Html.EditorFor(model => model.ram, new { htmlAttributes = new { @class = "form-control", @maxlength = "10" } })
+            <div class="col-md-8 inputGroupContainer">
+                <div class="input-group">
+                    <span class="input-group-addon"><i class="fa fa-square"></i></span>
+                    @Html.EditorFor(model => model.ram, new { htmlAttributes = new { @class = "form-control", @maxlength = "10", placeholder = "ram" } })
+                </div>
                 @Html.ValidationMessageFor(model => model.ram, "", new { @class = "text-danger" })
             </div>
         </div>
 
         <div class="form-group">
             @Html.Label("Rom:", htmlAttributes: new { @class = "control-label col-md-4" })
-            <div class="col-md-8">
-                @Html.EditorFor(model => model.rom, new { htmlAttributes = new { @class = "form-control", @maxlength = "15" } })
+            <div class="col-md-8 inputGroupContainer">
+                <div class="input-group">
+                    <span class="input-group-addon"><i class="fa fa-square-o"></i></span>
+                    @Html.EditorFor(model => model.rom, new { htmlAttributes = new { @class = "form-control", @maxlength = "15", placeholder = "rom" } })
+                </div>
                 @Html.ValidationMessageFor(model => model.rom, "", new { @class = "text-danger" })
             </div>
         </div>
 
         <div class="form-group">
             @Html.Label("Serial Batería:", htmlAttributes: new { @class = "control-label col-md-4" })
-            <div class="col-md-8">
-                @Html.EditorFor(model => model.serialBateria, new { htmlAttributes = new { @class = "form-control", @maxlength = "4" } })
+            <div class="col-md-8 inputGroupContainer">
+                <div class="input-group">
+                    <span class="input-group-addon"><i class="fa fa-tint"></i></span>
+                    @Html.EditorFor(model => model.serialBateria, new { htmlAttributes = new { @class = "form-control", @maxlength = "4", placeholder = "Serial Batería" } })
+                </div>
                 @Html.ValidationMessageFor(model => model.serialBateria, "", new { @class = "text-danger" })
             </div>
         </div>
 
         <div class="form-group">
             @Html.Label("Sistema Operativo:", htmlAttributes: new { @class = "control-label col-md-4" })
-            <div class="col-md-8">
-                @Html.EditorFor(model => model.SO, new { htmlAttributes = new { @class = "form-control", @maxlength = "20" } })
+            <div class="col-md-8 inputGroupContainer">
+                <div class="input-group">
+                    <span class="input-group-addon"><i class="fa fa-windows"></i></span>
+                    @Html.EditorFor(model => model.SO, new { htmlAttributes = new { @class = "form-control", @maxlength = "20", placeholder = "Sistema Operativo" } })
+                </div>
                 @Html.ValidationMessageFor(model => model.SO, "", new { @class = "text-danger" })
             </div>
         </div>
@@ -120,7 +150,7 @@
                 type: '@((string)TempData["estado"])',
                 offset: { from: 'top', amount: 100 }
             });
-    });
+        });
     </script>
 }
 

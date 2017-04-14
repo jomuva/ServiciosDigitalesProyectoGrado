@@ -181,6 +181,17 @@
         </MappingFragment>
       </EntityTypeMapping>
     </EntitySetMapping>
+    <EntitySetMapping Name="sysdiagrams">
+      <EntityTypeMapping TypeName="bdServiciosDigitalesProyModel.sysdiagrams">
+        <MappingFragment StoreEntitySet="sysdiagrams">
+          <ScalarProperty Name="name" ColumnName="name" />
+          <ScalarProperty Name="principal_id" ColumnName="principal_id" />
+          <ScalarProperty Name="diagram_id" ColumnName="diagram_id" />
+          <ScalarProperty Name="version" ColumnName="version" />
+          <ScalarProperty Name="definition" ColumnName="definition" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
     <EntitySetMapping Name="TELEFONO_USUARIO">
       <EntityTypeMapping TypeName="bdServiciosDigitalesProyModel.TELEFONO_USUARIO">
         <MappingFragment StoreEntitySet="TELEFONO_USUARIO">
@@ -414,6 +425,41 @@
     <FunctionImportMapping FunctionImportName="EscalarSolicitud" FunctionName="bdServiciosDigitalesProyModel.Store.EscalarSolicitud" />
     <FunctionImportMapping FunctionImportName="GenerarSolicitud" FunctionName="bdServiciosDigitalesProyModel.Store.GenerarSolicitud" />
     <FunctionImportMapping FunctionImportName="InsertarProducto" FunctionName="bdServiciosDigitalesProyModel.Store.InsertarProducto" />
+    <FunctionImportMapping FunctionImportName="sp_alterdiagram" FunctionName="bdServiciosDigitalesProyModel.Store.sp_alterdiagram" />
+    <FunctionImportMapping FunctionImportName="sp_creatediagram" FunctionName="bdServiciosDigitalesProyModel.Store.sp_creatediagram" />
+    <FunctionImportMapping FunctionImportName="sp_dropdiagram" FunctionName="bdServiciosDigitalesProyModel.Store.sp_dropdiagram" />
+    <FunctionImportMapping FunctionImportName="sp_helpdiagramdefinition" FunctionName="bdServiciosDigitalesProyModel.Store.sp_helpdiagramdefinition">
+      <ResultMapping>
+        <ComplexTypeMapping TypeName="bdServiciosDigitalesProyModel.sp_helpdiagramdefinition_Result">
+          <ScalarProperty Name="version" ColumnName="version" />
+          <ScalarProperty Name="definition" ColumnName="definition" />
+        </ComplexTypeMapping>
+      </ResultMapping>
+    </FunctionImportMapping>
+    <FunctionImportMapping FunctionImportName="sp_helpdiagrams" FunctionName="bdServiciosDigitalesProyModel.Store.sp_helpdiagrams">
+      <ResultMapping>
+        <ComplexTypeMapping TypeName="bdServiciosDigitalesProyModel.sp_helpdiagrams_Result">
+          <ScalarProperty Name="Database" ColumnName="Database" />
+          <ScalarProperty Name="Name" ColumnName="Name" />
+          <ScalarProperty Name="ID" ColumnName="ID" />
+          <ScalarProperty Name="Owner" ColumnName="Owner" />
+          <ScalarProperty Name="OwnerID" ColumnName="OwnerID" />
+        </ComplexTypeMapping>
+      </ResultMapping>
+    </FunctionImportMapping>
+    <FunctionImportMapping FunctionImportName="sp_renamediagram" FunctionName="bdServiciosDigitalesProyModel.Store.sp_renamediagram" />
+    <FunctionImportMapping FunctionImportName="sp_upgraddiagrams" FunctionName="bdServiciosDigitalesProyModel.Store.sp_upgraddiagrams" />
     <FunctionImportMapping FunctionImportName="ValidarAutenticacionLogin" FunctionName="bdServiciosDigitalesProyModel.Store.ValidarAutenticacionLogin" />
+    <FunctionImportMapping FunctionImportName="ConsultarHistoricoSolicitudX_id" FunctionName="bdServiciosDigitalesProyModel.Store.ConsultarHistoricoSolicitudX_id">
+      <ResultMapping>
+        <ComplexTypeMapping TypeName="bdServiciosDigitalesProyModel.ConsultarHistoricoSolicitudX_id_Result">
+          <ScalarProperty Name="fecha_historico" ColumnName="fecha_historico" />
+          <ScalarProperty Name="descripcion_historico" ColumnName="descripcion_historico" />
+          <ScalarProperty Name="apellidos" ColumnName="apellidos" />
+          <ScalarProperty Name="nombres" ColumnName="nombres" />
+          <ScalarProperty Name="id_solicitud" ColumnName="id_solicitud" />
+        </ComplexTypeMapping>
+      </ResultMapping>
+    </FunctionImportMapping>
   </EntityContainerMapping>
 </Mapping>

@@ -309,6 +309,31 @@ namespace Persistencia.SolicitudesDatos
 
         }
 
+        /// <summary>
+        /// DEvuelve el historico de una solicitud segun su id
+        /// </summary>
+        /// <param name="idSolicitud"></param>
+        /// <param name="resultado"></param>
+        /// <param name="tipoResultado"></param>
+        /// <returns></returns>
+        public object ConsultarHistoricoSolicitudX_id(int idSolicitud , ref string resultado, ref string tipoResultado )
+        {
+            object solicitudes = null;
+            try
+            {
+                solicitudes = conexion.conexiones.ConsultarHistoricoSolicitudX_id(idSolicitud).ToList();
+                resultado = "Se ha Escalado la solicitud exitosamente";
+                tipoResultado = "success";
+            }
+            catch (Exception ex)
+            {
+                resultado = ex.Message;
+                tipoResultado = "danger";
+            }
+
+            return solicitudes;
+        }
+
 
     }
 }

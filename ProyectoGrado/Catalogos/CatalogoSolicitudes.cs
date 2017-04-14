@@ -333,12 +333,41 @@ namespace ServiciosDigitalesProy.Catalogos
                                                 solicitud.descripcion, ref resultado, ref tipoResultado);
         }
 
+        /// <summary>
+        /// Escalar la solicitud y se envia a capa de persistencia
+        /// </summary>
+        /// <param name="solicitud"></param>
+        /// <param name="resultado"></param>
+        /// <param name="tipoResultado"></param>
         public void EscalarSolicitud(Solicitud solicitud, ref string resultado, ref string tipoResultado)
         {
 
             solicitudesDatos.EscalarSolicitud(solicitud.id_solicitud, solicitud.idEmpleado.ToString(), ref resultado, ref tipoResultado);
         }
 
+
+        public List<HistoricoSolicitud> ConsultarHistoricoSolicitudX_id(int idSolic, ref string resultado, ref string tipoResultado)
+        {
+            List<HistoricoSolicitud> historicosXid = new List<HistoricoSolicitud>();
+            var oHistorico = solicitudesDatos.ConsultarHistoricoSolicitudX_id(idSolic, ref resultado, ref tipoResultado);
+
+
+            string dynObj2 = JsonConvert.SerializeObject(oHistorico);
+            dynamic dyn2 = JsonConvert.DeserializeObject(dynObj2);
+
+            foreach (var item in dyn2)
+            {
+                historicosXid.Add(new HistoricoSolicitud
+                {
+                    fecha = item.fecha_historico,
+                    descripcion = item.descripcion_historico,
+                    empleado = new Usuario((string)item.apellidos, (string)item.nombres),
+                    id_solicitud = item.id_solicitud
+                });
+            }
+
+            return historicosXid;
+        }
 
 
     }

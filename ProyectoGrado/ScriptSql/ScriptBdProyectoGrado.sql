@@ -239,7 +239,7 @@ IF(@rol<>1)
 END
 GO
 
-exec AgregarUsuario 1,1,2,'1111111111','Servicios Digitales','System','No Address','system@gmail.com','M','system','systemServiciosDigitales'
+exec AgregarUsuario 1,2,2,'1111111111','Servicios Digitales','System','No Address','system@gmail.com','M','system','systemServiciosDigitales'
 go
 exec AgregarUsuario 1,1,2,'1020727312','Munoz Vargas','Jonathan','Calle 123 No 34 - 34','jomuva@gmail.com','M','jomuva','jomuva'
 go
@@ -523,12 +523,12 @@ INSERT INTO [dbo].[HISTORICO_SOLICITUD]
 		   ,[descripcion_historico]
 		   ,[fecha_historico])
      VALUES
-            (1,1,'Se realiza mantenimiento a satisfaccion del cliente','2017-04-08 02:57:24.480'),
-			(2,2, 'El cliente realiza mantenimiento','2017-04-07 02:57:24.480'),
-			(1,3,'Se repara el teclado y el mouse del cliente','2017-03-06 02:57:24.480'),
+            (2,1,'Se realiza mantenimiento a satisfaccion del cliente','2017-04-08 02:57:24.480'),
+			(3,2, 'El cliente realiza mantenimiento','2017-04-07 02:57:24.480'),
+			(3,3,'Se repara el teclado y el mouse del cliente','2017-03-06 02:57:24.480'),
 			(2,4,'se hace pruebas en el servicio contratado','2017-04-08 02:57:24.480'),
-			(2,5,'se realizan pruebas de calidad en el servicio solicitado por el cliente','2017-04-06 02:57:24.480')
-		
+			(2,5,'se realizan pruebas de calidad en el servicio solicitado por el cliente','2017-04-06 02:57:24.480'),
+			(3,6,'se hace pruebas en el servicio contratado','2017-04-08 02:57:24.480'),
 	GO
 
 
@@ -844,6 +844,7 @@ GO
 CREATE PROC GenerarSolicitud
 @id_prioridad int,
 @id_estado int,
+@identifEmpleado VARCHAR(15),
 @id_cliente int,
 @id_servicio int, 
 @id_elemento int,
@@ -851,25 +852,19 @@ CREATE PROC GenerarSolicitud
 as
 BEGIN 
 declare @fecha DATETIME,
+@idEmpleado int,
+@nombreEmpleado VARCHAR(30),
 @id_solicitudFinal int;
 SET @fecha = (SELECT CURRENT_TIMESTAMP);
+SET @idEmpleado = (SELECT id_usuario FROM USUARIO WHERE identificacion = @identifEmpleado);
+SET @nombreEmpleado = (SELECT nombres FROM USUARIO WHERE identificacion = @identifEmpleado);
+	INSERT INTO SOLICITUD (id_prioridad_solicitud,id_estado_solicitud,id_usuario_solicitud,id_servicio_solicitud,id_elemento_solicitud,id_escalado_solicitud,fecha_solicitud,descripcion)
+	VALUES (@id_prioridad,@id_estado,@id_cliente,@id_servicio,@id_elemento,@idEmpleado, @fecha,@descripcion);
+	SET @id_solicitudFinal = @@IDENTITY
 
-IF(@id_elemento=1)
-	BEGIN
-		INSERT INTO SOLICITUD (id_prioridad_solicitud,id_estado_solicitud,id_usuario_solicitud,id_servicio_solicitud,fecha_solicitud,descripcion)
-		VALUES (@id_prioridad,@id_estado,@id_cliente,@id_servicio,@fecha,@descripcion);
-		SET @id_solicitudFinal = @@IDENTITY
-	END
-ELSE
-	BEGIN
-		INSERT INTO SOLICITUD (id_prioridad_solicitud,id_estado_solicitud,id_usuario_solicitud,id_servicio_solicitud,id_elemento_solicitud,fecha_solicitud,descripcion)
-		VALUES (@id_prioridad,@id_estado,@id_cliente,@id_servicio,@id_elemento,@fecha,@descripcion);
-		SET @id_solicitudFinal = @@IDENTITY
-	END
-END
-	INSERT INTO HISTORICO_SOLICITUD (id_usuario_historico,id_solicitud_historico,descripcion_historico)
-	VALUES (@id_cliente,@id_solicitudFinal,'Se crea la solicitud del cliente, pendiente por asignar técnico')
-		
+	INSERT INTO HISTORICO_SOLICITUD (id_usuario_historico,id_solicitud_historico,descripcion_historico,fecha_historico)
+	VALUES (@idEmpleado,@id_solicitudFinal,'Se crea la solicitud del cliente y se asigna a '+@nombreEmpleado,@fecha)
+END		
 GO
 
 
@@ -1043,19 +1038,17 @@ AS
 DECLARE @idEmpleado int;
 SET @idEmpleado = (SELECT id_usuario FROM USUARIO WHERE identificacion = @identif);
 BEGIN
-SELECT        ESCALADO.id_usuario_escalado, ESTADO_SOLICITUD.descripcion, SOLICITUD.id_solicitud, PRIORIDAD.descripcion_prioridad, USUARIO.nombres, USUARIO.apellidos, USUARIO.identificacion, 
-                         SOLICITUD.fecha_solicitud, CATEGORIA_ELEMENTO.descripcion_categoria_elemento, TIPO_ELEMENTO.descripcion_elemento, ELEMENTO.serial, 
-                         ELEMENTO.placa, ELEMENTO.modelo, ELEMENTO.marca, ELEMENTO.ram, ELEMENTO.rom, ELEMENTO.serial_bateria, ELEMENTO.sistema_operativo, 
-                         SOLICITUD.descripcion AS Descripcion_Solicitud, SERVICIO.descripcion_servicio
-FROM            ESCALADO INNER JOIN
-                         SOLICITUD ON ESCALADO.id_escalado = SOLICITUD.id_escalado_solicitud INNER JOIN
-                         ESTADO_SOLICITUD ON SOLICITUD.id_estado_solicitud = ESTADO_SOLICITUD.id_estado_solicitud INNER JOIN
+SELECT        SOLICITUD.id_solicitud, SOLICITUD.descripcion, SOLICITUD.fecha_solicitud, SOLICITUD.id_escalado_solicitud, USUARIO.identificacion, USUARIO.apellidos, USUARIO.nombres, 
+                         ESTADO_SOLICITUD.descripcion AS Expr1, PRIORIDAD.descripcion_prioridad, TIPO_ELEMENTO.descripcion_elemento, CATEGORIA_ELEMENTO.descripcion_categoria_elemento, ELEMENTO.sistema_operativo, 
+                         ELEMENTO.marca, ELEMENTO.modelo, ELEMENTO.serial, ELEMENTO.serial_bateria, ELEMENTO.rom, ELEMENTO.ram, ELEMENTO.placa, SERVICIO.descripcion_servicio
+FROM            SOLICITUD INNER JOIN
+                         USUARIO ON SOLICITUD.id_usuario_solicitud = USUARIO.id_usuario INNER JOIN
                          PRIORIDAD ON SOLICITUD.id_prioridad_solicitud = PRIORIDAD.id_prioridad INNER JOIN
-                         USUARIO ON ESCALADO.id_usuario_escalado = USUARIO.id_usuario INNER JOIN
-                         ESTADO_SOLICITUD AS ESTADO_SOLICITUD_1 ON SOLICITUD.id_estado_solicitud = ESTADO_SOLICITUD_1.id_estado_solicitud INNER JOIN
+                         ESTADO_SOLICITUD ON SOLICITUD.id_estado_solicitud = ESTADO_SOLICITUD.id_estado_solicitud INNER JOIN
+                         ESCALADO ON SOLICITUD.id_escalado_solicitud = ESCALADO.id_escalado INNER JOIN
                          ELEMENTO ON SOLICITUD.id_elemento_solicitud = ELEMENTO.id_elemento INNER JOIN
-                         CATEGORIA_ELEMENTO ON ELEMENTO.id_categoria_elemento = CATEGORIA_ELEMENTO.id_categoria_elemento INNER JOIN
                          TIPO_ELEMENTO ON ELEMENTO.id_tipo_elemento = TIPO_ELEMENTO.id_tipo_elemento INNER JOIN
+                         CATEGORIA_ELEMENTO ON ELEMENTO.id_categoria_elemento = CATEGORIA_ELEMENTO.id_categoria_elemento INNER JOIN
                          SERVICIO ON SOLICITUD.id_servicio_solicitud = SERVICIO.id_servicio
 WHERE        ESCALADO.id_escalado = @idEmpleado
 
@@ -1066,19 +1059,17 @@ GO
 CREATE PROCEDURE ConsultarSolicitudes
 AS
 BEGIN
-SELECT        ESCALADO.id_usuario_escalado, ESTADO_SOLICITUD.descripcion, SOLICITUD.id_solicitud, PRIORIDAD.descripcion_prioridad, USUARIO.nombres, USUARIO.apellidos, USUARIO.identificacion, 
-                         SOLICITUD.fecha_solicitud, CATEGORIA_ELEMENTO.descripcion_categoria_elemento, TIPO_ELEMENTO.descripcion_elemento, ELEMENTO.serial, 
-                         ELEMENTO.placa, ELEMENTO.modelo, ELEMENTO.marca, ELEMENTO.ram, ELEMENTO.rom, ELEMENTO.serial_bateria, ELEMENTO.sistema_operativo, 
-                         SOLICITUD.descripcion AS Descripcion_Solicitud, SERVICIO.descripcion_servicio
-FROM            ESCALADO INNER JOIN
-                         SOLICITUD ON ESCALADO.id_escalado = SOLICITUD.id_escalado_solicitud INNER JOIN
-                         ESTADO_SOLICITUD ON SOLICITUD.id_estado_solicitud = ESTADO_SOLICITUD.id_estado_solicitud INNER JOIN
+SELECT        SOLICITUD.id_solicitud, SOLICITUD.descripcion, SOLICITUD.fecha_solicitud, SOLICITUD.id_escalado_solicitud, USUARIO.identificacion, USUARIO.apellidos, USUARIO.nombres, 
+                         ESTADO_SOLICITUD.descripcion AS Expr1, PRIORIDAD.descripcion_prioridad, TIPO_ELEMENTO.descripcion_elemento, CATEGORIA_ELEMENTO.descripcion_categoria_elemento, ELEMENTO.sistema_operativo, 
+                         ELEMENTO.marca, ELEMENTO.modelo, ELEMENTO.serial, ELEMENTO.serial_bateria, ELEMENTO.rom, ELEMENTO.ram, ELEMENTO.placa, SERVICIO.descripcion_servicio
+FROM            SOLICITUD INNER JOIN
+                         USUARIO ON SOLICITUD.id_usuario_solicitud = USUARIO.id_usuario INNER JOIN
                          PRIORIDAD ON SOLICITUD.id_prioridad_solicitud = PRIORIDAD.id_prioridad INNER JOIN
-                         USUARIO ON ESCALADO.id_usuario_escalado = USUARIO.id_usuario INNER JOIN
-                         ESTADO_SOLICITUD AS ESTADO_SOLICITUD_1 ON SOLICITUD.id_estado_solicitud = ESTADO_SOLICITUD_1.id_estado_solicitud INNER JOIN
+                         ESTADO_SOLICITUD ON SOLICITUD.id_estado_solicitud = ESTADO_SOLICITUD.id_estado_solicitud INNER JOIN
+                         ESCALADO ON SOLICITUD.id_escalado_solicitud = ESCALADO.id_escalado INNER JOIN
                          ELEMENTO ON SOLICITUD.id_elemento_solicitud = ELEMENTO.id_elemento INNER JOIN
-                         CATEGORIA_ELEMENTO ON ELEMENTO.id_categoria_elemento = CATEGORIA_ELEMENTO.id_categoria_elemento INNER JOIN
                          TIPO_ELEMENTO ON ELEMENTO.id_tipo_elemento = TIPO_ELEMENTO.id_tipo_elemento INNER JOIN
+                         CATEGORIA_ELEMENTO ON ELEMENTO.id_categoria_elemento = CATEGORIA_ELEMENTO.id_categoria_elemento INNER JOIN
                          SERVICIO ON SOLICITUD.id_servicio_solicitud = SERVICIO.id_servicio
 END
 GO
@@ -1102,6 +1093,54 @@ FROM            ESCALADO INNER JOIN
 END
 GO
 
+--PROCEDIMIENTO PARA ESCALAR SOLICITUD Y GUARDAR HISTORICO
+CREATE PROCEDURE EscalarSolicitud
+@id_solicitud int,
+@identifEmpleado VARCHAR(15)
+AS
+BEGIN 
+DECLARE @fecha DATETIME, @idEmpleado int,@idEmpleadoAnterior int, @nombreEmpleadoAnterior VARCHAR(30), @nombreEmpleadoNuevo VARCHAR(30);
+SET @idEmpleadoAnterior = (SELECT id_escalado_solicitud FROM SOLICITUD WHERE id_solicitud = @id_solicitud);
+SET @idEmpleado = (SELECT id_usuario FROM USUARIO WHERE identificacion = @identifEmpleado);
+SET @nombreEmpleadoAnterior = (SELECT        USUARIO.nombres
+								FROM         ESCALADO INNER JOIN
+								SOLICITUD ON ESCALADO.id_escalado = SOLICITUD.id_escalado_solicitud INNER JOIN
+								USUARIO ON ESCALADO.id_usuario_escalado = USUARIO.id_usuario
+								WHERE SOLICITUD.id_solicitud = @id_solicitud );
+SET @nombreEmpleadoNuevo = (SELECT nombres FROM USUARIO WHERE identificacion = @identifEmpleado);
+SET @fecha = (SELECT CURRENT_TIMESTAMP);
+	UPDATE SOLICITUD SET id_escalado_solicitud = @idEmpleado WHERE id_solicitud = @id_solicitud
+
+INSERT INTO HISTORICO_SOLICITUD (id_usuario_historico,id_solicitud_historico,descripcion_historico,fecha_historico)
+VALUES (@idEmpleadoAnterior,@id_solicitud,'Se ha cambiado el responsable de la solicitud, de  '+@nombreEmpleadoAnterior+' a '+@nombreEmpleadoNuevo,@fecha)
+END
+GO
+
+--PROCEDIMIENTO QUE CONSULTA TODOS LOS ELEMENTOS EN BD
+CREATE PROCEDURE ConsultarElementos
+AS
+BEGIN
+	SELECT          ELEMENTO.id_elemento,ELEMENTO.id_tipo_elemento,TIPO_ELEMENTO.descripcion_elemento,ELEMENTO.id_categoria_elemento, CATEGORIA_ELEMENTO.descripcion_categoria_elemento, ELEMENTO.serial, ELEMENTO.placa, ELEMENTO.modelo, ELEMENTO.marca, 
+                         ELEMENTO.ram, ELEMENTO.rom, ELEMENTO.serial_bateria, ELEMENTO.sistema_operativo
+                         
+FROM            CATEGORIA_ELEMENTO INNER JOIN
+                         ELEMENTO ON CATEGORIA_ELEMENTO.id_categoria_elemento = ELEMENTO.id_categoria_elemento INNER JOIN
+                         TIPO_ELEMENTO ON ELEMENTO.id_tipo_elemento = TIPO_ELEMENTO.id_tipo_elemento
+END
+GO
+
+--PROCEDIMIENTO QUE CONSULTA EL HISTORICO DE UNA SOLICITUD SEGUN EL ID ENVIADO
+CREATE PROCEDURE ConsultarHistoricoSolicitudX_id
+@id_solicitud int
+AS
+BEGIN 
+SELECT        HISTORICO_SOLICITUD.fecha_historico, HISTORICO_SOLICITUD.descripcion_historico, USUARIO.apellidos, USUARIO.nombres, SOLICITUD.id_solicitud
+FROM            HISTORICO_SOLICITUD INNER JOIN
+                         SOLICITUD ON HISTORICO_SOLICITUD.id_solicitud_historico = SOLICITUD.id_solicitud INNER JOIN
+                         USUARIO ON HISTORICO_SOLICITUD.id_usuario_historico = USUARIO.id_usuario
+WHERE SOLICITUD.id_solicitud = @id_solicitud
+END
+GO
 
 
 

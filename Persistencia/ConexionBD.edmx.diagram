@@ -4,7 +4,7 @@
   <edmx:Designer xmlns="http://schemas.microsoft.com/ado/2009/11/edmx">
     <!-- Diagram content (shape and connector positions) -->
     <edmx:Diagrams>
-      <Diagram DiagramId="2c85d645d770473caa87ecd87fe7c8ea" Name="Diagram1">
+      <Diagram DiagramId="99b0c505a4e44e1bb930a2b3c63de635" Name="Diagram1">
         <EntityTypeShape EntityType="bdServiciosDigitalesProyModel.CATEGORIA_ELEMENTO" Width="1.5" PointX="6" PointY="0.875" IsExpanded="true" />
         <EntityTypeShape EntityType="bdServiciosDigitalesProyModel.DETALLE_FACTURA_PRODUCTO" Width="1.5" PointX="8.25" PointY="10.375" IsExpanded="true" />
         <EntityTypeShape EntityType="bdServiciosDigitalesProyModel.DETALLE_FACTURA_SOLICITUD" Width="1.5" PointX="11.25" PointY="10.375" IsExpanded="true" />
@@ -23,6 +23,7 @@
         <EntityTypeShape EntityType="bdServiciosDigitalesProyModel.ROL" Width="1.5" PointX="0.75" PointY="10.75" IsExpanded="true" />
         <EntityTypeShape EntityType="bdServiciosDigitalesProyModel.SERVICIO" Width="1.5" PointX="8.25" PointY="27.5" IsExpanded="true" />
         <EntityTypeShape EntityType="bdServiciosDigitalesProyModel.SOLICITUD" Width="1.5" PointX="10.5" PointY="14.25" IsExpanded="true" />
+        <EntityTypeShape EntityType="bdServiciosDigitalesProyModel.sysdiagrams" Width="1.5" PointX="0.75" PointY="0.75" IsExpanded="true" />
         <EntityTypeShape EntityType="bdServiciosDigitalesProyModel.TELEFONO_USUARIO" Width="1.5" PointX="8.25" PointY="22.375" IsExpanded="true" />
         <EntityTypeShape EntityType="bdServiciosDigitalesProyModel.TIPO_ELEMENTO" Width="1.5" PointX="6" PointY="3.25" IsExpanded="true" />
         <EntityTypeShape EntityType="bdServiciosDigitalesProyModel.TIPO_IDENTIFICACION_USUARIO" Width="1.5" PointX="3.75" PointY="14" IsExpanded="true" />

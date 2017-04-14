@@ -201,6 +201,16 @@
     <NavigationProperty Name="SERVICIO" Relationship="Self.fk_servicio_solicitud" FromRole="SOLICITUD" ToRole="SERVICIO" />
     <NavigationProperty Name="USUARIO" Relationship="Self.fk_usuario_solicitud" FromRole="SOLICITUD" ToRole="USUARIO" />
   </EntityType>
+  <EntityType Name="sysdiagrams">
+    <Key>
+      <PropertyRef Name="diagram_id" />
+    </Key>
+    <Property Name="name" Type="String" MaxLength="128" FixedLength="false" Unicode="true" Nullable="false" />
+    <Property Name="principal_id" Type="Int32" Nullable="false" />
+    <Property Name="diagram_id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+    <Property Name="version" Type="Int32" />
+    <Property Name="definition" Type="Binary" MaxLength="Max" FixedLength="false" />
+  </EntityType>
   <EntityType Name="TELEFONO_USUARIO">
     <Key>
       <PropertyRef Name="id_telefono" />
@@ -576,6 +586,7 @@
     <EntitySet Name="ROL" EntityType="Self.ROL" />
     <EntitySet Name="SERVICIO" EntityType="Self.SERVICIO" />
     <EntitySet Name="SOLICITUD" EntityType="Self.SOLICITUD" />
+    <EntitySet Name="sysdiagrams" EntityType="Self.sysdiagrams" />
     <EntitySet Name="TELEFONO_USUARIO" EntityType="Self.TELEFONO_USUARIO" />
     <EntitySet Name="TIPO_ELEMENTO" EntityType="Self.TIPO_ELEMENTO" />
     <EntitySet Name="TIPO_IDENTIFICACION_USUARIO" EntityType="Self.TIPO_IDENTIFICACION_USUARIO" />
@@ -786,9 +797,42 @@
       <Parameter Name="precio_venta" Mode="In" Type="Decimal" />
       <Parameter Name="cantidad" Mode="In" Type="Int32" />
     </FunctionImport>
+    <FunctionImport Name="sp_alterdiagram">
+      <Parameter Name="diagramname" Mode="In" Type="String" />
+      <Parameter Name="owner_id" Mode="In" Type="Int32" />
+      <Parameter Name="version" Mode="In" Type="Int32" />
+      <Parameter Name="definition" Mode="In" Type="Binary" />
+    </FunctionImport>
+    <FunctionImport Name="sp_creatediagram">
+      <Parameter Name="diagramname" Mode="In" Type="String" />
+      <Parameter Name="owner_id" Mode="In" Type="Int32" />
+      <Parameter Name="version" Mode="In" Type="Int32" />
+      <Parameter Name="definition" Mode="In" Type="Binary" />
+    </FunctionImport>
+    <FunctionImport Name="sp_dropdiagram">
+      <Parameter Name="diagramname" Mode="In" Type="String" />
+      <Parameter Name="owner_id" Mode="In" Type="Int32" />
+    </FunctionImport>
+    <FunctionImport Name="sp_helpdiagramdefinition" ReturnType="Collection(bdServiciosDigitalesProyModel.sp_helpdiagramdefinition_Result)">
+      <Parameter Name="diagramname" Mode="In" Type="String" />
+      <Parameter Name="owner_id" Mode="In" Type="Int32" />
+    </FunctionImport>
+    <FunctionImport Name="sp_helpdiagrams" ReturnType="Collection(bdServiciosDigitalesProyModel.sp_helpdiagrams_Result)">
+      <Parameter Name="diagramname" Mode="In" Type="String" />
+      <Parameter Name="owner_id" Mode="In" Type="Int32" />
+    </FunctionImport>
+    <FunctionImport Name="sp_renamediagram">
+      <Parameter Name="diagramname" Mode="In" Type="String" />
+      <Parameter Name="owner_id" Mode="In" Type="Int32" />
+      <Parameter Name="new_diagramname" Mode="In" Type="String" />
+    </FunctionImport>
+    <FunctionImport Name="sp_upgraddiagrams" />
     <FunctionImport Name="ValidarAutenticacionLogin" ReturnType="Collection(String)">
       <Parameter Name="username" Mode="In" Type="String" />
       <Parameter Name="passwd" Mode="In" Type="String" />
+    </FunctionImport>
+    <FunctionImport Name="ConsultarHistoricoSolicitudX_id" ReturnType="Collection(bdServiciosDigitalesProyModel.ConsultarHistoricoSolicitudX_id_Result)">
+      <Parameter Name="id_solicitud" Mode="In" Type="Int32" />
     </FunctionImport>
   </EntityContainer>
   <ComplexType Name="ConsultarCategorias_Elemento_Result">
@@ -902,5 +946,23 @@
   <ComplexType Name="ConsultarTiposPrioridad_Result">
     <Property Type="Int32" Name="id_prioridad" Nullable="false" />
     <Property Type="String" Name="descripcion_prioridad" Nullable="true" MaxLength="50" />
+  </ComplexType>
+  <ComplexType Name="sp_helpdiagramdefinition_Result">
+    <Property Type="Int32" Name="version" Nullable="true" />
+    <Property Type="Binary" Name="definition" Nullable="true" />
+  </ComplexType>
+  <ComplexType Name="sp_helpdiagrams_Result">
+    <Property Type="String" Name="Database" Nullable="true" MaxLength="128" />
+    <Property Type="String" Name="Name" Nullable="false" MaxLength="128" />
+    <Property Type="Int32" Name="ID" Nullable="false" />
+    <Property Type="String" Name="Owner" Nullable="true" MaxLength="128" />
+    <Property Type="Int32" Name="OwnerID" Nullable="false" />
+  </ComplexType>
+  <ComplexType Name="ConsultarHistoricoSolicitudX_id_Result">
+    <Property Type="DateTime" Name="fecha_historico" Nullable="true" Precision="23" />
+    <Property Type="String" Name="descripcion_historico" Nullable="false" MaxLength="100" />
+    <Property Type="String" Name="apellidos" Nullable="false" MaxLength="30" />
+    <Property Type="String" Name="nombres" Nullable="false" MaxLength="30" />
+    <Property Type="Int32" Name="id_solicitud" Nullable="false" />
   </ComplexType>
 </Schema>

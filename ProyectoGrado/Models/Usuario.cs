@@ -30,6 +30,11 @@ namespace ServiciosDigitalesProy.Models
             this.apellidos = apellidos;
             this.nombres = nombres;
         }
+        public Usuario(string apellidos, string nombres)
+        {
+            this.apellidos = apellidos;
+            this.nombres = nombres;
+        }
 
         public int idUsuario { get; set; }
 

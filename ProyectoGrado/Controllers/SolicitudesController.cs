@@ -103,16 +103,28 @@ namespace ServiciosDigitalesProy.Controllers
         public ActionResult CambiarEstado(string id)
         {
             Solicitud solicitud;
-            int idSolicitud = Convert.ToInt32(id);
             string resultado = "", tipoResultado = "";
+            if (id != "idSeleccionado")
+            {
+                int idSolicitud = Convert.ToInt32(id);
+                solicitud = CatalogoSolicitudes.GetInstance().ConsultaEstadoSolicitud_X_id(idSolicitud, ref resultado, ref tipoResultado);
+                solicitud.id_solicitud = idSolicitud;
+                solicitud.estadoSolicitudSelect = new SelectList(CatalogoSolicitudes.GetInstance().ConsultarEstadosSolicitud(), "id", "Descripcion");
+                TempData["mensaje"] = resultado;
+                TempData["estado"] = tipoResultado;
+                TempData["idEstadoActual"] = solicitud.estadoSolicitud.id;
+                return View(solicitud);
+            }
+            else
+            {
+                
+                List<Solicitud> solicitudes = new List<Solicitud>();
+                solicitudes = CatalogoSolicitudes.GetInstance().ConsultarSolicitudes(ref resultado, ref tipoResultado);
+                TempData["mensaje"] = "Por favor seleccione una opción";
+                TempData["estado"] = "danger";
+                return View("ConsultarSolicitudes",solicitudes);
 
-            solicitud = CatalogoSolicitudes.GetInstance().ConsultaEstadoSolicitud_X_id(idSolicitud,ref resultado, ref tipoResultado);
-            solicitud.id_solicitud = idSolicitud;
-            solicitud.estadoSolicitudSelect = new SelectList(CatalogoSolicitudes.GetInstance().ConsultarEstadosSolicitud(), "id", "Descripcion");
-            TempData["mensaje"] = resultado;
-            TempData["estado"] = tipoResultado;
-            TempData["idEstadoActual"] = solicitud.estadoSolicitud.id;
-            return View(solicitud);
+            }
         }
 
         
@@ -165,24 +177,36 @@ namespace ServiciosDigitalesProy.Controllers
         #region Escalar
 
         [HttpGet]
-        public ActionResult Escalar(int id)
+        public ActionResult Escalar(string id)
         {
             string resultado = "", tipoResultado = "";
-            List<Solicitud> solicitudes = Session["solicitudes"] as List<Solicitud>;
-            Solicitud solicitud = solicitudes.Find(x => x.id_solicitud == id);
-            ViewBag.idSolicitud = solicitud.id_solicitud;
-
-            List<Usuario> usuarios;
-            usuarios = CatalogoUsuarios.GetInstance().ConsultarEmpleados("", ref resultado, ref tipoResultado);
-            for (int i=0;i<usuarios.Count;i++)
+            if (id != "idSeleccionado")
             {
-                if (usuarios[i].estado != "Activo" || (SessionHelper.GetUser().ToString()==usuarios[i].identificacion))
-                    usuarios.RemoveAt(i);
+                int idSolicitud = Convert.ToInt32(id);
+                
+                List<Solicitud> solicitudes = Session["solicitudes"] as List<Solicitud>;
+                Solicitud solicitud = solicitudes.Find(x => x.id_solicitud == idSolicitud);
+                ViewBag.idSolicitud = solicitud.id_solicitud;
+
+                List<Usuario> usuarios;
+                usuarios = CatalogoUsuarios.GetInstance().ConsultarEmpleados("", ref resultado, ref tipoResultado);
+                for (int i = 0; i < usuarios.Count; i++)
+                {
+                    if (usuarios[i].estado != "Activo" || (SessionHelper.GetUser().ToString() == usuarios[i].identificacion))
+                        usuarios.RemoveAt(i);
+                }
+                solicitud.ListaEmpleadosSelect = new SelectList(usuarios, "identificacion", "nombres");
+
+
+                return View(solicitud);
+            }else
+            {
+                List<Solicitud> solicitudes = new List<Solicitud>();
+                solicitudes = CatalogoSolicitudes.GetInstance().ConsultarSolicitudes(ref resultado, ref tipoResultado);
+                TempData["mensaje"] = "Por favor seleccione una opción";
+                TempData["estado"] = "danger";
+                return View("ConsultarSolicitudes", solicitudes);
             }
-            solicitud.ListaEmpleadosSelect = new SelectList(usuarios, "identificacion", "nombres");
-
-
-            return View(solicitud);
         }
 
 
@@ -198,9 +222,16 @@ namespace ServiciosDigitalesProy.Controllers
             return View("ConsultarSolicitudes", CatalogoSolicitudes.GetInstance().ConsultarSolicitudes(ref res, ref tipores));
         }
 
-       
+
         #endregion
 
-
+        [HttpGet]
+        public ActionResult ConsultarHistorico(int id)
+        {
+            string resultado = "", tipoResultado = "";
+            List<HistoricoSolicitud> historico= CatalogoSolicitudes.GetInstance().ConsultarHistoricoSolicitudX_id(id,ref resultado,ref tipoResultado);
+            ViewBag.idSolicitud = historico[0].id_solicitud;
+            return View(historico);
+        }
     }
 }

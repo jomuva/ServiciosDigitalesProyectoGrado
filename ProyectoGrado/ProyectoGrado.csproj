@@ -173,6 +173,7 @@
     <Compile Include="Models\Producto.cs" />
     <Compile Include="Models\Rol.cs" />
     <Compile Include="Models\Servicio.cs" />
+    <Compile Include="Models\HistoricoSolicitud.cs" />
     <Compile Include="Models\Solicitud.cs" />
     <Compile Include="Models\TelefonoUsuario.cs" />
     <Compile Include="Models\TipoElemento.cs" />
@@ -225,6 +226,7 @@
     <Content Include="Views\Solicitudes\Partials\_Modal.cshtml" />
     <Content Include="Views\Solicitudes\ConsultarElementos.cshtml" />
     <Content Include="Views\Solicitudes\ConsultarElementosModal.cshtml" />
+    <Content Include="Views\Solicitudes\ConsultarHistorico.cshtml" />
     <None Include="Xcore\Scripts\jquery-1.10.2.intellisense.js" />
     <Content Include="Xcore\Scripts\Formulario\index.js" />
     <Content Include="Xcore\Scripts\jquery-1.10.2.js" />

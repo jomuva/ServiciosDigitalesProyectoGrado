@@ -29,6 +29,8 @@ namespace ServiciosDigitalesProy.Models
         public Servicio servicio { get; set; }
         public Elemento elemento { get; set; }
         public DateTime fecha { get; set; }
+
+        [RegularExpression(@"^[0-9a-zA-ZáéíóÚ.ÁÉÍÓÚ. ]{1,300}$", ErrorMessage = "Los Caracteres especiales no son permitidos y su tamaño debe ser menos de 300 caracteres")]
         public string descripcion { get; set; }
         public string Empleado { get; set; }
         public int idEmpleado { get; set; }

@@ -6,6 +6,6 @@ C:\Proyecto de Grado Capas\ServiciosDigitalesProyectoGrado\Session\bin\Debug\Sys
 C:\Proyecto de Grado Capas\ServiciosDigitalesProyectoGrado\Session\bin\Debug\System.Net.Http.Extensions.xml
 C:\Proyecto de Grado Capas\ServiciosDigitalesProyectoGrado\Session\bin\Debug\System.Net.Http.Primitives.xml
 C:\Proyecto de Grado Capas\ServiciosDigitalesProyectoGrado\Session\obj\Debug\Session.csproj.App.config
-C:\Proyecto de Grado Capas\ServiciosDigitalesProyectoGrado\Session\obj\Debug\Session.csprojResolveAssemblyReference.cache
 C:\Proyecto de Grado Capas\ServiciosDigitalesProyectoGrado\Session\obj\Debug\Session.dll
 C:\Proyecto de Grado Capas\ServiciosDigitalesProyectoGrado\Session\obj\Debug\Session.pdb
+C:\Proyecto de Grado Capas\ServiciosDigitalesProyectoGrado\Session\obj\Debug\Session.csprojResolveAssemblyReference.cache

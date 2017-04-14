@@ -50,24 +50,31 @@ namespace Persistencia.SolicitudesDatos
 
         }
 
-
+        public object ConsultarElementos()
+        {
+            object consulta = null;
+            try
+            {
+                consulta = conexion.conexiones.ConsultarElementos().ToList();
+            }
+            catch (Exception e)
+            {
+            }
+            return consulta;
+        }
         /// <summary>
         /// Consultar los Tipos de prioridad de la solicitud
         /// </summary>
         /// <returns></returns>
-        public object ConsultarTiposPrioridad(ref string resultado, ref string tipoResultado)
+        public object ConsultarTiposPrioridad()
         {
             object consulta = null;
             try
             {
                 consulta = conexion.conexiones.ConsultarTiposPrioridad().ToList();
-                resultado = "Consulta Exitosa";
-                tipoResultado = "info";
             }
             catch (Exception e)
             {
-                resultado = e.Message;
-                tipoResultado = "error";
             }
             return consulta;
         }
@@ -258,11 +265,11 @@ namespace Persistencia.SolicitudesDatos
         /// <param name="id_elemento"></param>
         /// <param name="resultado"></param>
         /// <param name="tipoResultado"></param>
-        public void GenerarSolicitud(int id_prioridad,int id_estado,int id_cliente, int id_servicio,int id_elemento,string descripcion, ref string resultado, ref string tipoResultado)
+        public void GenerarSolicitud(int id_prioridad,int id_estado,string identifEmpleado, int id_cliente,int id_servicio,int id_elemento,string descripcion, ref string resultado, ref string tipoResultado)
         {
             try
             {
-                conexion.conexiones.GenerarSolicitud(id_prioridad, id_estado, id_cliente, id_servicio, id_elemento,descripcion);
+                conexion.conexiones.GenerarSolicitud(id_prioridad, id_estado, identifEmpleado,id_cliente, id_servicio, id_elemento,descripcion);
                 conexion.conexiones.SaveChanges();
 
                 resultado = "Se ha generado la solicitud exitosamente";
@@ -274,6 +281,32 @@ namespace Persistencia.SolicitudesDatos
                 tipoResultado = "danger";
             }
             
+        }
+
+        /// <summary>
+        /// Escala la solicitud segun el numero de documento del empleado a escalar
+        /// </summary>
+        /// <param name="idSolicitud"></param>
+        /// <param name="identifEmpleado"></param>
+        /// <param name="resultado"></param>
+        /// <param name="tipoResultado"></param>
+        public void EscalarSolicitud(int idSolicitud, string identifEmpleado, ref string resultado, ref string tipoResultado)
+        {
+            try
+            {
+                conexion.conexiones.EscalarSolicitud(idSolicitud,identifEmpleado);
+                conexion.conexiones.SaveChanges();
+
+                resultado = "Se ha Escalado la solicitud exitosamente";
+                tipoResultado = "success";
+
+            }
+            catch (Exception ex)
+            {
+                resultado = ex.Message;
+                tipoResultado = "danger";
+            }
+
         }
 
 

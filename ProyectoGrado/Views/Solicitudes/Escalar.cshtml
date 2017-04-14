@@ -2,7 +2,7 @@
 @model ServiciosDigitalesProy.Models.Solicitud
 @{
     ViewBag.Title = " Solicitudes";
-    ViewBag.SubSeccion = "Cambiar Estado de la solicitud #" + Model.id_solicitud;
+    ViewBag.SubSeccion = "Escalar solicitud #" + Model.id_solicitud;
 }
 
 <h3>@ViewBag.SubSeccion</h3>
@@ -20,12 +20,12 @@
         <div class="col-lg-6">
             <div class="panel panel-default">
                 <div class="panel-heading">
-                    Estado de la solicitud
+                    Escalar Solicitud
                 </div>
                 <div class="panel-body">
                     <div class="row">
                         <div class="col-lg-6">
-                            @using (Html.BeginForm("ModificarEstadoSolicitud", "Solicitudes", FormMethod.Post))
+                            @using (Html.BeginForm("Escalar", "Solicitudes", FormMethod.Post))
                             {
                                 <div class="form-group">
                                     <label>Código Solicitud</label>
@@ -34,16 +34,16 @@
                                 @Html.Hidden("id_solicitud", Model.id_solicitud)
 
                                 <div class="form-group">
-                                    <label>Estado Actual</label>
-                                    @Html.TextBox("Estado Actual", Model.estadoSolicitud.Descripcion, new { @class = "form-control", @disabled = "disabled" })
-                                </div>
-                                
-                                <div class="form-group">
-                                    <label>Tipos de Estado</label>
-                                    @Html.DropDownListFor(x => x.estadoSolicitud.id, Model.estadoSolicitudSelect, null, new { @class = "form-control" })
+                                    <label>Descripción</label>
+                                    @Html.TextBox("Descripción", Model.descripcion, new { @class = "form-control", @disabled = "disabled" })
                                 </div>
 
-                                <button type="submit" name="submitButton" id="submitButton" class="btn btn-primary">Aceptar</button>
+                                <div class="form-group">
+                                    <label>Tipos de Estado</label>
+                                    @Html.DropDownListFor(x => x.idEmpleado, Model.ListaEmpleadosSelect, null, new { @class = "form-control" })
+                                </div>
+
+                                <button type="submit" name="submitButton" id="submitButton" class="btn btn-primary">Escalar Solicitud</button>
                             }
                         </div>
                     </div>

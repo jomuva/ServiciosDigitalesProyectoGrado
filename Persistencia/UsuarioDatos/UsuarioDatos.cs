@@ -258,6 +258,7 @@ namespace Persistencia.UsuarioDatos
 
                                select new 
                                {
+                                   idUsuario = usuario.id_usuario,
                                    nombres = usuario.nombres,
                                    apellidos = usuario.apellidos,
                                    identificacion = usuario.identificacion,
@@ -611,6 +612,7 @@ namespace Persistencia.UsuarioDatos
 
                                 select new 
                                 {
+                                    id_usuario = usuario.id_usuario,
                                     nombres = usuario.nombres,
                                     apellidos = usuario.apellidos,
                                     identificacion = usuario.identificacion,

@@ -8,6 +8,7 @@ namespace ServiciosDigitalesProy.Models
     {
         public Usuario()
         {
+            idUsuario = 0;
             nombres = "";
             apellidos = "";
             identificacion = "";
@@ -20,6 +21,7 @@ namespace ServiciosDigitalesProy.Models
             username = "";
             tiposIdentificacion = null ;
             tiposEstado = null;
+            NombresApellidosDocumento = "";
         }
 
         public Usuario(string identif, string apellidos, string nombres)
@@ -28,6 +30,8 @@ namespace ServiciosDigitalesProy.Models
             this.apellidos = apellidos;
             this.nombres = nombres;
         }
+
+        public int idUsuario { get; set; }
 
         [RegularExpression(@"^[0-9a-zA-ZáéíóÚ.ÁÉÍÓÚ. ]{1,40}$", ErrorMessage = "Los Caracteres especiales no son permitidos.")]
         [Required(AllowEmptyStrings = false, ErrorMessage = "El campo de \"Nombres\" es obligatorio.")]
@@ -75,9 +79,13 @@ namespace ServiciosDigitalesProy.Models
         public int idRol { get; set; }
         public int idEstado { get; set; }
         public int idTipoIdentificacion { get; set; }
+        #region Atributos para consulta en vista
         public SelectList tiposIdentificacion { get; set; }
         public SelectList tiposEstado { get; set; }
         public SelectList Roles { get; set; }
+        public string NombresApellidosDocumento { get; set; }
+        #endregion
+
         public int id { get; set; }
         public string Rol { get; set; }
 

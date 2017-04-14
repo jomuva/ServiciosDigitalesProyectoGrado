@@ -19,7 +19,7 @@ namespace ServiciosDigitalesProy.Catalogos
         public CatalogoSolicitudes()
         {
             solicitudesDatos = new SolicitudesDatos();
-            
+
         }
 
         /// <summary>
@@ -53,6 +53,30 @@ namespace ServiciosDigitalesProy.Catalogos
                 {
                     id = data.id_tipo_elemento,
                     Descripcion = data.descripcion_elemento,
+                });
+            }
+
+            return Tipos;
+        }
+
+        /// <summary>
+        /// Consulta los tipos de prioridad existentes
+        /// </summary>
+        /// <returns></returns>
+        public List<PrioridadSolicitud> ConsultarTiposPrioridad()
+        {
+            List<PrioridadSolicitud> Tipos = new List<PrioridadSolicitud>();
+            var tipos = solicitudesDatos.ConsultarTiposPrioridad();
+
+            string dynObj = JsonConvert.SerializeObject(tipos);
+            dynamic dyn = JsonConvert.DeserializeObject(dynObj);
+
+            foreach (var data in dyn)
+            {
+                Tipos.Add(new PrioridadSolicitud
+                {
+                    id = data.id_prioridad,
+                    Descripcion = data.descripcion_prioridad,
                 });
             }
 
@@ -131,7 +155,7 @@ namespace ServiciosDigitalesProy.Catalogos
                 {
                     estado.id = item.id_estado_solicitud;
                     estado.Descripcion = item.descripcion;
-                } 
+                }
                 //solicitud.estadoSolicitud.id = dyn2.id_estado_solicitud;
                 //solicitud.estadoSolicitud.Descripcion = dyn2.descripcion;
                 resultado = "";
@@ -149,13 +173,13 @@ namespace ServiciosDigitalesProy.Catalogos
         /// <param name="idEstadoNuevo"></param>
         /// <param name="resultado"></param>
         /// <param name="tipoResultado"></param>
-        public void CambiarEstadoSolicitud(int idSolicitud,int idEstadoAnterior,int idEstadoNuevo, ref string resultado, ref string tipoResultado)
+        public void CambiarEstadoSolicitud(int idSolicitud, int idEstadoAnterior, int idEstadoNuevo, ref string resultado, ref string tipoResultado)
         {
             int identifEmpleado = SessionHelper.GetUser();
             int respInt;
             string respuesta = "";
             object resul;
-            resul = solicitudesDatos.CambiarEstadoSolicitud(idSolicitud, idEstadoAnterior, idEstadoNuevo, identifEmpleado.ToString(),ref resultado,ref tipoResultado);
+            resul = solicitudesDatos.CambiarEstadoSolicitud(idSolicitud, idEstadoAnterior, idEstadoNuevo, identifEmpleado.ToString(), ref resultado, ref tipoResultado);
 
             string dynObj2 = JsonConvert.SerializeObject(resul);
             dynamic dyn2 = JsonConvert.DeserializeObject(dynObj2);
@@ -163,10 +187,10 @@ namespace ServiciosDigitalesProy.Catalogos
             foreach (var item in dyn2)
             {
                 respuesta = item;
-                
+
             }
-            respInt = respuesta ==""?respInt=0: Convert.ToInt32(respuesta);
-            if(respInt == 0)
+            respInt = respuesta == "" ? respInt = 0 : Convert.ToInt32(respuesta);
+            if (respInt == 0)
             {
                 resultado = "El cambio de dicho estado no se puede realizar";
                 tipoResultado = "danger";
@@ -188,6 +212,37 @@ namespace ServiciosDigitalesProy.Catalogos
                                                 );
         }
 
+
+        public List<Elemento> ConsultarElementos(ref string resultado, ref string tipoResultado)
+        {
+            List<Elemento> elementos = new List<Elemento>();
+            var oElementos = solicitudesDatos.ConsultarElementos();
+
+            string dynObj2 = JsonConvert.SerializeObject(oElementos);
+            dynamic dyn2 = JsonConvert.DeserializeObject(dynObj2);
+
+            foreach (var item in dyn2)
+            {
+                elementos.Add(new Elemento
+                {
+                    id_elemento = item.id_elemento,
+                    serial = item.serial,
+                    placa = item.placa,
+                    modelo = item.modelo,
+                    marca = item.marca,
+                    ram = item.ram,
+                    rom = item.rom,
+                    serialBateria = item.serial_bateria,
+                    SO = item.sistema_operativo,
+                    tipoElemento = new TipoElemento((int)item.id_tipo_elemento,(string)item.descripcion_elemento),
+                    categoriaElemento = new CategoriaElemento((int)item.id_categoria_elemento,(string)item.descripcion_categoria_elemento)
+                });
+            }
+            resultado = "";
+            tipoResultado = "";
+            return elementos;
+        }
+
         #endregion
         /// <summary>
         /// Consulta el total de solicitudes y en este metodo los convierte a Objeto Solicitud
@@ -198,10 +253,10 @@ namespace ServiciosDigitalesProy.Catalogos
         /// <returns></returns>
         public List<Solicitud> ConsultarSolicitudes(ref string resultado, ref string tipoResultado)
         {
-            object oSolicitudes,oNombres=null;
-            string dynObj,dynobj2, dynObj3;
-            dynamic dyn,dyn2, dyn3;
-            int Rol=0;
+            object oSolicitudes, oNombres = null;
+            string dynObj, dynobj2, dynObj3;
+            dynamic dyn, dyn2, dyn3;
+            int Rol = 0;
             List<Solicitud> ListaSolicitudes = new List<Solicitud>();
             string identif = (SessionHelper.GetUser()).ToString();
 
@@ -215,8 +270,9 @@ namespace ServiciosDigitalesProy.Catalogos
             {
                 oSolicitudes = solicitudesDatos.ConsultarSolicitudes(ref resultado, ref tipoResultado);
                 oNombres = solicitudesDatos.ConsultaNombresEmpleadosXSolicitud();
-               
-            }else
+
+            }
+            else
             {
                 oSolicitudes = solicitudesDatos.ConsultarSolicitudesXEmpleado(identif, ref resultado, ref tipoResultado);
             }
@@ -226,14 +282,14 @@ namespace ServiciosDigitalesProy.Catalogos
             {
                 ListaSolicitudes.Add(new Solicitud
                 {
-                    idEmpleado = item.id_usuario_escalado,
-                    estadoSolicitud = new EstadoSolicitud((string)item.descripcion),
+                    idEmpleado = item.id_escalado_solicitud,
+                    estadoSolicitud = new EstadoSolicitud((string)item.Expr1),
                     id_solicitud = item.id_solicitud,
                     prioridadSolicitud = new PrioridadSolicitud((string)item.descripcion_prioridad),
-                    cliente = new Usuario((string)item.nombres, (string)item.apellidos, (string)item.identificacion),
+                    cliente = new Usuario((string)item.identificacion, (string)item.apellidos, (string)item.nombres),
                     fecha = item.fecha_solicitud,
-                    elemento = new Elemento((string)item.descripcion_categoria_elemento,(string)item.descripcion_elemento, (string)item.serial, (string)item.placa,(string)item.modelo, (string)item.marca, (string)item.ram, (string)item.rom, (string)item.serial_bateria, (string)item.sistema_operativo),
-                    descripcion = item.Descripcion_Solicitud,
+                    elemento = new Elemento((string)item.descripcion_categoria_elemento, (string)item.descripcion_elemento, (string)item.serial, (string)item.placa, (string)item.modelo, (string)item.marca, (string)item.ram, (string)item.rom, (string)item.serial_bateria, (string)item.sistema_operativo),
+                    descripcion = item.descripcion,
                     servicio = new Servicio((string)item.descripcion_servicio)
                 });
             }
@@ -256,12 +312,12 @@ namespace ServiciosDigitalesProy.Catalogos
                     ListaSolicitudes[i].Empleado = solicitudes2[i].Empleado;
                 }
             }
-            
+
             return ListaSolicitudes;
         }
 
 
-        
+
 
         /// <summary>
         /// Agrega una solicitud y verificar si la solicitud tiene un elemento para agregar o no
@@ -271,12 +327,20 @@ namespace ServiciosDigitalesProy.Catalogos
         {
 
             solicitudesDatos.GenerarSolicitud(
-                                                solicitud.prioridadSolicitud.id,solicitud.estadoSolicitud.id,
-                                                solicitud.cliente.id,solicitud.servicio.id_servicio,solicitud.elemento.id_elemento, 
-                                                solicitud.descripcion, ref resultado,ref tipoResultado);
+                                                solicitud.prioridadSolicitud.id, solicitud.estadoSolicitud.id,
+                                                SessionHelper.GetUser().ToString(),
+                                                solicitud.cliente.id, solicitud.servicio.id_servicio, solicitud.elemento.id_elemento,
+                                                solicitud.descripcion, ref resultado, ref tipoResultado);
         }
 
-       
+        public void EscalarSolicitud(Solicitud solicitud, ref string resultado, ref string tipoResultado)
+        {
+
+            solicitudesDatos.EscalarSolicitud(solicitud.id_solicitud, solicitud.idEmpleado.ToString(), ref resultado, ref tipoResultado);
+        }
+
+
+
     }
 
 

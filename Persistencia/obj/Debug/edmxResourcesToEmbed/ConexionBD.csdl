@@ -738,6 +738,7 @@
       <Parameter Name="codigo" Mode="In" Type="Int32" />
     </FunctionImport>
     <FunctionImport Name="ConsultarCategorias_Elemento" ReturnType="Collection(bdServiciosDigitalesProyModel.ConsultarCategorias_Elemento_Result)" />
+    <FunctionImport Name="ConsultarElementos" ReturnType="Collection(bdServiciosDigitalesProyModel.ConsultarElementos_Result)" />
     <FunctionImport Name="ConsultarEstado_Solicitud" ReturnType="Collection(bdServiciosDigitalesProyModel.ConsultarEstado_Solicitud_Result)">
       <Parameter Name="idSolic" Mode="In" Type="Int32" />
     </FunctionImport>
@@ -765,9 +766,14 @@
     </FunctionImport>
     <FunctionImport Name="ConsultarTiposElemento" ReturnType="Collection(bdServiciosDigitalesProyModel.ConsultarTiposElemento_Result)" />
     <FunctionImport Name="ConsultarTiposPrioridad" ReturnType="Collection(bdServiciosDigitalesProyModel.ConsultarTiposPrioridad_Result)" />
+    <FunctionImport Name="EscalarSolicitud">
+      <Parameter Name="id_solicitud" Mode="In" Type="Int32" />
+      <Parameter Name="identifEmpleado" Mode="In" Type="String" />
+    </FunctionImport>
     <FunctionImport Name="GenerarSolicitud">
       <Parameter Name="id_prioridad" Mode="In" Type="Int32" />
       <Parameter Name="id_estado" Mode="In" Type="Int32" />
+      <Parameter Name="identifEmpleado" Mode="In" Type="String" />
       <Parameter Name="id_cliente" Mode="In" Type="Int32" />
       <Parameter Name="id_servicio" Mode="In" Type="Int32" />
       <Parameter Name="id_elemento" Mode="In" Type="Int32" />
@@ -788,6 +794,21 @@
   <ComplexType Name="ConsultarCategorias_Elemento_Result">
     <Property Type="Int32" Name="id_categoria_elemento" Nullable="false" />
     <Property Type="String" Name="descripcion_categoria_elemento" Nullable="false" MaxLength="50" />
+  </ComplexType>
+  <ComplexType Name="ConsultarElementos_Result">
+    <Property Type="Int32" Name="id_elemento" Nullable="false" />
+    <Property Type="Int32" Name="id_tipo_elemento" Nullable="false" />
+    <Property Type="String" Name="descripcion_elemento" Nullable="false" MaxLength="50" />
+    <Property Type="Int32" Name="id_categoria_elemento" Nullable="false" />
+    <Property Type="String" Name="descripcion_categoria_elemento" Nullable="false" MaxLength="50" />
+    <Property Type="String" Name="serial" Nullable="true" MaxLength="4" />
+    <Property Type="String" Name="placa" Nullable="true" MaxLength="30" />
+    <Property Type="String" Name="modelo" Nullable="true" MaxLength="30" />
+    <Property Type="String" Name="marca" Nullable="true" MaxLength="15" />
+    <Property Type="String" Name="ram" Nullable="true" MaxLength="10" />
+    <Property Type="String" Name="rom" Nullable="true" MaxLength="15" />
+    <Property Type="String" Name="serial_bateria" Nullable="true" MaxLength="4" />
+    <Property Type="String" Name="sistema_operativo" Nullable="true" MaxLength="20" />
   </ComplexType>
   <ComplexType Name="ConsultarEstado_Solicitud_Result">
     <Property Type="Int32" Name="id_estado_solicitud" Nullable="false" />
@@ -831,47 +852,47 @@
     <Property Type="String" Name="descripcion_servicio" Nullable="false" MaxLength="50" />
   </ComplexType>
   <ComplexType Name="ConsultarSolicitudes_Result">
-    <Property Type="Int32" Name="id_usuario_escalado" Nullable="true" />
-    <Property Type="String" Name="descripcion" Nullable="true" MaxLength="50" />
     <Property Type="Int32" Name="id_solicitud" Nullable="false" />
-    <Property Type="String" Name="descripcion_prioridad" Nullable="true" MaxLength="50" />
-    <Property Type="String" Name="nombres" Nullable="false" MaxLength="30" />
-    <Property Type="String" Name="apellidos" Nullable="false" MaxLength="30" />
-    <Property Type="String" Name="identificacion" Nullable="false" MaxLength="15" />
+    <Property Type="String" Name="descripcion" Nullable="true" MaxLength="300" />
     <Property Type="DateTime" Name="fecha_solicitud" Nullable="true" Precision="23" />
-    <Property Type="String" Name="descripcion_categoria_elemento" Nullable="false" MaxLength="50" />
+    <Property Type="Int32" Name="id_escalado_solicitud" Nullable="true" />
+    <Property Type="String" Name="identificacion" Nullable="false" MaxLength="15" />
+    <Property Type="String" Name="apellidos" Nullable="false" MaxLength="30" />
+    <Property Type="String" Name="nombres" Nullable="false" MaxLength="30" />
+    <Property Type="String" Name="Expr1" Nullable="true" MaxLength="50" />
+    <Property Type="String" Name="descripcion_prioridad" Nullable="true" MaxLength="50" />
     <Property Type="String" Name="descripcion_elemento" Nullable="false" MaxLength="50" />
-    <Property Type="String" Name="serial" Nullable="true" MaxLength="4" />
-    <Property Type="String" Name="placa" Nullable="true" MaxLength="30" />
-    <Property Type="String" Name="modelo" Nullable="true" MaxLength="30" />
-    <Property Type="String" Name="marca" Nullable="true" MaxLength="15" />
-    <Property Type="String" Name="ram" Nullable="true" MaxLength="10" />
-    <Property Type="String" Name="rom" Nullable="true" MaxLength="15" />
-    <Property Type="String" Name="serial_bateria" Nullable="true" MaxLength="4" />
+    <Property Type="String" Name="descripcion_categoria_elemento" Nullable="false" MaxLength="50" />
     <Property Type="String" Name="sistema_operativo" Nullable="true" MaxLength="20" />
-    <Property Type="String" Name="Descripcion_Solicitud" Nullable="true" MaxLength="300" />
+    <Property Type="String" Name="marca" Nullable="true" MaxLength="15" />
+    <Property Type="String" Name="modelo" Nullable="true" MaxLength="30" />
+    <Property Type="String" Name="serial" Nullable="true" MaxLength="4" />
+    <Property Type="String" Name="serial_bateria" Nullable="true" MaxLength="4" />
+    <Property Type="String" Name="rom" Nullable="true" MaxLength="15" />
+    <Property Type="String" Name="ram" Nullable="true" MaxLength="10" />
+    <Property Type="String" Name="placa" Nullable="true" MaxLength="30" />
     <Property Type="String" Name="descripcion_servicio" Nullable="false" MaxLength="50" />
   </ComplexType>
   <ComplexType Name="ConsultarSolicitudesXEmpleado_Result">
-    <Property Type="Int32" Name="id_usuario_escalado" Nullable="true" />
-    <Property Type="String" Name="descripcion" Nullable="true" MaxLength="50" />
     <Property Type="Int32" Name="id_solicitud" Nullable="false" />
-    <Property Type="String" Name="descripcion_prioridad" Nullable="true" MaxLength="50" />
-    <Property Type="String" Name="nombres" Nullable="false" MaxLength="30" />
-    <Property Type="String" Name="apellidos" Nullable="false" MaxLength="30" />
-    <Property Type="String" Name="identificacion" Nullable="false" MaxLength="15" />
+    <Property Type="String" Name="descripcion" Nullable="true" MaxLength="300" />
     <Property Type="DateTime" Name="fecha_solicitud" Nullable="true" Precision="23" />
-    <Property Type="String" Name="descripcion_categoria_elemento" Nullable="false" MaxLength="50" />
+    <Property Type="Int32" Name="id_escalado_solicitud" Nullable="true" />
+    <Property Type="String" Name="identificacion" Nullable="false" MaxLength="15" />
+    <Property Type="String" Name="apellidos" Nullable="false" MaxLength="30" />
+    <Property Type="String" Name="nombres" Nullable="false" MaxLength="30" />
+    <Property Type="String" Name="Expr1" Nullable="true" MaxLength="50" />
+    <Property Type="String" Name="descripcion_prioridad" Nullable="true" MaxLength="50" />
     <Property Type="String" Name="descripcion_elemento" Nullable="false" MaxLength="50" />
-    <Property Type="String" Name="serial" Nullable="true" MaxLength="4" />
-    <Property Type="String" Name="placa" Nullable="true" MaxLength="30" />
-    <Property Type="String" Name="modelo" Nullable="true" MaxLength="30" />
-    <Property Type="String" Name="marca" Nullable="true" MaxLength="15" />
-    <Property Type="String" Name="ram" Nullable="true" MaxLength="10" />
-    <Property Type="String" Name="rom" Nullable="true" MaxLength="15" />
-    <Property Type="String" Name="serial_bateria" Nullable="true" MaxLength="4" />
+    <Property Type="String" Name="descripcion_categoria_elemento" Nullable="false" MaxLength="50" />
     <Property Type="String" Name="sistema_operativo" Nullable="true" MaxLength="20" />
-    <Property Type="String" Name="Descripcion_Solicitud" Nullable="true" MaxLength="300" />
+    <Property Type="String" Name="marca" Nullable="true" MaxLength="15" />
+    <Property Type="String" Name="modelo" Nullable="true" MaxLength="30" />
+    <Property Type="String" Name="serial" Nullable="true" MaxLength="4" />
+    <Property Type="String" Name="serial_bateria" Nullable="true" MaxLength="4" />
+    <Property Type="String" Name="rom" Nullable="true" MaxLength="15" />
+    <Property Type="String" Name="ram" Nullable="true" MaxLength="10" />
+    <Property Type="String" Name="placa" Nullable="true" MaxLength="30" />
     <Property Type="String" Name="descripcion_servicio" Nullable="false" MaxLength="50" />
   </ComplexType>
   <ComplexType Name="ConsultarTiposElemento_Result">

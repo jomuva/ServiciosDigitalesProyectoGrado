@@ -15,6 +15,11 @@ namespace ServiciosDigitalesProy.Models
         {
             this.Descripcion = descripcion;
         }
+        public CategoriaElemento(int id,string descripcion)
+        {
+            this.id = id;
+            this.Descripcion = descripcion;
+        }
         public int id { get; set; }
         public string Descripcion { get; set; }
   

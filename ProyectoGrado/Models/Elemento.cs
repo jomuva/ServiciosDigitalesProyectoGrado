@@ -8,7 +8,7 @@ namespace ServiciosDigitalesProy.Models
     {
         public Elemento()
         {
-            id_elemento = 0;
+            id_elemento = 1;
             serial = "";
             placa = "";
             modelo = "";

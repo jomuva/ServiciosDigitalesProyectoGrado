@@ -245,6 +245,11 @@ namespace Persistencia
             return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction<ConsultarCategorias_Elemento_Result>("ConsultarCategorias_Elemento");
         }
     
+        public virtual ObjectResult<ConsultarElementos_Result> ConsultarElementos()
+        {
+            return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction<ConsultarElementos_Result>("ConsultarElementos");
+        }
+    
         public virtual ObjectResult<ConsultarEstado_Solicitud_Result> ConsultarEstado_Solicitud(Nullable<int> idSolic)
         {
             var idSolicParameter = idSolic.HasValue ?
@@ -338,7 +343,20 @@ namespace Persistencia
             return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction<ConsultarTiposPrioridad_Result>("ConsultarTiposPrioridad");
         }
     
-        public virtual int GenerarSolicitud(Nullable<int> id_prioridad, Nullable<int> id_estado, Nullable<int> id_cliente, Nullable<int> id_servicio, Nullable<int> id_elemento, string descripcion)
+        public virtual int EscalarSolicitud(Nullable<int> id_solicitud, string identifEmpleado)
+        {
+            var id_solicitudParameter = id_solicitud.HasValue ?
+                new ObjectParameter("id_solicitud", id_solicitud) :
+                new ObjectParameter("id_solicitud", typeof(int));
+    
+            var identifEmpleadoParameter = identifEmpleado != null ?
+                new ObjectParameter("identifEmpleado", identifEmpleado) :
+                new ObjectParameter("identifEmpleado", typeof(string));
+    
+            return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction("EscalarSolicitud", id_solicitudParameter, identifEmpleadoParameter);
+        }
+    
+        public virtual int GenerarSolicitud(Nullable<int> id_prioridad, Nullable<int> id_estado, string identifEmpleado, Nullable<int> id_cliente, Nullable<int> id_servicio, Nullable<int> id_elemento, string descripcion)
         {
             var id_prioridadParameter = id_prioridad.HasValue ?
                 new ObjectParameter("id_prioridad", id_prioridad) :
@@ -347,6 +365,10 @@ namespace Persistencia
             var id_estadoParameter = id_estado.HasValue ?
                 new ObjectParameter("id_estado", id_estado) :
                 new ObjectParameter("id_estado", typeof(int));
+    
+            var identifEmpleadoParameter = identifEmpleado != null ?
+                new ObjectParameter("identifEmpleado", identifEmpleado) :
+                new ObjectParameter("identifEmpleado", typeof(string));
     
             var id_clienteParameter = id_cliente.HasValue ?
                 new ObjectParameter("id_cliente", id_cliente) :
@@ -364,7 +386,7 @@ namespace Persistencia
                 new ObjectParameter("descripcion", descripcion) :
                 new ObjectParameter("descripcion", typeof(string));
     
-            return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction("GenerarSolicitud", id_prioridadParameter, id_estadoParameter, id_clienteParameter, id_servicioParameter, id_elementoParameter, descripcionParameter);
+            return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction("GenerarSolicitud", id_prioridadParameter, id_estadoParameter, identifEmpleadoParameter, id_clienteParameter, id_servicioParameter, id_elementoParameter, descripcionParameter);
         }
     
         public virtual int InsertarProducto(Nullable<int> id_estado_prod, string nombre_prod, Nullable<decimal> precio_costo, Nullable<decimal> precio_venta, Nullable<int> cantidad)

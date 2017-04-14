@@ -19,6 +19,7 @@ namespace ServiciosDigitalesProy.Models
             descripcion = "";
             Empleado = "";
             idEmpleado = 0;
+            TieneElemento = 0;
         }
 
         public int id_solicitud { get; set; }
@@ -31,8 +32,14 @@ namespace ServiciosDigitalesProy.Models
         public string descripcion { get; set; }
         public string Empleado { get; set; }
         public int idEmpleado { get; set; }
+        #region Atributos Consulta Vista
         public SelectList prioridadSolicitudSelect { get; set; }
         public SelectList estadoSolicitudSelect { get; set; }
+        public SelectList ListaEmpleadosSelect { get; set; }
+        public SelectList ListaServiciosSelect { get; set; }
+        public SelectList ListaClientesSelect { get; set; }
+        public int TieneElemento { get; set; }
+        #endregion
 
     }
 

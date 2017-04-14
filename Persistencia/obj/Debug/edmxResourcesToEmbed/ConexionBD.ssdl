@@ -587,6 +587,7 @@
     <Parameter Name="codigo" Type="int" Mode="In" />
   </Function>
   <Function Name="ConsultarCategorias_Elemento" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo" />
+  <Function Name="ConsultarElementos" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo" />
   <Function Name="ConsultarEstado_Solicitud" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
     <Parameter Name="idSolic" Type="int" Mode="In" />
   </Function>
@@ -614,9 +615,14 @@
   </Function>
   <Function Name="ConsultarTiposElemento" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo" />
   <Function Name="ConsultarTiposPrioridad" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo" />
+  <Function Name="EscalarSolicitud" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
+    <Parameter Name="id_solicitud" Type="int" Mode="In" />
+    <Parameter Name="identifEmpleado" Type="varchar" Mode="In" />
+  </Function>
   <Function Name="GenerarSolicitud" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
     <Parameter Name="id_prioridad" Type="int" Mode="In" />
     <Parameter Name="id_estado" Type="int" Mode="In" />
+    <Parameter Name="identifEmpleado" Type="varchar" Mode="In" />
     <Parameter Name="id_cliente" Type="int" Mode="In" />
     <Parameter Name="id_servicio" Type="int" Mode="In" />
     <Parameter Name="id_elemento" Type="int" Mode="In" />

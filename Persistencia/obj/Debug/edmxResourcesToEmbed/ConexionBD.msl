@@ -250,6 +250,25 @@
         </ComplexTypeMapping>
       </ResultMapping>
     </FunctionImportMapping>
+    <FunctionImportMapping FunctionImportName="ConsultarElementos" FunctionName="bdServiciosDigitalesProyModel.Store.ConsultarElementos">
+      <ResultMapping>
+        <ComplexTypeMapping TypeName="bdServiciosDigitalesProyModel.ConsultarElementos_Result">
+          <ScalarProperty Name="id_elemento" ColumnName="id_elemento" />
+          <ScalarProperty Name="id_tipo_elemento" ColumnName="id_tipo_elemento" />
+          <ScalarProperty Name="descripcion_elemento" ColumnName="descripcion_elemento" />
+          <ScalarProperty Name="id_categoria_elemento" ColumnName="id_categoria_elemento" />
+          <ScalarProperty Name="descripcion_categoria_elemento" ColumnName="descripcion_categoria_elemento" />
+          <ScalarProperty Name="serial" ColumnName="serial" />
+          <ScalarProperty Name="placa" ColumnName="placa" />
+          <ScalarProperty Name="modelo" ColumnName="modelo" />
+          <ScalarProperty Name="marca" ColumnName="marca" />
+          <ScalarProperty Name="ram" ColumnName="ram" />
+          <ScalarProperty Name="rom" ColumnName="rom" />
+          <ScalarProperty Name="serial_bateria" ColumnName="serial_bateria" />
+          <ScalarProperty Name="sistema_operativo" ColumnName="sistema_operativo" />
+        </ComplexTypeMapping>
+      </ResultMapping>
+    </FunctionImportMapping>
     <FunctionImportMapping FunctionImportName="ConsultarEstado_Solicitud" FunctionName="bdServiciosDigitalesProyModel.Store.ConsultarEstado_Solicitud">
       <ResultMapping>
         <ComplexTypeMapping TypeName="bdServiciosDigitalesProyModel.ConsultarEstado_Solicitud_Result">
@@ -327,25 +346,25 @@
     <FunctionImportMapping FunctionImportName="ConsultarSolicitudes" FunctionName="bdServiciosDigitalesProyModel.Store.ConsultarSolicitudes">
       <ResultMapping>
         <ComplexTypeMapping TypeName="bdServiciosDigitalesProyModel.ConsultarSolicitudes_Result">
-          <ScalarProperty Name="id_usuario_escalado" ColumnName="id_usuario_escalado" />
-          <ScalarProperty Name="descripcion" ColumnName="descripcion" />
           <ScalarProperty Name="id_solicitud" ColumnName="id_solicitud" />
-          <ScalarProperty Name="descripcion_prioridad" ColumnName="descripcion_prioridad" />
-          <ScalarProperty Name="nombres" ColumnName="nombres" />
-          <ScalarProperty Name="apellidos" ColumnName="apellidos" />
-          <ScalarProperty Name="identificacion" ColumnName="identificacion" />
+          <ScalarProperty Name="descripcion" ColumnName="descripcion" />
           <ScalarProperty Name="fecha_solicitud" ColumnName="fecha_solicitud" />
-          <ScalarProperty Name="descripcion_categoria_elemento" ColumnName="descripcion_categoria_elemento" />
+          <ScalarProperty Name="id_escalado_solicitud" ColumnName="id_escalado_solicitud" />
+          <ScalarProperty Name="identificacion" ColumnName="identificacion" />
+          <ScalarProperty Name="apellidos" ColumnName="apellidos" />
+          <ScalarProperty Name="nombres" ColumnName="nombres" />
+          <ScalarProperty Name="Expr1" ColumnName="Expr1" />
+          <ScalarProperty Name="descripcion_prioridad" ColumnName="descripcion_prioridad" />
           <ScalarProperty Name="descripcion_elemento" ColumnName="descripcion_elemento" />
-          <ScalarProperty Name="serial" ColumnName="serial" />
-          <ScalarProperty Name="placa" ColumnName="placa" />
-          <ScalarProperty Name="modelo" ColumnName="modelo" />
-          <ScalarProperty Name="marca" ColumnName="marca" />
-          <ScalarProperty Name="ram" ColumnName="ram" />
-          <ScalarProperty Name="rom" ColumnName="rom" />
-          <ScalarProperty Name="serial_bateria" ColumnName="serial_bateria" />
+          <ScalarProperty Name="descripcion_categoria_elemento" ColumnName="descripcion_categoria_elemento" />
           <ScalarProperty Name="sistema_operativo" ColumnName="sistema_operativo" />
-          <ScalarProperty Name="Descripcion_Solicitud" ColumnName="Descripcion_Solicitud" />
+          <ScalarProperty Name="marca" ColumnName="marca" />
+          <ScalarProperty Name="modelo" ColumnName="modelo" />
+          <ScalarProperty Name="serial" ColumnName="serial" />
+          <ScalarProperty Name="serial_bateria" ColumnName="serial_bateria" />
+          <ScalarProperty Name="rom" ColumnName="rom" />
+          <ScalarProperty Name="ram" ColumnName="ram" />
+          <ScalarProperty Name="placa" ColumnName="placa" />
           <ScalarProperty Name="descripcion_servicio" ColumnName="descripcion_servicio" />
         </ComplexTypeMapping>
       </ResultMapping>
@@ -353,25 +372,25 @@
     <FunctionImportMapping FunctionImportName="ConsultarSolicitudesXEmpleado" FunctionName="bdServiciosDigitalesProyModel.Store.ConsultarSolicitudesXEmpleado">
       <ResultMapping>
         <ComplexTypeMapping TypeName="bdServiciosDigitalesProyModel.ConsultarSolicitudesXEmpleado_Result">
-          <ScalarProperty Name="id_usuario_escalado" ColumnName="id_usuario_escalado" />
-          <ScalarProperty Name="descripcion" ColumnName="descripcion" />
           <ScalarProperty Name="id_solicitud" ColumnName="id_solicitud" />
-          <ScalarProperty Name="descripcion_prioridad" ColumnName="descripcion_prioridad" />
-          <ScalarProperty Name="nombres" ColumnName="nombres" />
-          <ScalarProperty Name="apellidos" ColumnName="apellidos" />
-          <ScalarProperty Name="identificacion" ColumnName="identificacion" />
+          <ScalarProperty Name="descripcion" ColumnName="descripcion" />
           <ScalarProperty Name="fecha_solicitud" ColumnName="fecha_solicitud" />
-          <ScalarProperty Name="descripcion_categoria_elemento" ColumnName="descripcion_categoria_elemento" />
+          <ScalarProperty Name="id_escalado_solicitud" ColumnName="id_escalado_solicitud" />
+          <ScalarProperty Name="identificacion" ColumnName="identificacion" />
+          <ScalarProperty Name="apellidos" ColumnName="apellidos" />
+          <ScalarProperty Name="nombres" ColumnName="nombres" />
+          <ScalarProperty Name="Expr1" ColumnName="Expr1" />
+          <ScalarProperty Name="descripcion_prioridad" ColumnName="descripcion_prioridad" />
           <ScalarProperty Name="descripcion_elemento" ColumnName="descripcion_elemento" />
-          <ScalarProperty Name="serial" ColumnName="serial" />
-          <ScalarProperty Name="placa" ColumnName="placa" />
-          <ScalarProperty Name="modelo" ColumnName="modelo" />
-          <ScalarProperty Name="marca" ColumnName="marca" />
-          <ScalarProperty Name="ram" ColumnName="ram" />
-          <ScalarProperty Name="rom" ColumnName="rom" />
-          <ScalarProperty Name="serial_bateria" ColumnName="serial_bateria" />
+          <ScalarProperty Name="descripcion_categoria_elemento" ColumnName="descripcion_categoria_elemento" />
           <ScalarProperty Name="sistema_operativo" ColumnName="sistema_operativo" />
-          <ScalarProperty Name="Descripcion_Solicitud" ColumnName="Descripcion_Solicitud" />
+          <ScalarProperty Name="marca" ColumnName="marca" />
+          <ScalarProperty Name="modelo" ColumnName="modelo" />
+          <ScalarProperty Name="serial" ColumnName="serial" />
+          <ScalarProperty Name="serial_bateria" ColumnName="serial_bateria" />
+          <ScalarProperty Name="rom" ColumnName="rom" />
+          <ScalarProperty Name="ram" ColumnName="ram" />
+          <ScalarProperty Name="placa" ColumnName="placa" />
           <ScalarProperty Name="descripcion_servicio" ColumnName="descripcion_servicio" />
         </ComplexTypeMapping>
       </ResultMapping>
@@ -392,6 +411,7 @@
         </ComplexTypeMapping>
       </ResultMapping>
     </FunctionImportMapping>
+    <FunctionImportMapping FunctionImportName="EscalarSolicitud" FunctionName="bdServiciosDigitalesProyModel.Store.EscalarSolicitud" />
     <FunctionImportMapping FunctionImportName="GenerarSolicitud" FunctionName="bdServiciosDigitalesProyModel.Store.GenerarSolicitud" />
     <FunctionImportMapping FunctionImportName="InsertarProducto" FunctionName="bdServiciosDigitalesProyModel.Store.InsertarProducto" />
     <FunctionImportMapping FunctionImportName="ValidarAutenticacionLogin" FunctionName="bdServiciosDigitalesProyModel.Store.ValidarAutenticacionLogin" />

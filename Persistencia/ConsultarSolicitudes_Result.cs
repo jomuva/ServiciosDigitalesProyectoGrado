@@ -13,25 +13,25 @@ namespace Persistencia
     
     public partial class ConsultarSolicitudes_Result
     {
-        public Nullable<int> id_usuario_escalado { get; set; }
-        public string descripcion { get; set; }
         public int id_solicitud { get; set; }
-        public string descripcion_prioridad { get; set; }
-        public string nombres { get; set; }
-        public string apellidos { get; set; }
-        public string identificacion { get; set; }
+        public string descripcion { get; set; }
         public Nullable<System.DateTime> fecha_solicitud { get; set; }
-        public string descripcion_categoria_elemento { get; set; }
+        public Nullable<int> id_escalado_solicitud { get; set; }
+        public string identificacion { get; set; }
+        public string apellidos { get; set; }
+        public string nombres { get; set; }
+        public string Expr1 { get; set; }
+        public string descripcion_prioridad { get; set; }
         public string descripcion_elemento { get; set; }
-        public string serial { get; set; }
-        public string placa { get; set; }
-        public string modelo { get; set; }
-        public string marca { get; set; }
-        public string ram { get; set; }
-        public string rom { get; set; }
-        public string serial_bateria { get; set; }
+        public string descripcion_categoria_elemento { get; set; }
         public string sistema_operativo { get; set; }
-        public string Descripcion_Solicitud { get; set; }
+        public string marca { get; set; }
+        public string modelo { get; set; }
+        public string serial { get; set; }
+        public string serial_bateria { get; set; }
+        public string rom { get; set; }
+        public string ram { get; set; }
+        public string placa { get; set; }
         public string descripcion_servicio { get; set; }
     }
 }

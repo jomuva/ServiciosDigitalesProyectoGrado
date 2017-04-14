@@ -139,6 +139,7 @@ namespace ServiciosDigitalesProy.Catalogos
                     {
                         ListaUsuarios.Add(new Usuario
                         {
+                            idUsuario = item.idUsuario,
                             nombres = item.nombres,
                             apellidos = item.apellidos,
                             identificacion = item.identificacion,
@@ -146,7 +147,8 @@ namespace ServiciosDigitalesProy.Catalogos
                             direccion = item.direccion,
                             email = item.email,
                             sexo = item.sexo,
-                            estado = item.estado
+                            estado = item.estado,
+                            NombresApellidosDocumento = item.nombres + " "+item.apellidos+". Doc: "+item.identificacion
                         });
                     }
                 }
@@ -278,6 +280,7 @@ namespace ServiciosDigitalesProy.Catalogos
                     {
                         ListaUsuarios.Add(new Usuario
                         {
+                            idUsuario = item.id_usuario,
                             nombres = item.nombres,
                             apellidos = item.apellidos,
                             identificacion = item.identificacion,

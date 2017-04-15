@@ -11,9 +11,12 @@ namespace Persistencia
 {
     using System;
     
-    public partial class sp_helpdiagramdefinition_Result
+    public partial class ConsultarInventarioXCodigoProducto_Result
     {
-        public Nullable<int> version { get; set; }
-        public byte[] definition { get; set; }
+        public int id_inventario { get; set; }
+        public string nombre_producto { get; set; }
+        public int id_producto_inventario { get; set; }
+        public int cantidad_existencias { get; set; }
+        public System.DateTime fecha_actualizacion_inventario { get; set; }
     }
 }

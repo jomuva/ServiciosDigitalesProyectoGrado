@@ -9,11 +9,14 @@ namespace ServiciosDigitalesProy.Models
     {
         public Inventario()
         {
-            id_producto = 0;
+            id_inventario = 0;
             cantidadExistencias = 0;
+            producto = new Producto();
         }
 
-        public int id_producto { get; set; }
+        public int id_inventario { get; set; }
+
+        public Producto producto { get; set; }
 
         public int cantidadExistencias { get; set; }
 

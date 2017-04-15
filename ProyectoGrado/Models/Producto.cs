@@ -15,6 +15,12 @@ namespace ServiciosDigitalesProy.Models
             precio_venta = 0;
         }
 
+
+        public Producto(string nombre, int id)
+        {
+            this.nombre = nombre;
+            this.id_producto = id;
+        }
         [RegularExpression(@"^[0-9a-zA-ZáéíóÚ.ÁÉÍÓÚ. ]{1,40}$", ErrorMessage = "Los Caracteres especiales no son permitidos.")]
         [Required(AllowEmptyStrings = false, ErrorMessage = "El campo de \"Nombres\" es obligatorio.")]
         public string nombre { get; set; }
@@ -28,9 +34,12 @@ namespace ServiciosDigitalesProy.Models
 
         public int id_producto { get; set; }
 
+        public CategoriaProducto categoria { get; set; }
+
         public SelectList estadosProducto { get; set; }
-       
-        public Inventario inventario { get; set; }
+
+        public SelectList categoriasProductoSelect { get; set; }
+
     }
 
     

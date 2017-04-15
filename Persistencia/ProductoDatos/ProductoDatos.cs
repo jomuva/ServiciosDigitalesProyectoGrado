@@ -26,15 +26,15 @@ namespace Persistencia.ProductoDatos
         /// <param name="cantidad"></param>
         /// <param name="resultado"></param>
         /// <param name="tipoResultado"></param>
-        public void InsertarProducto(int estadoProd, string nombre, double precioCosto, double precioVenta, 
-            int cantidad, out string resultado, out string tipoResultado)
+        public void InsertarProducto(int estadoProd, int idCategoria,string nombre, double precioCosto, double precioVenta, 
+            int cantidad,string identifEmpleado, out string resultado, out string tipoResultado)
         {
             try
             {
-                conexion.conexiones.InsertarProducto(estadoProd,nombre,Convert.ToDecimal(precioCosto),Convert.ToDecimal(precioVenta),cantidad);
+                conexion.conexiones.InsertarProducto(estadoProd,idCategoria,nombre,Convert.ToDecimal(precioCosto),Convert.ToDecimal(precioVenta),identifEmpleado,cantidad);
                 conexion.conexiones.SaveChanges();
 
-                resultado = "Se ha insertado el producto exitosamente";
+                resultado = "Se ha agregado el producto exitosamente";
                 tipoResultado = "success";
 
             }catch(Exception ex)
@@ -59,6 +59,16 @@ namespace Persistencia.ProductoDatos
                                  id = es.id_estado_producto
 
                              };
+            return estadosProd.ToList();
+        }
+
+        /// <summary>
+        /// Consulta las Categorias Posibles para productos
+        /// </summary>
+        /// <returns></returns>
+        public object ConsultarCategoriasProducto()
+        {
+            var estadosProd = conexion.conexiones.ConsultarCategoriasProductos();
             return estadosProd.ToList();
         }
 

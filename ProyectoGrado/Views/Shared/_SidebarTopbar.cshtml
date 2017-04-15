@@ -132,17 +132,7 @@
         <!-- Sidebar Menu Items - These collapse to the responsive navigation menu on small screens -->
         <div class="collapse navbar-collapse navbar-ex1-collapse">
             <ul class="nav navbar-nav side-nav">
-                <li>
-                    <a href="javascript:;" data-toggle="collapse" data-target="#productos"><i class="fa fa-fw fa-desktop"></i> Productos <i class="fa fa-fw fa-caret-down"></i></a>
-                    <ul id="productos" class="collapse">
-                        <li>
-                            @Html.ActionLink("Adicionar Producto", "InsertarProducto", "Productos")
-                        </li>
-                        <li>
-                            @Html.ActionLink("Consultar Productos", "ConsultarProductos", "Productos")
-                        </li>
-                    </ul>
-                </li>
+               
                 <li>
                     <a href="javascript:;" data-toggle="collapse" data-target="#servicios"><i class="fa fa-fw fa-edit"></i> Servicios <i class="fa fa-fw fa-caret-down"></i></a>
                     <ul id="servicios" class="collapse">
@@ -183,14 +173,25 @@
                     </ul>
                 </li>
                 <li>
+                    <a href="javascript:;" data-toggle="collapse" data-target="#productos"><i class="fa fa-fw fa-desktop"></i> Productos <i class="fa fa-fw fa-caret-down"></i></a>
+                    <ul id="productos" class="collapse">
+                        <li>
+                            @Html.ActionLink("Adicionar Producto", "InsertarProducto", "Productos")
+                        </li>
+                        <li>
+                            @Html.ActionLink("Consultar Productos", "ConsultarProductos", "Productos")
+                        </li>
+                    </ul>
+                </li>
+                <li>
                     <a href="javascript:;" data-toggle="collapse" data-target="#inventarios"><i class="fa fa-fw fa-bar-chart-o"></i> Inventarios <i class="fa fa-fw fa-caret-down"></i></a>
                     <ul id="inventarios" class="collapse">
                         <li>
-                            <a href="#">Dropdown Item</a>
+                            <a href="#">Actualizar Inventarios</a>
 
                         </li>
                         <li>
-                            <a href="#">Dropdown Item</a>
+                            @Html.ActionLink("Consultar Inventarios", "ConsultarInventarios", "Inventarios")
                         </li>
                     </ul>
                 </li>

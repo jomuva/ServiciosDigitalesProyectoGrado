@@ -245,6 +245,8 @@ exec AgregarUsuario 1,1,2,'1020727312','Munoz Vargas','Jonathan','Calle 123 No 3
 go
 exec AgregarUsuario 1,1,3,'1094572195','Ortiz Ortiz','Carlos Daniel','Calle 45 No 56 - 56','carlos5ort@hotmail.com','M','cortiz','cortiz'
 go
+exec AgregarUsuario 1,1,4,'79145807','Russo Rodriguez','Oswaldo','Calle 138 NO 57b-01','visionspd@gmail.com','M','oswaldorusso','oswaldorusso'
+go
 exec AgregarUsuario 1,1,1,'54151221','perez ortiz','andres','Calle 112 No 23 - 56','aperez@hotmail.com','M','aperez','aperez'
 go
 exec AgregarUsuario 1,1,1,'1532156513','guevara parra','lorena','Calle 432 No 23 - 56','lorena@hotmail.com','F','lguevara','lguevara'
@@ -528,7 +530,7 @@ INSERT INTO [dbo].[HISTORICO_SOLICITUD]
 			(3,3,'Se repara el teclado y el mouse del cliente','2017-03-06 02:57:24.480'),
 			(2,4,'se hace pruebas en el servicio contratado','2017-04-08 02:57:24.480'),
 			(2,5,'se realizan pruebas de calidad en el servicio solicitado por el cliente','2017-04-06 02:57:24.480'),
-			(3,6,'se hace pruebas en el servicio contratado','2017-04-08 02:57:24.480'),
+			(3,6,'se hace pruebas en el servicio contratado','2017-04-08 02:57:24.480')
 	GO
 
 
@@ -545,29 +547,55 @@ INSERT INTO [dbo].[ESTADO_PRODUCTO]
 			('No Disponible')
 	GO	
 
+-- TABLA CATEGORIA DE PRODUCTO, CONTIENE LAS CATEGORIAS A LAS QUE SE PUEDE CLASIFICAR LOS PRODUCTOS
+CREATE TABLE CATEGORIA_PRODUCTO(
+id_categoria int not null IDENTITY,
+descripcion varchar(50) not null,
+primary key (id_categoria),	
+);
+INSERT INTO [dbo].[CATEGORIA_PRODUCTO]
+           (descripcion)
+     VALUES
+            ('Discos Duros'),
+			('Fuentes de Poder ATX'),
+			('Accesorios Pc'),
+			('Memorias Flash'),
+			('Memorias RAM'),
+			('Redes'),
+			('Tarjeta Video'),
+			('Papelería')
+			
+GO	
+
+
 	-- TABLA  PRODUCTO, TABLA QUE CONTIENE LOS ATRIBUTOS DE UN PRODUCTO
 create table PRODUCTO(
 id_producto int not null IDENTITY,
 id_estado_producto int not null,
+id_categoria_producto int not null,
 nombre_producto varchar(100) not null,
 precio_costo decimal(20,4),
 precio_venta decimal (20,4),
 primary key (id_producto),
 	CONSTRAINT  fk_estado_producto
 			FOREIGN KEY ( id_estado_producto  )
-			REFERENCES   ESTADO_PRODUCTO ( id_estado_producto  ),			
+			REFERENCES   ESTADO_PRODUCTO ( id_estado_producto  ),		
+	CONSTRAINT  fk_categoria_producto
+			FOREIGN KEY ( id_categoria_producto  )
+			REFERENCES   CATEGORIA_PRODUCTO ( id_categoria  ),				
 );
 INSERT INTO [dbo].[PRODUCTO]
            ([id_estado_producto]
+		   ,[id_categoria_producto]
 		   ,[nombre_producto]
 		   ,[precio_costo]
 		   ,[precio_venta])
      VALUES
-            (1,'Memoria USB 16Gb',10000,25000),
-			(1,'Mouse Bluetooth',15000,30000),
-			(1,'Teclado USB',20000,40000),
-			(1,'Fuente de Poder 350Watts',18000,38000),
-			(1,'HDD solido 256Gb',150000,300000)
+            (1,4,'Memoria USB 16Gb',10000,25000),
+			(1,3,'Mouse Bluetooth',15000,30000),
+			(1,3,'Teclado USB',20000,40000),
+			(1,2,'Fuente de Poder 350Watts',18000,38000),
+			(1,1,'HDD solido 256Gb',150000,300000)
 		
 	GO	
 	
@@ -594,6 +622,35 @@ INSERT INTO [dbo].[INVENTARIO]
 			(5,6,'2017-01-01 02:57:24.480')
 		
 	GO	
+	
+	-- TABLA  HISTORICO INVENTARIO, TABLA QUE CONTIENE EL HISTORICO DE MOVIMIENTOS DEL INVENTARIO
+create table HISTORICO_INVENTARIO(
+id_historico int not null IDENTITY,
+id_empleado int not null,
+id_inventario_historico int not null,
+fecha DATETIME not null,
+descripcion VARCHAR(300) not null,
+primary key (id_historico),
+	CONSTRAINT  fk_empleado_historico_inventario
+			FOREIGN KEY ( id_empleado  )
+			REFERENCES   USUARIO ( id_usuario  ),	
+	CONSTRAINT  fk_inventario_historico_inventario
+			FOREIGN KEY ( id_inventario_historico  )
+			REFERENCES   INVENTARIO ( id_inventario  ),			
+);
+INSERT INTO [dbo].[HISTORICO_INVENTARIO]
+           ([id_empleado]
+		   ,[id_inventario_historico]
+		   ,[fecha]
+		   ,[descripcion])
+     VALUES
+            (2,1,'2017-01-01 02:57:24.480','Se agregan 25 memorias al stock'),
+			(2,2,'2017-01-01 02:57:24.480','Se agregan 15 mouse al stock'),
+			(2,3,'2017-01-01 02:57:24.480','Se agregan 20 teclados al stock'),
+			(2,4,'2017-01-01 02:57:24.480','Se agregan 18 fuentes de poder al stock'),
+			(2,5,'2017-01-01 02:57:24.480','Se agregan 6 HDD solidos al stock')
+		
+	GO
 	
 	-- TABLA  DETALLE_FACTURA, TABLA QUE AGRUPA LA INFORMACION DE LA FACTURA CON EL PRODUCTO Y EL CLIENTE
 create table DETALLE_FACTURA_PRODUCTO(
@@ -664,9 +721,10 @@ INSERT INTO [dbo].[DETALLE_FACTURA_SOLICITUD]
 
 	CREATE PROC InsertarProducto
 @id_estado_prod int,
-@nombre_prod VARCHAR(100),
+@nombre_prod VARCHAR(50),
 @precio_costo DECIMAL(20,4),
 @precio_venta DECIMAL (20,4), 
+@identifEmpleado VARCHAR (15),
 @cantidad int
 as
 BEGIN 
@@ -675,12 +733,19 @@ INSERT INTO PRODUCTO (id_estado_producto,nombre_producto,precio_costo,precio_ven
 VALUES (@id_estado_prod,@nombre_prod,@precio_costo,@precio_venta);
 
 declare  @id_prod int,
+		 @idInventario int,
+		 @idEmpleado int,
          @fecha DATETIME;
 SET @fecha =  (SELECT CURRENT_TIMESTAMP);		 
 SET @id_prod = (SELECT id_producto FROM PRODUCTO WHERE nombre_producto = @nombre_prod);
+SET @idEmpleado = (SELECT id_usuario FROM USUARIO WHERE identificacion = @identifEmpleado);
 
 INSERT INTO INVENTARIO (id_producto_inventario,cantidad_existencias,fecha_actualizacion_inventario)
-VALUES (@id_prod,@cantidad,@fecha)
+VALUES (@id_prod,@cantidad,@fecha);
+SET @idInventario = @@IDENTITY;
+
+INSERT INTO HISTORICO_INVENTARIO (id_empleado,id_inventario_historico,fecha,descripcion)
+VALUES (@idEmpleado,@idInventario,@fecha,'Se agrega el producto '+@nombre_prod+' y se crea su inventario con una cantidad inicial en stock de '+@cantidad)
 
 END
 GO
@@ -1139,6 +1204,21 @@ FROM            HISTORICO_SOLICITUD INNER JOIN
                          SOLICITUD ON HISTORICO_SOLICITUD.id_solicitud_historico = SOLICITUD.id_solicitud INNER JOIN
                          USUARIO ON HISTORICO_SOLICITUD.id_usuario_historico = USUARIO.id_usuario
 WHERE SOLICITUD.id_solicitud = @id_solicitud
+END
+GO
+
+--PROCEDIMIENTO QUE AGREGA UNA ANOTACION AL HISTORICO DE UNA SOLICITUD Y LA FIRMA QUIEN ESTÁ LOGUEADO
+CREATE PROCEDURE AgregarAnotacionHistoricoSolicitud
+@identifEmpleado VARCHAR(15),
+@idSolici int,
+@descripcion VARCHAR(100)
+AS
+DECLARE @fecha DATETIME,@idEmpleado int;
+SET @fecha = (SELECT CURRENT_TIMESTAMP);
+SET @idEmpleado = (SELECT id_usuario FROM USUARIO WHERE identificacion = @identifEmpleado);
+BEGIN
+	INSERT INTO HISTORICO_SOLICITUD (id_usuario_historico,id_solicitud_historico,descripcion_historico,fecha_historico)
+	VALUES (@idEmpleado,@idSolici,@descripcion,@fecha);
 END
 GO
 

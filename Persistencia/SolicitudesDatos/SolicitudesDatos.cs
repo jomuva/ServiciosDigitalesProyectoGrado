@@ -334,6 +334,32 @@ namespace Persistencia.SolicitudesDatos
             return solicitudes;
         }
 
+        /// <summary>
+        /// agrega una anotación al histórico de dicha solicitud
+        /// </summary>
+        /// <param name="idSolicitud"></param>
+        /// <param name="identifEmpleado"></param>
+        /// <param name="descripcion"></param>
+        /// <param name="resultado"></param>
+        /// <param name="tipoResultado"></param>
+        public void AgregarAnotacionHistorico(int idSolicitud,string identifEmpleado,string descripcion, ref string resultado, ref string tipoResultado)
+        {
+
+            try
+            {
+                conexion.conexiones.AgregarAnotacionHistoricoSolicitud(identifEmpleado,idSolicitud,descripcion);
+                conexion.conexiones.SaveChanges();
+                resultado = "Anotación agregada exitosamente!";
+                tipoResultado = "success";
+
+            }
+            catch (Exception ex)
+            {
+                resultado = ex.Message;
+                tipoResultado = "danger";
+            }
+        }
+
 
     }
 }

@@ -346,6 +346,13 @@ namespace ServiciosDigitalesProy.Catalogos
         }
 
 
+        /// <summary>
+        /// Consulta el historico de la solicitud segun el id de la solicitud
+        /// </summary>
+        /// <param name="idSolic"></param>
+        /// <param name="resultado"></param>
+        /// <param name="tipoResultado"></param>
+        /// <returns></returns>
         public List<HistoricoSolicitud> ConsultarHistoricoSolicitudX_id(int idSolic, ref string resultado, ref string tipoResultado)
         {
             List<HistoricoSolicitud> historicosXid = new List<HistoricoSolicitud>();
@@ -368,6 +375,15 @@ namespace ServiciosDigitalesProy.Catalogos
 
             return historicosXid;
         }
+
+
+        public void AgregarAnotacionHistorico(int idSolici,string descripcion, ref string resultado, ref string tipoResultado)
+        {
+
+            solicitudesDatos.AgregarAnotacionHistorico(idSolici,SessionHelper.GetUser().ToString(),
+                descripcion,ref resultado,ref tipoResultado);
+        }
+
 
 
     }

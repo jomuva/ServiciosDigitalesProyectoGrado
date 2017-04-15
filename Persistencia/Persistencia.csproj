@@ -54,6 +54,9 @@
     <Compile Include="CATEGORIA_ELEMENTO.cs">
       <DependentUpon>ConexionBD.tt</DependentUpon>
     </Compile>
+    <Compile Include="CATEGORIA_PRODUCTO.cs">
+      <DependentUpon>ConexionBD.tt</DependentUpon>
+    </Compile>
     <Compile Include="conexion.cs" />
     <Compile Include="ConexionBD.Context.cs">
       <AutoGen>True</AutoGen>
@@ -70,6 +73,9 @@
       <DesignTime>True</DesignTime>
       <DependentUpon>ConexionBD.edmx</DependentUpon>
     </Compile>
+    <Compile Include="ConsultarCategoriasProductos_Result.cs">
+      <DependentUpon>ConexionBD.tt</DependentUpon>
+    </Compile>
     <Compile Include="ConsultarCategorias_Elemento_Result.cs">
       <DependentUpon>ConexionBD.tt</DependentUpon>
     </Compile>
@@ -82,7 +88,19 @@
     <Compile Include="ConsultarEstado_Solicitud_Result.cs">
       <DependentUpon>ConexionBD.tt</DependentUpon>
     </Compile>
+    <Compile Include="ConsultarHistoricoInventarioX_id_Result.cs">
+      <DependentUpon>ConexionBD.tt</DependentUpon>
+    </Compile>
     <Compile Include="ConsultarHistoricoSolicitudX_id_Result.cs">
+      <DependentUpon>ConexionBD.tt</DependentUpon>
+    </Compile>
+    <Compile Include="ConsultarInventarios_Result.cs">
+      <DependentUpon>ConexionBD.tt</DependentUpon>
+    </Compile>
+    <Compile Include="ConsultarInventarioXCodigoProducto_Result.cs">
+      <DependentUpon>ConexionBD.tt</DependentUpon>
+    </Compile>
+    <Compile Include="ConsultarInventarioXNombreProducto_Result.cs">
       <DependentUpon>ConexionBD.tt</DependentUpon>
     </Compile>
     <Compile Include="ConsultarPermisosXUsuario_Result.cs">
@@ -142,6 +160,9 @@
     <Compile Include="FACTURA.cs">
       <DependentUpon>ConexionBD.tt</DependentUpon>
     </Compile>
+    <Compile Include="HISTORICO_INVENTARIO.cs">
+      <DependentUpon>ConexionBD.tt</DependentUpon>
+    </Compile>
     <Compile Include="HISTORICO_SOLICITUD.cs">
       <DependentUpon>ConexionBD.tt</DependentUpon>
     </Compile>
@@ -157,6 +178,7 @@
     <Compile Include="PRODUCTO.cs">
       <DependentUpon>ConexionBD.tt</DependentUpon>
     </Compile>
+    <Compile Include="InventariosDatos\InventariosDatos.cs" />
     <Compile Include="ProductoDatos\ProductoDatos.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="ROL.cs">
@@ -170,15 +192,6 @@
       <DependentUpon>ConexionBD.tt</DependentUpon>
     </Compile>
     <Compile Include="SolicitudesDatos\SolicitudesDatos.cs" />
-    <Compile Include="sp_helpdiagramdefinition_Result.cs">
-      <DependentUpon>ConexionBD.tt</DependentUpon>
-    </Compile>
-    <Compile Include="sp_helpdiagrams_Result.cs">
-      <DependentUpon>ConexionBD.tt</DependentUpon>
-    </Compile>
-    <Compile Include="sysdiagrams.cs">
-      <DependentUpon>ConexionBD.tt</DependentUpon>
-    </Compile>
     <Compile Include="TELEFONO_USUARIO.cs">
       <DependentUpon>ConexionBD.tt</DependentUpon>
     </Compile>

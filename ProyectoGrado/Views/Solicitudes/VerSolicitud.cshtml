@@ -11,6 +11,9 @@
     }
 </style>
 <h3>@ViewBag.SubSeccion</h3>
+
+@Html.Partial("Partials/_ModalAnotacion")
+
 <div class="col-lg-12">
     <!--breadcrumbs start -->
     <ul class="breadcrumb">
@@ -43,7 +46,8 @@
                                                     </div>
                                                 </div>
                                             </div>
-                                            <a href="@Url.Action("AgregarAnotacion", "Solicitudes",  new { id = Model.id_solicitud })">
+                                            @*<a href="@Url.Action("AgregarAnotacion", "Solicitudes",  new { id = Model.id_solicitud })">*@
+                                            <a id="btnAnotacion" data-toggle="modal" href="#miModalAnotacion" data-id="@Model.id_solicitud">
                                                 <div class="panel-footer">
                                                     <span class="pull-left">Agregar Anotación</span>
                                                     <span class="pull-right"><i class="fa fa-arrow-circle-right"></i></span>
@@ -76,8 +80,15 @@
                                     </div>
                                 </div>
                                 <!-- /.FIN DE LOS BOTONES -->
-                                
+
                             </header>
+                            <div class="row">
+                                <div class="form-group">
+                                    <div class="col-md-2">
+                                        @Html.ActionLink("Volver", "ConsultarSolicitudes", null, new { @class = "btn btn-primary" })
+                                    </div>
+                                </div>
+                            </div>
                             <ul class="nav nav-tabs col-md-4 col-md-offset-5">
                                 <li class="active">
                                     <a data-toggle="tab" href="#home-3">
@@ -86,6 +97,7 @@
                                     </a>
                                 </li>
                             </ul>
+                            
                             <div class="col-md-8 col-md-offset-2">
                                 <div class="panel panel-default">
                                     <div class="panel-heading">
@@ -265,8 +277,10 @@
                                     </div>
                                     <!-- /.panel-body -->
                                 </div>
+                               
                                 <!-- /.panel -->
                             </div>
+                          
                         </section>
                     </div>
                 </div>
@@ -285,5 +299,8 @@
             });
         });
     </script>
+}
+@section Scripts {
+    <script src="~/Xcore/Scripts/Modales/ModalElemento.js"></script>
 }
 

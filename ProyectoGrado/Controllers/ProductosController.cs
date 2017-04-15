@@ -16,14 +16,16 @@ namespace ServiciosDigitalesProy.Controllers
         [HttpGet]
         public ActionResult InsertarProducto()
         {
-            Producto user = new Producto();
-            user.estadosProducto = new SelectList(CatalogoProductos.GetInstance().ConsultarEstadosProducto(), "id", "Descripcion");
+            Inventario user = new Inventario();
+            user.producto.estadosProducto = new SelectList(CatalogoProductos.GetInstance().ConsultarEstadosProducto(), "id", "Descripcion");
+            user.producto.categoriasProductoSelect = new SelectList(CatalogoProductos.GetInstance().ConsultarCategoriasProducto(), "id", "Descripcion");
+
             return View("AdicionarProducto",user);
         }
 
       
         [HttpPost]
-        public ActionResult InsertarProducto(Producto model)
+        public ActionResult InsertarProducto(Inventario model)
         {
 
             string resultado = "", tipoResultado = "";

@@ -62,7 +62,7 @@
                                             Iniciar
                                         </button>
                                         <button type="reset" class="btn btn-default btn-sm">
-                                            Reset
+                                            Limpiar
                                         </button>
                                     </div>
                                 </div>
@@ -79,7 +79,7 @@
     @*@RenderSection("scripts", required: false)*@
     <!--Section Scripts-->
 </body>
-@if ((string)TempData["mensaje"] != null || (string)TempData["mensaje"] != "")
+@if ((string)TempData["mensaje"] != null && (string)TempData["mensaje"] != "")
 {
     <script>
         $(function (msg) {

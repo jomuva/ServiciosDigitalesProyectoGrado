@@ -2,7 +2,7 @@
 @model ServiciosDigitalesProy.Models.Solicitud
 @{
     ViewBag.Title = " Solicitudes";
-    ViewBag.SubSeccion = "Escalar solicitud #" + Model.id_solicitud;
+    ViewBag.SubSeccion = "Escalar solicitud # " + Model.id_solicitud;
 }
 
 <h3>@ViewBag.SubSeccion</h3>
@@ -39,7 +39,7 @@
                                 </div>
 
                                 <div class="form-group">
-                                    <label>Tipos de Estado</label>
+                                    <label>Escalar A</label>
                                     @Html.DropDownListFor(x => x.idEmpleado, Model.ListaEmpleadosSelect, null, new { @class = "form-control" })
                                 </div>
 

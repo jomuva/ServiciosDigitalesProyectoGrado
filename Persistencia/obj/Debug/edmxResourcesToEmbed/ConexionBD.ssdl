@@ -7,6 +7,13 @@
     <Property Name="id_categoria_elemento" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
     <Property Name="descripcion_categoria_elemento" Type="varchar" MaxLength="50" Nullable="false" />
   </EntityType>
+  <EntityType Name="CATEGORIA_PRODUCTO">
+    <Key>
+      <PropertyRef Name="id_categoria" />
+    </Key>
+    <Property Name="id_categoria" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+    <Property Name="descripcion" Type="varchar" MaxLength="50" Nullable="false" />
+  </EntityType>
   <EntityType Name="DETALLE_FACTURA_PRODUCTO">
     <Key>
       <PropertyRef Name="id_detalle_factura" />
@@ -89,6 +96,16 @@
     <Property Name="abono" Type="decimal" Precision="30" Scale="4" Nullable="false" />
     <Property Name="guardar_total" Type="decimal" Precision="30" Scale="4" Nullable="false" />
   </EntityType>
+  <EntityType Name="HISTORICO_INVENTARIO">
+    <Key>
+      <PropertyRef Name="id_historico" />
+    </Key>
+    <Property Name="id_historico" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+    <Property Name="id_empleado" Type="int" Nullable="false" />
+    <Property Name="id_inventario_historico" Type="int" Nullable="false" />
+    <Property Name="fecha" Type="datetime" Nullable="false" />
+    <Property Name="descripcion" Type="varchar" MaxLength="300" Nullable="false" />
+  </EntityType>
   <EntityType Name="HISTORICO_SOLICITUD">
     <Key>
       <PropertyRef Name="id_historico" />
@@ -138,6 +155,7 @@
     </Key>
     <Property Name="id_producto" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
     <Property Name="id_estado_producto" Type="int" Nullable="false" />
+    <Property Name="id_categoria_producto" Type="int" Nullable="false" />
     <Property Name="nombre_producto" Type="varchar" MaxLength="100" Nullable="false" />
     <Property Name="precio_costo" Type="decimal" Precision="20" Scale="4" />
     <Property Name="precio_venta" Type="decimal" Precision="20" Scale="4" />
@@ -169,16 +187,6 @@
     <Property Name="id_escalado_solicitud" Type="int" />
     <Property Name="fecha_solicitud" Type="datetime" />
     <Property Name="descripcion" Type="varchar" MaxLength="300" />
-  </EntityType>
-  <EntityType Name="sysdiagrams">
-    <Key>
-      <PropertyRef Name="diagram_id" />
-    </Key>
-    <Property Name="name" Type="nvarchar" MaxLength="128" Nullable="false" />
-    <Property Name="principal_id" Type="int" Nullable="false" />
-    <Property Name="diagram_id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
-    <Property Name="version" Type="int" />
-    <Property Name="definition" Type="varbinary(max)" />
   </EntityType>
   <EntityType Name="TELEFONO_USUARIO">
     <Key>
@@ -231,6 +239,18 @@
       </Dependent>
     </ReferentialConstraint>
   </Association>
+  <Association Name="fk_categoria_producto">
+    <End Role="CATEGORIA_PRODUCTO" Type="Self.CATEGORIA_PRODUCTO" Multiplicity="1" />
+    <End Role="PRODUCTO" Type="Self.PRODUCTO" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="CATEGORIA_PRODUCTO">
+        <PropertyRef Name="id_categoria" />
+      </Principal>
+      <Dependent Role="PRODUCTO">
+        <PropertyRef Name="id_categoria_producto" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
   <Association Name="fk_elemento_solicitud">
     <End Role="ELEMENTO" Type="Self.ELEMENTO" Multiplicity="0..1" />
     <End Role="SOLICITUD" Type="Self.SOLICITUD" Multiplicity="*" />
@@ -240,6 +260,18 @@
       </Principal>
       <Dependent Role="SOLICITUD">
         <PropertyRef Name="id_elemento_solicitud" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="fk_empleado_historico_inventario">
+    <End Role="USUARIO" Type="Self.USUARIO" Multiplicity="1" />
+    <End Role="HISTORICO_INVENTARIO" Type="Self.HISTORICO_INVENTARIO" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="USUARIO">
+        <PropertyRef Name="id_usuario" />
+      </Principal>
+      <Dependent Role="HISTORICO_INVENTARIO">
+        <PropertyRef Name="id_empleado" />
       </Dependent>
     </ReferentialConstraint>
   </Association>
@@ -336,6 +368,18 @@
       </Principal>
       <Dependent Role="PERMISO_DENEGADO_POR_ROL">
         <PropertyRef Name="id_rol" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="fk_inventario_historico_inventario">
+    <End Role="INVENTARIO" Type="Self.INVENTARIO" Multiplicity="1" />
+    <End Role="HISTORICO_INVENTARIO" Type="Self.HISTORICO_INVENTARIO" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="INVENTARIO">
+        <PropertyRef Name="id_inventario" />
+      </Principal>
+      <Dependent Role="HISTORICO_INVENTARIO">
+        <PropertyRef Name="id_inventario_historico" />
       </Dependent>
     </ReferentialConstraint>
   </Association>
@@ -554,6 +598,11 @@
     <Parameter Name="idserv" Type="int" Mode="In" />
     <Parameter Name="descripc" Type="varchar" Mode="In" />
   </Function>
+  <Function Name="AgregarAnotacionHistoricoSolicitud" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
+    <Parameter Name="identifEmpleado" Type="varchar" Mode="In" />
+    <Parameter Name="idSolici" Type="int" Mode="In" />
+    <Parameter Name="descripcion" Type="varchar" Mode="In" />
+  </Function>
   <Function Name="AgregarElemento" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
     <Parameter Name="id_categ" Type="int" Mode="In" />
     <Parameter Name="id_tipo_elem" Type="int" Mode="In" />
@@ -597,13 +646,24 @@
     <Parameter Name="codigo" Type="int" Mode="In" />
   </Function>
   <Function Name="ConsultarCategorias_Elemento" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo" />
+  <Function Name="ConsultarCategoriasProductos" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo" />
   <Function Name="ConsultarElementos" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo" />
   <Function Name="ConsultarEstado_Solicitud" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
     <Parameter Name="idSolic" Type="int" Mode="In" />
   </Function>
   <Function Name="ConsultarEstadosSolicitud" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo" />
+  <Function Name="ConsultarHistoricoInventarioX_id" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
+    <Parameter Name="id_inventario" Type="int" Mode="In" />
+  </Function>
   <Function Name="ConsultarHistoricoSolicitudX_id" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
     <Parameter Name="id_solicitud" Type="int" Mode="In" />
+  </Function>
+  <Function Name="ConsultarInventarios" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo" />
+  <Function Name="ConsultarInventarioXCodigoProducto" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
+    <Parameter Name="codigo" Type="int" Mode="In" />
+  </Function>
+  <Function Name="ConsultarInventarioXNombreProducto" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
+    <Parameter Name="nombr" Type="varchar" Mode="In" />
   </Function>
   <Function Name="ConsultarPermisosXUsuario" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
     <Parameter Name="identif" Type="varchar" Mode="In" />
@@ -632,7 +692,6 @@
     <Parameter Name="id_solicitud" Type="int" Mode="In" />
     <Parameter Name="identifEmpleado" Type="varchar" Mode="In" />
   </Function>
-  <Function Name="fn_diagramobjects" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="true" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo" ReturnType="int" />
   <Function Name="GenerarSolicitud" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
     <Parameter Name="id_prioridad" Type="int" Mode="In" />
     <Parameter Name="id_estado" Type="int" Mode="In" />
@@ -644,47 +703,20 @@
   </Function>
   <Function Name="InsertarProducto" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
     <Parameter Name="id_estado_prod" Type="int" Mode="In" />
+    <Parameter Name="id_categoria" Type="int" Mode="In" />
     <Parameter Name="nombre_prod" Type="varchar" Mode="In" />
     <Parameter Name="precio_costo" Type="decimal" Mode="In" />
     <Parameter Name="precio_venta" Type="decimal" Mode="In" />
+    <Parameter Name="identifEmpleado" Type="varchar" Mode="In" />
     <Parameter Name="cantidad" Type="int" Mode="In" />
   </Function>
-  <Function Name="sp_alterdiagram" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
-    <Parameter Name="diagramname" Type="nvarchar" Mode="In" />
-    <Parameter Name="owner_id" Type="int" Mode="In" />
-    <Parameter Name="version" Type="int" Mode="In" />
-    <Parameter Name="definition" Type="varbinary(max)" Mode="In" />
-  </Function>
-  <Function Name="sp_creatediagram" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
-    <Parameter Name="diagramname" Type="nvarchar" Mode="In" />
-    <Parameter Name="owner_id" Type="int" Mode="In" />
-    <Parameter Name="version" Type="int" Mode="In" />
-    <Parameter Name="definition" Type="varbinary(max)" Mode="In" />
-  </Function>
-  <Function Name="sp_dropdiagram" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
-    <Parameter Name="diagramname" Type="nvarchar" Mode="In" />
-    <Parameter Name="owner_id" Type="int" Mode="In" />
-  </Function>
-  <Function Name="sp_helpdiagramdefinition" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
-    <Parameter Name="diagramname" Type="nvarchar" Mode="In" />
-    <Parameter Name="owner_id" Type="int" Mode="In" />
-  </Function>
-  <Function Name="sp_helpdiagrams" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
-    <Parameter Name="diagramname" Type="nvarchar" Mode="In" />
-    <Parameter Name="owner_id" Type="int" Mode="In" />
-  </Function>
-  <Function Name="sp_renamediagram" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
-    <Parameter Name="diagramname" Type="nvarchar" Mode="In" />
-    <Parameter Name="owner_id" Type="int" Mode="In" />
-    <Parameter Name="new_diagramname" Type="nvarchar" Mode="In" />
-  </Function>
-  <Function Name="sp_upgraddiagrams" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo" />
   <Function Name="ValidarAutenticacionLogin" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
     <Parameter Name="username" Type="varchar" Mode="In" />
     <Parameter Name="passwd" Type="nvarchar" Mode="In" />
   </Function>
   <EntityContainer Name="bdServiciosDigitalesProyModelStoreContainer">
     <EntitySet Name="CATEGORIA_ELEMENTO" EntityType="Self.CATEGORIA_ELEMENTO" Schema="dbo" store:Type="Tables" />
+    <EntitySet Name="CATEGORIA_PRODUCTO" EntityType="Self.CATEGORIA_PRODUCTO" Schema="dbo" store:Type="Tables" />
     <EntitySet Name="DETALLE_FACTURA_PRODUCTO" EntityType="Self.DETALLE_FACTURA_PRODUCTO" Schema="dbo" store:Type="Tables" />
     <EntitySet Name="DETALLE_FACTURA_SOLICITUD" EntityType="Self.DETALLE_FACTURA_SOLICITUD" Schema="dbo" store:Type="Tables" />
     <EntitySet Name="ELEMENTO" EntityType="Self.ELEMENTO" Schema="dbo" store:Type="Tables" />
@@ -694,6 +726,7 @@
     <EntitySet Name="ESTADO_SOLICITUD" EntityType="Self.ESTADO_SOLICITUD" Schema="dbo" store:Type="Tables" />
     <EntitySet Name="ESTADO_USUARIO" EntityType="Self.ESTADO_USUARIO" Schema="dbo" store:Type="Tables" />
     <EntitySet Name="FACTURA" EntityType="Self.FACTURA" Schema="dbo" store:Type="Tables" />
+    <EntitySet Name="HISTORICO_INVENTARIO" EntityType="Self.HISTORICO_INVENTARIO" Schema="dbo" store:Type="Tables" />
     <EntitySet Name="HISTORICO_SOLICITUD" EntityType="Self.HISTORICO_SOLICITUD" Schema="dbo" store:Type="Tables" />
     <EntitySet Name="INVENTARIO" EntityType="Self.INVENTARIO" Schema="dbo" store:Type="Tables" />
     <EntitySet Name="PERMISO" EntityType="Self.PERMISO" Schema="dbo" store:Type="Tables" />
@@ -703,7 +736,6 @@
     <EntitySet Name="ROL" EntityType="Self.ROL" Schema="dbo" store:Type="Tables" />
     <EntitySet Name="SERVICIO" EntityType="Self.SERVICIO" Schema="dbo" store:Type="Tables" />
     <EntitySet Name="SOLICITUD" EntityType="Self.SOLICITUD" Schema="dbo" store:Type="Tables" />
-    <EntitySet Name="sysdiagrams" EntityType="Self.sysdiagrams" Schema="dbo" store:Type="Tables" />
     <EntitySet Name="TELEFONO_USUARIO" EntityType="Self.TELEFONO_USUARIO" Schema="dbo" store:Type="Tables" />
     <EntitySet Name="TIPO_ELEMENTO" EntityType="Self.TIPO_ELEMENTO" Schema="dbo" store:Type="Tables" />
     <EntitySet Name="TIPO_IDENTIFICACION_USUARIO" EntityType="Self.TIPO_IDENTIFICACION_USUARIO" Schema="dbo" store:Type="Tables" />
@@ -712,9 +744,17 @@
       <End Role="CATEGORIA_ELEMENTO" EntitySet="CATEGORIA_ELEMENTO" />
       <End Role="ELEMENTO" EntitySet="ELEMENTO" />
     </AssociationSet>
+    <AssociationSet Name="fk_categoria_producto" Association="Self.fk_categoria_producto">
+      <End Role="CATEGORIA_PRODUCTO" EntitySet="CATEGORIA_PRODUCTO" />
+      <End Role="PRODUCTO" EntitySet="PRODUCTO" />
+    </AssociationSet>
     <AssociationSet Name="fk_elemento_solicitud" Association="Self.fk_elemento_solicitud">
       <End Role="ELEMENTO" EntitySet="ELEMENTO" />
       <End Role="SOLICITUD" EntitySet="SOLICITUD" />
+    </AssociationSet>
+    <AssociationSet Name="fk_empleado_historico_inventario" Association="Self.fk_empleado_historico_inventario">
+      <End Role="USUARIO" EntitySet="USUARIO" />
+      <End Role="HISTORICO_INVENTARIO" EntitySet="HISTORICO_INVENTARIO" />
     </AssociationSet>
     <AssociationSet Name="fk_escalado_solicitud" Association="Self.fk_escalado_solicitud">
       <End Role="ESCALADO" EntitySet="ESCALADO" />
@@ -747,6 +787,10 @@
     <AssociationSet Name="fk_id_rol_permiso_denegado" Association="Self.fk_id_rol_permiso_denegado">
       <End Role="ROL" EntitySet="ROL" />
       <End Role="PERMISO_DENEGADO_POR_ROL" EntitySet="PERMISO_DENEGADO_POR_ROL" />
+    </AssociationSet>
+    <AssociationSet Name="fk_inventario_historico_inventario" Association="Self.fk_inventario_historico_inventario">
+      <End Role="INVENTARIO" EntitySet="INVENTARIO" />
+      <End Role="HISTORICO_INVENTARIO" EntitySet="HISTORICO_INVENTARIO" />
     </AssociationSet>
     <AssociationSet Name="fk_permiso_id" Association="Self.fk_permiso_id">
       <End Role="PERMISO" EntitySet="PERMISO" />

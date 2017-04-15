@@ -5,6 +5,7 @@ using System.Web;
 using Persistencia.ProductoDatos;
 using Newtonsoft.Json;
 using ServiciosDigitalesProy.Models;
+using Helper;
 
 namespace ProyectoGrado.Catalogos
 {
@@ -34,11 +35,11 @@ namespace ProyectoGrado.Catalogos
         /// Consulta los tipos de identificación traidos desde la clase UsuarioDatos
         /// </summary>
         /// <returns>Lista de Tipos de Identificación</returns>
-        public void InsertarProducto(Producto producto, out string resultado, out string tipoResultado)
+        public void InsertarProducto(Inventario inventario, out string resultado, out string tipoResultado)
         {
-            productoDatos.InsertarProducto( producto.id_estado,producto.nombre,
-                                            producto.precio_costo,producto.precio_venta,
-                                            producto.inventario.cantidadExistencias,
+            productoDatos.InsertarProducto(inventario.producto.id_estado, inventario.producto.categoria.id, inventario.producto.nombre,
+                                            inventario.producto.precio_costo, inventario.producto.precio_venta,
+                                            inventario.cantidadExistencias,SessionHelper.GetUser().ToString(),
                                             out resultado,out tipoResultado);
         }
 
@@ -64,6 +65,30 @@ namespace ProyectoGrado.Catalogos
             }
 
             return Estados;
+        }
+
+        /// <summary>
+        /// Consulta las categorias de productos
+        /// </summary>
+        /// <returns></returns>
+        public List<CategoriaProducto> ConsultarCategoriasProducto()
+        {
+            List<CategoriaProducto> categorias = new List<CategoriaProducto>();
+            var oCategorias = productoDatos.ConsultarCategoriasProducto();
+
+            string dynObj = JsonConvert.SerializeObject(oCategorias);
+            dynamic dyn = JsonConvert.DeserializeObject(dynObj);
+
+            foreach (var data in dyn)
+            {
+                categorias.Add(new CategoriaProducto
+                {
+                    id = data.id_categoria,
+                    Descripcion = data.descripcion,
+                });
+            }
+
+            return categorias;
         }
 
         /// <summary>

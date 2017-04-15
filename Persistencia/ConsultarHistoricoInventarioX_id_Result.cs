@@ -10,14 +10,12 @@
 namespace Persistencia
 {
     using System;
-    using System.Collections.Generic;
     
-    public partial class sysdiagrams
+    public partial class ConsultarHistoricoInventarioX_id_Result
     {
-        public string name { get; set; }
-        public int principal_id { get; set; }
-        public int diagram_id { get; set; }
-        public Nullable<int> version { get; set; }
-        public byte[] definition { get; set; }
+        public System.DateTime fecha { get; set; }
+        public string nombres { get; set; }
+        public string apellidos { get; set; }
+        public string descripcion { get; set; }
     }
 }

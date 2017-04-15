@@ -148,11 +148,13 @@
     <Compile Include="App_Start\BundleConfig.cs" />
     <Compile Include="App_Start\FilterConfig.cs" />
     <Compile Include="App_Start\RouteConfig.cs" />
+    <Compile Include="Catalogos\CatalogoInventarios.cs" />
     <Compile Include="Catalogos\CatalogoProductos.cs" />
     <Compile Include="Catalogos\CatalogoServicios.cs" />
     <Compile Include="Catalogos\CatalogoSolicitudes.cs" />
     <Compile Include="Catalogos\CatalogoUsuarios.cs" />
     <Compile Include="Controllers\HomeController.cs" />
+    <Compile Include="Controllers\InventariosController.cs" />
     <Compile Include="Controllers\ProductosController.cs" />
     <Compile Include="Controllers\ServiciosController.cs" />
     <Compile Include="Controllers\SolicitudesController.cs" />
@@ -167,6 +169,7 @@
     <Compile Include="Models\EstadoProducto.cs" />
     <Compile Include="Models\EstadoSolicitud.cs" />
     <Compile Include="Models\EstadosUsuario.cs" />
+    <Compile Include="Models\HistoricoInventario.cs" />
     <Compile Include="Models\Inventario.cs" />
     <Compile Include="Models\Permiso.cs" />
     <Compile Include="Models\PrioridadSolicitud.cs" />
@@ -176,6 +179,7 @@
     <Compile Include="Models\HistoricoSolicitud.cs" />
     <Compile Include="Models\Solicitud.cs" />
     <Compile Include="Models\TelefonoUsuario.cs" />
+    <Compile Include="Models\CategoriaProducto.cs" />
     <Compile Include="Models\TipoElemento.cs" />
     <Compile Include="Models\TipoIdentificacion.cs" />
     <Compile Include="Models\Usuario.cs" />
@@ -204,7 +208,6 @@
     <Content Include="Xcore\Content\jquery.validate.bootstrap.css" />
     <Content Include="Xcore\Content\sb-admin.css" />
     <Content Include="Xcore\Content\Site.css" />
-    <Content Include="Xcore\Content\styleLogin.css" />
     <Content Include="Xcore\Imagenes\LogoServiciosDigitales.JPG" />
     <Content Include="Xcore\Imagenes\LogoServiciosDigitales2.jpg" />
     <Content Include="Xcore\Imagenes\paginaPrincipal.JPG" />
@@ -227,6 +230,12 @@
     <Content Include="Views\Solicitudes\ConsultarElementos.cshtml" />
     <Content Include="Views\Solicitudes\ConsultarElementosModal.cshtml" />
     <Content Include="Views\Solicitudes\ConsultarHistorico.cshtml" />
+    <Content Include="Views\Solicitudes\AgregarAnotacionModal.cshtml" />
+    <Content Include="Views\Solicitudes\Partials\_ModalAnotacion.cshtml" />
+    <Content Include="Views\Inventarios\ConsultarInventarios.cshtml" />
+    <Content Include="Views\Inventarios\RespuestaConsultaInventarios.cshtml" />
+    <Content Include="Views\Inventarios\Partials\_Script.cshtml" />
+    <Content Include="Views\Inventarios\ConsultarHistoricoInventarios.cshtml" />
     <None Include="Xcore\Scripts\jquery-1.10.2.intellisense.js" />
     <Content Include="Xcore\Scripts\Formulario\index.js" />
     <Content Include="Xcore\Scripts\jquery-1.10.2.js" />

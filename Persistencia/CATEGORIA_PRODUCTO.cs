@@ -12,21 +12,18 @@ namespace Persistencia
     using System;
     using System.Collections.Generic;
     
-    public partial class INVENTARIO
+    public partial class CATEGORIA_PRODUCTO
     {
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2214:DoNotCallOverridableMethodsInConstructors")]
-        public INVENTARIO()
+        public CATEGORIA_PRODUCTO()
         {
-            this.HISTORICO_INVENTARIO = new HashSet<HISTORICO_INVENTARIO>();
+            this.PRODUCTO = new HashSet<PRODUCTO>();
         }
     
-        public int id_inventario { get; set; }
-        public int id_producto_inventario { get; set; }
-        public int cantidad_existencias { get; set; }
-        public System.DateTime fecha_actualizacion_inventario { get; set; }
+        public int id_categoria { get; set; }
+        public string descripcion { get; set; }
     
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
-        public virtual ICollection<HISTORICO_INVENTARIO> HISTORICO_INVENTARIO { get; set; }
-        public virtual PRODUCTO PRODUCTO { get; set; }
+        public virtual ICollection<PRODUCTO> PRODUCTO { get; set; }
     }
 }

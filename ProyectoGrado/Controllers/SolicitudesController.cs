@@ -95,7 +95,6 @@ namespace ServiciosDigitalesProy.Controllers
                 return View("ConsultarSolicitudes", CatalogoSolicitudes.GetInstance().ConsultarSolicitudes(ref res, ref tipores));
             }
 
-            return View(solicitud);
         }
 
 
@@ -233,5 +232,26 @@ namespace ServiciosDigitalesProy.Controllers
             ViewBag.idSolicitud = historico[0].id_solicitud;
             return View(historico);
         }
+        [HttpGet]
+        public ActionResult AgregarAnotacionModal(int id)
+        {
+            Solicitud solicitud= CrearSolicitudVacia();
+            solicitud.id_solicitud=id;
+            return View("AgregarAnotacionModal",solicitud);
+        }
+        [HttpPost]
+        public ActionResult AgregarAnotacion(int id_Solicitud,string descripcion)
+        {
+            string resultado = "", tipoResultado = "";
+
+            CatalogoSolicitudes.GetInstance().AgregarAnotacionHistorico(id_Solicitud,descripcion, ref resultado, ref tipoResultado);
+
+
+            List<Solicitud> solicitudes = Session["solicitudes"] as List<Solicitud>;
+            Solicitud solicitud = solicitudes.Find(x => x.id_solicitud == id_Solicitud);
+            return View("VerSolicitud", solicitud);
+        }
+
+        
     }
 }

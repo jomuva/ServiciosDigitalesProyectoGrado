@@ -721,6 +721,7 @@ INSERT INTO [dbo].[DETALLE_FACTURA_SOLICITUD]
 
 	CREATE PROC InsertarProducto
 @id_estado_prod int,
+@id_categoria int,
 @nombre_prod VARCHAR(50),
 @precio_costo DECIMAL(20,4),
 @precio_venta DECIMAL (20,4), 
@@ -729,8 +730,8 @@ INSERT INTO [dbo].[DETALLE_FACTURA_SOLICITUD]
 as
 BEGIN 
 
-INSERT INTO PRODUCTO (id_estado_producto,nombre_producto,precio_costo,precio_venta)
-VALUES (@id_estado_prod,@nombre_prod,@precio_costo,@precio_venta);
+INSERT INTO PRODUCTO (id_estado_producto,id_categoria_producto,nombre_producto,precio_costo,precio_venta)
+VALUES (@id_estado_prod,@id_categoria,@nombre_prod,@precio_costo,@precio_venta);
 
 declare  @id_prod int,
 		 @idInventario int,
@@ -745,7 +746,7 @@ VALUES (@id_prod,@cantidad,@fecha);
 SET @idInventario = @@IDENTITY;
 
 INSERT INTO HISTORICO_INVENTARIO (id_empleado,id_inventario_historico,fecha,descripcion)
-VALUES (@idEmpleado,@idInventario,@fecha,'Se agrega el producto '+@nombre_prod+' y se crea su inventario con una cantidad inicial en stock de '+@cantidad)
+VALUES (@idEmpleado,@idInventario,@fecha,'Se agrega el producto '+@nombre_prod+' y se crea su inventario con una cantidad inicial en stock de '+cast(@cantidad as varchar) )
 
 END
 GO
@@ -776,7 +777,7 @@ GO
 
 
 --PROCEDIMIENTO ALMACENADO PARA CONSULTAR UN PRODUCTO POR NOMBRE.  ADICIONAL A ELLO ACTUALIZA EL ESTADO DEL PRODUCTO EN CASO TAL QUE NO HAYAN UNIDADES EN INVENTARIO
-CREATE PROC ConsultarProductoXNombre 
+CREATE PROCEDURE ConsultarProductoXNombre 
 @nombr VARCHAR(100)
 AS
 BEGIN
@@ -800,10 +801,17 @@ GO
 
 
 --PROCEDIMIENTO ALMACENADO PARA CONSULTAR TODOS LOS PRODUCTOS
-CREATE PROC ConsultarProductos
+CREATE PROCEDURE ConsultarProductos
 AS
 BEGIN
 SELECT id_producto,id_estado_producto,nombre_producto,precio_costo,precio_venta FROM PRODUCTO
+END
+GO
+--PROCEDIMIENTO ALMACENADO PARA CONSULTAR LAS CATEGORIAS DE LOS PRODUCTOS
+CREATE PROC ConsultarCategoriasProductos
+AS
+BEGIN
+SELECT id_categoria,descripcion FROM CATEGORIA_PRODUCTO
 END
 GO
 
@@ -1222,11 +1230,49 @@ BEGIN
 END
 GO
 
+--PROCEDIMIENTO CONSULTA EL TOTAL DE INVENTARIOS DE TODOS LOS PRODUCTOS
+CREATE PROCEDURE ConsultarInventarios
+AS
+BEGIN
+SELECT        INVENTARIO.id_inventario, PRODUCTO.nombre_producto, INVENTARIO.id_producto_inventario, INVENTARIO.cantidad_existencias, INVENTARIO.fecha_actualizacion_inventario
+FROM            INVENTARIO INNER JOIN
+                         PRODUCTO ON INVENTARIO.id_producto_inventario = PRODUCTO.id_producto
+END
+GO
 
+--PROCEDIMIENTO CONSULTA EL INVENTARIO DE UN PRODUCTO SEGUN SU NOMBRE
+CREATE PROCEDURE ConsultarInventarioXNombreProducto
+@nombr VARCHAR(100)
+AS
+BEGIN
+SELECT        INVENTARIO.id_inventario, PRODUCTO.nombre_producto, INVENTARIO.id_producto_inventario, INVENTARIO.cantidad_existencias, INVENTARIO.fecha_actualizacion_inventario
+FROM            INVENTARIO INNER JOIN PRODUCTO ON INVENTARIO.id_producto_inventario = PRODUCTO.id_producto
+WHERE PRODUCTO.nombre_producto = @nombr
+END
+GO
 
+--PROCEDIMIENTO CONSULTA EL INVENTARIO DE UN PRODUCTO SEGUN SU CODIGO
+CREATE PROCEDURE ConsultarInventarioXCodigoProducto
+@codigo int
+AS
+BEGIN
+SELECT        INVENTARIO.id_inventario, PRODUCTO.nombre_producto, INVENTARIO.id_producto_inventario, INVENTARIO.cantidad_existencias, INVENTARIO.fecha_actualizacion_inventario
+FROM            INVENTARIO INNER JOIN PRODUCTO ON INVENTARIO.id_producto_inventario = PRODUCTO.id_producto
+WHERE PRODUCTO.id_producto = @codigo
+END
+Go
 
-
-
-	
-	
+--PROCEDIMIENTO CONSULTA EL HISTORICO DEL INVENTARIO SEGUN SU ID
+CREATE PROCEDURE ConsultarHistoricoInventarioX_id
+@id_inventario int
+AS
+BEGIN 
+SELECT        HISTORICO_INVENTARIO.fecha, USUARIO.nombres, USUARIO.apellidos, HISTORICO_INVENTARIO.descripcion
+FROM            HISTORICO_INVENTARIO INNER JOIN
+                         INVENTARIO ON HISTORICO_INVENTARIO.id_inventario_historico = INVENTARIO.id_inventario INNER JOIN
+                         USUARIO ON HISTORICO_INVENTARIO.id_empleado = USUARIO.id_usuario INNER JOIN
+                         PRODUCTO ON INVENTARIO.id_producto_inventario = PRODUCTO.id_producto
+WHERE INVENTARIO.id_inventario = @id_inventario
+END
+GO	
 	

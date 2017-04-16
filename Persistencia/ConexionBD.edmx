@@ -4,7 +4,7 @@
   <edmx:Runtime>
     <!-- SSDL content -->
     <edmx:StorageModels>
-    <Schema Namespace="bdServiciosDigitalesProyModel.Store" Provider="System.Data.SqlClient" ProviderManifestToken="2012" Alias="Self" xmlns:store="http://schemas.microsoft.com/ado/2007/12/edm/EntityStoreSchemaGenerator" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm/ssdl">
+      <Schema Namespace="bdServiciosDigitalesProyModel.Store" Provider="System.Data.SqlClient" ProviderManifestToken="2012" Alias="Self" xmlns:store="http://schemas.microsoft.com/ado/2007/12/edm/EntityStoreSchemaGenerator" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm/ssdl">
         <EntityType Name="CATEGORIA_ELEMENTO">
           <Key>
             <PropertyRef Name="id_categoria_elemento" />
@@ -109,7 +109,17 @@
           <Property Name="id_empleado" Type="int" Nullable="false" />
           <Property Name="id_inventario_historico" Type="int" Nullable="false" />
           <Property Name="fecha" Type="datetime" Nullable="false" />
-          <Property Name="descripcion" Type="varchar" MaxLength="300" Nullable="false" />
+          <Property Name="descripcion" Type="varchar" MaxLength="500" Nullable="false" />
+        </EntityType>
+        <EntityType Name="HISTORICO_INVENTARIO_BAJAS">
+          <Key>
+            <PropertyRef Name="id_historico" />
+          </Key>
+          <Property Name="id_historico" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="id_empleado" Type="int" Nullable="false" />
+          <Property Name="id_inventario_historico" Type="int" Nullable="false" />
+          <Property Name="fecha" Type="datetime" Nullable="false" />
+          <Property Name="descripcion" Type="varchar" MaxLength="500" Nullable="false" />
         </EntityType>
         <EntityType Name="HISTORICO_SOLICITUD">
           <Key>
@@ -118,7 +128,7 @@
           <Property Name="id_historico" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
           <Property Name="id_usuario_historico" Type="int" Nullable="false" />
           <Property Name="id_solicitud_historico" Type="int" Nullable="false" />
-          <Property Name="descripcion_historico" Type="varchar" MaxLength="100" Nullable="false" />
+          <Property Name="descripcion_historico" Type="varchar" MaxLength="500" Nullable="false" />
           <Property Name="fecha_historico" Type="datetime" />
         </EntityType>
         <EntityType Name="INVENTARIO">
@@ -126,6 +136,15 @@
             <PropertyRef Name="id_inventario" />
           </Key>
           <Property Name="id_inventario" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="id_producto_inventario" Type="int" Nullable="false" />
+          <Property Name="cantidad_existencias" Type="int" Nullable="false" />
+          <Property Name="fecha_actualizacion_inventario" Type="datetime" Nullable="false" />
+        </EntityType>
+        <EntityType Name="INVENTARIO_BAJAS">
+          <Key>
+            <PropertyRef Name="id_inventario_bajas" />
+          </Key>
+          <Property Name="id_inventario_bajas" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
           <Property Name="id_producto_inventario" Type="int" Nullable="false" />
           <Property Name="cantidad_existencias" Type="int" Nullable="false" />
           <Property Name="fecha_actualizacion_inventario" Type="datetime" Nullable="false" />
@@ -280,6 +299,18 @@
             </Dependent>
           </ReferentialConstraint>
         </Association>
+        <Association Name="fk_empleado_historico_inventario_bajas">
+          <End Role="USUARIO" Type="Self.USUARIO" Multiplicity="1" />
+          <End Role="HISTORICO_INVENTARIO_BAJAS" Type="Self.HISTORICO_INVENTARIO_BAJAS" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="USUARIO">
+              <PropertyRef Name="id_usuario" />
+            </Principal>
+            <Dependent Role="HISTORICO_INVENTARIO_BAJAS">
+              <PropertyRef Name="id_empleado" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
         <Association Name="fk_escalado_solicitud">
           <End Role="ESCALADO" Type="Self.ESCALADO" Multiplicity="0..1" />
           <End Role="SOLICITUD" Type="Self.SOLICITUD" Multiplicity="*" />
@@ -388,6 +419,18 @@
             </Dependent>
           </ReferentialConstraint>
         </Association>
+        <Association Name="fk_inventario_historico_inventario_bajas">
+          <End Role="INVENTARIO_BAJAS" Type="Self.INVENTARIO_BAJAS" Multiplicity="1" />
+          <End Role="HISTORICO_INVENTARIO_BAJAS" Type="Self.HISTORICO_INVENTARIO_BAJAS" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="INVENTARIO_BAJAS">
+              <PropertyRef Name="id_inventario_bajas" />
+            </Principal>
+            <Dependent Role="HISTORICO_INVENTARIO_BAJAS">
+              <PropertyRef Name="id_inventario_historico" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
         <Association Name="fk_permiso_id">
           <End Role="PERMISO" Type="Self.PERMISO" Multiplicity="1" />
           <End Role="PERMISO_DENEGADO_POR_ROL" Type="Self.PERMISO_DENEGADO_POR_ROL" Multiplicity="*" />
@@ -432,6 +475,18 @@
               <PropertyRef Name="id_producto" />
             </Principal>
             <Dependent Role="INVENTARIO">
+              <PropertyRef Name="id_producto_inventario" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="fk_producto_inventario_bajas">
+          <End Role="PRODUCTO" Type="Self.PRODUCTO" Multiplicity="1" />
+          <End Role="INVENTARIO_BAJAS" Type="Self.INVENTARIO_BAJAS" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="PRODUCTO">
+              <PropertyRef Name="id_producto" />
+            </Principal>
+            <Dependent Role="INVENTARIO_BAJAS">
               <PropertyRef Name="id_producto_inventario" />
             </Dependent>
           </ReferentialConstraint>
@@ -593,6 +648,12 @@
           </ReferentialConstraint>
         </Association>
         <Function Name="ActualizarEstadoSolicitud_Automatico" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo" />
+        <Function Name="ActualizarInventarioProductos" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
+          <Parameter Name="id_inventario" Type="int" Mode="In" />
+          <Parameter Name="id_producto" Type="int" Mode="In" />
+          <Parameter Name="cantidad" Type="int" Mode="In" />
+          <Parameter Name="identifEmpleado" Type="varchar" Mode="In" />
+        </Function>
         <Function Name="ActualizarProducto" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
           <Parameter Name="idProd" Type="int" Mode="In" />
           <Parameter Name="nombre_prod" Type="varchar" Mode="In" />
@@ -603,10 +664,26 @@
           <Parameter Name="idserv" Type="int" Mode="In" />
           <Parameter Name="descripc" Type="varchar" Mode="In" />
         </Function>
+        <Function Name="AgregarAnotacionHistoricoInventario" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
+          <Parameter Name="identifEmpleado" Type="varchar" Mode="In" />
+          <Parameter Name="idInventario" Type="int" Mode="In" />
+          <Parameter Name="descripcion" Type="varchar" Mode="In" />
+        </Function>
+        <Function Name="AgregarAnotacionHistoricoInventarioBajas" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
+          <Parameter Name="identifEmpleado" Type="varchar" Mode="In" />
+          <Parameter Name="idInventario" Type="int" Mode="In" />
+          <Parameter Name="descripcion" Type="varchar" Mode="In" />
+        </Function>
         <Function Name="AgregarAnotacionHistoricoSolicitud" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
           <Parameter Name="identifEmpleado" Type="varchar" Mode="In" />
           <Parameter Name="idSolici" Type="int" Mode="In" />
           <Parameter Name="descripcion" Type="varchar" Mode="In" />
+        </Function>
+        <Function Name="AgregarBajaInventario" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
+          <Parameter Name="id_producto" Type="int" Mode="In" />
+          <Parameter Name="cantidadBajas" Type="int" Mode="In" />
+          <Parameter Name="identifEmpleado" Type="varchar" Mode="In" />
+          <Parameter Name="descripcionBaja" Type="varchar" Mode="In" />
         </Function>
         <Function Name="AgregarElemento" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
           <Parameter Name="id_categ" Type="int" Mode="In" />
@@ -650,6 +727,9 @@
         <Function Name="Consultar_id_UsuarioXIdentificacion" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
           <Parameter Name="codigo" Type="int" Mode="In" />
         </Function>
+        <Function Name="ConsultarCantidadXProducto" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
+          <Parameter Name="id_inventario" Type="int" Mode="In" />
+        </Function>
         <Function Name="ConsultarCategorias_Elemento" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo" />
         <Function Name="ConsultarCategoriasProductos" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo" />
         <Function Name="ConsultarElementos" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo" />
@@ -657,12 +737,16 @@
           <Parameter Name="idSolic" Type="int" Mode="In" />
         </Function>
         <Function Name="ConsultarEstadosSolicitud" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo" />
+        <Function Name="ConsultarHistoricoInventarioBajasX_id" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
+          <Parameter Name="id_inventario" Type="int" Mode="In" />
+        </Function>
         <Function Name="ConsultarHistoricoInventarioX_id" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
           <Parameter Name="id_inventario" Type="int" Mode="In" />
         </Function>
         <Function Name="ConsultarHistoricoSolicitudX_id" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
           <Parameter Name="id_solicitud" Type="int" Mode="In" />
         </Function>
+        <Function Name="ConsultarInventarioBajas" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo" />
         <Function Name="ConsultarInventarios" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo" />
         <Function Name="ConsultarInventarioXCodigoProducto" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
           <Parameter Name="codigo" Type="int" Mode="In" />
@@ -732,8 +816,10 @@
           <EntitySet Name="ESTADO_USUARIO" EntityType="Self.ESTADO_USUARIO" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="FACTURA" EntityType="Self.FACTURA" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="HISTORICO_INVENTARIO" EntityType="Self.HISTORICO_INVENTARIO" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="HISTORICO_INVENTARIO_BAJAS" EntityType="Self.HISTORICO_INVENTARIO_BAJAS" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="HISTORICO_SOLICITUD" EntityType="Self.HISTORICO_SOLICITUD" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="INVENTARIO" EntityType="Self.INVENTARIO" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="INVENTARIO_BAJAS" EntityType="Self.INVENTARIO_BAJAS" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="PERMISO" EntityType="Self.PERMISO" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="PERMISO_DENEGADO_POR_ROL" EntityType="Self.PERMISO_DENEGADO_POR_ROL" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="PRIORIDAD" EntityType="Self.PRIORIDAD" Schema="dbo" store:Type="Tables" />
@@ -760,6 +846,10 @@
           <AssociationSet Name="fk_empleado_historico_inventario" Association="Self.fk_empleado_historico_inventario">
             <End Role="USUARIO" EntitySet="USUARIO" />
             <End Role="HISTORICO_INVENTARIO" EntitySet="HISTORICO_INVENTARIO" />
+          </AssociationSet>
+          <AssociationSet Name="fk_empleado_historico_inventario_bajas" Association="Self.fk_empleado_historico_inventario_bajas">
+            <End Role="USUARIO" EntitySet="USUARIO" />
+            <End Role="HISTORICO_INVENTARIO_BAJAS" EntitySet="HISTORICO_INVENTARIO_BAJAS" />
           </AssociationSet>
           <AssociationSet Name="fk_escalado_solicitud" Association="Self.fk_escalado_solicitud">
             <End Role="ESCALADO" EntitySet="ESCALADO" />
@@ -797,6 +887,10 @@
             <End Role="INVENTARIO" EntitySet="INVENTARIO" />
             <End Role="HISTORICO_INVENTARIO" EntitySet="HISTORICO_INVENTARIO" />
           </AssociationSet>
+          <AssociationSet Name="fk_inventario_historico_inventario_bajas" Association="Self.fk_inventario_historico_inventario_bajas">
+            <End Role="INVENTARIO_BAJAS" EntitySet="INVENTARIO_BAJAS" />
+            <End Role="HISTORICO_INVENTARIO_BAJAS" EntitySet="HISTORICO_INVENTARIO_BAJAS" />
+          </AssociationSet>
           <AssociationSet Name="fk_permiso_id" Association="Self.fk_permiso_id">
             <End Role="PERMISO" EntitySet="PERMISO" />
             <End Role="PERMISO_DENEGADO_POR_ROL" EntitySet="PERMISO_DENEGADO_POR_ROL" />
@@ -812,6 +906,10 @@
           <AssociationSet Name="fk_producto_inventario" Association="Self.fk_producto_inventario">
             <End Role="PRODUCTO" EntitySet="PRODUCTO" />
             <End Role="INVENTARIO" EntitySet="INVENTARIO" />
+          </AssociationSet>
+          <AssociationSet Name="fk_producto_inventario_bajas" Association="Self.fk_producto_inventario_bajas">
+            <End Role="PRODUCTO" EntitySet="PRODUCTO" />
+            <End Role="INVENTARIO_BAJAS" EntitySet="INVENTARIO_BAJAS" />
           </AssociationSet>
           <AssociationSet Name="fk_rol_usuario" Association="Self.fk_rol_usuario">
             <End Role="ROL" EntitySet="ROL" />
@@ -866,7 +964,8 @@
             <End Role="DETALLE_FACTURA_SOLICITUD" EntitySet="DETALLE_FACTURA_SOLICITUD" />
           </AssociationSet>
         </EntityContainer>
-      </Schema></edmx:StorageModels>
+      </Schema>
+    </edmx:StorageModels>
     <!-- CSDL content -->
     <edmx:ConceptualModels>
       <Schema Namespace="bdServiciosDigitalesProyModel" Alias="Self" annotation:UseStrongSpatialTypes="false" xmlns:annotation="http://schemas.microsoft.com/ado/2009/02/edm/annotation" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm">
@@ -995,9 +1094,21 @@
           <Property Name="id_empleado" Type="Int32" Nullable="false" />
           <Property Name="id_inventario_historico" Type="Int32" Nullable="false" />
           <Property Name="fecha" Type="DateTime" Nullable="false" Precision="3" />
-          <Property Name="descripcion" Type="String" MaxLength="300" FixedLength="false" Unicode="false" Nullable="false" />
+          <Property Name="descripcion" Type="String" MaxLength="500" FixedLength="false" Unicode="false" Nullable="false" />
           <NavigationProperty Name="USUARIO" Relationship="Self.fk_empleado_historico_inventario" FromRole="HISTORICO_INVENTARIO" ToRole="USUARIO" />
           <NavigationProperty Name="INVENTARIO" Relationship="Self.fk_inventario_historico_inventario" FromRole="HISTORICO_INVENTARIO" ToRole="INVENTARIO" />
+        </EntityType>
+        <EntityType Name="HISTORICO_INVENTARIO_BAJAS">
+          <Key>
+            <PropertyRef Name="id_historico" />
+          </Key>
+          <Property Name="id_historico" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="id_empleado" Type="Int32" Nullable="false" />
+          <Property Name="id_inventario_historico" Type="Int32" Nullable="false" />
+          <Property Name="fecha" Type="DateTime" Nullable="false" Precision="3" />
+          <Property Name="descripcion" Type="String" MaxLength="500" FixedLength="false" Unicode="false" Nullable="false" />
+          <NavigationProperty Name="USUARIO" Relationship="Self.fk_empleado_historico_inventario_bajas" FromRole="HISTORICO_INVENTARIO_BAJAS" ToRole="USUARIO" />
+          <NavigationProperty Name="INVENTARIO_BAJAS" Relationship="Self.fk_inventario_historico_inventario_bajas" FromRole="HISTORICO_INVENTARIO_BAJAS" ToRole="INVENTARIO_BAJAS" />
         </EntityType>
         <EntityType Name="HISTORICO_SOLICITUD">
           <Key>
@@ -1006,7 +1117,7 @@
           <Property Name="id_historico" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
           <Property Name="id_usuario_historico" Type="Int32" Nullable="false" />
           <Property Name="id_solicitud_historico" Type="Int32" Nullable="false" />
-          <Property Name="descripcion_historico" Type="String" MaxLength="100" FixedLength="false" Unicode="false" Nullable="false" />
+          <Property Name="descripcion_historico" Type="String" MaxLength="500" FixedLength="false" Unicode="false" Nullable="false" />
           <Property Name="fecha_historico" Type="DateTime" Precision="3" />
           <NavigationProperty Name="SOLICITUD" Relationship="Self.fk_solicitud_historico" FromRole="HISTORICO_SOLICITUD" ToRole="SOLICITUD" />
           <NavigationProperty Name="USUARIO" Relationship="Self.fk_usuario_historico" FromRole="HISTORICO_SOLICITUD" ToRole="USUARIO" />
@@ -1021,6 +1132,17 @@
           <Property Name="fecha_actualizacion_inventario" Type="DateTime" Nullable="false" Precision="3" />
           <NavigationProperty Name="HISTORICO_INVENTARIO" Relationship="Self.fk_inventario_historico_inventario" FromRole="INVENTARIO" ToRole="HISTORICO_INVENTARIO" />
           <NavigationProperty Name="PRODUCTO" Relationship="Self.fk_producto_inventario" FromRole="INVENTARIO" ToRole="PRODUCTO" />
+        </EntityType>
+        <EntityType Name="INVENTARIO_BAJAS">
+          <Key>
+            <PropertyRef Name="id_inventario_bajas" />
+          </Key>
+          <Property Name="id_inventario_bajas" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="id_producto_inventario" Type="Int32" Nullable="false" />
+          <Property Name="cantidad_existencias" Type="Int32" Nullable="false" />
+          <Property Name="fecha_actualizacion_inventario" Type="DateTime" Nullable="false" Precision="3" />
+          <NavigationProperty Name="HISTORICO_INVENTARIO_BAJAS" Relationship="Self.fk_inventario_historico_inventario_bajas" FromRole="INVENTARIO_BAJAS" ToRole="HISTORICO_INVENTARIO_BAJAS" />
+          <NavigationProperty Name="PRODUCTO" Relationship="Self.fk_producto_inventario_bajas" FromRole="INVENTARIO_BAJAS" ToRole="PRODUCTO" />
         </EntityType>
         <EntityType Name="PERMISO">
           <Key>
@@ -1054,6 +1176,7 @@
           <NavigationProperty Name="DETALLE_FACTURA_PRODUCTO" Relationship="Self.fk_producto_detalle_factura" FromRole="PRODUCTO" ToRole="DETALLE_FACTURA_PRODUCTO" />
           <NavigationProperty Name="ESTADO_PRODUCTO" Relationship="Self.fk_estado_producto" FromRole="PRODUCTO" ToRole="ESTADO_PRODUCTO" />
           <NavigationProperty Name="INVENTARIO" Relationship="Self.fk_producto_inventario" FromRole="PRODUCTO" ToRole="INVENTARIO" />
+          <NavigationProperty Name="INVENTARIO_BAJAS" Relationship="Self.fk_producto_inventario_bajas" FromRole="PRODUCTO" ToRole="INVENTARIO_BAJAS" />
         </EntityType>
         <EntityType Name="ROL">
           <Key>
@@ -1141,6 +1264,7 @@
           <NavigationProperty Name="ESTADO_USUARIO" Relationship="Self.fk_estado_usuario" FromRole="USUARIO" ToRole="ESTADO_USUARIO" />
           <NavigationProperty Name="FACTURA" Relationship="Self.fk_usuario_factura" FromRole="USUARIO" ToRole="FACTURA" />
           <NavigationProperty Name="HISTORICO_INVENTARIO" Relationship="Self.fk_empleado_historico_inventario" FromRole="USUARIO" ToRole="HISTORICO_INVENTARIO" />
+          <NavigationProperty Name="HISTORICO_INVENTARIO_BAJAS" Relationship="Self.fk_empleado_historico_inventario_bajas" FromRole="USUARIO" ToRole="HISTORICO_INVENTARIO_BAJAS" />
           <NavigationProperty Name="HISTORICO_SOLICITUD" Relationship="Self.fk_usuario_historico" FromRole="USUARIO" ToRole="HISTORICO_SOLICITUD" />
           <NavigationProperty Name="ROL" Relationship="Self.fk_rol_usuario" FromRole="USUARIO" ToRole="ROL" />
           <NavigationProperty Name="SOLICITUD" Relationship="Self.fk_usuario_solicitud" FromRole="USUARIO" ToRole="SOLICITUD" />
@@ -1375,6 +1499,30 @@
             </Dependent>
           </ReferentialConstraint>
         </Association>
+        <Association Name="fk_empleado_historico_inventario_bajas">
+          <End Role="USUARIO" Type="Self.USUARIO" Multiplicity="1" />
+          <End Role="HISTORICO_INVENTARIO_BAJAS" Type="Self.HISTORICO_INVENTARIO_BAJAS" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="USUARIO">
+              <PropertyRef Name="id_usuario" />
+            </Principal>
+            <Dependent Role="HISTORICO_INVENTARIO_BAJAS">
+              <PropertyRef Name="id_empleado" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="fk_inventario_historico_inventario_bajas">
+          <End Role="INVENTARIO_BAJAS" Type="Self.INVENTARIO_BAJAS" Multiplicity="1" />
+          <End Role="HISTORICO_INVENTARIO_BAJAS" Type="Self.HISTORICO_INVENTARIO_BAJAS" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="INVENTARIO_BAJAS">
+              <PropertyRef Name="id_inventario_bajas" />
+            </Principal>
+            <Dependent Role="HISTORICO_INVENTARIO_BAJAS">
+              <PropertyRef Name="id_inventario_historico" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
         <Association Name="fk_solicitud_historico">
           <End Role="SOLICITUD" Type="Self.SOLICITUD" Multiplicity="1" />
           <End Role="HISTORICO_SOLICITUD" Type="Self.HISTORICO_SOLICITUD" Multiplicity="*" />
@@ -1407,6 +1555,18 @@
               <PropertyRef Name="id_producto" />
             </Principal>
             <Dependent Role="INVENTARIO">
+              <PropertyRef Name="id_producto_inventario" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="fk_producto_inventario_bajas">
+          <End Role="PRODUCTO" Type="Self.PRODUCTO" Multiplicity="1" />
+          <End Role="INVENTARIO_BAJAS" Type="Self.INVENTARIO_BAJAS" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="PRODUCTO">
+              <PropertyRef Name="id_producto" />
+            </Principal>
+            <Dependent Role="INVENTARIO_BAJAS">
               <PropertyRef Name="id_producto_inventario" />
             </Dependent>
           </ReferentialConstraint>
@@ -1500,8 +1660,10 @@
           <EntitySet Name="ESTADO_USUARIO" EntityType="Self.ESTADO_USUARIO" />
           <EntitySet Name="FACTURA" EntityType="Self.FACTURA" />
           <EntitySet Name="HISTORICO_INVENTARIO" EntityType="Self.HISTORICO_INVENTARIO" />
+          <EntitySet Name="HISTORICO_INVENTARIO_BAJAS" EntityType="Self.HISTORICO_INVENTARIO_BAJAS" />
           <EntitySet Name="HISTORICO_SOLICITUD" EntityType="Self.HISTORICO_SOLICITUD" />
           <EntitySet Name="INVENTARIO" EntityType="Self.INVENTARIO" />
+          <EntitySet Name="INVENTARIO_BAJAS" EntityType="Self.INVENTARIO_BAJAS" />
           <EntitySet Name="PERMISO" EntityType="Self.PERMISO" />
           <EntitySet Name="PRIORIDAD" EntityType="Self.PRIORIDAD" />
           <EntitySet Name="PRODUCTO" EntityType="Self.PRODUCTO" />
@@ -1588,6 +1750,14 @@
             <End Role="INVENTARIO" EntitySet="INVENTARIO" />
             <End Role="HISTORICO_INVENTARIO" EntitySet="HISTORICO_INVENTARIO" />
           </AssociationSet>
+          <AssociationSet Name="fk_empleado_historico_inventario_bajas" Association="Self.fk_empleado_historico_inventario_bajas">
+            <End Role="USUARIO" EntitySet="USUARIO" />
+            <End Role="HISTORICO_INVENTARIO_BAJAS" EntitySet="HISTORICO_INVENTARIO_BAJAS" />
+          </AssociationSet>
+          <AssociationSet Name="fk_inventario_historico_inventario_bajas" Association="Self.fk_inventario_historico_inventario_bajas">
+            <End Role="INVENTARIO_BAJAS" EntitySet="INVENTARIO_BAJAS" />
+            <End Role="HISTORICO_INVENTARIO_BAJAS" EntitySet="HISTORICO_INVENTARIO_BAJAS" />
+          </AssociationSet>
           <AssociationSet Name="fk_solicitud_historico" Association="Self.fk_solicitud_historico">
             <End Role="SOLICITUD" EntitySet="SOLICITUD" />
             <End Role="HISTORICO_SOLICITUD" EntitySet="HISTORICO_SOLICITUD" />
@@ -1599,6 +1769,10 @@
           <AssociationSet Name="fk_producto_inventario" Association="Self.fk_producto_inventario">
             <End Role="PRODUCTO" EntitySet="PRODUCTO" />
             <End Role="INVENTARIO" EntitySet="INVENTARIO" />
+          </AssociationSet>
+          <AssociationSet Name="fk_producto_inventario_bajas" Association="Self.fk_producto_inventario_bajas">
+            <End Role="PRODUCTO" EntitySet="PRODUCTO" />
+            <End Role="INVENTARIO_BAJAS" EntitySet="INVENTARIO_BAJAS" />
           </AssociationSet>
           <AssociationSet Name="fk_prioridad_solicitud" Association="Self.fk_prioridad_solicitud">
             <End Role="PRIORIDAD" EntitySet="PRIORIDAD" />
@@ -1629,6 +1803,12 @@
             <End Role="PERMISO" EntitySet="PERMISO" />
           </AssociationSet>
           <FunctionImport Name="ActualizarEstadoSolicitud_Automatico" />
+          <FunctionImport Name="ActualizarInventarioProductos">
+            <Parameter Name="id_inventario" Mode="In" Type="Int32" />
+            <Parameter Name="id_producto" Mode="In" Type="Int32" />
+            <Parameter Name="cantidad" Mode="In" Type="Int32" />
+            <Parameter Name="identifEmpleado" Mode="In" Type="String" />
+          </FunctionImport>
           <FunctionImport Name="ActualizarProducto">
             <Parameter Name="idProd" Mode="In" Type="Int32" />
             <Parameter Name="nombre_prod" Mode="In" Type="String" />
@@ -1639,10 +1819,26 @@
             <Parameter Name="idserv" Mode="In" Type="Int32" />
             <Parameter Name="descripc" Mode="In" Type="String" />
           </FunctionImport>
+          <FunctionImport Name="AgregarAnotacionHistoricoInventario">
+            <Parameter Name="identifEmpleado" Mode="In" Type="String" />
+            <Parameter Name="idInventario" Mode="In" Type="Int32" />
+            <Parameter Name="descripcion" Mode="In" Type="String" />
+          </FunctionImport>
+          <FunctionImport Name="AgregarAnotacionHistoricoInventarioBajas">
+            <Parameter Name="identifEmpleado" Mode="In" Type="String" />
+            <Parameter Name="idInventario" Mode="In" Type="Int32" />
+            <Parameter Name="descripcion" Mode="In" Type="String" />
+          </FunctionImport>
           <FunctionImport Name="AgregarAnotacionHistoricoSolicitud">
             <Parameter Name="identifEmpleado" Mode="In" Type="String" />
             <Parameter Name="idSolici" Mode="In" Type="Int32" />
             <Parameter Name="descripcion" Mode="In" Type="String" />
+          </FunctionImport>
+          <FunctionImport Name="AgregarBajaInventario">
+            <Parameter Name="id_producto" Mode="In" Type="Int32" />
+            <Parameter Name="cantidadBajas" Mode="In" Type="Int32" />
+            <Parameter Name="identifEmpleado" Mode="In" Type="String" />
+            <Parameter Name="descripcionBaja" Mode="In" Type="String" />
           </FunctionImport>
           <FunctionImport Name="AgregarElemento" ReturnType="Collection(Int32)">
             <Parameter Name="id_categ" Mode="In" Type="Int32" />
@@ -1657,7 +1853,7 @@
             <Parameter Name="SO" Mode="In" Type="String" />
           </FunctionImport>
           <FunctionImport Name="AgregarServicio">
-          <Parameter Name="descripc" Mode="In" Type="String" />
+            <Parameter Name="descripc" Mode="In" Type="String" />
           </FunctionImport>
           <FunctionImport Name="AgregarUsuario">
             <Parameter Name="tipoIdent" Mode="In" Type="Int32" />
@@ -1684,38 +1880,55 @@
           </FunctionImport>
           <FunctionImport Name="ConsultaNombresEmpleadosXSolicitud" ReturnType="Collection(String)" />
           <FunctionImport Name="Consultar_id_UsuarioXIdentificacion" ReturnType="Collection(Int32)">
-          <Parameter Name="codigo" Mode="In" Type="Int32" />
+            <Parameter Name="codigo" Mode="In" Type="Int32" />
+          </FunctionImport>
+          <FunctionImport Name="ConsultarCantidadXProducto" ReturnType="Collection(Int32)">
+            <Parameter Name="id_inventario" Mode="In" Type="Int32" />
           </FunctionImport>
           <FunctionImport Name="ConsultarCategorias_Elemento" ReturnType="Collection(bdServiciosDigitalesProyModel.ConsultarCategorias_Elemento_Result)" />
           <FunctionImport Name="ConsultarCategoriasProductos" ReturnType="Collection(bdServiciosDigitalesProyModel.ConsultarCategoriasProductos_Result)" />
           <FunctionImport Name="ConsultarElementos" ReturnType="Collection(bdServiciosDigitalesProyModel.ConsultarElementos_Result)" />
           <FunctionImport Name="ConsultarEstado_Solicitud" ReturnType="Collection(bdServiciosDigitalesProyModel.ConsultarEstado_Solicitud_Result)">
-          <Parameter Name="idSolic" Mode="In" Type="Int32" />
+            <Parameter Name="idSolic" Mode="In" Type="Int32" />
           </FunctionImport>
           <FunctionImport Name="ConsultarEstadosSolicitud" ReturnType="Collection(bdServiciosDigitalesProyModel.ConsultarEstadosSolicitud_Result)" />
+          <FunctionImport Name="ConsultarHistoricoInventarioBajasX_id" ReturnType="Collection(bdServiciosDigitalesProyModel.ConsultarHistoricoInventarioBajasX_id_Result)">
+            <Parameter Name="id_inventario" Mode="In" Type="Int32" />
+          </FunctionImport>
+          <FunctionImport Name="ConsultarHistoricoInventarioX_id" ReturnType="Collection(bdServiciosDigitalesProyModel.ConsultarHistoricoInventarioX_id_Result)">
+            <Parameter Name="id_inventario" Mode="In" Type="Int32" />
+          </FunctionImport>
           <FunctionImport Name="ConsultarHistoricoSolicitudX_id" ReturnType="Collection(bdServiciosDigitalesProyModel.ConsultarHistoricoSolicitudX_id_Result)">
-          <Parameter Name="id_solicitud" Mode="In" Type="Int32" />
+            <Parameter Name="id_solicitud" Mode="In" Type="Int32" />
+          </FunctionImport>
+          <FunctionImport Name="ConsultarInventarioBajas" ReturnType="Collection(bdServiciosDigitalesProyModel.ConsultarInventarioBajas_Result)" />
+          <FunctionImport Name="ConsultarInventarios" ReturnType="Collection(bdServiciosDigitalesProyModel.ConsultarInventarios_Result)" />
+          <FunctionImport Name="ConsultarInventarioXCodigoProducto" ReturnType="Collection(bdServiciosDigitalesProyModel.ConsultarInventarioXCodigoProducto_Result)">
+            <Parameter Name="codigo" Mode="In" Type="Int32" />
+          </FunctionImport>
+          <FunctionImport Name="ConsultarInventarioXNombreProducto" ReturnType="Collection(bdServiciosDigitalesProyModel.ConsultarInventarioXNombreProducto_Result)">
+            <Parameter Name="nombr" Mode="In" Type="String" />
           </FunctionImport>
           <FunctionImport Name="ConsultarPermisosXUsuario" ReturnType="Collection(bdServiciosDigitalesProyModel.ConsultarPermisosXUsuario_Result)">
-          <Parameter Name="identif" Mode="In" Type="String" />
+            <Parameter Name="identif" Mode="In" Type="String" />
           </FunctionImport>
           <FunctionImport Name="ConsultarProductos" ReturnType="Collection(bdServiciosDigitalesProyModel.ConsultarProductos_Result)" />
           <FunctionImport Name="ConsultarProductoXCodigo" ReturnType="Collection(bdServiciosDigitalesProyModel.ConsultarProductoXCodigo_Result)">
-          <Parameter Name="codigo" Mode="In" Type="Int32" />
+            <Parameter Name="codigo" Mode="In" Type="Int32" />
           </FunctionImport>
           <FunctionImport Name="ConsultarProductoXNombre" ReturnType="Collection(bdServiciosDigitalesProyModel.ConsultarProductoXNombre_Result)">
-          <Parameter Name="nombr" Mode="In" Type="String" />
+            <Parameter Name="nombr" Mode="In" Type="String" />
           </FunctionImport>
           <FunctionImport Name="ConsultarRolUsuario" ReturnType="Collection(Int32)">
-          <Parameter Name="identif" Mode="In" Type="String" />
+            <Parameter Name="identif" Mode="In" Type="String" />
           </FunctionImport>
           <FunctionImport Name="ConsultarServicio" ReturnType="Collection(bdServiciosDigitalesProyModel.ConsultarServicio_Result)">
-          <Parameter Name="codigo" Mode="In" Type="Int32" />
+            <Parameter Name="codigo" Mode="In" Type="Int32" />
           </FunctionImport>
           <FunctionImport Name="ConsultarServicios" ReturnType="Collection(bdServiciosDigitalesProyModel.ConsultarServicios_Result)" />
           <FunctionImport Name="ConsultarSolicitudes" ReturnType="Collection(bdServiciosDigitalesProyModel.ConsultarSolicitudes_Result)" />
           <FunctionImport Name="ConsultarSolicitudesXEmpleado" ReturnType="Collection(bdServiciosDigitalesProyModel.ConsultarSolicitudesXEmpleado_Result)">
-          <Parameter Name="identif" Mode="In" Type="String" />
+            <Parameter Name="identif" Mode="In" Type="String" />
           </FunctionImport>
           <FunctionImport Name="ConsultarTiposElemento" ReturnType="Collection(bdServiciosDigitalesProyModel.ConsultarTiposElemento_Result)" />
           <FunctionImport Name="ConsultarTiposPrioridad" ReturnType="Collection(bdServiciosDigitalesProyModel.ConsultarTiposPrioridad_Result)" />
@@ -1744,16 +1957,6 @@
           <FunctionImport Name="ValidarAutenticacionLogin" ReturnType="Collection(String)">
             <Parameter Name="username" Mode="In" Type="String" />
             <Parameter Name="passwd" Mode="In" Type="String" />
-          </FunctionImport>
-          <FunctionImport Name="ConsultarInventarios" ReturnType="Collection(bdServiciosDigitalesProyModel.ConsultarInventarios_Result)" />
-          <FunctionImport Name="ConsultarInventarioXCodigoProducto" ReturnType="Collection(bdServiciosDigitalesProyModel.ConsultarInventarioXCodigoProducto_Result)">
-          <Parameter Name="codigo" Mode="In" Type="Int32" />
-          </FunctionImport>
-          <FunctionImport Name="ConsultarInventarioXNombreProducto" ReturnType="Collection(bdServiciosDigitalesProyModel.ConsultarInventarioXNombreProducto_Result)">
-          <Parameter Name="nombr" Mode="In" Type="String" />
-          </FunctionImport>
-          <FunctionImport Name="ConsultarHistoricoInventarioX_id" ReturnType="Collection(bdServiciosDigitalesProyModel.ConsultarHistoricoInventarioX_id_Result)">
-            <Parameter Name="id_inventario" Mode="In" Type="Int32" />
           </FunctionImport>
         </EntityContainer>
         <ComplexType Name="ConsultarCategorias_Elemento_Result">
@@ -1787,12 +1990,55 @@
           <Property Type="Int32" Name="id_estado_solicitud" Nullable="false" />
           <Property Type="String" Name="descripcion" Nullable="true" MaxLength="50" />
         </ComplexType>
+        <ComplexType Name="ConsultarHistoricoInventarioBajasX_id_Result">
+          <Property Type="DateTime" Name="fecha" Nullable="false" Precision="23" />
+          <Property Type="String" Name="nombres" Nullable="false" MaxLength="30" />
+          <Property Type="String" Name="apellidos" Nullable="false" MaxLength="30" />
+          <Property Type="String" Name="descripcion" Nullable="false" MaxLength="500" />
+        </ComplexType>
+        <ComplexType Name="ConsultarHistoricoInventarioX_id_Result">
+          <Property Type="DateTime" Name="fecha" Nullable="false" Precision="23" />
+          <Property Type="String" Name="nombres" Nullable="false" MaxLength="30" />
+          <Property Type="String" Name="apellidos" Nullable="false" MaxLength="30" />
+          <Property Type="String" Name="descripcion" Nullable="false" MaxLength="500" />
+        </ComplexType>
         <ComplexType Name="ConsultarHistoricoSolicitudX_id_Result">
           <Property Type="DateTime" Name="fecha_historico" Nullable="true" Precision="23" />
-          <Property Type="String" Name="descripcion_historico" Nullable="false" MaxLength="100" />
+          <Property Type="String" Name="descripcion_historico" Nullable="false" MaxLength="500" />
           <Property Type="String" Name="apellidos" Nullable="false" MaxLength="30" />
           <Property Type="String" Name="nombres" Nullable="false" MaxLength="30" />
           <Property Type="Int32" Name="id_solicitud" Nullable="false" />
+        </ComplexType>
+        <ComplexType Name="ConsultarInventarioBajas_Result">
+          <Property Type="Int32" Name="id_inventario_bajas" Nullable="false" />
+          <Property Type="String" Name="nombre_producto" Nullable="false" MaxLength="100" />
+          <Property Type="Int32" Name="id_producto_inventario" Nullable="false" />
+          <Property Type="Int32" Name="cantidad_existencias" Nullable="false" />
+          <Property Type="DateTime" Name="fecha_actualizacion_inventario" Nullable="false" Precision="23" />
+        </ComplexType>
+        <ComplexType Name="ConsultarInventarios_Result">
+          <Property Type="Int32" Name="id_inventario" Nullable="false" />
+          <Property Type="String" Name="nombre_producto" Nullable="false" MaxLength="100" />
+          <Property Type="Int32" Name="id_producto_inventario" Nullable="false" />
+          <Property Type="Int32" Name="cantidad_existencias" Nullable="false" />
+          <Property Type="DateTime" Name="fecha_actualizacion_inventario" Nullable="false" Precision="23" />
+          <Property Type="String" Name="descripcion_estado_producto" Nullable="false" MaxLength="15" />
+        </ComplexType>
+        <ComplexType Name="ConsultarInventarioXCodigoProducto_Result">
+          <Property Type="Int32" Name="id_inventario" Nullable="false" />
+          <Property Type="String" Name="nombre_producto" Nullable="false" MaxLength="100" />
+          <Property Type="Int32" Name="id_producto_inventario" Nullable="false" />
+          <Property Type="Int32" Name="cantidad_existencias" Nullable="false" />
+          <Property Type="DateTime" Name="fecha_actualizacion_inventario" Nullable="false" Precision="23" />
+          <Property Type="String" Name="descripcion_estado_producto" Nullable="false" MaxLength="15" />
+        </ComplexType>
+        <ComplexType Name="ConsultarInventarioXNombreProducto_Result">
+          <Property Type="Int32" Name="id_inventario" Nullable="false" />
+          <Property Type="String" Name="nombre_producto" Nullable="false" MaxLength="100" />
+          <Property Type="Int32" Name="id_producto_inventario" Nullable="false" />
+          <Property Type="Int32" Name="cantidad_existencias" Nullable="false" />
+          <Property Type="DateTime" Name="fecha_actualizacion_inventario" Nullable="false" Precision="23" />
+          <Property Type="String" Name="descripcion_estado_producto" Nullable="false" MaxLength="15" />
         </ComplexType>
         <ComplexType Name="ConsultarPermisosXUsuario_Result">
           <Property Type="String" Name="descripcion" Nullable="true" MaxLength="100" />
@@ -1878,33 +2124,6 @@
         <ComplexType Name="ConsultarTiposPrioridad_Result">
           <Property Type="Int32" Name="id_prioridad" Nullable="false" />
           <Property Type="String" Name="descripcion_prioridad" Nullable="true" MaxLength="50" />
-        </ComplexType>
-        <ComplexType Name="ConsultarInventarios_Result">
-          <Property Type="Int32" Name="id_inventario" Nullable="false" />
-          <Property Type="String" Name="nombre_producto" Nullable="false" MaxLength="100" />
-          <Property Type="Int32" Name="id_producto_inventario" Nullable="false" />
-          <Property Type="Int32" Name="cantidad_existencias" Nullable="false" />
-          <Property Type="DateTime" Name="fecha_actualizacion_inventario" Nullable="false" Precision="23" />
-        </ComplexType>
-        <ComplexType Name="ConsultarInventarioXCodigoProducto_Result">
-          <Property Type="Int32" Name="id_inventario" Nullable="false" />
-          <Property Type="String" Name="nombre_producto" Nullable="false" MaxLength="100" />
-          <Property Type="Int32" Name="id_producto_inventario" Nullable="false" />
-          <Property Type="Int32" Name="cantidad_existencias" Nullable="false" />
-          <Property Type="DateTime" Name="fecha_actualizacion_inventario" Nullable="false" Precision="23" />
-        </ComplexType>
-        <ComplexType Name="ConsultarInventarioXNombreProducto_Result">
-          <Property Type="Int32" Name="id_inventario" Nullable="false" />
-          <Property Type="String" Name="nombre_producto" Nullable="false" MaxLength="100" />
-          <Property Type="Int32" Name="id_producto_inventario" Nullable="false" />
-          <Property Type="Int32" Name="cantidad_existencias" Nullable="false" />
-          <Property Type="DateTime" Name="fecha_actualizacion_inventario" Nullable="false" Precision="23" />
-        </ComplexType>
-        <ComplexType Name="ConsultarHistoricoInventarioX_id_Result">
-          <Property Type="DateTime" Name="fecha" Nullable="false" Precision="23" />
-          <Property Type="String" Name="nombres" Nullable="false" MaxLength="30" />
-          <Property Type="String" Name="apellidos" Nullable="false" MaxLength="30" />
-          <Property Type="String" Name="descripcion" Nullable="false" MaxLength="300" />
         </ComplexType>
       </Schema>
     </edmx:ConceptualModels>
@@ -2030,6 +2249,17 @@
               </MappingFragment>
             </EntityTypeMapping>
           </EntitySetMapping>
+          <EntitySetMapping Name="HISTORICO_INVENTARIO_BAJAS">
+            <EntityTypeMapping TypeName="bdServiciosDigitalesProyModel.HISTORICO_INVENTARIO_BAJAS">
+              <MappingFragment StoreEntitySet="HISTORICO_INVENTARIO_BAJAS">
+                <ScalarProperty Name="id_historico" ColumnName="id_historico" />
+                <ScalarProperty Name="id_empleado" ColumnName="id_empleado" />
+                <ScalarProperty Name="id_inventario_historico" ColumnName="id_inventario_historico" />
+                <ScalarProperty Name="fecha" ColumnName="fecha" />
+                <ScalarProperty Name="descripcion" ColumnName="descripcion" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
           <EntitySetMapping Name="HISTORICO_SOLICITUD">
             <EntityTypeMapping TypeName="bdServiciosDigitalesProyModel.HISTORICO_SOLICITUD">
               <MappingFragment StoreEntitySet="HISTORICO_SOLICITUD">
@@ -2045,6 +2275,16 @@
             <EntityTypeMapping TypeName="bdServiciosDigitalesProyModel.INVENTARIO">
               <MappingFragment StoreEntitySet="INVENTARIO">
                 <ScalarProperty Name="id_inventario" ColumnName="id_inventario" />
+                <ScalarProperty Name="id_producto_inventario" ColumnName="id_producto_inventario" />
+                <ScalarProperty Name="cantidad_existencias" ColumnName="cantidad_existencias" />
+                <ScalarProperty Name="fecha_actualizacion_inventario" ColumnName="fecha_actualizacion_inventario" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="INVENTARIO_BAJAS">
+            <EntityTypeMapping TypeName="bdServiciosDigitalesProyModel.INVENTARIO_BAJAS">
+              <MappingFragment StoreEntitySet="INVENTARIO_BAJAS">
+                <ScalarProperty Name="id_inventario_bajas" ColumnName="id_inventario_bajas" />
                 <ScalarProperty Name="id_producto_inventario" ColumnName="id_producto_inventario" />
                 <ScalarProperty Name="cantidad_existencias" ColumnName="cantidad_existencias" />
                 <ScalarProperty Name="fecha_actualizacion_inventario" ColumnName="fecha_actualizacion_inventario" />
@@ -2164,9 +2404,13 @@
             </EndProperty>
           </AssociationSetMapping>
           <FunctionImportMapping FunctionImportName="ActualizarEstadoSolicitud_Automatico" FunctionName="bdServiciosDigitalesProyModel.Store.ActualizarEstadoSolicitud_Automatico" />
+          <FunctionImportMapping FunctionImportName="ActualizarInventarioProductos" FunctionName="bdServiciosDigitalesProyModel.Store.ActualizarInventarioProductos" />
           <FunctionImportMapping FunctionImportName="ActualizarProducto" FunctionName="bdServiciosDigitalesProyModel.Store.ActualizarProducto" />
           <FunctionImportMapping FunctionImportName="ActualizarServicio" FunctionName="bdServiciosDigitalesProyModel.Store.ActualizarServicio" />
+          <FunctionImportMapping FunctionImportName="AgregarAnotacionHistoricoInventario" FunctionName="bdServiciosDigitalesProyModel.Store.AgregarAnotacionHistoricoInventario" />
+          <FunctionImportMapping FunctionImportName="AgregarAnotacionHistoricoInventarioBajas" FunctionName="bdServiciosDigitalesProyModel.Store.AgregarAnotacionHistoricoInventarioBajas" />
           <FunctionImportMapping FunctionImportName="AgregarAnotacionHistoricoSolicitud" FunctionName="bdServiciosDigitalesProyModel.Store.AgregarAnotacionHistoricoSolicitud" />
+          <FunctionImportMapping FunctionImportName="AgregarBajaInventario" FunctionName="bdServiciosDigitalesProyModel.Store.AgregarBajaInventario" />
           <FunctionImportMapping FunctionImportName="AgregarElemento" FunctionName="bdServiciosDigitalesProyModel.Store.AgregarElemento" />
           <FunctionImportMapping FunctionImportName="AgregarServicio" FunctionName="bdServiciosDigitalesProyModel.Store.AgregarServicio" />
           <FunctionImportMapping FunctionImportName="AgregarUsuario" FunctionName="bdServiciosDigitalesProyModel.Store.AgregarUsuario" />
@@ -2174,6 +2418,7 @@
           <FunctionImportMapping FunctionImportName="CambiarEstadoSolicitud" FunctionName="bdServiciosDigitalesProyModel.Store.CambiarEstadoSolicitud" />
           <FunctionImportMapping FunctionImportName="ConsultaNombresEmpleadosXSolicitud" FunctionName="bdServiciosDigitalesProyModel.Store.ConsultaNombresEmpleadosXSolicitud" />
           <FunctionImportMapping FunctionImportName="Consultar_id_UsuarioXIdentificacion" FunctionName="bdServiciosDigitalesProyModel.Store.Consultar_id_UsuarioXIdentificacion" />
+          <FunctionImportMapping FunctionImportName="ConsultarCantidadXProducto" FunctionName="bdServiciosDigitalesProyModel.Store.ConsultarCantidadXProducto" />
           <FunctionImportMapping FunctionImportName="ConsultarCategorias_Elemento" FunctionName="bdServiciosDigitalesProyModel.Store.ConsultarCategorias_Elemento">
             <ResultMapping>
               <ComplexTypeMapping TypeName="bdServiciosDigitalesProyModel.ConsultarCategorias_Elemento_Result">
@@ -2225,6 +2470,26 @@
               </ComplexTypeMapping>
             </ResultMapping>
           </FunctionImportMapping>
+          <FunctionImportMapping FunctionImportName="ConsultarHistoricoInventarioBajasX_id" FunctionName="bdServiciosDigitalesProyModel.Store.ConsultarHistoricoInventarioBajasX_id">
+            <ResultMapping>
+              <ComplexTypeMapping TypeName="bdServiciosDigitalesProyModel.ConsultarHistoricoInventarioBajasX_id_Result">
+                <ScalarProperty Name="fecha" ColumnName="fecha" />
+                <ScalarProperty Name="nombres" ColumnName="nombres" />
+                <ScalarProperty Name="apellidos" ColumnName="apellidos" />
+                <ScalarProperty Name="descripcion" ColumnName="descripcion" />
+              </ComplexTypeMapping>
+            </ResultMapping>
+          </FunctionImportMapping>
+          <FunctionImportMapping FunctionImportName="ConsultarHistoricoInventarioX_id" FunctionName="bdServiciosDigitalesProyModel.Store.ConsultarHistoricoInventarioX_id">
+            <ResultMapping>
+              <ComplexTypeMapping TypeName="bdServiciosDigitalesProyModel.ConsultarHistoricoInventarioX_id_Result">
+                <ScalarProperty Name="fecha" ColumnName="fecha" />
+                <ScalarProperty Name="nombres" ColumnName="nombres" />
+                <ScalarProperty Name="apellidos" ColumnName="apellidos" />
+                <ScalarProperty Name="descripcion" ColumnName="descripcion" />
+              </ComplexTypeMapping>
+            </ResultMapping>
+          </FunctionImportMapping>
           <FunctionImportMapping FunctionImportName="ConsultarHistoricoSolicitudX_id" FunctionName="bdServiciosDigitalesProyModel.Store.ConsultarHistoricoSolicitudX_id">
             <ResultMapping>
               <ComplexTypeMapping TypeName="bdServiciosDigitalesProyModel.ConsultarHistoricoSolicitudX_id_Result">
@@ -2233,6 +2498,53 @@
                 <ScalarProperty Name="apellidos" ColumnName="apellidos" />
                 <ScalarProperty Name="nombres" ColumnName="nombres" />
                 <ScalarProperty Name="id_solicitud" ColumnName="id_solicitud" />
+              </ComplexTypeMapping>
+            </ResultMapping>
+          </FunctionImportMapping>
+          <FunctionImportMapping FunctionImportName="ConsultarInventarioBajas" FunctionName="bdServiciosDigitalesProyModel.Store.ConsultarInventarioBajas">
+            <ResultMapping>
+              <ComplexTypeMapping TypeName="bdServiciosDigitalesProyModel.ConsultarInventarioBajas_Result">
+                <ScalarProperty Name="id_inventario_bajas" ColumnName="id_inventario_bajas" />
+                <ScalarProperty Name="nombre_producto" ColumnName="nombre_producto" />
+                <ScalarProperty Name="id_producto_inventario" ColumnName="id_producto_inventario" />
+                <ScalarProperty Name="cantidad_existencias" ColumnName="cantidad_existencias" />
+                <ScalarProperty Name="fecha_actualizacion_inventario" ColumnName="fecha_actualizacion_inventario" />
+              </ComplexTypeMapping>
+            </ResultMapping>
+          </FunctionImportMapping>
+          <FunctionImportMapping FunctionImportName="ConsultarInventarios" FunctionName="bdServiciosDigitalesProyModel.Store.ConsultarInventarios">
+            <ResultMapping>
+              <ComplexTypeMapping TypeName="bdServiciosDigitalesProyModel.ConsultarInventarios_Result">
+                <ScalarProperty Name="id_inventario" ColumnName="id_inventario" />
+                <ScalarProperty Name="nombre_producto" ColumnName="nombre_producto" />
+                <ScalarProperty Name="id_producto_inventario" ColumnName="id_producto_inventario" />
+                <ScalarProperty Name="cantidad_existencias" ColumnName="cantidad_existencias" />
+                <ScalarProperty Name="fecha_actualizacion_inventario" ColumnName="fecha_actualizacion_inventario" />
+                <ScalarProperty Name="descripcion_estado_producto" ColumnName="descripcion_estado_producto" />
+              </ComplexTypeMapping>
+            </ResultMapping>
+          </FunctionImportMapping>
+          <FunctionImportMapping FunctionImportName="ConsultarInventarioXCodigoProducto" FunctionName="bdServiciosDigitalesProyModel.Store.ConsultarInventarioXCodigoProducto">
+            <ResultMapping>
+              <ComplexTypeMapping TypeName="bdServiciosDigitalesProyModel.ConsultarInventarioXCodigoProducto_Result">
+                <ScalarProperty Name="id_inventario" ColumnName="id_inventario" />
+                <ScalarProperty Name="nombre_producto" ColumnName="nombre_producto" />
+                <ScalarProperty Name="id_producto_inventario" ColumnName="id_producto_inventario" />
+                <ScalarProperty Name="cantidad_existencias" ColumnName="cantidad_existencias" />
+                <ScalarProperty Name="fecha_actualizacion_inventario" ColumnName="fecha_actualizacion_inventario" />
+                <ScalarProperty Name="descripcion_estado_producto" ColumnName="descripcion_estado_producto" />
+              </ComplexTypeMapping>
+            </ResultMapping>
+          </FunctionImportMapping>
+          <FunctionImportMapping FunctionImportName="ConsultarInventarioXNombreProducto" FunctionName="bdServiciosDigitalesProyModel.Store.ConsultarInventarioXNombreProducto">
+            <ResultMapping>
+              <ComplexTypeMapping TypeName="bdServiciosDigitalesProyModel.ConsultarInventarioXNombreProducto_Result">
+                <ScalarProperty Name="id_inventario" ColumnName="id_inventario" />
+                <ScalarProperty Name="nombre_producto" ColumnName="nombre_producto" />
+                <ScalarProperty Name="id_producto_inventario" ColumnName="id_producto_inventario" />
+                <ScalarProperty Name="cantidad_existencias" ColumnName="cantidad_existencias" />
+                <ScalarProperty Name="fecha_actualizacion_inventario" ColumnName="fecha_actualizacion_inventario" />
+                <ScalarProperty Name="descripcion_estado_producto" ColumnName="descripcion_estado_producto" />
               </ComplexTypeMapping>
             </ResultMapping>
           </FunctionImportMapping>
@@ -2366,49 +2678,6 @@
           <FunctionImportMapping FunctionImportName="GenerarSolicitud" FunctionName="bdServiciosDigitalesProyModel.Store.GenerarSolicitud" />
           <FunctionImportMapping FunctionImportName="InsertarProducto" FunctionName="bdServiciosDigitalesProyModel.Store.InsertarProducto" />
           <FunctionImportMapping FunctionImportName="ValidarAutenticacionLogin" FunctionName="bdServiciosDigitalesProyModel.Store.ValidarAutenticacionLogin" />
-          <FunctionImportMapping FunctionImportName="ConsultarInventarios" FunctionName="bdServiciosDigitalesProyModel.Store.ConsultarInventarios">
-            <ResultMapping>
-              <ComplexTypeMapping TypeName="bdServiciosDigitalesProyModel.ConsultarInventarios_Result">
-                <ScalarProperty Name="id_inventario" ColumnName="id_inventario" />
-                <ScalarProperty Name="nombre_producto" ColumnName="nombre_producto" />
-                <ScalarProperty Name="id_producto_inventario" ColumnName="id_producto_inventario" />
-                <ScalarProperty Name="cantidad_existencias" ColumnName="cantidad_existencias" />
-                <ScalarProperty Name="fecha_actualizacion_inventario" ColumnName="fecha_actualizacion_inventario" />
-              </ComplexTypeMapping>
-            </ResultMapping>
-          </FunctionImportMapping>
-          <FunctionImportMapping FunctionImportName="ConsultarInventarioXCodigoProducto" FunctionName="bdServiciosDigitalesProyModel.Store.ConsultarInventarioXCodigoProducto">
-            <ResultMapping>
-              <ComplexTypeMapping TypeName="bdServiciosDigitalesProyModel.ConsultarInventarioXCodigoProducto_Result">
-                <ScalarProperty Name="id_inventario" ColumnName="id_inventario" />
-                <ScalarProperty Name="nombre_producto" ColumnName="nombre_producto" />
-                <ScalarProperty Name="id_producto_inventario" ColumnName="id_producto_inventario" />
-                <ScalarProperty Name="cantidad_existencias" ColumnName="cantidad_existencias" />
-                <ScalarProperty Name="fecha_actualizacion_inventario" ColumnName="fecha_actualizacion_inventario" />
-              </ComplexTypeMapping>
-            </ResultMapping>
-          </FunctionImportMapping>
-          <FunctionImportMapping FunctionImportName="ConsultarInventarioXNombreProducto" FunctionName="bdServiciosDigitalesProyModel.Store.ConsultarInventarioXNombreProducto">
-            <ResultMapping>
-              <ComplexTypeMapping TypeName="bdServiciosDigitalesProyModel.ConsultarInventarioXNombreProducto_Result">
-                <ScalarProperty Name="id_inventario" ColumnName="id_inventario" />
-                <ScalarProperty Name="nombre_producto" ColumnName="nombre_producto" />
-                <ScalarProperty Name="id_producto_inventario" ColumnName="id_producto_inventario" />
-                <ScalarProperty Name="cantidad_existencias" ColumnName="cantidad_existencias" />
-                <ScalarProperty Name="fecha_actualizacion_inventario" ColumnName="fecha_actualizacion_inventario" />
-              </ComplexTypeMapping>
-            </ResultMapping>
-          </FunctionImportMapping>
-          <FunctionImportMapping FunctionImportName="ConsultarHistoricoInventarioX_id" FunctionName="bdServiciosDigitalesProyModel.Store.ConsultarHistoricoInventarioX_id">
-            <ResultMapping>
-              <ComplexTypeMapping TypeName="bdServiciosDigitalesProyModel.ConsultarHistoricoInventarioX_id_Result">
-                <ScalarProperty Name="fecha" ColumnName="fecha" />
-                <ScalarProperty Name="nombres" ColumnName="nombres" />
-                <ScalarProperty Name="apellidos" ColumnName="apellidos" />
-                <ScalarProperty Name="descripcion" ColumnName="descripcion" />
-              </ComplexTypeMapping>
-            </ResultMapping>
-          </FunctionImportMapping>
         </EntityContainerMapping>
       </Mapping>
     </edmx:Mappings>

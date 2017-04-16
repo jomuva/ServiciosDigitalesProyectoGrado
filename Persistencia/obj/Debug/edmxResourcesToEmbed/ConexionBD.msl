@@ -119,6 +119,17 @@
         </MappingFragment>
       </EntityTypeMapping>
     </EntitySetMapping>
+    <EntitySetMapping Name="HISTORICO_INVENTARIO_BAJAS">
+      <EntityTypeMapping TypeName="bdServiciosDigitalesProyModel.HISTORICO_INVENTARIO_BAJAS">
+        <MappingFragment StoreEntitySet="HISTORICO_INVENTARIO_BAJAS">
+          <ScalarProperty Name="id_historico" ColumnName="id_historico" />
+          <ScalarProperty Name="id_empleado" ColumnName="id_empleado" />
+          <ScalarProperty Name="id_inventario_historico" ColumnName="id_inventario_historico" />
+          <ScalarProperty Name="fecha" ColumnName="fecha" />
+          <ScalarProperty Name="descripcion" ColumnName="descripcion" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
     <EntitySetMapping Name="HISTORICO_SOLICITUD">
       <EntityTypeMapping TypeName="bdServiciosDigitalesProyModel.HISTORICO_SOLICITUD">
         <MappingFragment StoreEntitySet="HISTORICO_SOLICITUD">
@@ -134,6 +145,16 @@
       <EntityTypeMapping TypeName="bdServiciosDigitalesProyModel.INVENTARIO">
         <MappingFragment StoreEntitySet="INVENTARIO">
           <ScalarProperty Name="id_inventario" ColumnName="id_inventario" />
+          <ScalarProperty Name="id_producto_inventario" ColumnName="id_producto_inventario" />
+          <ScalarProperty Name="cantidad_existencias" ColumnName="cantidad_existencias" />
+          <ScalarProperty Name="fecha_actualizacion_inventario" ColumnName="fecha_actualizacion_inventario" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="INVENTARIO_BAJAS">
+      <EntityTypeMapping TypeName="bdServiciosDigitalesProyModel.INVENTARIO_BAJAS">
+        <MappingFragment StoreEntitySet="INVENTARIO_BAJAS">
+          <ScalarProperty Name="id_inventario_bajas" ColumnName="id_inventario_bajas" />
           <ScalarProperty Name="id_producto_inventario" ColumnName="id_producto_inventario" />
           <ScalarProperty Name="cantidad_existencias" ColumnName="cantidad_existencias" />
           <ScalarProperty Name="fecha_actualizacion_inventario" ColumnName="fecha_actualizacion_inventario" />
@@ -253,9 +274,13 @@
       </EndProperty>
     </AssociationSetMapping>
     <FunctionImportMapping FunctionImportName="ActualizarEstadoSolicitud_Automatico" FunctionName="bdServiciosDigitalesProyModel.Store.ActualizarEstadoSolicitud_Automatico" />
+    <FunctionImportMapping FunctionImportName="ActualizarInventarioProductos" FunctionName="bdServiciosDigitalesProyModel.Store.ActualizarInventarioProductos" />
     <FunctionImportMapping FunctionImportName="ActualizarProducto" FunctionName="bdServiciosDigitalesProyModel.Store.ActualizarProducto" />
     <FunctionImportMapping FunctionImportName="ActualizarServicio" FunctionName="bdServiciosDigitalesProyModel.Store.ActualizarServicio" />
+    <FunctionImportMapping FunctionImportName="AgregarAnotacionHistoricoInventario" FunctionName="bdServiciosDigitalesProyModel.Store.AgregarAnotacionHistoricoInventario" />
+    <FunctionImportMapping FunctionImportName="AgregarAnotacionHistoricoInventarioBajas" FunctionName="bdServiciosDigitalesProyModel.Store.AgregarAnotacionHistoricoInventarioBajas" />
     <FunctionImportMapping FunctionImportName="AgregarAnotacionHistoricoSolicitud" FunctionName="bdServiciosDigitalesProyModel.Store.AgregarAnotacionHistoricoSolicitud" />
+    <FunctionImportMapping FunctionImportName="AgregarBajaInventario" FunctionName="bdServiciosDigitalesProyModel.Store.AgregarBajaInventario" />
     <FunctionImportMapping FunctionImportName="AgregarElemento" FunctionName="bdServiciosDigitalesProyModel.Store.AgregarElemento" />
     <FunctionImportMapping FunctionImportName="AgregarServicio" FunctionName="bdServiciosDigitalesProyModel.Store.AgregarServicio" />
     <FunctionImportMapping FunctionImportName="AgregarUsuario" FunctionName="bdServiciosDigitalesProyModel.Store.AgregarUsuario" />
@@ -263,6 +288,7 @@
     <FunctionImportMapping FunctionImportName="CambiarEstadoSolicitud" FunctionName="bdServiciosDigitalesProyModel.Store.CambiarEstadoSolicitud" />
     <FunctionImportMapping FunctionImportName="ConsultaNombresEmpleadosXSolicitud" FunctionName="bdServiciosDigitalesProyModel.Store.ConsultaNombresEmpleadosXSolicitud" />
     <FunctionImportMapping FunctionImportName="Consultar_id_UsuarioXIdentificacion" FunctionName="bdServiciosDigitalesProyModel.Store.Consultar_id_UsuarioXIdentificacion" />
+    <FunctionImportMapping FunctionImportName="ConsultarCantidadXProducto" FunctionName="bdServiciosDigitalesProyModel.Store.ConsultarCantidadXProducto" />
     <FunctionImportMapping FunctionImportName="ConsultarCategorias_Elemento" FunctionName="bdServiciosDigitalesProyModel.Store.ConsultarCategorias_Elemento">
       <ResultMapping>
         <ComplexTypeMapping TypeName="bdServiciosDigitalesProyModel.ConsultarCategorias_Elemento_Result">
@@ -314,6 +340,26 @@
         </ComplexTypeMapping>
       </ResultMapping>
     </FunctionImportMapping>
+    <FunctionImportMapping FunctionImportName="ConsultarHistoricoInventarioBajasX_id" FunctionName="bdServiciosDigitalesProyModel.Store.ConsultarHistoricoInventarioBajasX_id">
+      <ResultMapping>
+        <ComplexTypeMapping TypeName="bdServiciosDigitalesProyModel.ConsultarHistoricoInventarioBajasX_id_Result">
+          <ScalarProperty Name="fecha" ColumnName="fecha" />
+          <ScalarProperty Name="nombres" ColumnName="nombres" />
+          <ScalarProperty Name="apellidos" ColumnName="apellidos" />
+          <ScalarProperty Name="descripcion" ColumnName="descripcion" />
+        </ComplexTypeMapping>
+      </ResultMapping>
+    </FunctionImportMapping>
+    <FunctionImportMapping FunctionImportName="ConsultarHistoricoInventarioX_id" FunctionName="bdServiciosDigitalesProyModel.Store.ConsultarHistoricoInventarioX_id">
+      <ResultMapping>
+        <ComplexTypeMapping TypeName="bdServiciosDigitalesProyModel.ConsultarHistoricoInventarioX_id_Result">
+          <ScalarProperty Name="fecha" ColumnName="fecha" />
+          <ScalarProperty Name="nombres" ColumnName="nombres" />
+          <ScalarProperty Name="apellidos" ColumnName="apellidos" />
+          <ScalarProperty Name="descripcion" ColumnName="descripcion" />
+        </ComplexTypeMapping>
+      </ResultMapping>
+    </FunctionImportMapping>
     <FunctionImportMapping FunctionImportName="ConsultarHistoricoSolicitudX_id" FunctionName="bdServiciosDigitalesProyModel.Store.ConsultarHistoricoSolicitudX_id">
       <ResultMapping>
         <ComplexTypeMapping TypeName="bdServiciosDigitalesProyModel.ConsultarHistoricoSolicitudX_id_Result">
@@ -322,6 +368,53 @@
           <ScalarProperty Name="apellidos" ColumnName="apellidos" />
           <ScalarProperty Name="nombres" ColumnName="nombres" />
           <ScalarProperty Name="id_solicitud" ColumnName="id_solicitud" />
+        </ComplexTypeMapping>
+      </ResultMapping>
+    </FunctionImportMapping>
+    <FunctionImportMapping FunctionImportName="ConsultarInventarioBajas" FunctionName="bdServiciosDigitalesProyModel.Store.ConsultarInventarioBajas">
+      <ResultMapping>
+        <ComplexTypeMapping TypeName="bdServiciosDigitalesProyModel.ConsultarInventarioBajas_Result">
+          <ScalarProperty Name="id_inventario_bajas" ColumnName="id_inventario_bajas" />
+          <ScalarProperty Name="nombre_producto" ColumnName="nombre_producto" />
+          <ScalarProperty Name="id_producto_inventario" ColumnName="id_producto_inventario" />
+          <ScalarProperty Name="cantidad_existencias" ColumnName="cantidad_existencias" />
+          <ScalarProperty Name="fecha_actualizacion_inventario" ColumnName="fecha_actualizacion_inventario" />
+        </ComplexTypeMapping>
+      </ResultMapping>
+    </FunctionImportMapping>
+    <FunctionImportMapping FunctionImportName="ConsultarInventarios" FunctionName="bdServiciosDigitalesProyModel.Store.ConsultarInventarios">
+      <ResultMapping>
+        <ComplexTypeMapping TypeName="bdServiciosDigitalesProyModel.ConsultarInventarios_Result">
+          <ScalarProperty Name="id_inventario" ColumnName="id_inventario" />
+          <ScalarProperty Name="nombre_producto" ColumnName="nombre_producto" />
+          <ScalarProperty Name="id_producto_inventario" ColumnName="id_producto_inventario" />
+          <ScalarProperty Name="cantidad_existencias" ColumnName="cantidad_existencias" />
+          <ScalarProperty Name="fecha_actualizacion_inventario" ColumnName="fecha_actualizacion_inventario" />
+          <ScalarProperty Name="descripcion_estado_producto" ColumnName="descripcion_estado_producto" />
+        </ComplexTypeMapping>
+      </ResultMapping>
+    </FunctionImportMapping>
+    <FunctionImportMapping FunctionImportName="ConsultarInventarioXCodigoProducto" FunctionName="bdServiciosDigitalesProyModel.Store.ConsultarInventarioXCodigoProducto">
+      <ResultMapping>
+        <ComplexTypeMapping TypeName="bdServiciosDigitalesProyModel.ConsultarInventarioXCodigoProducto_Result">
+          <ScalarProperty Name="id_inventario" ColumnName="id_inventario" />
+          <ScalarProperty Name="nombre_producto" ColumnName="nombre_producto" />
+          <ScalarProperty Name="id_producto_inventario" ColumnName="id_producto_inventario" />
+          <ScalarProperty Name="cantidad_existencias" ColumnName="cantidad_existencias" />
+          <ScalarProperty Name="fecha_actualizacion_inventario" ColumnName="fecha_actualizacion_inventario" />
+          <ScalarProperty Name="descripcion_estado_producto" ColumnName="descripcion_estado_producto" />
+        </ComplexTypeMapping>
+      </ResultMapping>
+    </FunctionImportMapping>
+    <FunctionImportMapping FunctionImportName="ConsultarInventarioXNombreProducto" FunctionName="bdServiciosDigitalesProyModel.Store.ConsultarInventarioXNombreProducto">
+      <ResultMapping>
+        <ComplexTypeMapping TypeName="bdServiciosDigitalesProyModel.ConsultarInventarioXNombreProducto_Result">
+          <ScalarProperty Name="id_inventario" ColumnName="id_inventario" />
+          <ScalarProperty Name="nombre_producto" ColumnName="nombre_producto" />
+          <ScalarProperty Name="id_producto_inventario" ColumnName="id_producto_inventario" />
+          <ScalarProperty Name="cantidad_existencias" ColumnName="cantidad_existencias" />
+          <ScalarProperty Name="fecha_actualizacion_inventario" ColumnName="fecha_actualizacion_inventario" />
+          <ScalarProperty Name="descripcion_estado_producto" ColumnName="descripcion_estado_producto" />
         </ComplexTypeMapping>
       </ResultMapping>
     </FunctionImportMapping>
@@ -455,48 +548,5 @@
     <FunctionImportMapping FunctionImportName="GenerarSolicitud" FunctionName="bdServiciosDigitalesProyModel.Store.GenerarSolicitud" />
     <FunctionImportMapping FunctionImportName="InsertarProducto" FunctionName="bdServiciosDigitalesProyModel.Store.InsertarProducto" />
     <FunctionImportMapping FunctionImportName="ValidarAutenticacionLogin" FunctionName="bdServiciosDigitalesProyModel.Store.ValidarAutenticacionLogin" />
-    <FunctionImportMapping FunctionImportName="ConsultarInventarios" FunctionName="bdServiciosDigitalesProyModel.Store.ConsultarInventarios">
-      <ResultMapping>
-        <ComplexTypeMapping TypeName="bdServiciosDigitalesProyModel.ConsultarInventarios_Result">
-          <ScalarProperty Name="id_inventario" ColumnName="id_inventario" />
-          <ScalarProperty Name="nombre_producto" ColumnName="nombre_producto" />
-          <ScalarProperty Name="id_producto_inventario" ColumnName="id_producto_inventario" />
-          <ScalarProperty Name="cantidad_existencias" ColumnName="cantidad_existencias" />
-          <ScalarProperty Name="fecha_actualizacion_inventario" ColumnName="fecha_actualizacion_inventario" />
-        </ComplexTypeMapping>
-      </ResultMapping>
-    </FunctionImportMapping>
-    <FunctionImportMapping FunctionImportName="ConsultarInventarioXCodigoProducto" FunctionName="bdServiciosDigitalesProyModel.Store.ConsultarInventarioXCodigoProducto">
-      <ResultMapping>
-        <ComplexTypeMapping TypeName="bdServiciosDigitalesProyModel.ConsultarInventarioXCodigoProducto_Result">
-          <ScalarProperty Name="id_inventario" ColumnName="id_inventario" />
-          <ScalarProperty Name="nombre_producto" ColumnName="nombre_producto" />
-          <ScalarProperty Name="id_producto_inventario" ColumnName="id_producto_inventario" />
-          <ScalarProperty Name="cantidad_existencias" ColumnName="cantidad_existencias" />
-          <ScalarProperty Name="fecha_actualizacion_inventario" ColumnName="fecha_actualizacion_inventario" />
-        </ComplexTypeMapping>
-      </ResultMapping>
-    </FunctionImportMapping>
-    <FunctionImportMapping FunctionImportName="ConsultarInventarioXNombreProducto" FunctionName="bdServiciosDigitalesProyModel.Store.ConsultarInventarioXNombreProducto">
-      <ResultMapping>
-        <ComplexTypeMapping TypeName="bdServiciosDigitalesProyModel.ConsultarInventarioXNombreProducto_Result">
-          <ScalarProperty Name="id_inventario" ColumnName="id_inventario" />
-          <ScalarProperty Name="nombre_producto" ColumnName="nombre_producto" />
-          <ScalarProperty Name="id_producto_inventario" ColumnName="id_producto_inventario" />
-          <ScalarProperty Name="cantidad_existencias" ColumnName="cantidad_existencias" />
-          <ScalarProperty Name="fecha_actualizacion_inventario" ColumnName="fecha_actualizacion_inventario" />
-        </ComplexTypeMapping>
-      </ResultMapping>
-    </FunctionImportMapping>
-    <FunctionImportMapping FunctionImportName="ConsultarHistoricoInventarioX_id" FunctionName="bdServiciosDigitalesProyModel.Store.ConsultarHistoricoInventarioX_id">
-      <ResultMapping>
-        <ComplexTypeMapping TypeName="bdServiciosDigitalesProyModel.ConsultarHistoricoInventarioX_id_Result">
-          <ScalarProperty Name="fecha" ColumnName="fecha" />
-          <ScalarProperty Name="nombres" ColumnName="nombres" />
-          <ScalarProperty Name="apellidos" ColumnName="apellidos" />
-          <ScalarProperty Name="descripcion" ColumnName="descripcion" />
-        </ComplexTypeMapping>
-      </ResultMapping>
-    </FunctionImportMapping>
   </EntityContainerMapping>
 </Mapping>

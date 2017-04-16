@@ -113,11 +113,6 @@
                     </li>
                     <li class="divider"></li>
 
-                    @*<div class="row">
-                            <div class="col-xs-12 text-center well">
-                                Bienvenido, <b>@ValidadorPermisos.Get().Nombre</b> [<a href="~/home/salir">Finalizar sesión</a>]
-                            </div>
-                        </div>*@
                     @if (SessionHelper.ExistUserInSession())
                     {
                         <li>
@@ -187,11 +182,10 @@
                     <a href="javascript:;" data-toggle="collapse" data-target="#inventarios"><i class="fa fa-fw fa-bar-chart-o"></i> Inventarios <i class="fa fa-fw fa-caret-down"></i></a>
                     <ul id="inventarios" class="collapse">
                         <li>
-                            <a href="#">Actualizar Inventarios</a>
-
+                            @Html.ActionLink("Consultar Inventario de Productos", "ConsultarInventarios", "Inventarios")
                         </li>
                         <li>
-                            @Html.ActionLink("Consultar Inventarios", "ConsultarInventarios", "Inventarios")
+                            @Html.ActionLink("Consultar Inventario de Bajas", "ConsultarInventariosBajas", "Inventarios")
                         </li>
                     </ul>
                 </li>
@@ -206,7 +200,7 @@
                         </li>
                     </ul>
                 </li>
-                @Html.Partial("_Footer")
+              
             </ul>
 
         </div>

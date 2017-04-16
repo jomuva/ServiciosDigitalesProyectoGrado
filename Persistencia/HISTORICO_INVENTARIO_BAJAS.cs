@@ -10,14 +10,17 @@
 namespace Persistencia
 {
     using System;
+    using System.Collections.Generic;
     
-    public partial class ConsultarInventarios_Result
+    public partial class HISTORICO_INVENTARIO_BAJAS
     {
-        public int id_inventario { get; set; }
-        public string nombre_producto { get; set; }
-        public int id_producto_inventario { get; set; }
-        public int cantidad_existencias { get; set; }
-        public System.DateTime fecha_actualizacion_inventario { get; set; }
-        public string descripcion_estado_producto { get; set; }
+        public int id_historico { get; set; }
+        public int id_empleado { get; set; }
+        public int id_inventario_historico { get; set; }
+        public System.DateTime fecha { get; set; }
+        public string descripcion { get; set; }
+    
+        public virtual USUARIO USUARIO { get; set; }
+        public virtual INVENTARIO_BAJAS INVENTARIO_BAJAS { get; set; }
     }
 }

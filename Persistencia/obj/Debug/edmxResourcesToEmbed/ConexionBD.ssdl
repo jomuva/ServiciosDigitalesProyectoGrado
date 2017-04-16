@@ -104,7 +104,17 @@
     <Property Name="id_empleado" Type="int" Nullable="false" />
     <Property Name="id_inventario_historico" Type="int" Nullable="false" />
     <Property Name="fecha" Type="datetime" Nullable="false" />
-    <Property Name="descripcion" Type="varchar" MaxLength="300" Nullable="false" />
+    <Property Name="descripcion" Type="varchar" MaxLength="500" Nullable="false" />
+  </EntityType>
+  <EntityType Name="HISTORICO_INVENTARIO_BAJAS">
+    <Key>
+      <PropertyRef Name="id_historico" />
+    </Key>
+    <Property Name="id_historico" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+    <Property Name="id_empleado" Type="int" Nullable="false" />
+    <Property Name="id_inventario_historico" Type="int" Nullable="false" />
+    <Property Name="fecha" Type="datetime" Nullable="false" />
+    <Property Name="descripcion" Type="varchar" MaxLength="500" Nullable="false" />
   </EntityType>
   <EntityType Name="HISTORICO_SOLICITUD">
     <Key>
@@ -113,7 +123,7 @@
     <Property Name="id_historico" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
     <Property Name="id_usuario_historico" Type="int" Nullable="false" />
     <Property Name="id_solicitud_historico" Type="int" Nullable="false" />
-    <Property Name="descripcion_historico" Type="varchar" MaxLength="100" Nullable="false" />
+    <Property Name="descripcion_historico" Type="varchar" MaxLength="500" Nullable="false" />
     <Property Name="fecha_historico" Type="datetime" />
   </EntityType>
   <EntityType Name="INVENTARIO">
@@ -121,6 +131,15 @@
       <PropertyRef Name="id_inventario" />
     </Key>
     <Property Name="id_inventario" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+    <Property Name="id_producto_inventario" Type="int" Nullable="false" />
+    <Property Name="cantidad_existencias" Type="int" Nullable="false" />
+    <Property Name="fecha_actualizacion_inventario" Type="datetime" Nullable="false" />
+  </EntityType>
+  <EntityType Name="INVENTARIO_BAJAS">
+    <Key>
+      <PropertyRef Name="id_inventario_bajas" />
+    </Key>
+    <Property Name="id_inventario_bajas" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
     <Property Name="id_producto_inventario" Type="int" Nullable="false" />
     <Property Name="cantidad_existencias" Type="int" Nullable="false" />
     <Property Name="fecha_actualizacion_inventario" Type="datetime" Nullable="false" />
@@ -275,6 +294,18 @@
       </Dependent>
     </ReferentialConstraint>
   </Association>
+  <Association Name="fk_empleado_historico_inventario_bajas">
+    <End Role="USUARIO" Type="Self.USUARIO" Multiplicity="1" />
+    <End Role="HISTORICO_INVENTARIO_BAJAS" Type="Self.HISTORICO_INVENTARIO_BAJAS" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="USUARIO">
+        <PropertyRef Name="id_usuario" />
+      </Principal>
+      <Dependent Role="HISTORICO_INVENTARIO_BAJAS">
+        <PropertyRef Name="id_empleado" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
   <Association Name="fk_escalado_solicitud">
     <End Role="ESCALADO" Type="Self.ESCALADO" Multiplicity="0..1" />
     <End Role="SOLICITUD" Type="Self.SOLICITUD" Multiplicity="*" />
@@ -383,6 +414,18 @@
       </Dependent>
     </ReferentialConstraint>
   </Association>
+  <Association Name="fk_inventario_historico_inventario_bajas">
+    <End Role="INVENTARIO_BAJAS" Type="Self.INVENTARIO_BAJAS" Multiplicity="1" />
+    <End Role="HISTORICO_INVENTARIO_BAJAS" Type="Self.HISTORICO_INVENTARIO_BAJAS" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="INVENTARIO_BAJAS">
+        <PropertyRef Name="id_inventario_bajas" />
+      </Principal>
+      <Dependent Role="HISTORICO_INVENTARIO_BAJAS">
+        <PropertyRef Name="id_inventario_historico" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
   <Association Name="fk_permiso_id">
     <End Role="PERMISO" Type="Self.PERMISO" Multiplicity="1" />
     <End Role="PERMISO_DENEGADO_POR_ROL" Type="Self.PERMISO_DENEGADO_POR_ROL" Multiplicity="*" />
@@ -427,6 +470,18 @@
         <PropertyRef Name="id_producto" />
       </Principal>
       <Dependent Role="INVENTARIO">
+        <PropertyRef Name="id_producto_inventario" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="fk_producto_inventario_bajas">
+    <End Role="PRODUCTO" Type="Self.PRODUCTO" Multiplicity="1" />
+    <End Role="INVENTARIO_BAJAS" Type="Self.INVENTARIO_BAJAS" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="PRODUCTO">
+        <PropertyRef Name="id_producto" />
+      </Principal>
+      <Dependent Role="INVENTARIO_BAJAS">
         <PropertyRef Name="id_producto_inventario" />
       </Dependent>
     </ReferentialConstraint>
@@ -588,6 +643,12 @@
     </ReferentialConstraint>
   </Association>
   <Function Name="ActualizarEstadoSolicitud_Automatico" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo" />
+  <Function Name="ActualizarInventarioProductos" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
+    <Parameter Name="id_inventario" Type="int" Mode="In" />
+    <Parameter Name="id_producto" Type="int" Mode="In" />
+    <Parameter Name="cantidad" Type="int" Mode="In" />
+    <Parameter Name="identifEmpleado" Type="varchar" Mode="In" />
+  </Function>
   <Function Name="ActualizarProducto" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
     <Parameter Name="idProd" Type="int" Mode="In" />
     <Parameter Name="nombre_prod" Type="varchar" Mode="In" />
@@ -598,10 +659,26 @@
     <Parameter Name="idserv" Type="int" Mode="In" />
     <Parameter Name="descripc" Type="varchar" Mode="In" />
   </Function>
+  <Function Name="AgregarAnotacionHistoricoInventario" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
+    <Parameter Name="identifEmpleado" Type="varchar" Mode="In" />
+    <Parameter Name="idInventario" Type="int" Mode="In" />
+    <Parameter Name="descripcion" Type="varchar" Mode="In" />
+  </Function>
+  <Function Name="AgregarAnotacionHistoricoInventarioBajas" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
+    <Parameter Name="identifEmpleado" Type="varchar" Mode="In" />
+    <Parameter Name="idInventario" Type="int" Mode="In" />
+    <Parameter Name="descripcion" Type="varchar" Mode="In" />
+  </Function>
   <Function Name="AgregarAnotacionHistoricoSolicitud" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
     <Parameter Name="identifEmpleado" Type="varchar" Mode="In" />
     <Parameter Name="idSolici" Type="int" Mode="In" />
     <Parameter Name="descripcion" Type="varchar" Mode="In" />
+  </Function>
+  <Function Name="AgregarBajaInventario" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
+    <Parameter Name="id_producto" Type="int" Mode="In" />
+    <Parameter Name="cantidadBajas" Type="int" Mode="In" />
+    <Parameter Name="identifEmpleado" Type="varchar" Mode="In" />
+    <Parameter Name="descripcionBaja" Type="varchar" Mode="In" />
   </Function>
   <Function Name="AgregarElemento" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
     <Parameter Name="id_categ" Type="int" Mode="In" />
@@ -645,6 +722,9 @@
   <Function Name="Consultar_id_UsuarioXIdentificacion" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
     <Parameter Name="codigo" Type="int" Mode="In" />
   </Function>
+  <Function Name="ConsultarCantidadXProducto" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
+    <Parameter Name="id_inventario" Type="int" Mode="In" />
+  </Function>
   <Function Name="ConsultarCategorias_Elemento" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo" />
   <Function Name="ConsultarCategoriasProductos" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo" />
   <Function Name="ConsultarElementos" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo" />
@@ -652,12 +732,16 @@
     <Parameter Name="idSolic" Type="int" Mode="In" />
   </Function>
   <Function Name="ConsultarEstadosSolicitud" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo" />
+  <Function Name="ConsultarHistoricoInventarioBajasX_id" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
+    <Parameter Name="id_inventario" Type="int" Mode="In" />
+  </Function>
   <Function Name="ConsultarHistoricoInventarioX_id" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
     <Parameter Name="id_inventario" Type="int" Mode="In" />
   </Function>
   <Function Name="ConsultarHistoricoSolicitudX_id" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
     <Parameter Name="id_solicitud" Type="int" Mode="In" />
   </Function>
+  <Function Name="ConsultarInventarioBajas" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo" />
   <Function Name="ConsultarInventarios" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo" />
   <Function Name="ConsultarInventarioXCodigoProducto" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
     <Parameter Name="codigo" Type="int" Mode="In" />
@@ -727,8 +811,10 @@
     <EntitySet Name="ESTADO_USUARIO" EntityType="Self.ESTADO_USUARIO" Schema="dbo" store:Type="Tables" />
     <EntitySet Name="FACTURA" EntityType="Self.FACTURA" Schema="dbo" store:Type="Tables" />
     <EntitySet Name="HISTORICO_INVENTARIO" EntityType="Self.HISTORICO_INVENTARIO" Schema="dbo" store:Type="Tables" />
+    <EntitySet Name="HISTORICO_INVENTARIO_BAJAS" EntityType="Self.HISTORICO_INVENTARIO_BAJAS" Schema="dbo" store:Type="Tables" />
     <EntitySet Name="HISTORICO_SOLICITUD" EntityType="Self.HISTORICO_SOLICITUD" Schema="dbo" store:Type="Tables" />
     <EntitySet Name="INVENTARIO" EntityType="Self.INVENTARIO" Schema="dbo" store:Type="Tables" />
+    <EntitySet Name="INVENTARIO_BAJAS" EntityType="Self.INVENTARIO_BAJAS" Schema="dbo" store:Type="Tables" />
     <EntitySet Name="PERMISO" EntityType="Self.PERMISO" Schema="dbo" store:Type="Tables" />
     <EntitySet Name="PERMISO_DENEGADO_POR_ROL" EntityType="Self.PERMISO_DENEGADO_POR_ROL" Schema="dbo" store:Type="Tables" />
     <EntitySet Name="PRIORIDAD" EntityType="Self.PRIORIDAD" Schema="dbo" store:Type="Tables" />
@@ -755,6 +841,10 @@
     <AssociationSet Name="fk_empleado_historico_inventario" Association="Self.fk_empleado_historico_inventario">
       <End Role="USUARIO" EntitySet="USUARIO" />
       <End Role="HISTORICO_INVENTARIO" EntitySet="HISTORICO_INVENTARIO" />
+    </AssociationSet>
+    <AssociationSet Name="fk_empleado_historico_inventario_bajas" Association="Self.fk_empleado_historico_inventario_bajas">
+      <End Role="USUARIO" EntitySet="USUARIO" />
+      <End Role="HISTORICO_INVENTARIO_BAJAS" EntitySet="HISTORICO_INVENTARIO_BAJAS" />
     </AssociationSet>
     <AssociationSet Name="fk_escalado_solicitud" Association="Self.fk_escalado_solicitud">
       <End Role="ESCALADO" EntitySet="ESCALADO" />
@@ -792,6 +882,10 @@
       <End Role="INVENTARIO" EntitySet="INVENTARIO" />
       <End Role="HISTORICO_INVENTARIO" EntitySet="HISTORICO_INVENTARIO" />
     </AssociationSet>
+    <AssociationSet Name="fk_inventario_historico_inventario_bajas" Association="Self.fk_inventario_historico_inventario_bajas">
+      <End Role="INVENTARIO_BAJAS" EntitySet="INVENTARIO_BAJAS" />
+      <End Role="HISTORICO_INVENTARIO_BAJAS" EntitySet="HISTORICO_INVENTARIO_BAJAS" />
+    </AssociationSet>
     <AssociationSet Name="fk_permiso_id" Association="Self.fk_permiso_id">
       <End Role="PERMISO" EntitySet="PERMISO" />
       <End Role="PERMISO_DENEGADO_POR_ROL" EntitySet="PERMISO_DENEGADO_POR_ROL" />
@@ -807,6 +901,10 @@
     <AssociationSet Name="fk_producto_inventario" Association="Self.fk_producto_inventario">
       <End Role="PRODUCTO" EntitySet="PRODUCTO" />
       <End Role="INVENTARIO" EntitySet="INVENTARIO" />
+    </AssociationSet>
+    <AssociationSet Name="fk_producto_inventario_bajas" Association="Self.fk_producto_inventario_bajas">
+      <End Role="PRODUCTO" EntitySet="PRODUCTO" />
+      <End Role="INVENTARIO_BAJAS" EntitySet="INVENTARIO_BAJAS" />
     </AssociationSet>
     <AssociationSet Name="fk_rol_usuario" Association="Self.fk_rol_usuario">
       <End Role="ROL" EntitySet="ROL" />

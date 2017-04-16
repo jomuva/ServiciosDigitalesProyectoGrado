@@ -236,6 +236,12 @@
     <Content Include="Views\Inventarios\RespuestaConsultaInventarios.cshtml" />
     <Content Include="Views\Inventarios\Partials\_Script.cshtml" />
     <Content Include="Views\Inventarios\ConsultarHistoricoInventarios.cshtml" />
+    <Content Include="Views\Inventarios\ActualizarInventarioXProducto.cshtml" />
+    <Content Include="Views\Inventarios\RespuestaConsultaInventarioBajas.cshtml" />
+    <Content Include="Views\Inventarios\AdicionarBajas.cshtml" />
+    <Content Include="Views\Inventarios\Partials\_ModalAgregarAnotacion.cshtml" />
+    <Content Include="Views\Inventarios\AgregarAnotacionModal.cshtml" />
+    <Content Include="Views\Inventarios\AgregarAnotacionModalBajas.cshtml" />
     <None Include="Xcore\Scripts\jquery-1.10.2.intellisense.js" />
     <Content Include="Xcore\Scripts\Formulario\index.js" />
     <Content Include="Xcore\Scripts\jquery-1.10.2.js" />

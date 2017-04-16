@@ -10,6 +10,21 @@ namespace ServiciosDigitalesProy.Models
             id = 0;
             Descripcion = "";
         }
+
+        public EstadoProducto(int id,string descri)
+        {
+            this.id = id;
+            Descripcion = descri;
+        }
+
+        public EstadoProducto(int ide)
+        {
+            id = ide;
+        }
+        public EstadoProducto(string desc)
+        {
+            this.Descripcion = desc;
+        }
         public int id { get; set; }
         public string Descripcion { get; set; }
   

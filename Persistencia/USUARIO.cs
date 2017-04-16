@@ -22,6 +22,7 @@ namespace Persistencia
             this.ESCALADO = new HashSet<ESCALADO>();
             this.FACTURA = new HashSet<FACTURA>();
             this.HISTORICO_INVENTARIO = new HashSet<HISTORICO_INVENTARIO>();
+            this.HISTORICO_INVENTARIO_BAJAS = new HashSet<HISTORICO_INVENTARIO_BAJAS>();
             this.HISTORICO_SOLICITUD = new HashSet<HISTORICO_SOLICITUD>();
             this.SOLICITUD = new HashSet<SOLICITUD>();
             this.TELEFONO_USUARIO = new HashSet<TELEFONO_USUARIO>();
@@ -51,6 +52,8 @@ namespace Persistencia
         public virtual ICollection<FACTURA> FACTURA { get; set; }
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
         public virtual ICollection<HISTORICO_INVENTARIO> HISTORICO_INVENTARIO { get; set; }
+        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
+        public virtual ICollection<HISTORICO_INVENTARIO_BAJAS> HISTORICO_INVENTARIO_BAJAS { get; set; }
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
         public virtual ICollection<HISTORICO_SOLICITUD> HISTORICO_SOLICITUD { get; set; }
         public virtual ROL ROL { get; set; }

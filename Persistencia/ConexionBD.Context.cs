@@ -39,8 +39,10 @@ namespace Persistencia
         public virtual DbSet<ESTADO_USUARIO> ESTADO_USUARIO { get; set; }
         public virtual DbSet<FACTURA> FACTURA { get; set; }
         public virtual DbSet<HISTORICO_INVENTARIO> HISTORICO_INVENTARIO { get; set; }
+        public virtual DbSet<HISTORICO_INVENTARIO_BAJAS> HISTORICO_INVENTARIO_BAJAS { get; set; }
         public virtual DbSet<HISTORICO_SOLICITUD> HISTORICO_SOLICITUD { get; set; }
         public virtual DbSet<INVENTARIO> INVENTARIO { get; set; }
+        public virtual DbSet<INVENTARIO_BAJAS> INVENTARIO_BAJAS { get; set; }
         public virtual DbSet<PERMISO> PERMISO { get; set; }
         public virtual DbSet<PRIORIDAD> PRIORIDAD { get; set; }
         public virtual DbSet<PRODUCTO> PRODUCTO { get; set; }
@@ -55,6 +57,27 @@ namespace Persistencia
         public virtual int ActualizarEstadoSolicitud_Automatico()
         {
             return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction("ActualizarEstadoSolicitud_Automatico");
+        }
+    
+        public virtual int ActualizarInventarioProductos(Nullable<int> id_inventario, Nullable<int> id_producto, Nullable<int> cantidad, string identifEmpleado)
+        {
+            var id_inventarioParameter = id_inventario.HasValue ?
+                new ObjectParameter("id_inventario", id_inventario) :
+                new ObjectParameter("id_inventario", typeof(int));
+    
+            var id_productoParameter = id_producto.HasValue ?
+                new ObjectParameter("id_producto", id_producto) :
+                new ObjectParameter("id_producto", typeof(int));
+    
+            var cantidadParameter = cantidad.HasValue ?
+                new ObjectParameter("cantidad", cantidad) :
+                new ObjectParameter("cantidad", typeof(int));
+    
+            var identifEmpleadoParameter = identifEmpleado != null ?
+                new ObjectParameter("identifEmpleado", identifEmpleado) :
+                new ObjectParameter("identifEmpleado", typeof(string));
+    
+            return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction("ActualizarInventarioProductos", id_inventarioParameter, id_productoParameter, cantidadParameter, identifEmpleadoParameter);
         }
     
         public virtual int ActualizarProducto(Nullable<int> idProd, string nombre_prod, Nullable<decimal> precio_costo, Nullable<decimal> precio_venta)
@@ -91,6 +114,40 @@ namespace Persistencia
             return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction("ActualizarServicio", idservParameter, descripcParameter);
         }
     
+        public virtual int AgregarAnotacionHistoricoInventario(string identifEmpleado, Nullable<int> idInventario, string descripcion)
+        {
+            var identifEmpleadoParameter = identifEmpleado != null ?
+                new ObjectParameter("identifEmpleado", identifEmpleado) :
+                new ObjectParameter("identifEmpleado", typeof(string));
+    
+            var idInventarioParameter = idInventario.HasValue ?
+                new ObjectParameter("idInventario", idInventario) :
+                new ObjectParameter("idInventario", typeof(int));
+    
+            var descripcionParameter = descripcion != null ?
+                new ObjectParameter("descripcion", descripcion) :
+                new ObjectParameter("descripcion", typeof(string));
+    
+            return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction("AgregarAnotacionHistoricoInventario", identifEmpleadoParameter, idInventarioParameter, descripcionParameter);
+        }
+    
+        public virtual int AgregarAnotacionHistoricoInventarioBajas(string identifEmpleado, Nullable<int> idInventario, string descripcion)
+        {
+            var identifEmpleadoParameter = identifEmpleado != null ?
+                new ObjectParameter("identifEmpleado", identifEmpleado) :
+                new ObjectParameter("identifEmpleado", typeof(string));
+    
+            var idInventarioParameter = idInventario.HasValue ?
+                new ObjectParameter("idInventario", idInventario) :
+                new ObjectParameter("idInventario", typeof(int));
+    
+            var descripcionParameter = descripcion != null ?
+                new ObjectParameter("descripcion", descripcion) :
+                new ObjectParameter("descripcion", typeof(string));
+    
+            return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction("AgregarAnotacionHistoricoInventarioBajas", identifEmpleadoParameter, idInventarioParameter, descripcionParameter);
+        }
+    
         public virtual int AgregarAnotacionHistoricoSolicitud(string identifEmpleado, Nullable<int> idSolici, string descripcion)
         {
             var identifEmpleadoParameter = identifEmpleado != null ?
@@ -106,6 +163,27 @@ namespace Persistencia
                 new ObjectParameter("descripcion", typeof(string));
     
             return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction("AgregarAnotacionHistoricoSolicitud", identifEmpleadoParameter, idSoliciParameter, descripcionParameter);
+        }
+    
+        public virtual int AgregarBajaInventario(Nullable<int> id_producto, Nullable<int> cantidadBajas, string identifEmpleado, string descripcionBaja)
+        {
+            var id_productoParameter = id_producto.HasValue ?
+                new ObjectParameter("id_producto", id_producto) :
+                new ObjectParameter("id_producto", typeof(int));
+    
+            var cantidadBajasParameter = cantidadBajas.HasValue ?
+                new ObjectParameter("cantidadBajas", cantidadBajas) :
+                new ObjectParameter("cantidadBajas", typeof(int));
+    
+            var identifEmpleadoParameter = identifEmpleado != null ?
+                new ObjectParameter("identifEmpleado", identifEmpleado) :
+                new ObjectParameter("identifEmpleado", typeof(string));
+    
+            var descripcionBajaParameter = descripcionBaja != null ?
+                new ObjectParameter("descripcionBaja", descripcionBaja) :
+                new ObjectParameter("descripcionBaja", typeof(string));
+    
+            return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction("AgregarBajaInventario", id_productoParameter, cantidadBajasParameter, identifEmpleadoParameter, descripcionBajaParameter);
         }
     
         public virtual ObjectResult<Nullable<int>> AgregarElemento(Nullable<int> id_categ, Nullable<int> id_tipo_elem, string serial, string placa, string modelo, string marca, string ram, string rom, string serial_bateria, string sO)
@@ -259,6 +337,15 @@ namespace Persistencia
             return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction<Nullable<int>>("Consultar_id_UsuarioXIdentificacion", codigoParameter);
         }
     
+        public virtual ObjectResult<Nullable<int>> ConsultarCantidadXProducto(Nullable<int> id_inventario)
+        {
+            var id_inventarioParameter = id_inventario.HasValue ?
+                new ObjectParameter("id_inventario", id_inventario) :
+                new ObjectParameter("id_inventario", typeof(int));
+    
+            return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction<Nullable<int>>("ConsultarCantidadXProducto", id_inventarioParameter);
+        }
+    
         public virtual ObjectResult<ConsultarCategorias_Elemento_Result> ConsultarCategorias_Elemento()
         {
             return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction<ConsultarCategorias_Elemento_Result>("ConsultarCategorias_Elemento");
@@ -288,6 +375,24 @@ namespace Persistencia
             return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction<ConsultarEstadosSolicitud_Result>("ConsultarEstadosSolicitud");
         }
     
+        public virtual ObjectResult<ConsultarHistoricoInventarioBajasX_id_Result> ConsultarHistoricoInventarioBajasX_id(Nullable<int> id_inventario)
+        {
+            var id_inventarioParameter = id_inventario.HasValue ?
+                new ObjectParameter("id_inventario", id_inventario) :
+                new ObjectParameter("id_inventario", typeof(int));
+    
+            return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction<ConsultarHistoricoInventarioBajasX_id_Result>("ConsultarHistoricoInventarioBajasX_id", id_inventarioParameter);
+        }
+    
+        public virtual ObjectResult<ConsultarHistoricoInventarioX_id_Result> ConsultarHistoricoInventarioX_id(Nullable<int> id_inventario)
+        {
+            var id_inventarioParameter = id_inventario.HasValue ?
+                new ObjectParameter("id_inventario", id_inventario) :
+                new ObjectParameter("id_inventario", typeof(int));
+    
+            return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction<ConsultarHistoricoInventarioX_id_Result>("ConsultarHistoricoInventarioX_id", id_inventarioParameter);
+        }
+    
         public virtual ObjectResult<ConsultarHistoricoSolicitudX_id_Result> ConsultarHistoricoSolicitudX_id(Nullable<int> id_solicitud)
         {
             var id_solicitudParameter = id_solicitud.HasValue ?
@@ -295,6 +400,34 @@ namespace Persistencia
                 new ObjectParameter("id_solicitud", typeof(int));
     
             return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction<ConsultarHistoricoSolicitudX_id_Result>("ConsultarHistoricoSolicitudX_id", id_solicitudParameter);
+        }
+    
+        public virtual ObjectResult<ConsultarInventarioBajas_Result> ConsultarInventarioBajas()
+        {
+            return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction<ConsultarInventarioBajas_Result>("ConsultarInventarioBajas");
+        }
+    
+        public virtual ObjectResult<ConsultarInventarios_Result> ConsultarInventarios()
+        {
+            return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction<ConsultarInventarios_Result>("ConsultarInventarios");
+        }
+    
+        public virtual ObjectResult<ConsultarInventarioXCodigoProducto_Result> ConsultarInventarioXCodigoProducto(Nullable<int> codigo)
+        {
+            var codigoParameter = codigo.HasValue ?
+                new ObjectParameter("codigo", codigo) :
+                new ObjectParameter("codigo", typeof(int));
+    
+            return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction<ConsultarInventarioXCodigoProducto_Result>("ConsultarInventarioXCodigoProducto", codigoParameter);
+        }
+    
+        public virtual ObjectResult<ConsultarInventarioXNombreProducto_Result> ConsultarInventarioXNombreProducto(string nombr)
+        {
+            var nombrParameter = nombr != null ?
+                new ObjectParameter("nombr", nombr) :
+                new ObjectParameter("nombr", typeof(string));
+    
+            return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction<ConsultarInventarioXNombreProducto_Result>("ConsultarInventarioXNombreProducto", nombrParameter);
         }
     
         public virtual ObjectResult<ConsultarPermisosXUsuario_Result> ConsultarPermisosXUsuario(string identif)
@@ -466,38 +599,6 @@ namespace Persistencia
                 new ObjectParameter("passwd", typeof(string));
     
             return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction<string>("ValidarAutenticacionLogin", usernameParameter, passwdParameter);
-        }
-    
-        public virtual ObjectResult<ConsultarInventarios_Result> ConsultarInventarios()
-        {
-            return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction<ConsultarInventarios_Result>("ConsultarInventarios");
-        }
-    
-        public virtual ObjectResult<ConsultarInventarioXCodigoProducto_Result> ConsultarInventarioXCodigoProducto(Nullable<int> codigo)
-        {
-            var codigoParameter = codigo.HasValue ?
-                new ObjectParameter("codigo", codigo) :
-                new ObjectParameter("codigo", typeof(int));
-    
-            return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction<ConsultarInventarioXCodigoProducto_Result>("ConsultarInventarioXCodigoProducto", codigoParameter);
-        }
-    
-        public virtual ObjectResult<ConsultarInventarioXNombreProducto_Result> ConsultarInventarioXNombreProducto(string nombr)
-        {
-            var nombrParameter = nombr != null ?
-                new ObjectParameter("nombr", nombr) :
-                new ObjectParameter("nombr", typeof(string));
-    
-            return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction<ConsultarInventarioXNombreProducto_Result>("ConsultarInventarioXNombreProducto", nombrParameter);
-        }
-    
-        public virtual ObjectResult<ConsultarHistoricoInventarioX_id_Result> ConsultarHistoricoInventarioX_id(Nullable<int> id_inventario)
-        {
-            var id_inventarioParameter = id_inventario.HasValue ?
-                new ObjectParameter("id_inventario", id_inventario) :
-                new ObjectParameter("id_inventario", typeof(int));
-    
-            return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction<ConsultarHistoricoInventarioX_id_Result>("ConsultarHistoricoInventarioX_id", id_inventarioParameter);
         }
     }
 }

@@ -11,13 +11,12 @@ namespace Persistencia
 {
     using System;
     
-    public partial class ConsultarInventarios_Result
+    public partial class ConsultarInventarioBajas_Result
     {
-        public int id_inventario { get; set; }
+        public int id_inventario_bajas { get; set; }
         public string nombre_producto { get; set; }
         public int id_producto_inventario { get; set; }
         public int cantidad_existencias { get; set; }
         public System.DateTime fecha_actualizacion_inventario { get; set; }
-        public string descripcion_estado_producto { get; set; }
     }
 }

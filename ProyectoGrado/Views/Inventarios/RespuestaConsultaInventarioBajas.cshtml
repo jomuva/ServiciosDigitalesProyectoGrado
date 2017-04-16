@@ -2,10 +2,12 @@
 
 @{
     ViewBag.Title = " Inventarios";
-    ViewBag.SubSeccion = "Consulta de Inventario"+" "+ ViewBag.titulo;
+    ViewBag.SubSeccion = "Consulta de Inventario de Bajas";
 }
 
 <h3>@ViewBag.SubSeccion</h3>
+
+
 <div class="col-lg-12">
     <!--breadcrumbs start -->
     <ul class="breadcrumb">
@@ -36,7 +38,7 @@
                             <div class="col-lg-12">
                                 <div class="panel panel-default">
                                     <div class="panel-heading">
-                                        <b>Base de datos Inventarios @ViewBag.titulo</b>
+                                        <b>Base de datos Inventario Bajas</b>
                                     </div>
                                     <!-- /.panel-heading -->
                                     <div class="panel-body">
@@ -52,13 +54,10 @@
                                                         <b>Cantidad Existencias</b>
                                                     </td>
                                                     <td>
-                                                        <b>Estado</b>
-                                                    </td>
-                                                    <td>
                                                         <b>Fecha Ultima Actualización</b>
                                                     </td>
                                                     <td>
-                                                        <b>Histórico/Actualizar</b>
+                                                        <b>Histórico/Agregar_Baja</b>
                                                     </td>
                                                 </tr>
                                             </thead>
@@ -75,24 +74,24 @@
                                                         <td>
                                                             @Html.DisplayFor(modelItem => item.cantidadExistencias)
                                                         </td>
-                                                        <td>
-                                                            @Html.DisplayFor(modelItem => item.producto.estado.Descripcion)
-                                                        </td>
+
                                                         <td>
                                                             @Html.DisplayFor(modelItem => item.fecha)
                                                         </td>
                                                         <td>
                                                             <div class="row">
-                                                                <a href="@Url.Action("ConsultarHistoricoInventarios"+ViewBag.titulo, null,  new { id = item.id_inventario})">
+                                                                <a href="@Url.Action("ConsultarHistoricoInventarios" + ViewBag.titulo, null, new { id = item.id_inventario })">
                                                                     <span><i class="fa fa-history fa-2x" style="padding-right: 40px;padding-left: 20px;"></i></span>
                                                                 </a>
-                                                                <a href="@Url.Action("ActualizarInventarioXProducto", null,  new { id = item.id_inventario})">
-                                                                    <span><i class="fa fa-pencil-square-o fa-2x"></i></span>
+                                                                <a href="@Url.Action("AdicionarBajas", null,  new { id = item.id_inventario})">
+                                                                    <span><i class="fa fa-plus-circle fa-2x"></i></span>
                                                                 </a>
                                                             </div>
+
                                                         </td>
                                                     </tr>
                                                 }
+                                              
                                             </tbody>
                                         </table>
                                     </div>
@@ -121,4 +120,10 @@
         });
     </script>
 }
+
+
+
+
+
+
 

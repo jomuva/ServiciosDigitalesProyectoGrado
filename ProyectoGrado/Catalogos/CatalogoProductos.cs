@@ -37,7 +37,7 @@ namespace ProyectoGrado.Catalogos
         /// <returns>Lista de Tipos de Identificación</returns>
         public void InsertarProducto(Inventario inventario, out string resultado, out string tipoResultado)
         {
-            productoDatos.InsertarProducto(inventario.producto.id_estado, inventario.producto.categoria.id, inventario.producto.nombre,
+            productoDatos.InsertarProducto(inventario.producto.estado.id, inventario.producto.categoria.id, inventario.producto.nombre,
                                             inventario.producto.precio_costo, inventario.producto.precio_venta,
                                             inventario.cantidadExistencias,SessionHelper.GetUser().ToString(),
                                             out resultado,out tipoResultado);
@@ -124,7 +124,7 @@ namespace ProyectoGrado.Catalogos
                 ListaProductos.Add(new Producto
                 {
                     id_producto = item.id_producto,
-                    id_estado = item.id_estado_producto,
+                    estado = new EstadoProducto((int)item.id_estado_producto),
                     nombre = item.nombre_producto,
                     precio_costo = item.precio_costo,
                     precio_venta = item.precio_venta
@@ -158,7 +158,7 @@ namespace ProyectoGrado.Catalogos
         /// <param name="tipoRes"></param>
         public void CambiarEstadoProducto(Producto producto, out string res, out string tipoRes)
         {
-            productoDatos.CambiarEstadoProducto(producto.id_estado,producto.id_producto , out res, out tipoRes);
+            productoDatos.CambiarEstadoProducto(producto.estado.id,producto.id_producto , out res, out tipoRes);
         }
 
     }

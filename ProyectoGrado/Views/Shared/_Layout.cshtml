@@ -12,7 +12,9 @@
                         <section class="wrapper">
                             @RenderBody()
                         </section>
-                        
+                        <footer>
+                            @Html.Partial("_Footer")
+                        </footer>
                     </section>
         <!--main content end-->
     </section>
@@ -22,4 +24,6 @@
         @RenderSection("scripts", required: false)
         <!--Section Scripts-->
 </body>
+
+
 </html>

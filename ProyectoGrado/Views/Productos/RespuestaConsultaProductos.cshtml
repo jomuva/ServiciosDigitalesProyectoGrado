@@ -78,7 +78,7 @@
                                                         <td>
                                                            $@Html.DisplayFor(modelItem => item.precio_venta)
                                                         </td>
-                                                        @if (item.id_estado == 1)
+                                                        @if (item.estado.id == 1)
                                                         {
                                                             <td>
                                                                 Disponible

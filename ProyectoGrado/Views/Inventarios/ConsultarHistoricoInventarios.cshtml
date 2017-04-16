@@ -3,7 +3,8 @@
 
 @{
     ViewBag.Title = " Inventarios";
-    ViewBag.SubSeccion = "Consulta de Historico de la solicitud No: " + ViewBag.idInventario;
+    ViewBag.SubSeccion = "Consulta de Historico de Inventario " + ViewBag.titulo;
+    ViewBag.titu = "ConsultarInventarios" + ViewBag.titulo;
 }
 
 <style>
@@ -13,6 +14,8 @@
     }
 </style>
 <h3>@ViewBag.SubSeccion</h3>
+
+@Html.Partial("Partials/_ModalAgregarAnotacion")
 <div class="col-lg-12">
     <!--breadcrumbs start -->
     <ul class="breadcrumb">
@@ -29,7 +32,33 @@
                 <div class="row">
                     <div class="col-lg-12">
                         <section class="panel">
-                            <header></header>
+                            <header>
+                                <div class="row">
+                                    <div class="col-lg-3 col-md-6">
+                                        <div class="panel panel-yellow">
+                                            <div class="panel-heading">
+                                                <div class="row">
+                                                    <div class="col-xs-3">
+                                                        <i class="fa fa-edit fa-5x"></i>
+                                                    </div>
+                                                    <div class="col-xs-9 text-right">
+                                                        <div class="huge">Add</div>
+                                                        <div>Annotation</div>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                            <a id=@("btnAnotacionInventario"+(string)ViewBag.titulo) data-toggle="modal" href="#miModalAnotacionInventario" data-id="@ViewBag.idInventario">
+                                            @*<a href="@Url.Action("AgregarAnotacion", "Solicitudes",  new { id = (int)ViewBag.idInventario })">*@
+                                                <div class="panel-footer">
+                                                    <span class="pull-left">Agregar Anotación</span>
+                                                    <span class="pull-right"><i class="fa fa-arrow-circle-right"></i></span>
+                                                    <div class="clearfix"></div>
+                                                </div>
+                                            </a>
+                                        </div>
+                                    </div>
+                                </div>
+                            </header>
                             <div class="row">
                                 <div class="col-md-10 col-md-offset-1">
                                     <div class="panel panel-default">
@@ -71,7 +100,7 @@
                                             </table>
                                             <div class="form-group">
                                                 <div class="col-md-2">
-                                                    @Html.ActionLink("Volver", "ConsultarInventarios", new { identificacion = ViewBag.idInventario ==null?"": ViewBag.idInventario }, new { @class = "btn btn-primary" })
+                                                    @Html.ActionLink("Volver", (string)ViewBag.titu, new { identificacion = ViewBag.idInventario == null ? "" : ViewBag.idInventario }, new { @class = "btn btn-primary" })
                                                 </div>
                                             </div>
                                         </div>
@@ -101,4 +130,9 @@
         });
     </script>
 }
+@section Scripts {
+    <script src="~/Xcore/Scripts/Modales/ModalElemento.js"></script>
+@Scripts.Render("~/bundles/jqueryval")
+}
 
+   

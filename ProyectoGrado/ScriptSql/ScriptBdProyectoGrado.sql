@@ -509,7 +509,7 @@ create table HISTORICO_SOLICITUD(
 id_historico int not null IDENTITY,
 id_usuario_historico int not null,
 id_solicitud_historico int not null,
-descripcion_historico varchar(100) not null,
+descripcion_historico varchar(500) not null,
 fecha_historico DATETIME,
 primary key (id_historico),
 	CONSTRAINT  fk_usuario_historico
@@ -615,21 +615,22 @@ INSERT INTO [dbo].[INVENTARIO]
 		   ,[cantidad_existencias]
 		   ,[fecha_actualizacion_inventario])
      VALUES
-            (1,25,'2017-01-01 02:57:24.480'),
-			(2,15,'2017-01-01 02:57:24.480'),
-			(3,20,'2017-01-01 02:57:24.480'),
-			(4,18,'2017-01-01 02:57:24.480'),
-			(5,6,'2017-01-01 02:57:24.480')
+            (1,20,'2017-01-01 02:57:24.480'),
+			(2,10,'2017-01-01 02:57:24.480'),
+			(3,15,'2017-01-01 02:57:24.480'),
+			(4,13,'2017-01-01 02:57:24.480'),
+			(5,5,'2017-01-01 02:57:24.480')
 		
 	GO	
 	
+
 	-- TABLA  HISTORICO INVENTARIO, TABLA QUE CONTIENE EL HISTORICO DE MOVIMIENTOS DEL INVENTARIO
 create table HISTORICO_INVENTARIO(
 id_historico int not null IDENTITY,
 id_empleado int not null,
 id_inventario_historico int not null,
 fecha DATETIME not null,
-descripcion VARCHAR(300) not null,
+descripcion VARCHAR(500) not null,
 primary key (id_historico),
 	CONSTRAINT  fk_empleado_historico_inventario
 			FOREIGN KEY ( id_empleado  )
@@ -649,6 +650,61 @@ INSERT INTO [dbo].[HISTORICO_INVENTARIO]
 			(2,3,'2017-01-01 02:57:24.480','Se agregan 20 teclados al stock'),
 			(2,4,'2017-01-01 02:57:24.480','Se agregan 18 fuentes de poder al stock'),
 			(2,5,'2017-01-01 02:57:24.480','Se agregan 6 HDD solidos al stock')
+		
+	GO
+
+
+	-- TABLA  INVENTARIO, TABLA QUE CONTIENE LOS INVENTARIOS DE LOS PRODUCTOS 
+create table INVENTARIO_BAJAS(
+id_inventario_bajas int not null IDENTITY,
+id_producto_inventario int not null,
+cantidad_existencias int not null,
+fecha_actualizacion_inventario DATETIME not null,
+primary key (id_inventario_bajas),
+	CONSTRAINT  fk_producto_inventario_bajas
+			FOREIGN KEY ( id_producto_inventario  )
+			REFERENCES   PRODUCTO ( id_producto  ),			
+);
+INSERT INTO [dbo].[INVENTARIO_BAJAS]
+           ([id_producto_inventario]
+		   ,[cantidad_existencias]
+		   ,[fecha_actualizacion_inventario])
+     VALUES
+            (1,5,'2017-04-01 22:06:35.920'),
+			(2,5,'2017-04-02 22:06:35.920'),
+			(3,5,'2017-04-05 22:06:35.920'),
+			(4,5,'2017-04-06 22:06:35.920'),
+			(5,1,'2017-04-07 22:06:35.920')
+		
+	GO	
+	
+
+	-- TABLA  HISTORICO INVENTARIO, TABLA QUE CONTIENE EL HISTORICO DE MOVIMIENTOS DEL INVENTARIO
+create table HISTORICO_INVENTARIO_BAJAS(
+id_historico int not null IDENTITY,
+id_empleado int not null,
+id_inventario_historico int not null,
+fecha DATETIME not null,
+descripcion VARCHAR(500) not null,
+primary key (id_historico),
+	CONSTRAINT  fk_empleado_historico_inventario_bajas
+			FOREIGN KEY ( id_empleado  )
+			REFERENCES   USUARIO ( id_usuario  ),	
+	CONSTRAINT  fk_inventario_historico_inventario_bajas
+			FOREIGN KEY ( id_inventario_historico  )
+			REFERENCES   INVENTARIO_BAJAS ( id_inventario_bajas  ),			
+);
+INSERT INTO [dbo].[HISTORICO_INVENTARIO_BAJAS]
+           ([id_empleado]
+		   ,[id_inventario_historico]
+		   ,[fecha]
+		   ,[descripcion])
+     VALUES
+            (2,1,'2017-04-01 22:06:35.920','Se agregan 5 memorias por daños de fabrica'),
+			(2,2,'2017-04-02 22:06:35.920','Se agregan 5 mouse por daños de fabrica'),
+			(2,3,'2017-04-05 22:06:35.920','Se agregan 5 teclados por daños de fabrica '),
+			(2,4,'2017-04-06 22:06:35.920','Se agregan 5 fuentes de poder por daños de fabrica'),
+			(2,5,'2017-04-07 22:06:35.920','Se agrega 1 HDD solido por daños de fabrica')
 		
 	GO
 	
@@ -1234,9 +1290,11 @@ GO
 CREATE PROCEDURE ConsultarInventarios
 AS
 BEGIN
-SELECT        INVENTARIO.id_inventario, PRODUCTO.nombre_producto, INVENTARIO.id_producto_inventario, INVENTARIO.cantidad_existencias, INVENTARIO.fecha_actualizacion_inventario
+SELECT        INVENTARIO.id_inventario, PRODUCTO.nombre_producto, INVENTARIO.id_producto_inventario, INVENTARIO.cantidad_existencias, INVENTARIO.fecha_actualizacion_inventario, 
+                         ESTADO_PRODUCTO.descripcion_estado_producto
 FROM            INVENTARIO INNER JOIN
-                         PRODUCTO ON INVENTARIO.id_producto_inventario = PRODUCTO.id_producto
+                         PRODUCTO ON INVENTARIO.id_producto_inventario = PRODUCTO.id_producto INNER JOIN
+                         ESTADO_PRODUCTO ON PRODUCTO.id_estado_producto = ESTADO_PRODUCTO.id_estado_producto
 END
 GO
 
@@ -1245,9 +1303,12 @@ CREATE PROCEDURE ConsultarInventarioXNombreProducto
 @nombr VARCHAR(100)
 AS
 BEGIN
-SELECT        INVENTARIO.id_inventario, PRODUCTO.nombre_producto, INVENTARIO.id_producto_inventario, INVENTARIO.cantidad_existencias, INVENTARIO.fecha_actualizacion_inventario
-FROM            INVENTARIO INNER JOIN PRODUCTO ON INVENTARIO.id_producto_inventario = PRODUCTO.id_producto
-WHERE PRODUCTO.nombre_producto = @nombr
+SELECT        INVENTARIO.id_inventario, PRODUCTO.nombre_producto, INVENTARIO.id_producto_inventario, INVENTARIO.cantidad_existencias, INVENTARIO.fecha_actualizacion_inventario, 
+                         ESTADO_PRODUCTO.descripcion_estado_producto
+FROM            INVENTARIO INNER JOIN
+                         PRODUCTO ON INVENTARIO.id_producto_inventario = PRODUCTO.id_producto INNER JOIN
+                         ESTADO_PRODUCTO ON PRODUCTO.id_estado_producto = ESTADO_PRODUCTO.id_estado_producto
+WHERE PRODUCTO.nombre_producto =  @nombr
 END
 GO
 
@@ -1256,8 +1317,11 @@ CREATE PROCEDURE ConsultarInventarioXCodigoProducto
 @codigo int
 AS
 BEGIN
-SELECT        INVENTARIO.id_inventario, PRODUCTO.nombre_producto, INVENTARIO.id_producto_inventario, INVENTARIO.cantidad_existencias, INVENTARIO.fecha_actualizacion_inventario
-FROM            INVENTARIO INNER JOIN PRODUCTO ON INVENTARIO.id_producto_inventario = PRODUCTO.id_producto
+SELECT        INVENTARIO.id_inventario, PRODUCTO.nombre_producto, INVENTARIO.id_producto_inventario, INVENTARIO.cantidad_existencias, INVENTARIO.fecha_actualizacion_inventario, 
+                         ESTADO_PRODUCTO.descripcion_estado_producto
+FROM            INVENTARIO INNER JOIN
+                         PRODUCTO ON INVENTARIO.id_producto_inventario = PRODUCTO.id_producto INNER JOIN
+                         ESTADO_PRODUCTO ON PRODUCTO.id_estado_producto = ESTADO_PRODUCTO.id_estado_producto
 WHERE PRODUCTO.id_producto = @codigo
 END
 Go
@@ -1275,4 +1339,123 @@ FROM            HISTORICO_INVENTARIO INNER JOIN
 WHERE INVENTARIO.id_inventario = @id_inventario
 END
 GO	
+
+
+--PROCEDIMIENTO QUE ACTUALIZA LA CANTIDAD DE EXISTENCIAS DE UN PRODUCTO Y SE AGREGA AL HISTORICO
+CREATE PROCEDURE ActualizarInventarioProductos
+@id_inventario int,
+@id_producto int,
+@cantidad int,
+@identifEmpleado VARCHAR(15)
+AS
+DECLARE @fecha DATETIME, @idEmpleado int, @cantidadAnterior int, @suma int
+BEGIN 
+SET @fecha = (SELECT CURRENT_TIMESTAMP);
+SET @idEmpleado = (SELECT id_usuario FROM USUARIO WHERE identificacion = @identifEmpleado);
+SET @cantidadAnterior = (SELECT cantidad_existencias FROM INVENTARIO WHERE id_inventario =@id_inventario);
+SET @suma = @cantidadAnterior +@cantidad;
+UPDATE INVENTARIO SET id_producto_inventario = @id_producto, cantidad_existencias=@cantidad+@cantidadAnterior, fecha_actualizacion_inventario =@fecha
+WHERE id_inventario = @id_inventario;
+
+INSERT INTO HISTORICO_INVENTARIO (id_empleado,id_inventario_historico,fecha,descripcion)
+VALUES (@idEmpleado,@id_inventario,@fecha,'Se actualiza la cantidad, de '+cast(@cantidadAnterior as varchar)+' unidades, a '+cast(@suma as varchar)+' unidades' );
+END
+GO
+
+
+--PROCEDIMIENTO CONSULTA EL TOTAL DE INVENTARIOS DE TODOS LOS PRODUCTOS
+CREATE PROCEDURE ConsultarInventarioBajas
+AS
+BEGIN
+SELECT        INVENTARIO_BAJAS.id_inventario_bajas, PRODUCTO.nombre_producto, INVENTARIO_BAJAS.id_producto_inventario, INVENTARIO_BAJAS.cantidad_existencias, INVENTARIO_BAJAS.fecha_actualizacion_inventario
+FROM            INVENTARIO_BAJAS INNER JOIN
+                         PRODUCTO ON INVENTARIO_BAJAS.id_producto_inventario = PRODUCTO.id_producto
+END
+GO
+
+--PROCEDIMIENTO CONSULTA EL HISTORICO DEL INVENTARIO DE BAJAS SEGUN SU ID
+CREATE PROCEDURE ConsultarHistoricoInventarioBajasX_id
+@id_inventario int
+AS
+BEGIN 
+SELECT        HISTORICO_INVENTARIO_BAJAS.fecha, USUARIO.nombres, USUARIO.apellidos, HISTORICO_INVENTARIO_BAJAS.descripcion
+FROM            HISTORICO_INVENTARIO_BAJAS INNER JOIN
+                         INVENTARIO_BAJAS ON HISTORICO_INVENTARIO_BAJAS.id_inventario_historico = INVENTARIO_BAJAS.id_inventario_bajas INNER JOIN
+                         USUARIO ON HISTORICO_INVENTARIO_BAJAS.id_empleado = USUARIO.id_usuario INNER JOIN
+                         PRODUCTO ON INVENTARIO_BAJAS.id_producto_inventario = PRODUCTO.id_producto
+WHERE INVENTARIO_BAJAS.id_inventario_bajas = @id_inventario
+END
+GO	
+
+-- PROCEDIMIENTO QUE TRAE LA CANTIDAD DE EXISTENCIAS POR PRODUCTO
+CREATE PROCEDURE ConsultarCantidadXProducto
+@id_inventario int
+AS
+BEGIN 
+SELECT  cantidad_existencias FROM INVENTARIO WHERE id_inventario =  @id_inventario
+END
+GO	
+
+--PROCEDIMIENTO QUE AGREGA UNA BAJA AL INVENTARIO DE BAJAS, LO DISMINUYE DEL INVENTARIO DE PRODUCTOS Y AGREGA AMBOS MOVIMIENTOS A SU
+-- RESPECTIVO HISTORICO
+CREATE PROCEDURE AgregarBajaInventario 
+ @id_producto int,
+ @cantidadBajas int,
+ @identifEmpleado VARCHAR(15),
+ @descripcionBaja VARCHAR(500)
+AS
+DECLARE @fecha DATETIME,
+@cantidadExistenciasInventario int,
+@cantidadExistenciasInventarioBajasActual int,
+@idEmpleado int,
+@idInventario int
+
+SET @fecha = (SELECT CURRENT_TIMESTAMP);
+SET @idEmpleado = (SELECT id_usuario FROM USUARIO WHERE identificacion = @identifEmpleado);
+SET @idInventario = (SELECT id_inventario FROM INVENTARIO WHERE id_producto_inventario = @id_producto);
+SET @cantidadExistenciasInventario  = (SELECT cantidad_existencias FROM INVENTARIO WHERE id_producto_inventario=@id_producto);
+SET @cantidadExistenciasInventarioBajasActual = (SELECT cantidad_existencias FROM INVENTARIO_BAJAS WHERE id_producto_inventario = @id_producto);
+BEGIN
+	UPDATE INVENTARIO_BAJAS SET id_producto_inventario =@id_producto ,cantidad_existencias=@cantidadExistenciasInventarioBajasActual+@cantidadBajas,
+	fecha_actualizacion_inventario = @fecha WHERE (id_producto_inventario = @id_producto);
 	
+	INSERT INTO HISTORICO_INVENTARIO_BAJAS (id_empleado,id_inventario_historico,fecha,descripcion)
+	VALUES (@idEmpleado,@idInventario,@fecha,@descripcionBaja);
+
+	UPDATE INVENTARIO SET cantidad_existencias = @cantidadExistenciasInventario - @cantidadBajas 
+	WHERE INVENTARIO.id_producto_inventario = @id_producto;
+	
+	INSERT INTO HISTORICO_INVENTARIO (id_empleado,id_inventario_historico,fecha,descripcion)
+	VALUES (@idEmpleado,@idInventario,@fecha,'Se realiza disminución de inventario.  Motivo: '+@descripcionBaja); 
+END
+	
+
+
+-- PROCEDIMIENTO QUE AGREGA UNA ANOTACION ADICIONAL AL HISTORICO DEL INVENTARIO
+CREATE PROCEDURE AgregarAnotacionHistoricoInventario
+@identifEmpleado VARCHAR(15),
+@idInventario int,
+@descripcion VARCHAR(500)
+AS
+DECLARE @fecha DATETIME,@idEmpleado int;
+SET @fecha = (SELECT CURRENT_TIMESTAMP);
+SET @idEmpleado = (SELECT id_usuario FROM USUARIO WHERE identificacion = @identifEmpleado);
+BEGIN
+	INSERT INTO HISTORICO_INVENTARIO(id_empleado,id_inventario_historico,fecha,descripcion)
+	VALUES (@idEmpleado,@idInventario,@fecha,@descripcion);
+END
+
+-- PROCEDIMIENTO QUE AGREGA UNA ANOTACION ADICIONAL AL HISTORICO DEL INVENTARIO DE BAJAS
+CREATE PROCEDURE AgregarAnotacionHistoricoInventarioBajas
+@identifEmpleado VARCHAR(15),
+@idInventario int,
+@descripcion VARCHAR(500)
+AS
+DECLARE @fecha DATETIME,@idEmpleado int;
+SET @fecha = (SELECT CURRENT_TIMESTAMP);
+SET @idEmpleado = (SELECT id_usuario FROM USUARIO WHERE identificacion = @identifEmpleado);
+BEGIN
+	INSERT INTO HISTORICO_INVENTARIO_BAJAS(id_empleado,id_inventario_historico,fecha,descripcion)
+	VALUES (@idEmpleado,@idInventario,@fecha,@descripcion);
+END
+

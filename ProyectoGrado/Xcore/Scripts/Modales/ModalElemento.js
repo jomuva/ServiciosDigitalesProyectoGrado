@@ -6,15 +6,13 @@ $("#btnAnotacion").click(function (eve) {
     $("#modal-content").load("/Solicitudes/AgregarAnotacionModal/" + $(this).data("id"));
 });
 
-$("#btnAnotacionInventario").click(function (eve) {
-    debugger;
-    $("#modal-content").load("/Inventarios/AgregarAnotacionInventario/" + $(this).data("id"));
+//Modales Crear Factura 
+$("#btnBuscarCliente").click(function (eve) {
+    $("#modal-content1").load("/Ventas/BuscarClientes");
 });
 
-
-$("#btnAnotacionInventarioBajas").click(function (eve) {
-    debugger;
-    $("#modal-content").load("/Inventarios/AgregarAnotacionInventarioBajas/" + $(this).data("id"));
+$("#btnAdicionarProducto").click(function (eve) {
+    $("#modal-content2").load("/Ventas/BuscarProducto");
 });
 
 

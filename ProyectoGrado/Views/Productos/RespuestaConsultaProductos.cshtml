@@ -26,7 +26,7 @@
                                 <div class="row">
                                     <div class="col-lg-12">
                                         <div class="btn-actions">
-                                            @Html.ActionLink("Adicionar", "InsertarProducto", "", new {@class = "btn btn-primary pull-right" })
+                                            @Html.ActionLink("Adicionar", "InsertarProducto", "", new { @class = "btn btn-primary pull-right" })
                                         </div>
                                     </div>
                                 </div>
@@ -38,7 +38,7 @@
                                         </a>
                                     </li>
                                 </ul>
-                                
+
                             </header>
                             <div class="col-lg-12">
                                 <div class="panel panel-default">
@@ -52,10 +52,9 @@
                                                 <tr>
                                                     <td>
                                                         <b>Nombre</b>
-</p>                                                    </td>
                                                     <td>
                                                         <b>Precio Costo</b>
-</td>
+                                                    </td>
                                                     <td>
                                                         <b>Precio Venta</b>
                                                     </td>
@@ -73,10 +72,10 @@
                                                             @Html.DisplayFor(modelItem => item.nombre)
                                                         </td>
                                                         <td>
-                                                           $@Html.DisplayFor(modelItem => item.precio_costo)
+                                                            $@Html.DisplayFor(modelItem => item.precio_costo)
                                                         </td>
                                                         <td>
-                                                           $@Html.DisplayFor(modelItem => item.precio_venta)
+                                                            $@Html.DisplayFor(modelItem => item.precio_venta)
                                                         </td>
                                                         @if (item.estado.id == 1)
                                                         {
@@ -91,7 +90,7 @@
                                                             </td>
                                                         }
                                                         <td>
-                                                            @Html.ActionLink("Editar", "ModificarProducto", new {  id=item.id_producto  }) |
+                                                            @Html.ActionLink("Editar", "ModificarProducto", new { id = item.id_producto }) |
                                                             @Html.ActionLink("Estado", "CambiarEstadoProducto", new { id = item.id_producto })
                                                         </td>
                                                     </tr>
@@ -119,7 +118,7 @@
                 type: '@((string)TempData["estado"])',
                 offset: { from: 'top', amount: 100 }
             });
-    });
+        });
     </script>
 }
 

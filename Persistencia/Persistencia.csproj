@@ -139,6 +139,9 @@
     <Compile Include="ConsultarTiposPrioridad_Result.cs">
       <DependentUpon>ConexionBD.tt</DependentUpon>
     </Compile>
+    <Compile Include="CrearFacturaSinRegistros_Result.cs">
+      <DependentUpon>ConexionBD.tt</DependentUpon>
+    </Compile>
     <Compile Include="DETALLE_FACTURA_PRODUCTO.cs">
       <DependentUpon>ConexionBD.tt</DependentUpon>
     </Compile>
@@ -164,6 +167,9 @@
       <DependentUpon>ConexionBD.tt</DependentUpon>
     </Compile>
     <Compile Include="FACTURA.cs">
+      <DependentUpon>ConexionBD.tt</DependentUpon>
+    </Compile>
+    <Compile Include="HISTORICO_FACTURA.cs">
       <DependentUpon>ConexionBD.tt</DependentUpon>
     </Compile>
     <Compile Include="HISTORICO_INVENTARIO.cs">
@@ -204,6 +210,15 @@
       <DependentUpon>ConexionBD.tt</DependentUpon>
     </Compile>
     <Compile Include="SolicitudesDatos\SolicitudesDatos.cs" />
+    <Compile Include="sp_helpdiagramdefinition_Result.cs">
+      <DependentUpon>ConexionBD.tt</DependentUpon>
+    </Compile>
+    <Compile Include="sp_helpdiagrams_Result.cs">
+      <DependentUpon>ConexionBD.tt</DependentUpon>
+    </Compile>
+    <Compile Include="sysdiagrams.cs">
+      <DependentUpon>ConexionBD.tt</DependentUpon>
+    </Compile>
     <Compile Include="TELEFONO_USUARIO.cs">
       <DependentUpon>ConexionBD.tt</DependentUpon>
     </Compile>
@@ -217,6 +232,7 @@
       <DependentUpon>ConexionBD.tt</DependentUpon>
     </Compile>
     <Compile Include="UsuarioDatos\UsuarioDatos.cs" />
+    <Compile Include="VentasDatos\VentasDatos.cs" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\..\..\Proyecto de Grado Capas\ServiciosDigitalesProyectoGrado\Session\Session.csproj">

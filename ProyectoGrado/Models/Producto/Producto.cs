@@ -44,6 +44,7 @@ namespace ServiciosDigitalesProy.Models
 
         public int id_producto { get; set; }
 
+        public string cantid { get; set; }
         public CategoriaProducto categoria { get; set; }
 
         public SelectList estadosProducto { get; set; }

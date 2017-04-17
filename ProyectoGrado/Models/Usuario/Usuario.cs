@@ -22,6 +22,7 @@ namespace ServiciosDigitalesProy.Models
             tiposIdentificacion = null ;
             tiposEstado = null;
             NombresApellidosDocumento = "";
+            NombresApellidos = "";
         }
 
         public Usuario(string identif, string apellidos, string nombres)
@@ -89,6 +90,7 @@ namespace ServiciosDigitalesProy.Models
         public SelectList tiposEstado { get; set; }
         public SelectList Roles { get; set; }
         public string NombresApellidosDocumento { get; set; }
+        public string NombresApellidos { get; set; }
         #endregion
 
         public int id { get; set; }

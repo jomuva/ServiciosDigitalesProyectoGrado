@@ -19,6 +19,7 @@ namespace Persistencia
         {
             this.DETALLE_FACTURA_PRODUCTO = new HashSet<DETALLE_FACTURA_PRODUCTO>();
             this.DETALLE_FACTURA_SOLICITUD = new HashSet<DETALLE_FACTURA_SOLICITUD>();
+            this.HISTORICO_FACTURA = new HashSet<HISTORICO_FACTURA>();
         }
     
         public int id_factura { get; set; }
@@ -35,6 +36,8 @@ namespace Persistencia
         public virtual ICollection<DETALLE_FACTURA_SOLICITUD> DETALLE_FACTURA_SOLICITUD { get; set; }
         public virtual ESCALADO ESCALADO { get; set; }
         public virtual ESTADO_FACTURA ESTADO_FACTURA { get; set; }
+        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
+        public virtual ICollection<HISTORICO_FACTURA> HISTORICO_FACTURA { get; set; }
         public virtual USUARIO USUARIO { get; set; }
     }
 }

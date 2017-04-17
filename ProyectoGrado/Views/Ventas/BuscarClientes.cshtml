@@ -16,7 +16,7 @@
                             <div class="col-lg-12">
                                 <div class="panel panel-default">
                                     <div class="panel-heading">
-                                        Base de datos Clientes
+                                        Base de datos Clientes <b>Activos</b>
                                     </div>
                                     <!-- /.panel-heading -->
                                     <div class="panel-body">
@@ -41,32 +41,39 @@
                                                 </tr>
                                             </thead>
                                             <tbody>
-                                                @foreach (var item in Model)
-                                                {
-                                                    <tr>
-                                                        <td>
-                                                            @Html.DisplayFor(modelItem => item.nombres)
-                                                        </td>
-                                                        <td>
-                                                            @Html.DisplayFor(modelItem => item.apellidos)
-                                                        </td>
-                                                        <td>
-                                                            @Html.DisplayFor(modelItem => item.identificacion)
-                                                        </td>
-                                                        <td>
-                                                            @Html.DisplayFor(modelItem => item.email)
-                                                        </td>
-                                                        <td>
-                                                            @Html.DisplayFor(modelItem => item.estado)
-                                                        </td>
-                                                        <td>
-                                                            @Html.ActionLink("Asignar", "AsignarCliente", new { id = item.identificacion })
-                                                        </td>
-                                                    </tr>
-                                                }
-                                            </tbody>
-                                        </table>
-                                    </div>
+                                               @if (Model.Count() != 0)
+                                               {
+                                                   foreach (var item in Model)
+                                                   {
+                                                        <tr>
+                                                            <td>
+                                                                @Html.DisplayFor(modelItem => item.nombres)
+                                                            </td>
+                                                            <td>
+                                                                @Html.DisplayFor(modelItem => item.apellidos)
+                                                            </td>
+                                                            <td>
+                                                                @Html.DisplayFor(modelItem => item.identificacion)
+                                                            </td>
+                                                            <td>
+                                                                @Html.DisplayFor(modelItem => item.email)
+                                                            </td>
+                                                            <td>
+                                                                @Html.DisplayFor(modelItem => item.estado)
+                                                            </td>
+                                                            <td>
+                                                                @Html.ActionLink("Asignar", "AsignarCliente", new { id = item.identificacion })
+                                                            </td>
+                                                        </tr>
+                                                   }
+                                               }
+                                               else
+                                               {
+                                                <tr><td style = "color: red;"><b> No hay Clientes en Estado Activo.  Verifique la información con el Administrador</b></td></tr>
+                                               }
+                                        </tbody>
+                                    </table>
+                                </div>
                                     <!-- /.panel-body -->
                                 </div>
                                 <!-- /.panel -->

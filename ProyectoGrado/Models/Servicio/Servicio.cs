@@ -17,7 +17,11 @@ namespace ServiciosDigitalesProy.Models
         {
             this.descripcion = descripcion;
         }
-
+        public Servicio(string descripcion,double precio)
+        {
+            this.precio = precio;
+            this.descripcion = descripcion;
+        }
         [RegularExpression(@"^[0-9a-zA-ZáéíóÚ.ÁÉÍÓÚ. ]{1,40}$", ErrorMessage = "Los Caracteres especiales no son permitidos.")]
         [Required(AllowEmptyStrings = false, ErrorMessage = "El campo de \"descripción\" es obligatorio.")]
         public string descripcion { get; set; }

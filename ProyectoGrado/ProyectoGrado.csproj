@@ -255,6 +255,8 @@
     <Content Include="Views\Ventas\BuscarClientes.cshtml" />
     <Content Include="Views\Ventas\Partials\_ModalAdicionarProducto.cshtml" />
     <Content Include="Views\Ventas\BuscarProducto.cshtml" />
+    <Content Include="Views\Ventas\Partials\_ModalAdicionarSolicitud.cshtml" />
+    <Content Include="Views\Ventas\BuscarSolicitudes.cshtml" />
     <None Include="Xcore\Scripts\jquery-1.10.2.intellisense.js" />
     <Content Include="Xcore\Scripts\Formulario\index.js" />
     <Content Include="Xcore\Scripts\jquery-1.10.2.js" />

@@ -524,6 +524,7 @@
           <ScalarProperty Name="ram" ColumnName="ram" />
           <ScalarProperty Name="placa" ColumnName="placa" />
           <ScalarProperty Name="descripcion_servicio" ColumnName="descripcion_servicio" />
+          <ScalarProperty Name="precio" ColumnName="precio" />
         </ComplexTypeMapping>
       </ResultMapping>
     </FunctionImportMapping>
@@ -550,6 +551,7 @@
           <ScalarProperty Name="ram" ColumnName="ram" />
           <ScalarProperty Name="placa" ColumnName="placa" />
           <ScalarProperty Name="descripcion_servicio" ColumnName="descripcion_servicio" />
+          <ScalarProperty Name="precio" ColumnName="precio" />
         </ComplexTypeMapping>
       </ResultMapping>
     </FunctionImportMapping>
@@ -566,6 +568,14 @@
         <ComplexTypeMapping TypeName="bdServiciosDigitalesProyModel.ConsultarTiposPrioridad_Result">
           <ScalarProperty Name="id_prioridad" ColumnName="id_prioridad" />
           <ScalarProperty Name="descripcion_prioridad" ColumnName="descripcion_prioridad" />
+        </ComplexTypeMapping>
+      </ResultMapping>
+    </FunctionImportMapping>
+    <FunctionImportMapping FunctionImportName="CrearFacturaSinRegistros" FunctionName="bdServiciosDigitalesProyModel.Store.CrearFacturaSinRegistros">
+      <ResultMapping>
+        <ComplexTypeMapping TypeName="bdServiciosDigitalesProyModel.CrearFacturaSinRegistros_Result">
+          <ScalarProperty Name="id_factura" ColumnName="id_factura" />
+          <ScalarProperty Name="fecha" ColumnName="fecha" />
         </ComplexTypeMapping>
       </ResultMapping>
     </FunctionImportMapping>
@@ -597,13 +607,5 @@
     <FunctionImportMapping FunctionImportName="sp_renamediagram" FunctionName="bdServiciosDigitalesProyModel.Store.sp_renamediagram" />
     <FunctionImportMapping FunctionImportName="sp_upgraddiagrams" FunctionName="bdServiciosDigitalesProyModel.Store.sp_upgraddiagrams" />
     <FunctionImportMapping FunctionImportName="ValidarAutenticacionLogin" FunctionName="bdServiciosDigitalesProyModel.Store.ValidarAutenticacionLogin" />
-    <FunctionImportMapping FunctionImportName="CrearFacturaSinRegistros" FunctionName="bdServiciosDigitalesProyModel.Store.CrearFacturaSinRegistros">
-      <ResultMapping>
-        <ComplexTypeMapping TypeName="bdServiciosDigitalesProyModel.CrearFacturaSinRegistros_Result">
-          <ScalarProperty Name="id_factura" ColumnName="id_factura" />
-          <ScalarProperty Name="fecha" ColumnName="fecha" />
-        </ComplexTypeMapping>
-      </ResultMapping>
-    </FunctionImportMapping>
   </EntityContainerMapping>
 </Mapping>

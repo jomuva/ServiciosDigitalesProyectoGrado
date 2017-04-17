@@ -16,6 +16,7 @@ namespace ServiciosDigitalesProy.Models
             listaDetallesSolicitud = new List<DetalleFacturaSolicitud>();
             listaDetallesProducto = new List<DetalleFacturaProducto>();
             fecha = new DateTime();
+            total = 0;
         }
 
       
@@ -23,6 +24,7 @@ namespace ServiciosDigitalesProy.Models
         public int id_factura { get; set; }
         public Usuario cliente { get; set; }
         public int id_empleado { get; set; }
+        public double total { get; set; }
         public EstadoFactura estado { get; set; }
         public DateTime fecha { get; set; }
         public List<DetalleFacturaSolicitud> listaDetallesSolicitud { get; set; }

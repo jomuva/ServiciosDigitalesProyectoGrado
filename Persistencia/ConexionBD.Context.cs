@@ -524,6 +524,15 @@ namespace Persistencia
             return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction<ConsultarTiposPrioridad_Result>("ConsultarTiposPrioridad");
         }
     
+        public virtual ObjectResult<CrearFacturaSinRegistros_Result> CrearFacturaSinRegistros(string identifEmpleado)
+        {
+            var identifEmpleadoParameter = identifEmpleado != null ?
+                new ObjectParameter("identifEmpleado", identifEmpleado) :
+                new ObjectParameter("identifEmpleado", typeof(string));
+    
+            return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction<CrearFacturaSinRegistros_Result>("CrearFacturaSinRegistros", identifEmpleadoParameter);
+        }
+    
         public virtual int EscalarSolicitud(Nullable<int> id_solicitud, string identifEmpleado)
         {
             var id_solicitudParameter = id_solicitud.HasValue ?
@@ -717,15 +726,6 @@ namespace Persistencia
                 new ObjectParameter("passwd", typeof(string));
     
             return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction<string>("ValidarAutenticacionLogin", usernameParameter, passwdParameter);
-        }
-    
-        public virtual ObjectResult<CrearFacturaSinRegistros_Result> CrearFacturaSinRegistros(string identifEmpleado)
-        {
-            var identifEmpleadoParameter = identifEmpleado != null ?
-                new ObjectParameter("identifEmpleado", identifEmpleado) :
-                new ObjectParameter("identifEmpleado", typeof(string));
-    
-            return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction<CrearFacturaSinRegistros_Result>("CrearFacturaSinRegistros", identifEmpleadoParameter);
         }
     }
 }

@@ -988,6 +988,9 @@
     </FunctionImport>
     <FunctionImport Name="ConsultarTiposElemento" ReturnType="Collection(bdServiciosDigitalesProyModel.ConsultarTiposElemento_Result)" />
     <FunctionImport Name="ConsultarTiposPrioridad" ReturnType="Collection(bdServiciosDigitalesProyModel.ConsultarTiposPrioridad_Result)" />
+    <FunctionImport Name="CrearFacturaSinRegistros" ReturnType="Collection(bdServiciosDigitalesProyModel.CrearFacturaSinRegistros_Result)">
+      <Parameter Name="identifEmpleado" Mode="In" Type="String" />
+    </FunctionImport>
     <FunctionImport Name="EscalarSolicitud">
       <Parameter Name="id_solicitud" Mode="In" Type="Int32" />
       <Parameter Name="identifEmpleado" Mode="In" Type="String" />
@@ -1043,9 +1046,6 @@
     <FunctionImport Name="ValidarAutenticacionLogin" ReturnType="Collection(String)">
       <Parameter Name="username" Mode="In" Type="String" />
       <Parameter Name="passwd" Mode="In" Type="String" />
-    </FunctionImport>
-    <FunctionImport Name="CrearFacturaSinRegistros" ReturnType="Collection(bdServiciosDigitalesProyModel.CrearFacturaSinRegistros_Result)">
-      <Parameter Name="identifEmpleado" Mode="In" Type="String" />
     </FunctionImport>
   </EntityContainer>
   <ComplexType Name="ConsultarCategorias_Elemento_Result">
@@ -1185,6 +1185,7 @@
     <Property Type="String" Name="ram" Nullable="true" MaxLength="10" />
     <Property Type="String" Name="placa" Nullable="true" MaxLength="30" />
     <Property Type="String" Name="descripcion_servicio" Nullable="false" MaxLength="50" />
+    <Property Type="Decimal" Name="precio" Nullable="true" Precision="20" Scale="4" />
   </ComplexType>
   <ComplexType Name="ConsultarSolicitudesXEmpleado_Result">
     <Property Type="Int32" Name="id_solicitud" Nullable="false" />
@@ -1207,6 +1208,7 @@
     <Property Type="String" Name="ram" Nullable="true" MaxLength="10" />
     <Property Type="String" Name="placa" Nullable="true" MaxLength="30" />
     <Property Type="String" Name="descripcion_servicio" Nullable="false" MaxLength="50" />
+    <Property Type="Decimal" Name="precio" Nullable="true" Precision="20" Scale="4" />
   </ComplexType>
   <ComplexType Name="ConsultarTiposElemento_Result">
     <Property Type="Int32" Name="id_tipo_elemento" Nullable="false" />
@@ -1215,6 +1217,10 @@
   <ComplexType Name="ConsultarTiposPrioridad_Result">
     <Property Type="Int32" Name="id_prioridad" Nullable="false" />
     <Property Type="String" Name="descripcion_prioridad" Nullable="true" MaxLength="50" />
+  </ComplexType>
+  <ComplexType Name="CrearFacturaSinRegistros_Result">
+    <Property Type="Int32" Name="id_factura" Nullable="false" />
+    <Property Type="DateTime" Name="fecha" Nullable="false" Precision="23" />
   </ComplexType>
   <ComplexType Name="sp_helpdiagramdefinition_Result">
     <Property Type="Int32" Name="version" Nullable="true" />
@@ -1226,9 +1232,5 @@
     <Property Type="Int32" Name="ID" Nullable="false" />
     <Property Type="String" Name="Owner" Nullable="true" MaxLength="128" />
     <Property Type="Int32" Name="OwnerID" Nullable="false" />
-  </ComplexType>
-  <ComplexType Name="CrearFacturaSinRegistros_Result">
-    <Property Type="Int32" Name="id_factura" Nullable="false" />
-    <Property Type="DateTime" Name="fecha" Nullable="false" Precision="23" />
   </ComplexType>
 </Schema>

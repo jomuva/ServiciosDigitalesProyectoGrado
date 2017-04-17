@@ -15,5 +15,11 @@ $("#btnAdicionarProducto").click(function (eve) {
     $("#modal-content2").load("/Ventas/BuscarProducto");
 });
 
+$("#btnAdicionarSolicitud").click(function (eve) {
+    $("#modal-content3").load("/Ventas/BuscarSolicitudes");
+});
+
+
+
 
 

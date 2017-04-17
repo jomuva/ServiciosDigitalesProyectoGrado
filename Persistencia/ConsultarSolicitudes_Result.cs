@@ -33,5 +33,6 @@ namespace Persistencia
         public string ram { get; set; }
         public string placa { get; set; }
         public string descripcion_servicio { get; set; }
+        public Nullable<decimal> precio { get; set; }
     }
 }

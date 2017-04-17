@@ -16,7 +16,7 @@
                             <div class="col-lg-12">
                                 <div class="panel panel-default">
                                     <div class="panel-heading">
-                                        Base de datos Clientes
+                                        Base de datos Productos
                                     </div>
                                     <!-- /.panel-heading -->
                                     <div class="panel-body">
@@ -31,41 +31,33 @@
                                                     <td>
                                                         <b>Precio Venta</b>
                                                     </td>
-                                                    <td>
-                                                        <b>Estado</b>
-                                                    </td>
                                                     <th></th>
                                                 </tr>
                                             </thead>
                                             <tbody>
-                                                @foreach (var item in Model)
+                                                @if (Model.Count() != 0)
                                                 {
-                                                    <tr>
-                                                        <td>
-                                                            @Html.DisplayFor(modelItem => item.nombre)
-                                                        </td>
-                                                        <td>
-                                                            $@Html.DisplayFor(modelItem => item.precio_costo)
-                                                        </td>
-                                                        <td>
-                                                            $@Html.DisplayFor(modelItem => item.precio_venta)
-                                                        </td>
-                                                        @if (item.estado.id == 1)
-                                                        {
+                                                    foreach (var item in Model)
+                                                    {
+                                                        <tr>
                                                             <td>
-                                                                Disponible
+                                                                @Html.DisplayFor(modelItem => item.nombre)
                                                             </td>
-                                                        }
-                                                        else
-                                                        {
                                                             <td>
-                                                                No Disponible
+                                                                $@Html.DisplayFor(modelItem => item.precio_costo)
                                                             </td>
-                                                        }
-                                                        <td>
-                                                            @Html.ActionLink("Agregar", "AdicionarProductoAFactura", new RouteValueDictionary(new { id = item.id_producto })) 
-                                                        </td>
-                                                    </tr>
+                                                            <td>
+                                                                $@Html.DisplayFor(modelItem => item.precio_venta)
+                                                            </td>
+                                                            <td>
+                                                                @Html.ActionLink("Agregar", "AdicionarProductoAFactura", new RouteValueDictionary(new { id = item.id_producto }))
+                                                            </td>
+                                                        </tr>
+                                                    }
+                                                }
+                                                else
+                                                {
+                                                    <tr><td style="color: red;"><b>No hay Productos disponibles actualmente. Verifique el inventario.</b></td></tr>
                                                 }
                                             </tbody>
                                         </table>
@@ -82,4 +74,3 @@
         </div>
     </div>
 </section>
-

@@ -27,13 +27,40 @@ namespace ServiciosDigitalesProy.Controllers
             return View(factura);
         }
 
+
+        /// <summary>
+        /// Consulta la lista de clientes y la agrega aL MODAL
+        /// </summary>
+        /// <returns></returns>
         [HttpGet]
         public ActionResult BuscarClientes()
         {
+            Factura factura = Session["Factura"] as Factura;
             string resultado = "", tipoResultado = "";
             List<Usuario> clientes = CatalogoUsuarios.GetInstance().ConsultarClientes("", ref resultado, ref tipoResultado);
+            List<Usuario> clientesActivos = new List<Usuario>();
+            Usuario cliente;
 
-            return View(clientes);
+            if (clientes != null)
+            {
+                foreach (var item in clientes)
+                {
+                    cliente = (item.estado == "Activo") ? item : null;
+                    if (cliente != null)
+                    {
+                        clientesActivos.Add(cliente);
+                    }
+                    cliente = null;
+                }
+
+                return View(clientesActivos);
+            }
+            else
+            {
+                TempData["mensaje"] = "No hay clientes registrados en base de datos.";
+                TempData["estado"] = "danger";
+                return View("CrearFactura", factura);
+            }
         }
 
 
@@ -44,33 +71,76 @@ namespace ServiciosDigitalesProy.Controllers
             Factura factura = Session["Factura"] as Factura;
             List<Usuario> Clientes = CatalogoUsuarios.GetInstance().ConsultarClientes(id, ref resultado, ref tipoResultado);
             Usuario cliente = Clientes.Find(x => x.identificacion == id);
-            factura.cliente = cliente;
-            factura.cliente.NombresApellidos = cliente.nombres + " " + cliente.apellidos;
-            TempData["mensaje"] = "Cliente Asignado Correctamente";
-            TempData["estado"] = "success";
-            Session["Factura"] = factura;
+
+            if (factura.cliente.identificacion == "")
+            {
+                factura.cliente = cliente;
+                factura.cliente.NombresApellidos = cliente.nombres + " " + cliente.apellidos;
+                TempData["mensaje"] = "Cliente Asignado Correctamente";
+                TempData["estado"] = "success";
+                Session["Factura"] = factura;
+            }
+            else {
+                TempData["mensaje"] = "Ya existe un cliente asociado a esta Factura";
+                TempData["estado"] = "danger";
+            }
             return View("CrearFactura", factura);
+            
+
         }
 
 
+        /// <summary>
+        ///  ABRE EL MODAL PARA ADICIONAR PRODUCTO
+        /// </summary>
+        /// <returns></returns>
         [HttpGet]
         public ActionResult BuscarProducto()
         {
             string resultado = "", tipoResultado = "";
+            Factura factura = Session["Factura"] as Factura;
             List<Producto> productos = CatalogoProductos.GetInstance().ConsultarProductos("", ref resultado, ref tipoResultado);
-            Session["Productos"] = productos;
-            return View(productos);
-        }
+            List<Producto> productosDisponibles = new List<Producto>();
+            Producto producto = null;
 
+
+            if (productos != null)
+            {
+                foreach (var item in productos)
+                {
+                    producto = (item.estado.id == 1) ? item : null;
+                    if (producto != null)
+                    {
+                        productosDisponibles.Add(producto);
+                    }
+                    producto = null;
+                }
+              
+                Session["Productos"] = productosDisponibles;
+                return View(productosDisponibles);
+            }
+            else
+            {
+                TempData["mensaje"] = "No hay Productos registrados en base de datos, Comuniquese con el administrador y verifique inventario";
+                TempData["estado"] = "danger";
+                return View("CrearFactura", factura);
+            }
+        }
+        
+
+        /// <summary>
+        /// AGREGA UN PRODUCTO SELECCIONADO EN EL MODAL A LA VISTA PRINCIPAL DE CREACION DE FACTURA
+        /// </summary>
+        /// <param name="id"></param>
+        /// <returns></returns>
         [HttpGet]
         public ActionResult AdicionarProductoAFactura(int id)
         {
-            string resultado = "", tipoResultado = "";
             Factura factura = Session["Factura"] as Factura;
             List<Producto> productos = Session["Productos"] as List<Producto>;
             Producto producto = productos.Find(x => x.id_producto == id);
-            DetalleFacturaProducto detalle;
 
+            DetalleFacturaProducto detalle;
             detalle = factura.listaDetallesProducto.Find(x => x.producto.id_producto == id);
             if (detalle == null)
             {
@@ -86,13 +156,92 @@ namespace ServiciosDigitalesProy.Controllers
                 return View("CrearFactura", factura);
             }
 
-            TempData["mensaje"] = "Ingrese la cantidad del producto a vender";
+            TempData["mensaje"] = "Recuerda ingresar la cantidad del producto a vender";
             TempData["estado"] = "info";
             Session["Factura"] = factura;
             return View("CrearFactura", factura);
         }
 
-        
+        /// <summary>
+        /// CONSULTA LAS SOLICITUDES ASOCIADAS AL CLIENTE DE LA FACTURA Y LAS ENVIA A LA VISTA MODAL
+        /// </summary>
+        /// <returns></returns>
+
+        [HttpGet]
+        public ActionResult BuscarSolicitudes()
+        {
+            Factura factura = Session["Factura"] as Factura;
+            string resultado = "", tipoResultado = "";
+            List<Solicitud> solicitudes = CatalogoSolicitudes.GetInstance().ConsultarSolicitudes(ref resultado, ref tipoResultado);
+            List<Solicitud> solicitudesClientefactura =  new List<Solicitud>();
+            Solicitud solicitud;
+            if (solicitudes != null)
+            {
+                foreach (var item in solicitudes)
+                {
+                    solicitud = (item.cliente.identificacion == factura.cliente.identificacion) ? item : null;
+                    if (solicitud != null)
+                    {
+                        solicitudesClientefactura.Add(solicitud);
+                    }
+                    solicitud = null;
+                }
+                if (solicitudesClientefactura.Count !=0)
+                {
+                    ViewBag.NombreCliente = factura.cliente.NombresApellidos;
+                    Session["Solicitudes"] = solicitudesClientefactura;
+                    return View(solicitudesClientefactura);
+                }else
+                {
+                    TempData["mensaje"] = "No hay solicitudes asociadas al cliente en base de datos";
+                    TempData["estado"] = "info";
+                    return View("CrearFactura", factura);
+                }
+            }
+            else
+            {
+                TempData["mensaje"] = "No hay solicitudes registradas en base de datos";
+                TempData["estado"] = "danger";
+                return View("CrearFactura", factura);
+            }
+        }
+
+        /// <summary>
+        /// AGREGA UNA SOLICITUD SELECCIONADA DESDE EL MODAL A LA FACTURA 
+        /// </summary>
+        /// <param name="id"></param>
+        /// <returns></returns>
+        [HttpGet]
+        public ActionResult AdicionarSolicitudAFactura(int id)
+        {
+            Factura factura = Session["Factura"] as Factura;
+            List<Solicitud> solicitudes = Session["Solicitudes"] as List<Solicitud>;
+            Solicitud solicitud = solicitudes.Find(x => x.id_solicitud == id);
+
+            DetalleFacturaSolicitud detalle;
+            detalle = factura.listaDetallesSolicitud.Find(x => x.solicitud.id_solicitud == id);
+            if (detalle == null)
+            {
+                factura.listaDetallesSolicitud.Add(new DetalleFacturaSolicitud
+                {
+                    solicitud = solicitud
+                });
+            }
+            else
+            {
+                TempData["mensaje"] = "Ya se encuentra la misma solicitud en la factura";
+                TempData["estado"] = "info";
+                return View("CrearFactura", factura);
+            }
+
+            TempData["mensaje"] = "Solicitud agregada Correctamente";
+            TempData["estado"] = "success";
+            Session["Factura"] = factura;
+            return View("CrearFactura", factura);
+        }
+
+
+
         [HttpPost]
         public ActionResult ConfirmarItems(Factura facturaa)
         {
@@ -110,197 +259,53 @@ namespace ServiciosDigitalesProy.Controllers
         }
 
 
+        /// <summary>
+        /// ELIMINA UN ITEM PRODUCTO DENTRO DE LA FACTURA QUE SE ESTA GENERANDO
+        /// </summary>
+        /// <param name="id"></param>
+        /// <returns></returns>
+        [HttpGet]
+        public ActionResult eliminarItemProducto(int id)
+        {
+            Factura factura = Session["Factura"] as Factura;
+            List<Producto> productos = Session["Productos"] as List<Producto>;
 
+            DetalleFacturaProducto detalle;
+            detalle = factura.listaDetallesProducto.Find(x => x.producto.id_producto == id);
+            factura.listaDetallesProducto.Remove(detalle);
 
+            TempData["mensaje"] = "Item removido Correctamente";
+            TempData["estado"] = "info";
+            Session["Factura"] = factura;
+         
+            return View("CrearFactura", factura);
+        }
+
+        /// <summary>
+        /// ELIMINA UN ITEM SOLICITUD DENTRO DE LA FACTURA QUE SE ESTA GENERANDO
+        /// </summary>
+        /// <param name="id"></param>
+        /// <returns></returns>
 
         [HttpGet]
-        public ActionResult ConsultarHistoricoInventarios(int id)
+        public ActionResult eliminarItemSolicitud(int id)
         {
-            string resultado = "", tipoResultado = "";
-            List<HistoricoInventario> historicos = CatalogoInventarios.GetInstance().ConsultarHistoricoInventarioX_id(id, ref resultado, ref tipoResultado);
-            ViewBag.idInventario = id;
-            ViewBag.titulo = "";
-            return View(historicos);
+            Factura factura = Session["Factura"] as Factura;
+            List<Solicitud> solicitudes = Session["Solicitudes"] as List<Solicitud>;
+            Solicitud solicitud = solicitudes.Find(x => x.id_solicitud == id);
+
+            DetalleFacturaSolicitud detalle;
+            detalle = factura.listaDetallesSolicitud.Find(x => x.solicitud.id_solicitud == id);
+
+            factura.listaDetallesSolicitud.Remove(detalle);
+
+            TempData["mensaje"] = "Item removido Correctamente";
+            TempData["estado"] = "info";
+            Session["Factura"] = factura;
+
+            return View("CrearFactura", factura);
         }
 
-
-        [HttpGet]
-        public ActionResult ActualizarInventarioXProducto(int id)
-        {
-            string resultado = "", tipoResultado = "";
-            List<Inventario> inventarios = CatalogoInventarios.GetInstance().ConsultarInventarios("", ref resultado, ref tipoResultado);
-            Inventario inventario = inventarios.Find(x => x.id_inventario == id);
-            TempData["Inventario"] = inventario;
-            return View(inventario);
-        }
-
-        [HttpPost]
-        public ActionResult ActualizarInventarioXProducto(Inventario inventario)
-        {
-            string resultado = "", tipoResultado = "";
-            CatalogoInventarios.GetInstance().ActualizarInventarioXProducto(inventario, ref resultado, ref tipoResultado);
-            if (tipoResultado == "danger")
-            {
-                TempData["mensaje"] = "No se ha podido realizar la actualización del inventario.  Intente más tarde";
-                TempData["estado"] = tipoResultado;
-                return View(TempData.Peek("Inventario") as Inventario);
-            }
-            else
-            {
-                TempData["mensaje"] = resultado;
-                TempData["estado"] = tipoResultado;
-                string res = "", tipores = "";
-                return View("RespuestaConsultaInventarios", CatalogoInventarios.GetInstance().ConsultarInventarios("", ref res, ref tipores));
-            }
-        }
-
-
-
-        [HttpGet]
-        public ActionResult AgregarAnotacionInventario(int id)
-        {
-            string resultado = "", tipoResultado = "";
-            List<HistoricoInventario> historicos = CatalogoInventarios.GetInstance().ConsultarHistoricoInventarioX_id(id, ref resultado, ref tipoResultado);
-            ViewBag.idInventario = id;
-            Inventario inventario = new Inventario();
-            inventario.id_inventario = id;
-            return View("AgregarAnotacionModal", inventario);
-        }
-
-        [HttpPost]
-        public ActionResult AgregarAnotacionInvent(Inventario inventario)
-        {
-
-            if (ModelState.IsValidField("historico.descripcion"))
-            {
-                string resultado = "", tipoResultado = "";
-                CatalogoInventarios.GetInstance().AgregarAnotacionInventario(inventario, ref resultado, ref tipoResultado);
-
-                TempData["mensaje"] = resultado;
-                TempData["estado"] = tipoResultado;
-            }
-            else
-            {
-                TempData["mensaje"] = "Los caracteres especiales no son permitidos y el tamaño maximo de caracteres es 500";
-                TempData["estado"] = "danger";
-            }
-
-            string res = "", tipoRes = "";
-            List<HistoricoInventario> historicos = CatalogoInventarios.GetInstance().ConsultarHistoricoInventarioX_id(inventario.id_inventario, ref res, ref tipoRes);
-            ViewBag.idInventario = inventario.id_inventario;
-            return View("ConsultarHistoricoInventarios", historicos);
-        }
-        #region Inventario Bajas
-
-
-
-        [HttpGet]
-        public ActionResult ConsultarInventariosBajas()
-        {
-
-            string resultado = "", tipoResultado = "";
-            List<Inventario> inventarios;
-            inventarios = CatalogoInventarios.GetInstance().ConsultarInventarioBajas(ref resultado, ref tipoResultado);
-            TempData["mensaje"] = resultado;
-            TempData["estado"] = tipoResultado;
-            if (tipoResultado == "danger")
-            {
-                return View("ConsultarProductos");
-            }
-            else
-            {
-                ViewBag.titulo = "Bajas";
-                return View("RespuestaConsultaInventarioBajas", inventarios);
-            }
-        }
-
-        [HttpGet]
-        public ActionResult ConsultarHistoricoInventariosBajas(int id)
-        {
-            string resultado = "", tipoResultado = "";
-            List<HistoricoInventario> historicos = CatalogoInventarios.GetInstance().ConsultarHistoricoInventarioBajasX_id(id, ref resultado, ref tipoResultado);
-
-            ViewBag.idInventario = id;
-            ViewBag.titulo = "Bajas";
-            return View("ConsultarHistoricoInventarios", historicos);
-        }
-
-
-        [HttpGet]
-        public ActionResult AdicionarBajas(int id)
-        {
-            Inventario inventario = new Inventario();
-            inventario.producto.id_producto = id;
-
-            return View("AdicionarBajas", inventario);
-        }
-
-
-        [HttpPost]
-        public ActionResult AdicionarBajas(Inventario inventario)
-        {
-            if (ModelState.IsValidField("descripcion") && ModelState.IsValidField("cantidadExistencias"))
-            {
-                string resultado = "", tipoResultado = "";
-                CatalogoInventarios.GetInstance().AgregarBaja(inventario, ref resultado, ref tipoResultado);
-                if (tipoResultado == "danger")
-                {
-                    TempData["mensaje"] = resultado;
-                    TempData["estado"] = tipoResultado;
-                    return View(inventario);
-                }
-                else
-                {
-                    string res = "", tipores = "";
-                    TempData["mensaje"] = resultado;
-                    TempData["estado"] = tipoResultado;
-                    return View("RespuestaConsultaInventarioBajas", CatalogoInventarios.GetInstance().ConsultarInventarioBajas(ref res, ref tipores));
-                }
-            }
-            else
-            {
-                return View(inventario);
-            }
-
-        }
-
-        [HttpGet]
-        public ActionResult AgregarAnotacionInventarioBajas(int id)
-        {
-            string resultado = "", tipoResultado = "";
-            ViewBag.idInventario = id;
-            Inventario inventario = new Inventario();
-            inventario.id_inventario = id;
-            return View("AgregarAnotacionModalBajas", inventario);
-        }
-
-
-        [HttpPost]
-        public ActionResult AgregarAnotacionInventBajas(Inventario inventario)
-        {
-
-            if (ModelState.IsValidField("historico.descripcion"))
-            {
-                string resultado = "", tipoResultado = "";
-                CatalogoInventarios.GetInstance().AgregarAnotacionInventarioBajas(inventario, ref resultado, ref tipoResultado);
-
-                TempData["mensaje"] = resultado;
-                TempData["estado"] = tipoResultado;
-            }
-            else
-            {
-                TempData["mensaje"] = "Los caracteres especiales no son permitidos y el tamaño maximo de caracteres es 500";
-                TempData["estado"] = "danger";
-            }
-
-            string res = "", tipoRes = "";
-            List<HistoricoInventario> historicos = CatalogoInventarios.GetInstance().ConsultarHistoricoInventarioBajasX_id(inventario.id_inventario, ref res, ref tipoRes);
-            ViewBag.idInventario = inventario.id_inventario;
-            ViewBag.titulo = "Bajas";
-            return View("ConsultarHistoricoInventarios", historicos);
-        }
-
-        #endregion
 
 
 

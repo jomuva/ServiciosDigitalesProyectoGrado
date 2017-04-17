@@ -290,7 +290,7 @@ namespace ServiciosDigitalesProy.Catalogos
                     fecha = item.fecha_solicitud,
                     elemento = new Elemento((string)item.descripcion_categoria_elemento, (string)item.descripcion_elemento, (string)item.serial, (string)item.placa, (string)item.modelo, (string)item.marca, (string)item.ram, (string)item.rom, (string)item.serial_bateria, (string)item.sistema_operativo),
                     descripcion = item.descripcion,
-                    servicio = new Servicio((string)item.descripcion_servicio)
+                    servicio = new Servicio((string)item.descripcion_servicio,(double)item.precio)
                 });
             }
             if (Rol == 2)

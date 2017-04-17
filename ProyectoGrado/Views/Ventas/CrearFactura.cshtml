@@ -9,8 +9,8 @@
 <div class="col-lg-12">
     <!--breadcrumbs start -->
     <ul class="breadcrumb">
-        <li><a href="#"><i class="fa fa-th-list"></i>@ViewBag.Title</a></li>
-        <li class="active"><a href="#">@ViewBag.SubSeccion</a></li>
+        <li style="color: #3060c3;"><i class="fa fa-th-list"></i>@ViewBag.Title</li>
+        <li class="active">@ViewBag.SubSeccion</li>
     </ul>
     <!--breadcrumbs end -->
 </div>
@@ -23,85 +23,97 @@
         width: 400px;
         height: 100px;
     }
+
+    a {
+        color: #c72a2a;
+        text-decoration: none;
+    }
+
+    .breadcrumb > .active {
+        color: #3060c3;
+    }
 </style>
 
 <div class="row">
     @*@using (Html.BeginForm("GenerarSolicitud", "Solicitudes"))
-    {*@
+        {*@
 
-        @Html.Partial("Partials/_ModalBuscarCliente")
-        @Html.AntiForgeryToken()
-        <!-- /.INICIO DE ENCABEZADO FACTURA -->
-        <div class="form-horizontal col-md-10 col-md-offset-1" style="border-style: solid;">
-            <section class="panel">
+    @Html.Partial("Partials/_ModalBuscarCliente")
+    @Html.AntiForgeryToken()
+    <!-- /.INICIO DE ENCABEZADO FACTURA -->
+    <div class="form-horizontal col-md-10 col-md-offset-1" style="border-style: solid;">
+        <section class="panel">
 
-                <header>
-                    <div class="row" style="margin-top: 10px;">
-                        @Html.Label("Factura No:", htmlAttributes: new { @class = "control-label col-md-2" })
-                        <div class="col-md-3 inputGroupContainer">
-                            <div class="input-group">
-                                <span class="input-group-addon"><i class="fa fa-barcode"></i></span>
-                                @Html.EditorFor(model => model.id_factura, new { htmlAttributes = new { @class = "form-control", @readonly = "readonly" } })
-                            </div>
-                        </div>
-                        @Html.Label("Fecha:", htmlAttributes: new { @class = "control-label col-md-1" })
-                        <div class="col-md-4 inputGroupContainer">
-                            <div class="input-group">
-                                <span class="input-group-addon"><i class="fa fa-barcode"></i></span>
-                                @Html.EditorFor(model => model.fecha, new { htmlAttributes = new { @class = "form-control", @readonly = "readonly" } })
-                            </div>
+            <header>
+                <div class="row" style="margin-top: 10px;">
+                    @Html.Label("Factura No:", htmlAttributes: new { @class = "control-label col-md-2" })
+                    <div class="col-md-3 inputGroupContainer">
+                        <div class="input-group">
+                            <span class="input-group-addon"><i class="fa fa-ticket"></i></span>
+                            @Html.EditorFor(model => model.id_factura, new { htmlAttributes = new { @class = "form-control", @readonly = "readonly" } })
                         </div>
                     </div>
+                    @Html.Label("Fecha:", htmlAttributes: new { @class = "control-label col-md-1" })
+                    <div class="col-md-4 inputGroupContainer">
+                        <div class="input-group">
+                            <span class="input-group-addon"><i class="fa fa-calendar-o"></i></span>
+                            @Html.EditorFor(model => model.fecha, new { htmlAttributes = new { @class = "form-control", @readonly = "readonly" } })
+                        </div>
+                    </div>
+                </div>
 
-                    <div class="row" style="margin-top: 10px;">
-                        <div class="col-md-3">
+                <div class="row" style="margin-top: 10px;">
+                    <div class="col-md-3">
+                        <div class="input-group">
+                            <span class="input-group-addon"><i class="fa fa-search"></i></span>
                             <a class="btn btn-primary" id="btnBuscarCliente" data-toggle="modal" href="#miModalBuscarCliente">
                                 Buscar Cliente
                             </a>
                         </div>
                     </div>
+                </div>
 
-                    <div class="row" style="margin-top: 10px;">
-                        @Html.Label("Doc Cliente:", htmlAttributes: new { @class = "control-label col-md-2" })
-                        <div class="col-md-3 inputGroupContainer">
-                            <div class="input-group">
-                                <span class="input-group-addon"><i class="fa fa-barcode"></i></span>
-                                @Html.EditorFor(model => model.cliente.identificacion, new { htmlAttributes = new { @class = "form-control", @readonly = "readonly" } })
-                            </div>
-                        </div>
-                        @Html.Label("Nombre:", htmlAttributes: new { @class = "control-label col-md-1" })
-                        <div class="col-md-4 inputGroupContainer">
-                            <div class="input-group">
-                                <span class="input-group-addon"><i class="fa fa-barcode"></i></span>
-                                @Html.EditorFor(model => model.cliente.NombresApellidos, new { htmlAttributes = new { @class = "form-control", @readonly = "readonly" } })
-                            </div>
+                <div class="row" style="margin-top: 10px;">
+                    @Html.Label("Doc Cliente:", htmlAttributes: new { @class = "control-label col-md-2" })
+                    <div class="col-md-3 inputGroupContainer">
+                        <div class="input-group">
+                            <span class="input-group-addon"><i class="fa fa-credit-card"></i></span>
+                            @Html.EditorFor(model => model.cliente.identificacion, new { htmlAttributes = new { @class = "form-control", @readonly = "readonly" } })
                         </div>
                     </div>
-
-                    <div class="row" style="margin-top: 10px;">
-                        @Html.Label("Celular:", htmlAttributes: new { @class = "control-label col-md-2" })
-                        <div class="col-md-3 inputGroupContainer">
-                            <div class="input-group">
-                                <span class="input-group-addon"><i class="fa fa-barcode"></i></span>
-                                @Html.EditorFor(model => model.cliente.TelefonoCelular, new { htmlAttributes = new { @class = "form-control", @readonly = "readonly" } })
-                            </div>
-                        </div>
-                        @Html.Label("Dirección:", htmlAttributes: new { @class = "control-label col-md-1" })
-                        <div class="col-md-4 inputGroupContainer">
-                            <div class="input-group">
-                                <span class="input-group-addon"><i class="fa fa-barcode"></i></span>
-                                @Html.EditorFor(model => model.cliente.direccion, new { htmlAttributes = new { @class = "form-control", @readonly = "readonly" } })
-                            </div>
+                    @Html.Label("Nombre:", htmlAttributes: new { @class = "control-label col-md-1" })
+                    <div class="col-md-4 inputGroupContainer">
+                        <div class="input-group">
+                            <span class="input-group-addon"><i class="fa fa-user"></i></span>
+                            @Html.EditorFor(model => model.cliente.NombresApellidos, new { htmlAttributes = new { @class = "form-control", @readonly = "readonly" } })
                         </div>
                     </div>
-                </header>
-            </section>
-        </div>
-        <!-- /.FIN DE ENCABEZADO FACTURA -->
+                </div>
 
-        <!-- /.INICIO BOTONES DE ADICION DE ITEMS DE PRODUCTO Y SOLICITUD -->
-        <div class="form-horizontal col-md-10 col-md-offset-1" style="border-style: solid;">
-
+                <div class="row" style="margin-top: 10px;">
+                    @Html.Label("Celular:", htmlAttributes: new { @class = "control-label col-md-2" })
+                    <div class="col-md-3 inputGroupContainer">
+                        <div class="input-group">
+                            <span class="input-group-addon"><i class="fa fa-phone"></i></span>
+                            @Html.EditorFor(model => model.cliente.TelefonoCelular, new { htmlAttributes = new { @class = "form-control", @readonly = "readonly" } })
+                        </div>
+                    </div>
+                    @Html.Label("Dirección:", htmlAttributes: new { @class = "control-label col-md-1" })
+                    <div class="col-md-4 inputGroupContainer">
+                        <div class="input-group">
+                            <span class="input-group-addon"><i class="fa fa-qrcode"></i></span>
+                            @Html.EditorFor(model => model.cliente.direccion, new { htmlAttributes = new { @class = "form-control", @readonly = "readonly" } })
+                        </div>
+                    </div>
+                </div>
+            </header>
+        </section>
+    </div>
+    <!-- /.FIN DE ENCABEZADO FACTURA -->
+    <!-- /.INICIO BOTONES DE ADICION DE ITEMS DE PRODUCTO Y SOLICITUD -->
+    <div class="form-horizontal col-md-10 col-md-offset-1" style="border-style: solid;padding-bottom: 10px;">
+        @if (Model.cliente.identificacion != "")
+        {
             <section>
                 @Html.Partial("Partials/_ModalAdicionarProducto")
                 <div class="row">
@@ -112,71 +124,107 @@
                             </a>
                         </div>
                     </div>
+                    @Html.Partial("Partials/_ModalAdicionarSolicitud")
                     <div style="margin-top: 10px;margin-bottom:10px;">
                         <div class="col-md-3">
-                            <a class="btn btn-warning" id="btnBuscarCliente" data-toggle="modal" href="#miModalBuscarCliente">
+                            <a class="btn btn-warning" id="btnAdicionarSolicitud" data-toggle="modal" href="#miModalAdicionarSolicitud">
                                 Adicionar <b>Solicitud</b>
                             </a>
                         </div>
                     </div>
                 </div>
             </section>
-        </div>
-         <!-- /.FIN BOTONES DE ADICION DE ITEMS DE PRODUCTO Y SOLICITUD -->
+        }
+    </div>
+    <!-- /.FIN BOTONES DE ADICION DE ITEMS DE PRODUCTO Y SOLICITUD -->
+    <!-- /.INICIO CUERPO DE FACTURA DONDE VAN LOS DETALLES -->
+    @using (Html.BeginForm("ConfirmarItems", "Ventas"))
+    {
+        <!-- INICIO SECCION ITEMS PRODUCTO-->
+        <div class="form-horizontal col-md-10 col-md-offset-1" style="border-style: solid;">
+            <div class="panel-body">
 
-        <!-- /.INICIO CUERPO DE FACTURA DONDE VAN LOS DETALLES -->
-        @using (Html.BeginForm("ConfirmarItems", "Ventas"))
-        {
-            <div class="form-horizontal col-md-10 col-md-offset-1" style="border-style: solid;">
-                <div class="panel-body">
+                <table width="100%" class="table table-striped table-bordered table-hover" id="table-inicial">
 
-                    <table width="100%" class="table table-striped table-bordered table-hover" id="table-inicial">
-
-                        <thead>
+                    <thead>
+                        <tr>
+                            <td style="width: 1px;">
+                                <b>Cantidad</b>
+                            </td>
+                            <td>
+                                <b>Descripción</b>
+                            </td>
+                            <td>
+                                <b>Valor Unitario</b>
+                            </td>
+                            <td>
+                                <b></b>
+                            </td>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        @for (int i = 0; i < Model.listaDetallesProducto.Count; i++)
+                        {
                             <tr>
                                 <td>
-                                    <b>Cantidad</b>
+                                    @Html.TextBoxFor(model => this.Model.listaDetallesProducto[i].cantidad, new { htmlAttributes = new { @class = "form-control", @type = "number" } })
                                 </td>
                                 <td>
-                                    <b>Descripción</b>
+                                    @Html.DisplayFor(modelItem => this.Model.listaDetallesProducto[i].producto.nombre)
                                 </td>
                                 <td>
-                                    <b>Valor Unitario</b>
+                                    @Html.DisplayFor(modelItem => this.Model.listaDetallesProducto[i].producto.precio_venta, new { htmlAttributes = new { style = "width: 100px;" } })
+                                </td>
+                                <td>
+                                    <a href="@Url.Action("eliminarItemProducto", null, new { id = this.Model.listaDetallesProducto[i].producto.id_producto })">
+                                        <span><i class="fa fa-minus-circle fa-2x"></i></span>
+                                    </a>
                                 </td>
                             </tr>
-                        </thead>
-                        <tbody>
-                            @for (int i=0;i<Model.listaDetallesProducto.Count;i++)
-                            {
-                                <tr>
-                                    <td>
-                                        @Html.TextBoxFor(model => this.Model.listaDetallesProducto[i].cantidad, new { htmlAttributes = new {@class = "form-control", @type = "number" } })
-                                    </td>
-                                    <td>
-                                        @Html.DisplayFor(modelItem => this.Model.listaDetallesProducto[i].producto.nombre)
-                                    </td>
-                                    <td>
-                                        @Html.DisplayFor(modelItem => this.Model.listaDetallesProducto[i].producto.precio_venta)
-                                    </td>
-                                </tr>
-                            }
-                        </tbody>
-                    </table>
+                        }
+                        @for (int i = 0; i < Model.listaDetallesSolicitud.Count; i++)
+                        {
+                            <tr>
+                                <td>
+                                    @*@Html.TextBoxFor(model => this.Model.listaDetallesSolicitud[i].cantidad, new { htmlAttributes = new { @class = "form-control", @type = "number" } })*@
+                                </td>
+                                <td>
+                                    @Html.DisplayFor(modelItem => this.Model.listaDetallesSolicitud[i].solicitud.servicio.descripcion)
+                                </td>
+                                <td>
+                                    @Html.DisplayFor(modelItem => this.Model.listaDetallesSolicitud[i].solicitud.servicio.precio, new { htmlAttributes = new { style = "width: 100px;" } })
+                                </td>
+                                <td>
+                                    <a href="@Url.Action("eliminarItemSolicitud", null, new { id = this.Model.listaDetallesSolicitud[i].solicitud.id_solicitud })">
+                                        <span><i class="fa fa-minus-circle fa-2x"></i></span>
+                                    </a>
+                                </td>
+                            </tr>
+                        }
 
-                </div>
-                <div class="row">
-                    <div class="form-group">
-                        <div class="col-md-offset-2 col-md-2" style="text-align: right;">
-                            <input type="submit" id="Generar" value="Generar" class="btn btn-success" />
-                        </div>
-                        <div class="col-md-2" style="padding-left: 0px;">
-                            @Html.ActionLink("Volver", "ConsultarSolicitudes", null, new { @class = "btn btn-primary" })
-                        </div>
+                    </tbody>
+                </table>
+
+            </div>
+        </div>
+        <!--FIN SECCION ITEMS PRODUCTO-->
+
+        if (Model.cliente.identificacion != "" && (Model.listaDetallesSolicitud.Count != 0 || Model.listaDetallesSolicitud.Count != 0))
+        {
+            <div class="row">
+                <div class="col-md-pull-1 input-group pull-right" style="padding-right: 30px;margin-top: 10px;">
+                    <div class="col-md-6" style="text-align: right;">
+                        <input type="submit" id="Generar" value="Generar" class="btn btn-success" />
+                    </div>
+                    <div class="col-md-2" style="padding-left: 0px;">
+                        @Html.ActionLink("Cancelar Factura", "CrearFactura", null, new { @class = "btn btn-danger" })
                     </div>
                 </div>
             </div>
         }
-@*}*@
+
+    }
+    @*}*@
 </div>
 @section Scripts {
     <script src="~/Xcore/Scripts/Modales/ModalElemento.js"></script>

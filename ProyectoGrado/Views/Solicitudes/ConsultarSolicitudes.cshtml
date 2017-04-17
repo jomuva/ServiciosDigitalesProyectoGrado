@@ -132,6 +132,9 @@
                                                             <b>Cod Solicitud</b>
                                                         </td>
                                                         <td>
+                                                            <b>Descripción del Servicio</b>
+                                                        </td>
+                                                        <td>
                                                             <b>Fecha</b>
                                                         </td>
                                                         <td>
@@ -157,6 +160,9 @@
                                                         <tr>
                                                             <td>
                                                                 @Html.DisplayFor(modelItem => item.id_solicitud)
+                                                            </td>
+                                                            <td>
+                                                                @Html.DisplayFor(modelItem => item.servicio.descripcion)
                                                             </td>
                                                             <td>
                                                                 @Html.DisplayFor(modelItem => item.fecha)

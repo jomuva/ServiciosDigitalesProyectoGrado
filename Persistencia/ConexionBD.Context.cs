@@ -54,6 +54,11 @@ namespace Persistencia
         public virtual DbSet<TIPO_IDENTIFICACION_USUARIO> TIPO_IDENTIFICACION_USUARIO { get; set; }
         public virtual DbSet<USUARIO> USUARIO { get; set; }
     
+        public virtual int ActualizarEstadoProducto_Automatico()
+        {
+            return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction("ActualizarEstadoProducto_Automatico");
+        }
+    
         public virtual int ActualizarEstadoSolicitud_Automatico()
         {
             return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction("ActualizarEstadoSolicitud_Automatico");
@@ -101,7 +106,7 @@ namespace Persistencia
             return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction("ActualizarProducto", idProdParameter, nombre_prodParameter, precio_costoParameter, precio_ventaParameter);
         }
     
-        public virtual int ActualizarServicio(Nullable<int> idserv, string descripc)
+        public virtual int ActualizarServicio(Nullable<int> idserv, string descripc, Nullable<decimal> precio)
         {
             var idservParameter = idserv.HasValue ?
                 new ObjectParameter("idserv", idserv) :
@@ -111,7 +116,11 @@ namespace Persistencia
                 new ObjectParameter("descripc", descripc) :
                 new ObjectParameter("descripc", typeof(string));
     
-            return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction("ActualizarServicio", idservParameter, descripcParameter);
+            var precioParameter = precio.HasValue ?
+                new ObjectParameter("precio", precio) :
+                new ObjectParameter("precio", typeof(decimal));
+    
+            return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction("ActualizarServicio", idservParameter, descripcParameter, precioParameter);
         }
     
         public virtual int AgregarAnotacionHistoricoInventario(string identifEmpleado, Nullable<int> idInventario, string descripcion)
@@ -231,13 +240,17 @@ namespace Persistencia
             return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction<Nullable<int>>("AgregarElemento", id_categParameter, id_tipo_elemParameter, serialParameter, placaParameter, modeloParameter, marcaParameter, ramParameter, romParameter, serial_bateriaParameter, sOParameter);
         }
     
-        public virtual int AgregarServicio(string descripc)
+        public virtual int AgregarServicio(string descripc, Nullable<decimal> precio)
         {
             var descripcParameter = descripc != null ?
                 new ObjectParameter("descripc", descripc) :
                 new ObjectParameter("descripc", typeof(string));
     
-            return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction("AgregarServicio", descripcParameter);
+            var precioParameter = precio.HasValue ?
+                new ObjectParameter("precio", precio) :
+                new ObjectParameter("precio", typeof(decimal));
+    
+            return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction("AgregarServicio", descripcParameter, precioParameter);
         }
     
         public virtual int AgregarUsuario(Nullable<int> tipoIdent, Nullable<int> estado, Nullable<int> rol, string identif, string apellidos, string nombres, string direccion, string correo, string sexo, string username, string passwd)

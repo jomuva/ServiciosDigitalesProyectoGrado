@@ -36,9 +36,9 @@ namespace ServiciosDigitalesProy.Catalogos
         /// <param name="producto"></param>
         /// <param name="resultado"></param>
         /// <param name="tipoResultado"></param>
-        public void AgregarServicio(Servicio producto, out string resultado, out string tipoResultado)
+        public void AgregarServicio(Servicio servicio, out string resultado, out string tipoResultado)
         {
-            serviciosdatos.AgregarServicio( producto.descripcion,
+            serviciosdatos.AgregarServicio( servicio.descripcion,servicio.precio,
                                             out resultado,out tipoResultado);
         }
 
@@ -68,7 +68,8 @@ namespace ServiciosDigitalesProy.Catalogos
                 ListaServicios.Add(new Servicio
                 {
                     id_servicio = item.id_servicio,
-                    descripcion = item.descripcion_servicio
+                    descripcion = item.descripcion_servicio,
+                    precio = item.precio
                 });
             }
 
@@ -94,7 +95,8 @@ namespace ServiciosDigitalesProy.Catalogos
                 ListaServicios.Add(new Servicio
                 {
                     id_servicio = id,
-                    descripcion = item.descripcion_servicio
+                    descripcion = item.descripcion_servicio,
+                    precio = item.precio
                 });
             }
 
@@ -111,7 +113,7 @@ namespace ServiciosDigitalesProy.Catalogos
         {
             serviciosdatos.ModificarServicio
                                         (
-                                            servicio.id_servicio,  servicio.descripcion,
+                                            servicio.id_servicio,  servicio.descripcion,servicio.precio,
                                             ref res, ref tipoRes
                                         );
         }

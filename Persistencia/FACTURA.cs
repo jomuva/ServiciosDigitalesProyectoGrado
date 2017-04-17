@@ -23,15 +23,17 @@ namespace Persistencia
     
         public int id_factura { get; set; }
         public System.DateTime fecha { get; set; }
-        public int id_usuario_factura { get; set; }
+        public Nullable<int> id_cliente_factura { get; set; }
+        public Nullable<int> id_empleado_factura { get; set; }
         public int id_estado_factura { get; set; }
-        public decimal abono { get; set; }
-        public decimal guardar_total { get; set; }
+        public Nullable<decimal> saldo { get; set; }
+        public Nullable<decimal> valor_total { get; set; }
     
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
         public virtual ICollection<DETALLE_FACTURA_PRODUCTO> DETALLE_FACTURA_PRODUCTO { get; set; }
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
         public virtual ICollection<DETALLE_FACTURA_SOLICITUD> DETALLE_FACTURA_SOLICITUD { get; set; }
+        public virtual ESCALADO ESCALADO { get; set; }
         public virtual ESTADO_FACTURA ESTADO_FACTURA { get; set; }
         public virtual USUARIO USUARIO { get; set; }
     }

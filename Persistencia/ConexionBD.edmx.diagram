@@ -4,43 +4,42 @@
   <edmx:Designer xmlns="http://schemas.microsoft.com/ado/2009/11/edmx">
     <!-- Diagram content (shape and connector positions) -->
     <edmx:Diagrams>
-      <Diagram DiagramId="1c2033be5b09463d8617a789b02ce171" Name="Diagram1">
-        <EntityTypeShape EntityType="bdServiciosDigitalesProyModel.CATEGORIA_ELEMENTO" Width="1.5" PointX="6" PointY="22.25" IsExpanded="true" />
-        <EntityTypeShape EntityType="bdServiciosDigitalesProyModel.CATEGORIA_PRODUCTO" Width="1.5" PointX="4.5" PointY="4.125" IsExpanded="true" />
-        <EntityTypeShape EntityType="bdServiciosDigitalesProyModel.DETALLE_FACTURA_PRODUCTO" Width="1.5" PointX="8.25" PointY="13.75" IsExpanded="true" />
-        <EntityTypeShape EntityType="bdServiciosDigitalesProyModel.DETALLE_FACTURA_SOLICITUD" Width="1.5" PointX="11.25" PointY="13.75" IsExpanded="true" />
-        <EntityTypeShape EntityType="bdServiciosDigitalesProyModel.ELEMENTO" Width="1.5" PointX="8.25" PointY="22.25" IsExpanded="true" />
-        <EntityTypeShape EntityType="bdServiciosDigitalesProyModel.ESCALADO" Width="1.5" PointX="8.25" PointY="19.5" IsExpanded="true" />
-        <EntityTypeShape EntityType="bdServiciosDigitalesProyModel.ESTADO_FACTURA" Width="1.5" PointX="6" PointY="9.25" IsExpanded="true" />
-        <EntityTypeShape EntityType="bdServiciosDigitalesProyModel.ESTADO_PRODUCTO" Width="1.5" PointX="4.5" PointY="6.5" IsExpanded="true" />
-        <EntityTypeShape EntityType="bdServiciosDigitalesProyModel.ESTADO_SOLICITUD" Width="1.5" PointX="8.25" PointY="26.875" IsExpanded="true" />
-        <EntityTypeShape EntityType="bdServiciosDigitalesProyModel.ESTADO_USUARIO" Width="1.5" PointX="3.75" PointY="11.125" IsExpanded="true" />
-        <EntityTypeShape EntityType="bdServiciosDigitalesProyModel.FACTURA" Width="1.5" PointX="8.25" PointY="9.625" IsExpanded="true" />
-        <EntityTypeShape EntityType="bdServiciosDigitalesProyModel.HISTORICO_INVENTARIO" Width="1.5" PointX="11.25" PointY="9.875" IsExpanded="true" />
-        <EntityTypeShape EntityType="bdServiciosDigitalesProyModel.HISTORICO_INVENTARIO_BAJAS" Width="1.5" PointX="13.25" PointY="17.875" IsExpanded="true" />
-        <EntityTypeShape EntityType="bdServiciosDigitalesProyModel.HISTORICO_SOLICITUD" Width="1.5" PointX="13.75" PointY="13.875" IsExpanded="true" />
-        <EntityTypeShape EntityType="bdServiciosDigitalesProyModel.INVENTARIO" Width="1.5" PointX="9" PointY="5" IsExpanded="true" />
-        <EntityTypeShape EntityType="bdServiciosDigitalesProyModel.INVENTARIO_BAJAS" Width="1.5" PointX="11" PointY="23" IsExpanded="true" />
-        <EntityTypeShape EntityType="bdServiciosDigitalesProyModel.PERMISO" Width="1.5" PointX="3" PointY="14.125" IsExpanded="true" />
-        <EntityTypeShape EntityType="bdServiciosDigitalesProyModel.PRIORIDAD" Width="1.5" PointX="8.25" PointY="29.25" IsExpanded="true" />
-        <EntityTypeShape EntityType="bdServiciosDigitalesProyModel.PRODUCTO" Width="1.5" PointX="6.75" PointY="4.5" IsExpanded="true" />
-        <EntityTypeShape EntityType="bdServiciosDigitalesProyModel.ROL" Width="1.5" PointX="0.75" PointY="14.125" IsExpanded="true" />
-        <EntityTypeShape EntityType="bdServiciosDigitalesProyModel.SERVICIO" Width="1.5" PointX="8.25" PointY="34.75" IsExpanded="true" />
-        <EntityTypeShape EntityType="bdServiciosDigitalesProyModel.SOLICITUD" Width="1.5" PointX="10.5" PointY="17.625" IsExpanded="true" />
-        <EntityTypeShape EntityType="bdServiciosDigitalesProyModel.TELEFONO_USUARIO" Width="1.5" PointX="8.25" PointY="32" IsExpanded="true" />
-        <EntityTypeShape EntityType="bdServiciosDigitalesProyModel.TIPO_ELEMENTO" Width="1.5" PointX="6" PointY="24.5" IsExpanded="true" />
-        <EntityTypeShape EntityType="bdServiciosDigitalesProyModel.TIPO_IDENTIFICACION_USUARIO" Width="1.5" PointX="3.75" PointY="17.5" IsExpanded="true" />
-        <EntityTypeShape EntityType="bdServiciosDigitalesProyModel.USUARIO" Width="1.5" PointX="6" PointY="12.25" IsExpanded="true" />
+      <Diagram DiagramId="3f8ad20cd46e4c3584ab869f6ca8a19c" Name="Diagram1">
+        <EntityTypeShape EntityType="bdServiciosDigitalesProyModel.CATEGORIA_ELEMENTO" Width="1.5" PointX="9" PointY="3" IsExpanded="true" />
+        <EntityTypeShape EntityType="bdServiciosDigitalesProyModel.CATEGORIA_PRODUCTO" Width="1.5" PointX="4.5" PointY="5.375" IsExpanded="true" />
+        <EntityTypeShape EntityType="bdServiciosDigitalesProyModel.DETALLE_FACTURA_PRODUCTO" Width="1.5" PointX="15.75" PointY="13.25" IsExpanded="true" />
+        <EntityTypeShape EntityType="bdServiciosDigitalesProyModel.DETALLE_FACTURA_SOLICITUD" Width="1.5" PointX="15.75" PointY="10.25" IsExpanded="true" />
+        <EntityTypeShape EntityType="bdServiciosDigitalesProyModel.ELEMENTO" Width="1.5" PointX="11.25" PointY="0.75" IsExpanded="true" />
+        <EntityTypeShape EntityType="bdServiciosDigitalesProyModel.ESCALADO" Width="1.5" PointX="8.25" PointY="12" IsExpanded="true" />
+        <EntityTypeShape EntityType="bdServiciosDigitalesProyModel.ESTADO_FACTURA" Width="1.5" PointX="8.25" PointY="18.5" IsExpanded="true" />
+        <EntityTypeShape EntityType="bdServiciosDigitalesProyModel.ESTADO_PRODUCTO" Width="1.5" PointX="4.5" PointY="7.75" IsExpanded="true" />
+        <EntityTypeShape EntityType="bdServiciosDigitalesProyModel.ESTADO_SOLICITUD" Width="1.5" PointX="11.25" PointY="17.375" IsExpanded="true" />
+        <EntityTypeShape EntityType="bdServiciosDigitalesProyModel.ESTADO_USUARIO" Width="1.5" PointX="3.75" PointY="10.375" IsExpanded="true" />
+        <EntityTypeShape EntityType="bdServiciosDigitalesProyModel.FACTURA" Width="1.5" PointX="10.5" PointY="12.625" IsExpanded="true" />
+        <EntityTypeShape EntityType="bdServiciosDigitalesProyModel.HISTORICO_INVENTARIO" Width="1.5" PointX="8.25" PointY="15.125" IsExpanded="true" />
+        <EntityTypeShape EntityType="bdServiciosDigitalesProyModel.HISTORICO_INVENTARIO_BAJAS" Width="1.5" PointX="11.25" PointY="9.125" IsExpanded="true" />
+        <EntityTypeShape EntityType="bdServiciosDigitalesProyModel.HISTORICO_SOLICITUD" Width="1.5" PointX="15.75" PointY="16.125" IsExpanded="true" />
+        <EntityTypeShape EntityType="bdServiciosDigitalesProyModel.INVENTARIO" Width="1.5" PointX="6" PointY="18.25" IsExpanded="true" />
+        <EntityTypeShape EntityType="bdServiciosDigitalesProyModel.INVENTARIO_BAJAS" Width="1.5" PointX="9" PointY="6.25" IsExpanded="true" />
+        <EntityTypeShape EntityType="bdServiciosDigitalesProyModel.PERMISO" Width="1.5" PointX="3" PointY="13.375" IsExpanded="true" />
+        <EntityTypeShape EntityType="bdServiciosDigitalesProyModel.PRIORIDAD" Width="1.5" PointX="11.25" PointY="19.625" IsExpanded="true" />
+        <EntityTypeShape EntityType="bdServiciosDigitalesProyModel.PRODUCTO" Width="1.5" PointX="6.75" PointY="5.75" IsExpanded="true" />
+        <EntityTypeShape EntityType="bdServiciosDigitalesProyModel.ROL" Width="1.5" PointX="0.75" PointY="13.375" IsExpanded="true" />
+        <EntityTypeShape EntityType="bdServiciosDigitalesProyModel.SERVICIO" Width="1.5" PointX="11.25" PointY="22.25" IsExpanded="true" />
+        <EntityTypeShape EntityType="bdServiciosDigitalesProyModel.SOLICITUD" Width="1.5" PointX="13.5" PointY="12.125" IsExpanded="true" />
+        <EntityTypeShape EntityType="bdServiciosDigitalesProyModel.TELEFONO_USUARIO" Width="1.5" PointX="8.25" PointY="21" IsExpanded="true" />
+        <EntityTypeShape EntityType="bdServiciosDigitalesProyModel.TIPO_ELEMENTO" Width="1.5" PointX="9" PointY="9.25" IsExpanded="true" />
+        <EntityTypeShape EntityType="bdServiciosDigitalesProyModel.TIPO_IDENTIFICACION_USUARIO" Width="1.5" PointX="3.75" PointY="16.75" IsExpanded="true" />
+        <EntityTypeShape EntityType="bdServiciosDigitalesProyModel.USUARIO" Width="1.5" PointX="6" PointY="11.75" IsExpanded="true" />
         <AssociationConnector Association="bdServiciosDigitalesProyModel.fk_categoria_elemento" ManuallyRouted="false" />
         <AssociationConnector Association="bdServiciosDigitalesProyModel.fk_categoria_producto" ManuallyRouted="false" />
         <AssociationConnector Association="bdServiciosDigitalesProyModel.fk_factura_detalle_factura_producto" ManuallyRouted="false" />
         <AssociationConnector Association="bdServiciosDigitalesProyModel.fk_producto_detalle_factura" ManuallyRouted="false" />
-        <AssociationConnector Association="bdServiciosDigitalesProyModel.fk_vendedor_usuario_detalle_producto" ManuallyRouted="false" />
         <AssociationConnector Association="bdServiciosDigitalesProyModel.fk_factura_detalle_factura_solicitud" ManuallyRouted="false" />
         <AssociationConnector Association="bdServiciosDigitalesProyModel.fk_solicitud_detalle_factura" ManuallyRouted="false" />
-        <AssociationConnector Association="bdServiciosDigitalesProyModel.fk_vendedor_usuario_detalle_solicitud" ManuallyRouted="false" />
         <AssociationConnector Association="bdServiciosDigitalesProyModel.fk_elemento_solicitud" ManuallyRouted="false" />
         <AssociationConnector Association="bdServiciosDigitalesProyModel.fk_tipo_elemento" ManuallyRouted="false" />
+        <AssociationConnector Association="bdServiciosDigitalesProyModel.fk_empleado_factura" ManuallyRouted="false" />
         <AssociationConnector Association="bdServiciosDigitalesProyModel.fk_escalado_solicitud" ManuallyRouted="false" />
         <AssociationConnector Association="bdServiciosDigitalesProyModel.fk_usuario_escalado" ManuallyRouted="false" />
         <AssociationConnector Association="bdServiciosDigitalesProyModel.fk_estado_factura" ManuallyRouted="false" />

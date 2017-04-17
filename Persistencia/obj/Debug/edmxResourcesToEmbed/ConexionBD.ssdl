@@ -20,7 +20,6 @@
     </Key>
     <Property Name="id_detalle_factura" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
     <Property Name="id_producto_detalle_factura" Type="int" />
-    <Property Name="id_vendedor_usuario" Type="int" Nullable="false" />
     <Property Name="id_factura_detalle_factura" Type="int" Nullable="false" />
     <Property Name="cantidad_venta" Type="int" Nullable="false" />
   </EntityType>
@@ -30,7 +29,6 @@
     </Key>
     <Property Name="id_detalle_factura_solicitud" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
     <Property Name="id_solicitud_detalle_factura" Type="int" />
-    <Property Name="id_vendedor_usuario" Type="int" Nullable="false" />
     <Property Name="id_factura_detalle_factura" Type="int" Nullable="false" />
     <Property Name="cantidad_venta" Type="int" Nullable="false" />
   </EntityType>
@@ -62,7 +60,7 @@
       <PropertyRef Name="id_estado_factura" />
     </Key>
     <Property Name="id_estado_factura" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
-    <Property Name="descripcion_estado_factura" Type="varchar" MaxLength="15" Nullable="false" />
+    <Property Name="descripcion_estado_factura" Type="varchar" MaxLength="20" Nullable="false" />
   </EntityType>
   <EntityType Name="ESTADO_PRODUCTO">
     <Key>
@@ -91,10 +89,11 @@
     </Key>
     <Property Name="id_factura" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
     <Property Name="fecha" Type="datetime" Nullable="false" />
-    <Property Name="id_usuario_factura" Type="int" Nullable="false" />
+    <Property Name="id_cliente_factura" Type="int" />
+    <Property Name="id_empleado_factura" Type="int" />
     <Property Name="id_estado_factura" Type="int" Nullable="false" />
-    <Property Name="abono" Type="decimal" Precision="30" Scale="4" Nullable="false" />
-    <Property Name="guardar_total" Type="decimal" Precision="30" Scale="4" Nullable="false" />
+    <Property Name="saldo" Type="decimal" Precision="30" Scale="4" />
+    <Property Name="valor_total" Type="decimal" Precision="30" Scale="4" />
   </EntityType>
   <EntityType Name="HISTORICO_INVENTARIO">
     <Key>
@@ -192,6 +191,7 @@
     </Key>
     <Property Name="id_servicio" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
     <Property Name="descripcion_servicio" Type="varchar" MaxLength="50" Nullable="false" />
+    <Property Name="precio" Type="decimal" Precision="20" Scale="4" />
   </EntityType>
   <EntityType Name="SOLICITUD">
     <Key>
@@ -279,6 +279,18 @@
       </Principal>
       <Dependent Role="SOLICITUD">
         <PropertyRef Name="id_elemento_solicitud" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="fk_empleado_factura">
+    <End Role="ESCALADO" Type="Self.ESCALADO" Multiplicity="0..1" />
+    <End Role="FACTURA" Type="Self.FACTURA" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="ESCALADO">
+        <PropertyRef Name="id_escalado" />
+      </Principal>
+      <Dependent Role="FACTURA">
+        <PropertyRef Name="id_empleado_factura" />
       </Dependent>
     </ReferentialConstraint>
   </Association>
@@ -571,14 +583,14 @@
     </ReferentialConstraint>
   </Association>
   <Association Name="fk_usuario_factura">
-    <End Role="USUARIO" Type="Self.USUARIO" Multiplicity="1" />
+    <End Role="USUARIO" Type="Self.USUARIO" Multiplicity="0..1" />
     <End Role="FACTURA" Type="Self.FACTURA" Multiplicity="*" />
     <ReferentialConstraint>
       <Principal Role="USUARIO">
         <PropertyRef Name="id_usuario" />
       </Principal>
       <Dependent Role="FACTURA">
-        <PropertyRef Name="id_usuario_factura" />
+        <PropertyRef Name="id_cliente_factura" />
       </Dependent>
     </ReferentialConstraint>
   </Association>
@@ -618,30 +630,7 @@
       </Dependent>
     </ReferentialConstraint>
   </Association>
-  <Association Name="fk_vendedor_usuario_detalle_producto">
-    <End Role="USUARIO" Type="Self.USUARIO" Multiplicity="1" />
-    <End Role="DETALLE_FACTURA_PRODUCTO" Type="Self.DETALLE_FACTURA_PRODUCTO" Multiplicity="*" />
-    <ReferentialConstraint>
-      <Principal Role="USUARIO">
-        <PropertyRef Name="id_usuario" />
-      </Principal>
-      <Dependent Role="DETALLE_FACTURA_PRODUCTO">
-        <PropertyRef Name="id_vendedor_usuario" />
-      </Dependent>
-    </ReferentialConstraint>
-  </Association>
-  <Association Name="fk_vendedor_usuario_detalle_solicitud">
-    <End Role="USUARIO" Type="Self.USUARIO" Multiplicity="1" />
-    <End Role="DETALLE_FACTURA_SOLICITUD" Type="Self.DETALLE_FACTURA_SOLICITUD" Multiplicity="*" />
-    <ReferentialConstraint>
-      <Principal Role="USUARIO">
-        <PropertyRef Name="id_usuario" />
-      </Principal>
-      <Dependent Role="DETALLE_FACTURA_SOLICITUD">
-        <PropertyRef Name="id_vendedor_usuario" />
-      </Dependent>
-    </ReferentialConstraint>
-  </Association>
+  <Function Name="ActualizarEstadoProducto_Automatico" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo" />
   <Function Name="ActualizarEstadoSolicitud_Automatico" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo" />
   <Function Name="ActualizarInventarioProductos" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
     <Parameter Name="id_inventario" Type="int" Mode="In" />
@@ -658,6 +647,7 @@
   <Function Name="ActualizarServicio" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
     <Parameter Name="idserv" Type="int" Mode="In" />
     <Parameter Name="descripc" Type="varchar" Mode="In" />
+    <Parameter Name="precio" Type="decimal" Mode="In" />
   </Function>
   <Function Name="AgregarAnotacionHistoricoInventario" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
     <Parameter Name="identifEmpleado" Type="varchar" Mode="In" />
@@ -694,6 +684,7 @@
   </Function>
   <Function Name="AgregarServicio" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
     <Parameter Name="descripc" Type="varchar" Mode="In" />
+    <Parameter Name="precio" Type="decimal" Mode="In" />
   </Function>
   <Function Name="AgregarUsuario" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
     <Parameter Name="tipoIdent" Type="int" Mode="In" />
@@ -838,6 +829,10 @@
       <End Role="ELEMENTO" EntitySet="ELEMENTO" />
       <End Role="SOLICITUD" EntitySet="SOLICITUD" />
     </AssociationSet>
+    <AssociationSet Name="fk_empleado_factura" Association="Self.fk_empleado_factura">
+      <End Role="ESCALADO" EntitySet="ESCALADO" />
+      <End Role="FACTURA" EntitySet="FACTURA" />
+    </AssociationSet>
     <AssociationSet Name="fk_empleado_historico_inventario" Association="Self.fk_empleado_historico_inventario">
       <End Role="USUARIO" EntitySet="USUARIO" />
       <End Role="HISTORICO_INVENTARIO" EntitySet="HISTORICO_INVENTARIO" />
@@ -949,14 +944,6 @@
     <AssociationSet Name="fk_usuario_telefono" Association="Self.fk_usuario_telefono">
       <End Role="USUARIO" EntitySet="USUARIO" />
       <End Role="TELEFONO_USUARIO" EntitySet="TELEFONO_USUARIO" />
-    </AssociationSet>
-    <AssociationSet Name="fk_vendedor_usuario_detalle_producto" Association="Self.fk_vendedor_usuario_detalle_producto">
-      <End Role="USUARIO" EntitySet="USUARIO" />
-      <End Role="DETALLE_FACTURA_PRODUCTO" EntitySet="DETALLE_FACTURA_PRODUCTO" />
-    </AssociationSet>
-    <AssociationSet Name="fk_vendedor_usuario_detalle_solicitud" Association="Self.fk_vendedor_usuario_detalle_solicitud">
-      <End Role="USUARIO" EntitySet="USUARIO" />
-      <End Role="DETALLE_FACTURA_SOLICITUD" EntitySet="DETALLE_FACTURA_SOLICITUD" />
     </AssociationSet>
   </EntityContainer>
 </Schema>

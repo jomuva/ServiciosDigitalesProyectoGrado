@@ -189,6 +189,7 @@
   </ItemGroup>
   <ItemGroup>
     <Content Include="favicon.ico" />
+    <Content Include="ScriptSql\JOB Actualizar Estado Producto.sql" />
     <Content Include="ScriptSql\JOB Actualizar Estado Solicitud.sql" />
     <Content Include="ScriptSql\ScriptBdProyectoGrado.sql" />
     <Content Include="Xcore\Content\bootstrap.css" />

@@ -20,11 +20,11 @@ namespace Persistencia.ServiciosDatos
         /// <param name="descripcion"></param>
         /// <param name="resultado"></param>
         /// <param name="tipoResultado"></param>
-        public void AgregarServicio(string descripcion, out string resultado, out string tipoResultado)
+        public void AgregarServicio(string descripcion,double precio, out string resultado, out string tipoResultado)
         {
             try
             {
-                conexion.conexiones.AgregarServicio(descripcion);
+                conexion.conexiones.AgregarServicio(descripcion,Convert.ToDecimal(precio));
                 conexion.conexiones.SaveChanges();
 
                 resultado = "Se ha agregado el servicio exitosamente";
@@ -100,11 +100,11 @@ namespace Persistencia.ServiciosDatos
         /// <param name="precioVenta"></param>
         /// <param name="resultado"></param>
         /// <param name="tipoResultado"></param>
-        public void ModificarServicio(int idServ,string descripcion, ref string resultado, ref string tipoResultado)
+        public void ModificarServicio(int idServ,string descripcion, double precio,ref string resultado, ref string tipoResultado)
         {
             try
             {
-                conexion.conexiones.ActualizarServicio(idServ, descripcion);
+                conexion.conexiones.ActualizarServicio(idServ, descripcion,Convert.ToDecimal(precio));
                 conexion.conexiones.SaveChanges();
                 resultado = "Servicio Modificado correctamente";
                 tipoResultado = "success";

@@ -22,7 +22,6 @@
         <MappingFragment StoreEntitySet="DETALLE_FACTURA_PRODUCTO">
           <ScalarProperty Name="id_detalle_factura" ColumnName="id_detalle_factura" />
           <ScalarProperty Name="id_producto_detalle_factura" ColumnName="id_producto_detalle_factura" />
-          <ScalarProperty Name="id_vendedor_usuario" ColumnName="id_vendedor_usuario" />
           <ScalarProperty Name="id_factura_detalle_factura" ColumnName="id_factura_detalle_factura" />
           <ScalarProperty Name="cantidad_venta" ColumnName="cantidad_venta" />
         </MappingFragment>
@@ -33,7 +32,6 @@
         <MappingFragment StoreEntitySet="DETALLE_FACTURA_SOLICITUD">
           <ScalarProperty Name="id_detalle_factura_solicitud" ColumnName="id_detalle_factura_solicitud" />
           <ScalarProperty Name="id_solicitud_detalle_factura" ColumnName="id_solicitud_detalle_factura" />
-          <ScalarProperty Name="id_vendedor_usuario" ColumnName="id_vendedor_usuario" />
           <ScalarProperty Name="id_factura_detalle_factura" ColumnName="id_factura_detalle_factura" />
           <ScalarProperty Name="cantidad_venta" ColumnName="cantidad_venta" />
         </MappingFragment>
@@ -101,10 +99,11 @@
         <MappingFragment StoreEntitySet="FACTURA">
           <ScalarProperty Name="id_factura" ColumnName="id_factura" />
           <ScalarProperty Name="fecha" ColumnName="fecha" />
-          <ScalarProperty Name="id_usuario_factura" ColumnName="id_usuario_factura" />
+          <ScalarProperty Name="id_cliente_factura" ColumnName="id_cliente_factura" />
+          <ScalarProperty Name="id_empleado_factura" ColumnName="id_empleado_factura" />
           <ScalarProperty Name="id_estado_factura" ColumnName="id_estado_factura" />
-          <ScalarProperty Name="abono" ColumnName="abono" />
-          <ScalarProperty Name="guardar_total" ColumnName="guardar_total" />
+          <ScalarProperty Name="saldo" ColumnName="saldo" />
+          <ScalarProperty Name="valor_total" ColumnName="valor_total" />
         </MappingFragment>
       </EntityTypeMapping>
     </EntitySetMapping>
@@ -204,6 +203,7 @@
         <MappingFragment StoreEntitySet="SERVICIO">
           <ScalarProperty Name="id_servicio" ColumnName="id_servicio" />
           <ScalarProperty Name="descripcion_servicio" ColumnName="descripcion_servicio" />
+          <ScalarProperty Name="precio" ColumnName="precio" />
         </MappingFragment>
       </EntityTypeMapping>
     </EntitySetMapping>
@@ -273,6 +273,7 @@
         <ScalarProperty Name="permisoID" ColumnName="permiso_id" />
       </EndProperty>
     </AssociationSetMapping>
+    <FunctionImportMapping FunctionImportName="ActualizarEstadoProducto_Automatico" FunctionName="bdServiciosDigitalesProyModel.Store.ActualizarEstadoProducto_Automatico" />
     <FunctionImportMapping FunctionImportName="ActualizarEstadoSolicitud_Automatico" FunctionName="bdServiciosDigitalesProyModel.Store.ActualizarEstadoSolicitud_Automatico" />
     <FunctionImportMapping FunctionImportName="ActualizarInventarioProductos" FunctionName="bdServiciosDigitalesProyModel.Store.ActualizarInventarioProductos" />
     <FunctionImportMapping FunctionImportName="ActualizarProducto" FunctionName="bdServiciosDigitalesProyModel.Store.ActualizarProducto" />
@@ -465,6 +466,7 @@
         <ComplexTypeMapping TypeName="bdServiciosDigitalesProyModel.ConsultarServicio_Result">
           <ScalarProperty Name="id_servicio" ColumnName="id_servicio" />
           <ScalarProperty Name="descripcion_servicio" ColumnName="descripcion_servicio" />
+          <ScalarProperty Name="precio" ColumnName="precio" />
         </ComplexTypeMapping>
       </ResultMapping>
     </FunctionImportMapping>
@@ -473,6 +475,7 @@
         <ComplexTypeMapping TypeName="bdServiciosDigitalesProyModel.ConsultarServicios_Result">
           <ScalarProperty Name="id_servicio" ColumnName="id_servicio" />
           <ScalarProperty Name="descripcion_servicio" ColumnName="descripcion_servicio" />
+          <ScalarProperty Name="precio" ColumnName="precio" />
         </ComplexTypeMapping>
       </ResultMapping>
     </FunctionImportMapping>

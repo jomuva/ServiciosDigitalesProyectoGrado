@@ -15,5 +15,6 @@ namespace Persistencia
     {
         public int id_servicio { get; set; }
         public string descripcion_servicio { get; set; }
+        public Nullable<decimal> precio { get; set; }
     }
 }

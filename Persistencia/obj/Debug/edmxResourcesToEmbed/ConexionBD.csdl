@@ -22,12 +22,10 @@
     </Key>
     <Property Name="id_detalle_factura" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
     <Property Name="id_producto_detalle_factura" Type="Int32" />
-    <Property Name="id_vendedor_usuario" Type="Int32" Nullable="false" />
     <Property Name="id_factura_detalle_factura" Type="Int32" Nullable="false" />
     <Property Name="cantidad_venta" Type="Int32" Nullable="false" />
     <NavigationProperty Name="FACTURA" Relationship="Self.fk_factura_detalle_factura_producto" FromRole="DETALLE_FACTURA_PRODUCTO" ToRole="FACTURA" />
     <NavigationProperty Name="PRODUCTO" Relationship="Self.fk_producto_detalle_factura" FromRole="DETALLE_FACTURA_PRODUCTO" ToRole="PRODUCTO" />
-    <NavigationProperty Name="USUARIO" Relationship="Self.fk_vendedor_usuario_detalle_producto" FromRole="DETALLE_FACTURA_PRODUCTO" ToRole="USUARIO" />
   </EntityType>
   <EntityType Name="DETALLE_FACTURA_SOLICITUD">
     <Key>
@@ -35,12 +33,10 @@
     </Key>
     <Property Name="id_detalle_factura_solicitud" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
     <Property Name="id_solicitud_detalle_factura" Type="Int32" />
-    <Property Name="id_vendedor_usuario" Type="Int32" Nullable="false" />
     <Property Name="id_factura_detalle_factura" Type="Int32" Nullable="false" />
     <Property Name="cantidad_venta" Type="Int32" Nullable="false" />
     <NavigationProperty Name="FACTURA" Relationship="Self.fk_factura_detalle_factura_solicitud" FromRole="DETALLE_FACTURA_SOLICITUD" ToRole="FACTURA" />
     <NavigationProperty Name="SOLICITUD" Relationship="Self.fk_solicitud_detalle_factura" FromRole="DETALLE_FACTURA_SOLICITUD" ToRole="SOLICITUD" />
-    <NavigationProperty Name="USUARIO" Relationship="Self.fk_vendedor_usuario_detalle_solicitud" FromRole="DETALLE_FACTURA_SOLICITUD" ToRole="USUARIO" />
   </EntityType>
   <EntityType Name="ELEMENTO">
     <Key>
@@ -67,6 +63,7 @@
     </Key>
     <Property Name="id_escalado" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
     <Property Name="id_usuario_escalado" Type="Int32" />
+    <NavigationProperty Name="FACTURA" Relationship="Self.fk_empleado_factura" FromRole="ESCALADO" ToRole="FACTURA" />
     <NavigationProperty Name="SOLICITUD" Relationship="Self.fk_escalado_solicitud" FromRole="ESCALADO" ToRole="SOLICITUD" />
     <NavigationProperty Name="USUARIO" Relationship="Self.fk_usuario_escalado" FromRole="ESCALADO" ToRole="USUARIO" />
   </EntityType>
@@ -75,7 +72,7 @@
       <PropertyRef Name="id_estado_factura" />
     </Key>
     <Property Name="id_estado_factura" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
-    <Property Name="descripcion_estado_factura" Type="String" MaxLength="15" FixedLength="false" Unicode="false" Nullable="false" />
+    <Property Name="descripcion_estado_factura" Type="String" MaxLength="20" FixedLength="false" Unicode="false" Nullable="false" />
     <NavigationProperty Name="FACTURA" Relationship="Self.fk_estado_factura" FromRole="ESTADO_FACTURA" ToRole="FACTURA" />
   </EntityType>
   <EntityType Name="ESTADO_PRODUCTO">
@@ -108,12 +105,14 @@
     </Key>
     <Property Name="id_factura" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
     <Property Name="fecha" Type="DateTime" Nullable="false" Precision="3" />
-    <Property Name="id_usuario_factura" Type="Int32" Nullable="false" />
+    <Property Name="id_cliente_factura" Type="Int32" />
+    <Property Name="id_empleado_factura" Type="Int32" />
     <Property Name="id_estado_factura" Type="Int32" Nullable="false" />
-    <Property Name="abono" Type="Decimal" Precision="30" Scale="4" Nullable="false" />
-    <Property Name="guardar_total" Type="Decimal" Precision="30" Scale="4" Nullable="false" />
+    <Property Name="saldo" Type="Decimal" Precision="30" Scale="4" />
+    <Property Name="valor_total" Type="Decimal" Precision="30" Scale="4" />
     <NavigationProperty Name="DETALLE_FACTURA_PRODUCTO" Relationship="Self.fk_factura_detalle_factura_producto" FromRole="FACTURA" ToRole="DETALLE_FACTURA_PRODUCTO" />
     <NavigationProperty Name="DETALLE_FACTURA_SOLICITUD" Relationship="Self.fk_factura_detalle_factura_solicitud" FromRole="FACTURA" ToRole="DETALLE_FACTURA_SOLICITUD" />
+    <NavigationProperty Name="ESCALADO" Relationship="Self.fk_empleado_factura" FromRole="FACTURA" ToRole="ESCALADO" />
     <NavigationProperty Name="ESTADO_FACTURA" Relationship="Self.fk_estado_factura" FromRole="FACTURA" ToRole="ESTADO_FACTURA" />
     <NavigationProperty Name="USUARIO" Relationship="Self.fk_usuario_factura" FromRole="FACTURA" ToRole="USUARIO" />
   </EntityType>
@@ -224,6 +223,7 @@
     </Key>
     <Property Name="id_servicio" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
     <Property Name="descripcion_servicio" Type="String" MaxLength="50" FixedLength="false" Unicode="false" Nullable="false" />
+    <Property Name="precio" Type="Decimal" Precision="20" Scale="4" />
     <NavigationProperty Name="SOLICITUD" Relationship="Self.fk_servicio_solicitud" FromRole="SERVICIO" ToRole="SOLICITUD" />
   </EntityType>
   <EntityType Name="SOLICITUD">
@@ -289,8 +289,6 @@
     <Property Name="sexo" Type="String" MaxLength="1" FixedLength="true" Unicode="false" Nullable="false" />
     <Property Name="usuario_login" Type="String" MaxLength="15" FixedLength="false" Unicode="false" Nullable="false" />
     <Property Name="password" Type="String" MaxLength="50" FixedLength="false" Unicode="true" Nullable="false" />
-    <NavigationProperty Name="DETALLE_FACTURA_PRODUCTO" Relationship="Self.fk_vendedor_usuario_detalle_producto" FromRole="USUARIO" ToRole="DETALLE_FACTURA_PRODUCTO" />
-    <NavigationProperty Name="DETALLE_FACTURA_SOLICITUD" Relationship="Self.fk_vendedor_usuario_detalle_solicitud" FromRole="USUARIO" ToRole="DETALLE_FACTURA_SOLICITUD" />
     <NavigationProperty Name="ESCALADO" Relationship="Self.fk_usuario_escalado" FromRole="USUARIO" ToRole="ESCALADO" />
     <NavigationProperty Name="ESTADO_USUARIO" Relationship="Self.fk_estado_usuario" FromRole="USUARIO" ToRole="ESTADO_USUARIO" />
     <NavigationProperty Name="FACTURA" Relationship="Self.fk_usuario_factura" FromRole="USUARIO" ToRole="FACTURA" />
@@ -350,18 +348,6 @@
       </Dependent>
     </ReferentialConstraint>
   </Association>
-  <Association Name="fk_vendedor_usuario_detalle_producto">
-    <End Role="USUARIO" Type="Self.USUARIO" Multiplicity="1" />
-    <End Role="DETALLE_FACTURA_PRODUCTO" Type="Self.DETALLE_FACTURA_PRODUCTO" Multiplicity="*" />
-    <ReferentialConstraint>
-      <Principal Role="USUARIO">
-        <PropertyRef Name="id_usuario" />
-      </Principal>
-      <Dependent Role="DETALLE_FACTURA_PRODUCTO">
-        <PropertyRef Name="id_vendedor_usuario" />
-      </Dependent>
-    </ReferentialConstraint>
-  </Association>
   <Association Name="fk_factura_detalle_factura_solicitud">
     <End Role="FACTURA" Type="Self.FACTURA" Multiplicity="1" />
     <End Role="DETALLE_FACTURA_SOLICITUD" Type="Self.DETALLE_FACTURA_SOLICITUD" Multiplicity="*" />
@@ -386,18 +372,6 @@
       </Dependent>
     </ReferentialConstraint>
   </Association>
-  <Association Name="fk_vendedor_usuario_detalle_solicitud">
-    <End Role="USUARIO" Type="Self.USUARIO" Multiplicity="1" />
-    <End Role="DETALLE_FACTURA_SOLICITUD" Type="Self.DETALLE_FACTURA_SOLICITUD" Multiplicity="*" />
-    <ReferentialConstraint>
-      <Principal Role="USUARIO">
-        <PropertyRef Name="id_usuario" />
-      </Principal>
-      <Dependent Role="DETALLE_FACTURA_SOLICITUD">
-        <PropertyRef Name="id_vendedor_usuario" />
-      </Dependent>
-    </ReferentialConstraint>
-  </Association>
   <Association Name="fk_elemento_solicitud">
     <End Role="ELEMENTO" Type="Self.ELEMENTO" Multiplicity="0..1" />
     <End Role="SOLICITUD" Type="Self.SOLICITUD" Multiplicity="*" />
@@ -419,6 +393,18 @@
       </Principal>
       <Dependent Role="ELEMENTO">
         <PropertyRef Name="id_tipo_elemento" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="fk_empleado_factura">
+    <End Role="ESCALADO" Type="Self.ESCALADO" Multiplicity="0..1" />
+    <End Role="FACTURA" Type="Self.FACTURA" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="ESCALADO">
+        <PropertyRef Name="id_escalado" />
+      </Principal>
+      <Dependent Role="FACTURA">
+        <PropertyRef Name="id_empleado_factura" />
       </Dependent>
     </ReferentialConstraint>
   </Association>
@@ -495,14 +481,14 @@
     </ReferentialConstraint>
   </Association>
   <Association Name="fk_usuario_factura">
-    <End Role="USUARIO" Type="Self.USUARIO" Multiplicity="1" />
+    <End Role="USUARIO" Type="Self.USUARIO" Multiplicity="0..1" />
     <End Role="FACTURA" Type="Self.FACTURA" Multiplicity="*" />
     <ReferentialConstraint>
       <Principal Role="USUARIO">
         <PropertyRef Name="id_usuario" />
       </Principal>
       <Dependent Role="FACTURA">
-        <PropertyRef Name="id_usuario_factura" />
+        <PropertyRef Name="id_cliente_factura" />
       </Dependent>
     </ReferentialConstraint>
   </Association>
@@ -721,20 +707,12 @@
       <End Role="PRODUCTO" EntitySet="PRODUCTO" />
       <End Role="DETALLE_FACTURA_PRODUCTO" EntitySet="DETALLE_FACTURA_PRODUCTO" />
     </AssociationSet>
-    <AssociationSet Name="fk_vendedor_usuario_detalle_producto" Association="Self.fk_vendedor_usuario_detalle_producto">
-      <End Role="USUARIO" EntitySet="USUARIO" />
-      <End Role="DETALLE_FACTURA_PRODUCTO" EntitySet="DETALLE_FACTURA_PRODUCTO" />
-    </AssociationSet>
     <AssociationSet Name="fk_factura_detalle_factura_solicitud" Association="Self.fk_factura_detalle_factura_solicitud">
       <End Role="FACTURA" EntitySet="FACTURA" />
       <End Role="DETALLE_FACTURA_SOLICITUD" EntitySet="DETALLE_FACTURA_SOLICITUD" />
     </AssociationSet>
     <AssociationSet Name="fk_solicitud_detalle_factura" Association="Self.fk_solicitud_detalle_factura">
       <End Role="SOLICITUD" EntitySet="SOLICITUD" />
-      <End Role="DETALLE_FACTURA_SOLICITUD" EntitySet="DETALLE_FACTURA_SOLICITUD" />
-    </AssociationSet>
-    <AssociationSet Name="fk_vendedor_usuario_detalle_solicitud" Association="Self.fk_vendedor_usuario_detalle_solicitud">
-      <End Role="USUARIO" EntitySet="USUARIO" />
       <End Role="DETALLE_FACTURA_SOLICITUD" EntitySet="DETALLE_FACTURA_SOLICITUD" />
     </AssociationSet>
     <AssociationSet Name="fk_elemento_solicitud" Association="Self.fk_elemento_solicitud">
@@ -744,6 +722,10 @@
     <AssociationSet Name="fk_tipo_elemento" Association="Self.fk_tipo_elemento">
       <End Role="TIPO_ELEMENTO" EntitySet="TIPO_ELEMENTO" />
       <End Role="ELEMENTO" EntitySet="ELEMENTO" />
+    </AssociationSet>
+    <AssociationSet Name="fk_empleado_factura" Association="Self.fk_empleado_factura">
+      <End Role="ESCALADO" EntitySet="ESCALADO" />
+      <End Role="FACTURA" EntitySet="FACTURA" />
     </AssociationSet>
     <AssociationSet Name="fk_escalado_solicitud" Association="Self.fk_escalado_solicitud">
       <End Role="ESCALADO" EntitySet="ESCALADO" />
@@ -833,6 +815,7 @@
       <End Role="ROL" EntitySet="ROL" />
       <End Role="PERMISO" EntitySet="PERMISO" />
     </AssociationSet>
+    <FunctionImport Name="ActualizarEstadoProducto_Automatico" />
     <FunctionImport Name="ActualizarEstadoSolicitud_Automatico" />
     <FunctionImport Name="ActualizarInventarioProductos">
       <Parameter Name="id_inventario" Mode="In" Type="Int32" />
@@ -849,6 +832,7 @@
     <FunctionImport Name="ActualizarServicio">
       <Parameter Name="idserv" Mode="In" Type="Int32" />
       <Parameter Name="descripc" Mode="In" Type="String" />
+      <Parameter Name="precio" Mode="In" Type="Decimal" />
     </FunctionImport>
     <FunctionImport Name="AgregarAnotacionHistoricoInventario">
       <Parameter Name="identifEmpleado" Mode="In" Type="String" />
@@ -885,6 +869,7 @@
     </FunctionImport>
     <FunctionImport Name="AgregarServicio">
       <Parameter Name="descripc" Mode="In" Type="String" />
+      <Parameter Name="precio" Mode="In" Type="Decimal" />
     </FunctionImport>
     <FunctionImport Name="AgregarUsuario">
       <Parameter Name="tipoIdent" Mode="In" Type="Int32" />
@@ -1099,10 +1084,12 @@
   <ComplexType Name="ConsultarServicio_Result">
     <Property Type="Int32" Name="id_servicio" Nullable="false" />
     <Property Type="String" Name="descripcion_servicio" Nullable="false" MaxLength="50" />
+    <Property Type="Decimal" Name="precio" Nullable="true" Precision="20" Scale="4" />
   </ComplexType>
   <ComplexType Name="ConsultarServicios_Result">
     <Property Type="Int32" Name="id_servicio" Nullable="false" />
     <Property Type="String" Name="descripcion_servicio" Nullable="false" MaxLength="50" />
+    <Property Type="Decimal" Name="precio" Nullable="true" Precision="20" Scale="4" />
   </ComplexType>
   <ComplexType Name="ConsultarSolicitudes_Result">
     <Property Type="Int32" Name="id_solicitud" Nullable="false" />

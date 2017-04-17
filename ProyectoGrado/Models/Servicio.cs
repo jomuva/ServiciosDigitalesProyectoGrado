@@ -10,6 +10,7 @@ namespace ServiciosDigitalesProy.Models
         {
             id_servicio = 0;
             descripcion = "";
+            precio = 0;
         }
 
         public Servicio(string descripcion)
@@ -22,6 +23,8 @@ namespace ServiciosDigitalesProy.Models
         public string descripcion { get; set; }
         public int id_servicio { get; set; }
 
+        [Required(AllowEmptyStrings = false, ErrorMessage = "El campo de \"precio\" es obligatorio.")]
+        public double precio { get; set; }
     }
 
     

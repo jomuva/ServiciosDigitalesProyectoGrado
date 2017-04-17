@@ -16,12 +16,10 @@ namespace Persistencia
     {
         public int id_detalle_factura { get; set; }
         public Nullable<int> id_producto_detalle_factura { get; set; }
-        public int id_vendedor_usuario { get; set; }
         public int id_factura_detalle_factura { get; set; }
         public int cantidad_venta { get; set; }
     
         public virtual FACTURA FACTURA { get; set; }
         public virtual PRODUCTO PRODUCTO { get; set; }
-        public virtual USUARIO USUARIO { get; set; }
     }
 }

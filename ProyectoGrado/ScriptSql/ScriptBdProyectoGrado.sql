@@ -304,25 +304,27 @@ INSERT INTO [dbo].[TELEFONO_USUARIO]
 create table SERVICIO(
 id_servicio int  not null IDENTITY,
 descripcion_servicio varchar(50) not null,
+precio decimal(20,4),
 primary key (id_servicio)
 );
 INSERT INTO [dbo].[SERVICIO]
-           ([descripcion_servicio])
+           ([descripcion_servicio]
+           ,[precio])
      VALUES
-            ('Mantenimiento Correctivo Pc'),
-		    ('Mantenimiento Preventivo Pc'),
-		    ('Instalación de Programas'),
-			('Edición de Videos'),
-			('Diseño Gráfico'),
-			('Impresión B&N'),
-			('Impresión Color'),
-			('Transfer de Videos'),
-			('Quemado de CD'),
-			('Quemado de DVD'),
-			('Trabajo en Computador'),
-			('Mantenimiento Correctivo Impresora'),
-			('Mantenimiento Preventivo Impresora')
-	GO
+            ('Mantenimiento Correctivo Pc',70000),
+		    ('Mantenimiento Preventivo Pc',30000),
+		    ('Instalación de Programas',25000),
+			('Edición de Videos',35000),
+			('Diseño Gráfico',30000),
+			('Impresión B&N',300),
+			('Impresión Color',500),
+			('Transfer de Videos',15000),
+			('Quemado de CD',3000),
+			('Quemado de DVD',4000),
+			('Trabajo en Computador',40000),
+			('Mantenimiento Correctivo Impresora',50000),
+			('Mantenimiento Preventivo Impresora',25000)
+GO
 	
 
 -- TABLA  SERVICIOS, LOS SERVICIOS DISPONIBLES A OFRECER
@@ -406,7 +408,7 @@ INSERT INTO [dbo].[ESTADO_SOLICITUD]
 -- TABLA  ESTADO_FACTURA, TABLA QUE CONTIENE LOS ESTADOS POSIBLES QUE LA FACTURA PUEDA TENER A NIVEL FINANCIERO
 create table ESTADO_FACTURA(
 id_estado_factura int not null IDENTITY,
-descripcion_estado_factura varchar(15) not null,
+descripcion_estado_factura varchar(20) not null,
 primary key (id_estado_factura),	
 );
 INSERT INTO [dbo].[ESTADO_FACTURA]
@@ -415,7 +417,8 @@ INSERT INTO [dbo].[ESTADO_FACTURA]
             ('Cancelado'),
 			('Anulado'),
 			('Abonado'),
-			('Pendiente')
+			('Pendiente Por Pago'),
+			('Sin Registros')
 	GO		
 	
 
@@ -423,34 +426,62 @@ INSERT INTO [dbo].[ESTADO_FACTURA]
 create table FACTURA(
 id_factura int not null IDENTITY,
 fecha DATETIME not null,
-id_usuario_factura int not null,
+id_cliente_factura int,
+id_empleado_factura int,
 id_estado_factura int not null,
-abono decimal(30,4) not null,
-guardar_total decimal(30,4) not null,
+saldo decimal(30,4),
+valor_total decimal(30,4),
 primary key (id_factura),
 	CONSTRAINT  fk_usuario_factura
-			FOREIGN KEY ( id_usuario_factura  )
+			FOREIGN KEY ( id_cliente_factura  )
 			REFERENCES   USUARIO ( id_usuario  ),
+	CONSTRAINT  fk_empleado_factura
+			FOREIGN KEY ( id_empleado_factura  )
+			REFERENCES   ESCALADO ( id_escalado  ),		
 	CONSTRAINT  fk_estado_factura
 			FOREIGN KEY ( id_estado_factura  )
 			REFERENCES   ESTADO_FACTURA ( id_estado_factura  )		
 );
 INSERT INTO [dbo].[FACTURA]
            ([fecha]
-		   ,[id_usuario_factura]
+		   ,[id_cliente_factura]
+		   ,[id_empleado_factura]
 		   ,[id_estado_factura]
-		   ,[abono]
-		   ,[guardar_total])
+		   ,[saldo]
+		   ,[valor_total])
      VALUES
-            ('2016-11-29 02:57:24.480',8,3,20000,95000),
-			('2016-12-13 02:57:24.480',4,1,0,60000),
-			('2017-02-10 02:57:24.480',5,1,0,70000),
-			('2017-02-25 02:57:24.480',6,4,0,55000),
-			('2017-03-03 02:57:24.480',7,4,10000,40000)
+            ('2016-11-29 02:57:24.480',8,2,3,20000,95000),
+			('2016-12-13 02:57:24.480',4,3,1,0,60000),
+			('2017-02-10 02:57:24.480',5,2,1,0,70000),
+			('2017-02-25 02:57:24.480',6,3,4,0,55000),
+			('2017-03-03 02:57:24.480',7,3,4,10000,40000)
 		
 	GO	
 	
-
+-- TABLA HISTORICO FACTURA, CONTIENE LOS MOVIMIENTOS DE LAS FACTURAS 
+create table HISTORICO_FACTURA(
+id_historico int not null IDENTITY,
+id_empleado_historico int not null,
+id_factura_historico int not null,
+descripcion_historico varchar(500) not null,
+fecha_historico DATETIME,
+primary key (id_historico),
+	CONSTRAINT  fk_factura_historico
+			FOREIGN KEY ( id_factura_historico  )
+			REFERENCES   FACTURA ( id_factura  ),			
+);
+INSERT INTO [dbo].[HISTORICO_FACTURA]
+           ([id_empleado_historico]
+		   ,[id_factura_historico]
+		   ,[descripcion_historico]
+		   ,[fecha_historico])
+     VALUES
+            (2,1,'Se agrega factura con estado Sin registros','2017-04-08 02:57:24.480'),
+			(3,2,'Se agrega factura con estado Sin registros','2017-04-07 02:57:24.480'),
+			(3,3,'Se agrega factura con estado Sin registros','2017-03-06 02:57:24.480'),
+			(2,4,'Se agrega factura con estado Sin registros','2017-04-08 02:57:24.480'),
+			(2,5,'Se agrega factura con estado Sin registros','2017-04-06 02:57:24.480')
+	GO
 
 -- TABLA  SOLICITUD, TIENE LA INFORMACION DE LA SOLICITUD DEL CLIENTE Y SU SERVICIO ASOCIADO
 create table SOLICITUD(
@@ -712,31 +743,26 @@ INSERT INTO [dbo].[HISTORICO_INVENTARIO_BAJAS]
 create table DETALLE_FACTURA_PRODUCTO(
 id_detalle_factura int not null IDENTITY,
 id_producto_detalle_factura int,
-id_vendedor_usuario int not null,
 id_factura_detalle_factura int not null,
 cantidad_venta int not null,
 primary key (id_detalle_factura),
 	CONSTRAINT  fk_producto_detalle_factura
 			FOREIGN KEY ( id_producto_detalle_factura  )
 			REFERENCES   PRODUCTO ( id_producto  ),	
-	CONSTRAINT  fk_vendedor_usuario_detalle_producto
-			FOREIGN KEY ( id_vendedor_usuario  )
-			REFERENCES   USUARIO ( id_usuario  ),	
 	CONSTRAINT  fk_factura_detalle_factura_producto
 			FOREIGN KEY ( id_factura_detalle_factura  )
 			REFERENCES   FACTURA ( id_factura  ),			
 );
 INSERT INTO [dbo].[DETALLE_FACTURA_PRODUCTO]
            ([id_producto_detalle_factura]
-		   ,[id_vendedor_usuario]
 		   ,[id_factura_detalle_factura]
 		   ,[cantidad_venta])
      VALUES
-            (1,1,1,1),
-			(2,2,2,1),
-			(1,2,3,1),
-			(3,2,4,1),
-			(1,2,5,1)
+            (1,1,1),
+			(2,2,1),
+			(1,3,3),
+			(3,4,2),
+			(1,5,1)
 		
 	GO	
 
@@ -746,31 +772,26 @@ INSERT INTO [dbo].[DETALLE_FACTURA_PRODUCTO]
 create table DETALLE_FACTURA_SOLICITUD(
 id_detalle_factura_solicitud int not null IDENTITY,
 id_solicitud_detalle_factura int,
-id_vendedor_usuario int not null,
 id_factura_detalle_factura int not null,
 cantidad_venta int not null,
 primary key (id_detalle_factura_solicitud),
 	CONSTRAINT  fk_solicitud_detalle_factura
 			FOREIGN KEY ( id_solicitud_detalle_factura  )
 			REFERENCES   SOLICITUD ( id_solicitud  ),	
-	CONSTRAINT  fk_vendedor_usuario_detalle_solicitud
-			FOREIGN KEY ( id_vendedor_usuario  )
-			REFERENCES   USUARIO ( id_usuario  ),	
 	CONSTRAINT  fk_factura_detalle_factura_solicitud
 			FOREIGN KEY ( id_factura_detalle_factura  )
 			REFERENCES   FACTURA ( id_factura  ),			
 );
 INSERT INTO [dbo].[DETALLE_FACTURA_SOLICITUD]
            ([id_solicitud_detalle_factura]
-		   ,[id_vendedor_usuario]
 		   ,[id_factura_detalle_factura]
 		   ,[cantidad_venta])
      VALUES
-            (1,1,1,1),
-			(2,2,2,1),
-			(3,2,3,1),
-			(4,2,4,1),
-			(5,2,5,1)
+            (1,1,1),
+			(2,2,1),
+			(3,3,1),
+			(4,4,1),
+			(5,5,1)
 		
 	GO
 --PROCEDIMIENTO ALMACENADO PARA INSERTAR PRODUCTO
@@ -900,34 +921,36 @@ GO
 
 --PROCEDIMIENTO ALMACENADO PARA crear un servicio
 
-CREATE PROC AgregarServicio
-@descripc VARCHAR(50)
+CREATE PROCEDURE AgregarServicio
+@descripc VARCHAR(50),
+@precio decimal(20,4)
 as
 BEGIN 
 
-INSERT INTO SERVICIO (descripcion_servicio)
-VALUES (@descripc);
+INSERT INTO SERVICIO (descripcion_servicio,precio)
+VALUES (@descripc,@precio);
 
 END
 GO
 
 --PROCEDIMIENTO ALMACENADO PARA consultar los servicios
-CREATE PROC ConsultarServicios
+CREATE PROCEDURE ConsultarServicios
 AS
 BEGIN
-SELECT id_servicio,descripcion_servicio FROM SERVICIO
+SELECT id_servicio,descripcion_servicio,precio FROM SERVICIO
 END
 GO
 
 --PROCEDIMIENTO ALMACENADO PARA actualizar un servicio
 
-CREATE PROC ActualizarServicio
+CREATE PROCEDURE ActualizarServicio
 @idserv int,
-@descripc VARCHAR(50)
+@descripc VARCHAR(50),
+@precio decimal(20,4)
 as
 BEGIN 
 
-UPDATE SERVICIO SET descripcion_servicio=@descripc WHERE id_servicio = @idserv
+UPDATE SERVICIO SET descripcion_servicio=@descripc,precio=@precio WHERE id_servicio = @idserv
 
 END
 GO
@@ -937,7 +960,7 @@ CREATE PROCEDURE ConsultarServicio
 @codigo int
 AS
 BEGIN
-SELECT id_servicio,descripcion_servicio FROM SERVICIO
+SELECT id_servicio,descripcion_servicio,precio FROM SERVICIO
 WHERE id_servicio = @codigo
 END
 
@@ -1428,8 +1451,8 @@ BEGIN
 	INSERT INTO HISTORICO_INVENTARIO (id_empleado,id_inventario_historico,fecha,descripcion)
 	VALUES (@idEmpleado,@idInventario,@fecha,'Se realiza disminución de inventario.  Motivo: '+@descripcionBaja); 
 END
-	
 
+GO
 
 -- PROCEDIMIENTO QUE AGREGA UNA ANOTACION ADICIONAL AL HISTORICO DEL INVENTARIO
 CREATE PROCEDURE AgregarAnotacionHistoricoInventario
@@ -1444,6 +1467,7 @@ BEGIN
 	INSERT INTO HISTORICO_INVENTARIO(id_empleado,id_inventario_historico,fecha,descripcion)
 	VALUES (@idEmpleado,@idInventario,@fecha,@descripcion);
 END
+GO
 
 -- PROCEDIMIENTO QUE AGREGA UNA ANOTACION ADICIONAL AL HISTORICO DEL INVENTARIO DE BAJAS
 CREATE PROCEDURE AgregarAnotacionHistoricoInventarioBajas
@@ -1458,4 +1482,46 @@ BEGIN
 	INSERT INTO HISTORICO_INVENTARIO_BAJAS(id_empleado,id_inventario_historico,fecha,descripcion)
 	VALUES (@idEmpleado,@idInventario,@fecha,@descripcion);
 END
+GO
 
+-- PROCEDIMIENTO QUE ACTUALIZA EL ESTADO DE CADA PRODUCTO DEL INVENTARIO SEGUN CANTIDAD DE EXISTENCIAS DE MANERA AUTOMÁTICA
+CREATE PROCEDURE ActualizarEstadoProducto_Automatico
+AS
+DECLARE 
+@fecha DATETIME,
+@TotalRegistrosInventario int,
+@CantidadExistencias int,
+@idestadoActual int,
+@descripcion VARCHAR (500)
+SET @TotalRegistrosInventario = (SELECT COUNT(*) FROM INVENTARIO);
+SET @fecha = (SELECT CURRENT_TIMESTAMP);
+BEGIN
+	WHILE @TotalRegistrosInventario > 0
+	BEGIN
+		SET @CantidadExistencias = (SELECT cantidad_existencias FROM INVENTARIO WHERE id_inventario = @TotalRegistrosInventario);
+		SET @idestadoActual =  (SELECT id_estado_producto FROM PRODUCTO WHERE id_producto = @TotalRegistrosInventario);
+		IF(@CantidadExistencias =0 AND @idestadoActual=1)
+		BEGIN
+			UPDATE PRODUCTO SET id_estado_producto = 2 
+			WHERE id_producto = @TotalRegistrosInventario
+
+			UPDATE INVENTARIO SET fecha_actualizacion_inventario = @fecha
+			WHERE id_producto_inventario =@TotalRegistrosInventario
+			
+			SET @descripcion = ('Se ha cambiado el estado del producto a no disponible por falta de existencias');
+			INSERT INTO HISTORICO_INVENTARIO(id_empleado,id_inventario_historico,fecha,descripcion)
+			VALUES (1,@TotalRegistrosInventario,@fecha,@descripcion);
+		END
+		ELSE IF(@CantidadExistencias <>0 AND @idestadoActual=2)
+		BEGIN
+			UPDATE PRODUCTO SET id_estado_producto = 1 
+			WHERE id_producto = @TotalRegistrosInventario
+
+			SET @descripcion = ('Se ha cambiado el estado del producto a Disponible por detección de existencias en stock');
+			INSERT INTO HISTORICO_INVENTARIO(id_empleado,id_inventario_historico,fecha,descripcion)
+			VALUES (1,@TotalRegistrosInventario,@fecha,@descripcion);
+		END
+		SET @TotalRegistrosInventario = @TotalRegistrosInventario -1;
+	END
+END 
+GO

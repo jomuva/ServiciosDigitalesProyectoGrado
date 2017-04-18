@@ -32,7 +32,9 @@ namespace ServiciosDigitalesProy.Controllers
             }
             else
             {
-                return View();
+                TempData["mensaje"] = "No se ha podido iniciar la creación de factura. Intente más tarde";
+                TempData["estado"] = "danger";
+                return RedirectToAction("IndexInterno", "Home");
             }
         }
 
@@ -196,18 +198,10 @@ namespace ServiciosDigitalesProy.Controllers
                     }
                     solicitud = null;
                 }
-                if (solicitudesClientefactura.Count != 0)
-                {
                     ViewBag.NombreCliente = factura.cliente.NombresApellidos;
                     Session["Solicitudes"] = solicitudesClientefactura;
                     return View(solicitudesClientefactura);
-                }
-                else
-                {
-                    TempData["mensaje"] = "No hay solicitudes asociadas al cliente en base de datos";
-                    TempData["estado"] = "info";
-                    return View("CrearFactura", factura);
-                }
+                
             }
             else
             {
@@ -320,6 +314,43 @@ namespace ServiciosDigitalesProy.Controllers
             return View("GenerarFactura", factura);
         }
 
+
+
+        [HttpPost]
+        public ActionResult GuardarFactura(Factura facturaa)
+        {
+            Factura factura = Session["Factura"] as Factura;
+            string resultado = "", tipoResultado = "";
+            if(facturaa.valorPagado>=0 && facturaa.valorPagado <= factura.total)
+            {
+                factura.estado.id = facturaa.valorPagado==0?factura.estado.id=4: facturaa.valorPagado == factura.total ?1: facturaa.valorPagado < factura.total?3:2;
+                factura.valorPagado = facturaa.valorPagado;
+                Session["Factura"] = factura;
+                CatalogoVentas.GetInstance().GuardarFactura(factura,ref resultado,ref tipoResultado);
+                if (tipoResultado == "success")
+                {
+                    TempData["mensaje"] = "Factura Registrada Correctamente";
+                    TempData["estado"] = "success";
+                    
+                }
+                else
+                {
+                    TempData["mensaje"] = "Creación de factura Fallida por error desde Base de datos.  Consulte con Soporte técnico";
+                    TempData["estado"] = "danger";
+
+                }
+                return RedirectToAction("IndexInterno", "Home");
+            }
+            else
+            {
+                TempData["mensaje"] = "El valor pagado no puede exceder el total a pagar";
+                TempData["estado"] = "danger";
+                return View("GenerarFactura", factura);
+            }
+
+
+            
+        }
 
         [HttpGet]
         public ActionResult ModificarFacturaGenerada()

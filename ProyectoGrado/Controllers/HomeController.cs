@@ -22,7 +22,13 @@ namespace ProyectoGrado.Controllers
             return View();
         }
 
-       
+        public ActionResult IndexInterno()
+        {
+          
+            return View("Index");
+        }
+
+
         public ActionResult Login()
         {
             if (Request.IsAjaxRequest())
@@ -33,6 +39,8 @@ namespace ProyectoGrado.Controllers
 
             //return View();
         }
+
+
 
         
         [HttpPost]

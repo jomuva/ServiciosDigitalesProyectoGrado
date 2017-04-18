@@ -659,10 +659,25 @@
         </Association>
         <Function Name="ActualizarEstadoProducto_Automatico" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo" />
         <Function Name="ActualizarEstadoSolicitud_Automatico" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo" />
+        <Function Name="ActualizarFacturaVacia" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
+          <Parameter Name="identifCliente" Type="varchar" Mode="In" />
+          <Parameter Name="identifEmpleado" Type="varchar" Mode="In" />
+          <Parameter Name="estado" Type="int" Mode="In" />
+          <Parameter Name="idFactura" Type="int" Mode="In" />
+          <Parameter Name="valorPagado" Type="decimal" Mode="In" />
+          <Parameter Name="total" Type="decimal" Mode="In" />
+          <Parameter Name="fecha" Type="datetime" Mode="In" />
+        </Function>
         <Function Name="ActualizarInventarioProductos" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
           <Parameter Name="id_inventario" Type="int" Mode="In" />
           <Parameter Name="id_producto" Type="int" Mode="In" />
           <Parameter Name="cantidad" Type="int" Mode="In" />
+          <Parameter Name="identifEmpleado" Type="varchar" Mode="In" />
+        </Function>
+        <Function Name="ActualizarInventarioXVenta" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
+          <Parameter Name="idProducto" Type="int" Mode="In" />
+          <Parameter Name="cantidadVendida" Type="int" Mode="In" />
+          <Parameter Name="fecha" Type="datetime" Mode="In" />
           <Parameter Name="identifEmpleado" Type="varchar" Mode="In" />
         </Function>
         <Function Name="ActualizarProducto" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
@@ -696,6 +711,16 @@
           <Parameter Name="cantidadBajas" Type="int" Mode="In" />
           <Parameter Name="identifEmpleado" Type="varchar" Mode="In" />
           <Parameter Name="descripcionBaja" Type="varchar" Mode="In" />
+        </Function>
+        <Function Name="AgregarDetalleFacturaProducto" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
+          <Parameter Name="idProducto" Type="int" Mode="In" />
+          <Parameter Name="cantidad" Type="int" Mode="In" />
+          <Parameter Name="idFactura" Type="int" Mode="In" />
+        </Function>
+        <Function Name="AgregarDetalleFacturaSolicitud" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
+          <Parameter Name="idSolicitud" Type="int" Mode="In" />
+          <Parameter Name="cantidad" Type="int" Mode="In" />
+          <Parameter Name="idFactura" Type="int" Mode="In" />
         </Function>
         <Function Name="AgregarElemento" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
           <Parameter Name="id_categ" Type="int" Mode="In" />
@@ -1999,7 +2024,32 @@
           </FunctionImport>
           <FunctionImport Name="ObtenerIdUltimaFacturaGenerada" ReturnType="Collection(Int32)" />
           <FunctionImport Name="ConsultarCantidadProductoXid" ReturnType="Collection(Int32)">
-            <Parameter Name="idProd" Mode="In" Type="Int32" />
+          <Parameter Name="idProd" Mode="In" Type="Int32" />
+          </FunctionImport>
+          <FunctionImport Name="ActualizarFacturaVacia">
+            <Parameter Name="identifCliente" Mode="In" Type="String" />
+            <Parameter Name="identifEmpleado" Mode="In" Type="String" />
+            <Parameter Name="estado" Mode="In" Type="Int32" />
+            <Parameter Name="idFactura" Mode="In" Type="Int32" />
+            <Parameter Name="valorPagado" Mode="In" Type="Decimal" />
+            <Parameter Name="total" Mode="In" Type="Decimal" />
+            <Parameter Name="fecha" Mode="In" Type="DateTime" />
+          </FunctionImport>
+          <FunctionImport Name="ActualizarInventarioXVenta">
+            <Parameter Name="idProducto" Mode="In" Type="Int32" />
+            <Parameter Name="cantidadVendida" Mode="In" Type="Int32" />
+            <Parameter Name="fecha" Mode="In" Type="DateTime" />
+            <Parameter Name="identifEmpleado" Mode="In" Type="String" />
+          </FunctionImport>
+          <FunctionImport Name="AgregarDetalleFacturaProducto">
+            <Parameter Name="idProducto" Mode="In" Type="Int32" />
+            <Parameter Name="cantidad" Mode="In" Type="Int32" />
+            <Parameter Name="idFactura" Mode="In" Type="Int32" />
+          </FunctionImport>
+          <FunctionImport Name="AgregarDetalleFacturaSolicitud">
+            <Parameter Name="idSolicitud" Mode="In" Type="Int32" />
+            <Parameter Name="cantidad" Mode="In" Type="Int32" />
+            <Parameter Name="idFactura" Mode="In" Type="Int32" />
           </FunctionImport>
         </EntityContainer>
         <ComplexType Name="ConsultarCategorias_Elemento_Result">
@@ -2756,6 +2806,10 @@
           <FunctionImportMapping FunctionImportName="ValidarAutenticacionLogin" FunctionName="bdServiciosDigitalesProyModel.Store.ValidarAutenticacionLogin" />
           <FunctionImportMapping FunctionImportName="ObtenerIdUltimaFacturaGenerada" FunctionName="bdServiciosDigitalesProyModel.Store.ObtenerIdUltimaFacturaGenerada" />
           <FunctionImportMapping FunctionImportName="ConsultarCantidadProductoXid" FunctionName="bdServiciosDigitalesProyModel.Store.ConsultarCantidadProductoXid" />
+          <FunctionImportMapping FunctionImportName="ActualizarFacturaVacia" FunctionName="bdServiciosDigitalesProyModel.Store.ActualizarFacturaVacia" />
+          <FunctionImportMapping FunctionImportName="ActualizarInventarioXVenta" FunctionName="bdServiciosDigitalesProyModel.Store.ActualizarInventarioXVenta" />
+          <FunctionImportMapping FunctionImportName="AgregarDetalleFacturaProducto" FunctionName="bdServiciosDigitalesProyModel.Store.AgregarDetalleFacturaProducto" />
+          <FunctionImportMapping FunctionImportName="AgregarDetalleFacturaSolicitud" FunctionName="bdServiciosDigitalesProyModel.Store.AgregarDetalleFacturaSolicitud" />
         </EntityContainerMapping>
       </Mapping>
     </edmx:Mappings>

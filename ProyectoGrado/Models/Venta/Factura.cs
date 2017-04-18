@@ -17,6 +17,7 @@ namespace ServiciosDigitalesProy.Models
             listaDetallesProducto = new List<DetalleFacturaProducto>();
             fecha = new DateTime();
             total = 0;
+            valorPagado = 0;
         }
 
         public Factura(int id, DateTime fecha)
@@ -37,6 +38,8 @@ namespace ServiciosDigitalesProy.Models
         public Usuario cliente { get; set; }
         public int id_empleado { get; set; }
         public double total { get; set; }
+        [RegularExpression(@"^[0-9a-zA-ZáéíóÚ.ÁÉÍÓÚ. ]{1,40}$", ErrorMessage = "El Pago debe ser igual o mayor a cero")]
+        public double valorPagado { get; set; }
         public EstadoFactura estado { get; set; }
         public DateTime fecha { get; set; }
         public List<DetalleFacturaSolicitud> listaDetallesSolicitud { get; set; }

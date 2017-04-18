@@ -1011,6 +1011,31 @@
     <FunctionImport Name="ConsultarCantidadProductoXid" ReturnType="Collection(Int32)">
       <Parameter Name="idProd" Mode="In" Type="Int32" />
     </FunctionImport>
+    <FunctionImport Name="ActualizarFacturaVacia">
+      <Parameter Name="identifCliente" Mode="In" Type="String" />
+      <Parameter Name="identifEmpleado" Mode="In" Type="String" />
+      <Parameter Name="estado" Mode="In" Type="Int32" />
+      <Parameter Name="idFactura" Mode="In" Type="Int32" />
+      <Parameter Name="valorPagado" Mode="In" Type="Decimal" />
+      <Parameter Name="total" Mode="In" Type="Decimal" />
+      <Parameter Name="fecha" Mode="In" Type="DateTime" />
+    </FunctionImport>
+    <FunctionImport Name="ActualizarInventarioXVenta">
+      <Parameter Name="idProducto" Mode="In" Type="Int32" />
+      <Parameter Name="cantidadVendida" Mode="In" Type="Int32" />
+      <Parameter Name="fecha" Mode="In" Type="DateTime" />
+      <Parameter Name="identifEmpleado" Mode="In" Type="String" />
+    </FunctionImport>
+    <FunctionImport Name="AgregarDetalleFacturaProducto">
+      <Parameter Name="idProducto" Mode="In" Type="Int32" />
+      <Parameter Name="cantidad" Mode="In" Type="Int32" />
+      <Parameter Name="idFactura" Mode="In" Type="Int32" />
+    </FunctionImport>
+    <FunctionImport Name="AgregarDetalleFacturaSolicitud">
+      <Parameter Name="idSolicitud" Mode="In" Type="Int32" />
+      <Parameter Name="cantidad" Mode="In" Type="Int32" />
+      <Parameter Name="idFactura" Mode="In" Type="Int32" />
+    </FunctionImport>
   </EntityContainer>
   <ComplexType Name="ConsultarCategorias_Elemento_Result">
     <Property Type="Int32" Name="id_categoria_elemento" Nullable="false" />

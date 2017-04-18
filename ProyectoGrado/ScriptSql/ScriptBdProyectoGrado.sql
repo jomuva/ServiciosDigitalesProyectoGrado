@@ -1573,3 +1573,84 @@ BEGIN
 	SELECT COUNT(*) FROM factura
 END
 GO
+
+
+-- PROCEDIMIENTO QUE TRAE LA CANTIDAD DE EXISTENCIAS DE UN PRODUCTO EN ESPECIAL
+CREATE PROCEDURE ConsultarCantidadProductoXid
+@idProd int
+AS
+BEGIN
+SELECT cantidad_existencias FROM INVENTARIO WHERE id_producto_inventario = @idProd
+END
+GO
+
+--CREA EL DETALLE DE FACTURA PRODUCTO
+CREATE PROCEDURE AgregarDetalleFacturaProducto
+@idProducto int,
+@cantidad int,
+@idFactura int
+AS
+BEGIN
+INSERT INTO DETALLE_FACTURA_PRODUCTO (id_producto_detalle_factura,id_factura_detalle_factura,cantidad_venta)
+VALUES (@idProducto,@idFactura,@cantidad)
+END
+GO
+
+--CREA EL DETALLE DE FACTURA SOLICITUD
+CREATE PROCEDURE AgregarDetalleFacturaSolicitud
+@idSolicitud int,
+@cantidad int,
+@idFactura int
+AS
+BEGIN
+INSERT INTO DETALLE_FACTURA_SOLICITUD(id_solicitud_detalle_factura,id_factura_detalle_factura,cantidad_venta)
+VALUES (@idSolicitud,@idFactura,@cantidad)
+END
+GO
+
+-- ACTUALIZA LA FACTURA VACIA CREADA PREVIAMENTE Y SE AGREGA EN HISTORICO
+CREATE PROCEDURE ActualizarFacturaVacia
+@identifCliente VARCHAR(15),
+@identifEmpleado VARCHAR(15),
+@estado int,
+@idFactura int,
+@valorPagado decimal(30,4),
+@total decimal(30,4),
+@fecha DATETIME
+AS
+DECLARE @idEmpleado int, @idCliente int, @NombreEstado VARCHAR(20)
+SET @NombreEstado = (SELECT descripcion_estado_factura FROM ESTADO_FACTURA WHERE id_estado_factura = @estado)
+SET @idEmpleado = (SELECT id_usuario FROM USUARIO WHERE identificacion = @identifEmpleado);
+SET @idCliente = (SELECT id_usuario FROM USUARIO WHERE identificacion = @identifCliente);
+BEGIN
+	UPDATE FACTURA SET id_cliente_factura = @idCliente, id_empleado_factura = @idEmpleado,
+					   id_estado_factura = @estado, saldo = @total - @valorPagado,
+					   valor_total = @total
+	WHERE id_factura = @idFactura
+
+	INSERT INTO HISTORICO_FACTURA (id_empleado_historico,id_factura_historico,descripcion_historico,fecha_historico)
+	VALUES (@idEmpleado,@idFactura,'Se modifica la factura exitosamente con estado de Sin registros a '+@NombreEstado,@fecha)
+END
+GO
+
+-- ACTUALIZA EL INVENTARIO SEGUN LA VENTA REALIZADA Y SE ALMACENA EN HISTORICO
+CREATE PROCEDURE ActualizarInventarioXVenta
+@idProducto int,
+@cantidadVendida int,
+@fecha DATETIME,
+@identifEmpleado VARCHAR(15)
+AS
+DECLARE @cantidadActual int, @idEmpleado int, @nuevaCantidad int
+SET @idEmpleado = (SELECT id_usuario FROM USUARIO WHERE identificacion = @identifEmpleado);
+SET @cantidadActual = (SELECT cantidad_existencias FROM INVENTARIO WHERE id_producto_inventario = @idProducto);
+BEGIN
+	UPDATE INVENTARIO SET cantidad_existencias =  @cantidadActual - @cantidadVendida, fecha_actualizacion_inventario = @fecha 
+	WHERE id_producto_inventario = @idProducto
+
+
+	SET @nuevaCantidad = (@cantidadActual-@cantidadVendida);
+	INSERT INTO HISTORICO_INVENTARIO (id_empleado,id_inventario_historico,fecha,descripcion)
+	VALUES (@idEmpleado,@idProducto,@fecha,'Se modifica la cantidad de unidades del producto de '+cast(@cantidadActual as varchar)+' a '+ cast(@nuevaCantidad as varchar)+' unidades' )
+END
+GO
+

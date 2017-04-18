@@ -575,5 +575,9 @@
     <FunctionImportMapping FunctionImportName="ValidarAutenticacionLogin" FunctionName="bdServiciosDigitalesProyModel.Store.ValidarAutenticacionLogin" />
     <FunctionImportMapping FunctionImportName="ObtenerIdUltimaFacturaGenerada" FunctionName="bdServiciosDigitalesProyModel.Store.ObtenerIdUltimaFacturaGenerada" />
     <FunctionImportMapping FunctionImportName="ConsultarCantidadProductoXid" FunctionName="bdServiciosDigitalesProyModel.Store.ConsultarCantidadProductoXid" />
+    <FunctionImportMapping FunctionImportName="ActualizarFacturaVacia" FunctionName="bdServiciosDigitalesProyModel.Store.ActualizarFacturaVacia" />
+    <FunctionImportMapping FunctionImportName="ActualizarInventarioXVenta" FunctionName="bdServiciosDigitalesProyModel.Store.ActualizarInventarioXVenta" />
+    <FunctionImportMapping FunctionImportName="AgregarDetalleFacturaProducto" FunctionName="bdServiciosDigitalesProyModel.Store.AgregarDetalleFacturaProducto" />
+    <FunctionImportMapping FunctionImportName="AgregarDetalleFacturaSolicitud" FunctionName="bdServiciosDigitalesProyModel.Store.AgregarDetalleFacturaSolicitud" />
   </EntityContainerMapping>
 </Mapping>

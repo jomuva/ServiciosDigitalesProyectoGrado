@@ -89,5 +89,53 @@ namespace ProyectoGrado.Catalogos
             }
             return id;
         }
+
+        /// <summary>
+        /// Guarda la factura en BD y almacena en tablas de detalles, factura, actualiza el inventario y agrega en su 
+        /// historico
+        /// </summary>
+        /// <param name="factura"></param>
+        /// <param name="resultado"></param>
+        /// <param name="tipoResultado"></param>
+        public void GuardarFactura(Factura factura, ref string resultado, ref string tipoResultado)
+        {
+            Factura facturaVacia = CrearFacturaSinRegistros(ref resultado, ref tipoResultado);
+            int idFactura = ObtenerIdUltimaFacturaGenerada(ref  resultado, ref tipoResultado);
+
+            //Agrego los detalles de la factura PRODUCTO si los hay
+            List<DetalleFacturaProducto> detallesProductos = factura.listaDetallesProducto;
+            if (detallesProductos.Count != 0)
+            {
+                foreach (var item in detallesProductos)
+                {
+                    ventasDatos.AgregarDetalleFacturaProducto(item.producto.id_producto,item.cantidad,idFactura,ref resultado, ref tipoResultado);
+
+                    ventasDatos.ActualizarInventarioXVenta(item.producto.id_producto,item.cantidad,facturaVacia.fecha, SessionHelper.GetUser().ToString(), ref resultado, ref tipoResultado);
+
+                }
+
+            }
+
+
+            //Agrego los detalles de la factura SOLICITUDES si los hay
+            List<DetalleFacturaSolicitud> detallesSolicitudes = factura.listaDetallesSolicitud;
+            if (detallesSolicitudes.Count != 0)
+            {
+                foreach (var item in detallesSolicitudes)
+                {
+                    ventasDatos.AgregarDetalleFacturaSolicitud(item.solicitud.id_solicitud,1, idFactura, ref resultado, ref tipoResultado);
+                }
+            }
+
+            //Actualizo la factura que estaba vacia
+
+            ventasDatos.ActualizarFacturaVacia(factura.cliente.identificacion,SessionHelper.GetUser().ToString(),factura.estado.id,
+                                                idFactura, Convert.ToDecimal(factura.valorPagado),Convert.ToDecimal(factura.total),
+                                                facturaVacia.fecha, ref resultado, ref tipoResultado);
+
+            //Actualizo el inventario segun la venta realizada
+
+        }
+
     }
 }

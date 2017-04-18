@@ -20,11 +20,20 @@ namespace ServiciosDigitalesProy.Controllers
         public ActionResult CrearFactura()
         {
             string resultado = "", tipoResultado = "";
-            Factura factura = CatalogoVentas.GetInstance().CrearFacturaSinRegistros(ref resultado, ref tipoResultado);
-            Session["Factura"] = factura;
-            TempData["mensaje"] = resultado;
-            TempData["estado"] = tipoResultado;
-            return View(factura);
+            int idFactura = CatalogoVentas.GetInstance().ObtenerIdUltimaFacturaGenerada(ref resultado, ref tipoResultado)+1;
+            DateTime horaActual = DateTime.Now;
+            if (idFactura > 1)
+            {
+                Factura factura = new Factura(idFactura,horaActual);
+                Session["Factura"] = factura;
+                TempData["mensaje"] = resultado;
+                TempData["estado"] = tipoResultado;
+                return View(factura);
+            }
+            else
+            {
+                return View();
+            }
         }
 
 

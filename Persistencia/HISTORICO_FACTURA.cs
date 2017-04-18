@@ -16,7 +16,7 @@ namespace Persistencia
     {
         public int id_historico { get; set; }
         public int id_empleado_historico { get; set; }
-        public int id_factura_historico { get; set; }
+        public Nullable<int> id_factura_historico { get; set; }
         public string descripcion_historico { get; set; }
         public Nullable<System.DateTime> fecha_historico { get; set; }
     

@@ -19,6 +19,18 @@ namespace ServiciosDigitalesProy.Models
             total = 0;
         }
 
+        public Factura(int id, DateTime fecha)
+        {
+            this.id_factura = id;
+            this.fecha = fecha;
+            cliente = new Usuario();
+            id_empleado = 0;
+            estado = new EstadoFactura();
+            listaDetallesSolicitud = new List<DetalleFacturaSolicitud>();
+            listaDetallesProducto = new List<DetalleFacturaProducto>();
+            total = 0;
+        }
+
       
 
         public int id_factura { get; set; }

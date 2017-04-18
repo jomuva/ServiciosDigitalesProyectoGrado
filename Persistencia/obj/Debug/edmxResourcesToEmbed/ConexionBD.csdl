@@ -123,7 +123,7 @@
     </Key>
     <Property Name="id_historico" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
     <Property Name="id_empleado_historico" Type="Int32" Nullable="false" />
-    <Property Name="id_factura_historico" Type="Int32" Nullable="false" />
+    <Property Name="id_factura_historico" Type="Int32" />
     <Property Name="descripcion_historico" Type="String" MaxLength="500" FixedLength="false" Unicode="false" Nullable="false" />
     <Property Name="fecha_historico" Type="DateTime" Precision="3" />
     <NavigationProperty Name="FACTURA" Relationship="Self.fk_factura_historico" FromRole="HISTORICO_FACTURA" ToRole="FACTURA" />
@@ -259,16 +259,6 @@
     <NavigationProperty Name="PRIORIDAD" Relationship="Self.fk_prioridad_solicitud" FromRole="SOLICITUD" ToRole="PRIORIDAD" />
     <NavigationProperty Name="SERVICIO" Relationship="Self.fk_servicio_solicitud" FromRole="SOLICITUD" ToRole="SERVICIO" />
     <NavigationProperty Name="USUARIO" Relationship="Self.fk_usuario_solicitud" FromRole="SOLICITUD" ToRole="USUARIO" />
-  </EntityType>
-  <EntityType Name="sysdiagrams">
-    <Key>
-      <PropertyRef Name="diagram_id" />
-    </Key>
-    <Property Name="name" Type="String" MaxLength="128" FixedLength="false" Unicode="true" Nullable="false" />
-    <Property Name="principal_id" Type="Int32" Nullable="false" />
-    <Property Name="diagram_id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
-    <Property Name="version" Type="Int32" />
-    <Property Name="definition" Type="Binary" MaxLength="Max" FixedLength="false" />
   </EntityType>
   <EntityType Name="TELEFONO_USUARIO">
     <Key>
@@ -503,7 +493,7 @@
     </ReferentialConstraint>
   </Association>
   <Association Name="fk_factura_historico">
-    <End Role="FACTURA" Type="Self.FACTURA" Multiplicity="1" />
+    <End Role="FACTURA" Type="Self.FACTURA" Multiplicity="0..1" />
     <End Role="HISTORICO_FACTURA" Type="Self.HISTORICO_FACTURA" Multiplicity="*" />
     <ReferentialConstraint>
       <Principal Role="FACTURA">
@@ -722,7 +712,6 @@
     <EntitySet Name="ROL" EntityType="Self.ROL" />
     <EntitySet Name="SERVICIO" EntityType="Self.SERVICIO" />
     <EntitySet Name="SOLICITUD" EntityType="Self.SOLICITUD" />
-    <EntitySet Name="sysdiagrams" EntityType="Self.sysdiagrams" />
     <EntitySet Name="TELEFONO_USUARIO" EntityType="Self.TELEFONO_USUARIO" />
     <EntitySet Name="TIPO_ELEMENTO" EntityType="Self.TIPO_ELEMENTO" />
     <EntitySet Name="TIPO_IDENTIFICACION_USUARIO" EntityType="Self.TIPO_IDENTIFICACION_USUARIO" />
@@ -995,6 +984,7 @@
       <Parameter Name="id_solicitud" Mode="In" Type="Int32" />
       <Parameter Name="identifEmpleado" Mode="In" Type="String" />
     </FunctionImport>
+    <FunctionImport Name="GarbageCollector_FacturasSinRegistros_Automatico" />
     <FunctionImport Name="GenerarSolicitud">
       <Parameter Name="id_prioridad" Mode="In" Type="Int32" />
       <Parameter Name="id_estado" Mode="In" Type="Int32" />
@@ -1013,40 +1003,11 @@
       <Parameter Name="identifEmpleado" Mode="In" Type="String" />
       <Parameter Name="cantidad" Mode="In" Type="Int32" />
     </FunctionImport>
-    <FunctionImport Name="sp_alterdiagram">
-      <Parameter Name="diagramname" Mode="In" Type="String" />
-      <Parameter Name="owner_id" Mode="In" Type="Int32" />
-      <Parameter Name="version" Mode="In" Type="Int32" />
-      <Parameter Name="definition" Mode="In" Type="Binary" />
-    </FunctionImport>
-    <FunctionImport Name="sp_creatediagram">
-      <Parameter Name="diagramname" Mode="In" Type="String" />
-      <Parameter Name="owner_id" Mode="In" Type="Int32" />
-      <Parameter Name="version" Mode="In" Type="Int32" />
-      <Parameter Name="definition" Mode="In" Type="Binary" />
-    </FunctionImport>
-    <FunctionImport Name="sp_dropdiagram">
-      <Parameter Name="diagramname" Mode="In" Type="String" />
-      <Parameter Name="owner_id" Mode="In" Type="Int32" />
-    </FunctionImport>
-    <FunctionImport Name="sp_helpdiagramdefinition" ReturnType="Collection(bdServiciosDigitalesProyModel.sp_helpdiagramdefinition_Result)">
-      <Parameter Name="diagramname" Mode="In" Type="String" />
-      <Parameter Name="owner_id" Mode="In" Type="Int32" />
-    </FunctionImport>
-    <FunctionImport Name="sp_helpdiagrams" ReturnType="Collection(bdServiciosDigitalesProyModel.sp_helpdiagrams_Result)">
-      <Parameter Name="diagramname" Mode="In" Type="String" />
-      <Parameter Name="owner_id" Mode="In" Type="Int32" />
-    </FunctionImport>
-    <FunctionImport Name="sp_renamediagram">
-      <Parameter Name="diagramname" Mode="In" Type="String" />
-      <Parameter Name="owner_id" Mode="In" Type="Int32" />
-      <Parameter Name="new_diagramname" Mode="In" Type="String" />
-    </FunctionImport>
-    <FunctionImport Name="sp_upgraddiagrams" />
     <FunctionImport Name="ValidarAutenticacionLogin" ReturnType="Collection(String)">
       <Parameter Name="username" Mode="In" Type="String" />
       <Parameter Name="passwd" Mode="In" Type="String" />
     </FunctionImport>
+    <FunctionImport Name="ObtenerIdUltimaFacturaGenerada" ReturnType="Collection(Int32)" />
   </EntityContainer>
   <ComplexType Name="ConsultarCategorias_Elemento_Result">
     <Property Type="Int32" Name="id_categoria_elemento" Nullable="false" />
@@ -1221,16 +1182,5 @@
   <ComplexType Name="CrearFacturaSinRegistros_Result">
     <Property Type="Int32" Name="id_factura" Nullable="false" />
     <Property Type="DateTime" Name="fecha" Nullable="false" Precision="23" />
-  </ComplexType>
-  <ComplexType Name="sp_helpdiagramdefinition_Result">
-    <Property Type="Int32" Name="version" Nullable="true" />
-    <Property Type="Binary" Name="definition" Nullable="true" />
-  </ComplexType>
-  <ComplexType Name="sp_helpdiagrams_Result">
-    <Property Type="String" Name="Database" Nullable="true" MaxLength="128" />
-    <Property Type="String" Name="Name" Nullable="false" MaxLength="128" />
-    <Property Type="Int32" Name="ID" Nullable="false" />
-    <Property Type="String" Name="Owner" Nullable="true" MaxLength="128" />
-    <Property Type="Int32" Name="OwnerID" Nullable="false" />
   </ComplexType>
 </Schema>

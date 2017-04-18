@@ -42,6 +42,33 @@ namespace Persistencia.VentasDatos
         }
 
 
+        /// <summary>
+        /// TRAE EL ID(CONSECUTIVO) DE LA ULTIMA FACTURA CREADA
+        /// </summary>
+        /// <param name="identifEmpleado"></param>
+        /// <param name="resultado"></param>
+        /// <param name="tipoResultado"></param>
+        /// <returns></returns>
+        public object ObtenerIdUltimaFacturaGenerada( ref string resultado, ref string tipoResultado)
+        {
+
+            object idUltimaFactura = null;
+            try
+            {
+                idUltimaFactura = conexion.conexiones.ObtenerIdUltimaFacturaGenerada().ToList();
+
+               return idUltimaFactura;
+            }
+            catch
+            {
+                resultado = "No se ha podido traer el número de la última fáctura creada.  Intente más tarde";
+                tipoResultado = "danger";
+            }
+
+            return idUltimaFactura;
+        }
+
+
 
     }
 }

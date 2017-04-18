@@ -296,7 +296,11 @@ INSERT INTO [dbo].[TELEFONO_USUARIO]
 			(8,'3005146655'),
 			(8,'7451232'),
 			(9,'3515121320'),
-			(9,'2515446')
+			(9,'2515446'),
+			(10,'3515121320'),
+			(10,'2515446'),
+			(11,'3515121320'),
+			(11,'2515446')
 	GO
 
 	
@@ -319,8 +323,6 @@ INSERT INTO [dbo].[SERVICIO]
 			('Impresión B&N',300),
 			('Impresión Color',500),
 			('Transfer de Videos',15000),
-			('Quemado de CD',3000),
-			('Quemado de DVD',4000),
 			('Trabajo en Computador',40000),
 			('Mantenimiento Correctivo Impresora',50000),
 			('Mantenimiento Preventivo Impresora',25000)
@@ -462,7 +464,7 @@ INSERT INTO [dbo].[FACTURA]
 create table HISTORICO_FACTURA(
 id_historico int not null IDENTITY,
 id_empleado_historico int not null,
-id_factura_historico int not null,
+id_factura_historico int,
 descripcion_historico varchar(500) not null,
 fecha_historico DATETIME,
 primary key (id_historico),
@@ -476,10 +478,10 @@ INSERT INTO [dbo].[HISTORICO_FACTURA]
 		   ,[descripcion_historico]
 		   ,[fecha_historico])
      VALUES
-            (2,1,'Se agrega factura con estado Sin registros','2017-04-08 02:57:24.480'),
-			(3,2,'Se agrega factura con estado Sin registros','2017-04-07 02:57:24.480'),
-			(3,3,'Se agrega factura con estado Sin registros','2017-03-06 02:57:24.480'),
-			(2,4,'Se agrega factura con estado Sin registros','2017-04-08 02:57:24.480'),
+            (2,1,'Se agrega factura y se asigna al cliente correctamente','2017-04-08 02:57:24.480'),
+			(3,2,'Se agrega factura y se asigna al cliente correctamente','2017-04-07 02:57:24.480'),
+			(3,3,'Se agrega factura y se asigna al cliente correctamente','2017-03-06 02:57:24.480'),
+			(2,5,'Se agrega factura con estado Sin registros','2017-04-08 02:57:24.480'),
 			(2,5,'Se agrega factura con estado Sin registros','2017-04-06 02:57:24.480')
 	GO
 
@@ -526,7 +528,7 @@ INSERT INTO [dbo].[SOLICITUD]
      VALUES
             (1,2,6,1,5,2,'2017-04-08 02:57:24.480','Por favor Instalar autocad'),
 			(2,5,7,2,2,3,'2017-04-08 02:57:24.480','Por favor limpiar pantalla'),
-			(3,3,8,12,3,2,'2017-02-10 02:57:24.480','Sin novedad'),
+			(3,3,8,11,3,2,'2017-02-10 02:57:24.480','Sin novedad'),
 			(2,4,4,8,4,2,'2017-02-25 02:57:24.480','Conseguir cable'),
 			(1,1,5,1,6,3,'2017-03-03 02:57:24.480','Sin novedad'),
 			(2,5,8,10,1,2,'2017-04-08 02:57:24.480','Por favor realizar label con título de la universidad')
@@ -821,6 +823,9 @@ SET @idEmpleado = (SELECT id_usuario FROM USUARIO WHERE identificacion = @identi
 INSERT INTO INVENTARIO (id_producto_inventario,cantidad_existencias,fecha_actualizacion_inventario)
 VALUES (@id_prod,@cantidad,@fecha);
 SET @idInventario = @@IDENTITY;
+
+INSERT INTO INVENTARIO_BAJAS (id_producto_inventario,cantidad_existencias,fecha_actualizacion_inventario)
+VALUES (@id_prod,0,@fecha);
 
 INSERT INTO HISTORICO_INVENTARIO (id_empleado,id_inventario_historico,fecha,descripcion)
 VALUES (@idEmpleado,@idInventario,@fecha,'Se agrega el producto '+@nombre_prod+' y se crea su inventario con una cantidad inicial en stock de '+cast(@cantidad as varchar) )
@@ -1192,7 +1197,7 @@ SET @idEmpleado = (SELECT id_usuario FROM USUARIO WHERE identificacion = @identi
 BEGIN
 SELECT        SOLICITUD.id_solicitud, SOLICITUD.descripcion, SOLICITUD.fecha_solicitud, SOLICITUD.id_escalado_solicitud, USUARIO.identificacion, USUARIO.apellidos, USUARIO.nombres, 
                          ESTADO_SOLICITUD.descripcion AS Expr1, PRIORIDAD.descripcion_prioridad, TIPO_ELEMENTO.descripcion_elemento, CATEGORIA_ELEMENTO.descripcion_categoria_elemento, ELEMENTO.sistema_operativo, 
-                         ELEMENTO.marca, ELEMENTO.modelo, ELEMENTO.serial, ELEMENTO.serial_bateria, ELEMENTO.rom, ELEMENTO.ram, ELEMENTO.placa, SERVICIO.descripcion_servicio
+                         ELEMENTO.marca, ELEMENTO.modelo, ELEMENTO.serial, ELEMENTO.serial_bateria, ELEMENTO.rom, ELEMENTO.ram, ELEMENTO.placa, SERVICIO.descripcion_servicio, SERVICIO.precio
 FROM            SOLICITUD INNER JOIN
                          USUARIO ON SOLICITUD.id_usuario_solicitud = USUARIO.id_usuario INNER JOIN
                          PRIORIDAD ON SOLICITUD.id_prioridad_solicitud = PRIORIDAD.id_prioridad INNER JOIN
@@ -1213,7 +1218,7 @@ AS
 BEGIN
 SELECT        SOLICITUD.id_solicitud, SOLICITUD.descripcion, SOLICITUD.fecha_solicitud, SOLICITUD.id_escalado_solicitud, USUARIO.identificacion, USUARIO.apellidos, USUARIO.nombres, 
                          ESTADO_SOLICITUD.descripcion AS Expr1, PRIORIDAD.descripcion_prioridad, TIPO_ELEMENTO.descripcion_elemento, CATEGORIA_ELEMENTO.descripcion_categoria_elemento, ELEMENTO.sistema_operativo, 
-                         ELEMENTO.marca, ELEMENTO.modelo, ELEMENTO.serial, ELEMENTO.serial_bateria, ELEMENTO.rom, ELEMENTO.ram, ELEMENTO.placa, SERVICIO.descripcion_servicio
+                         ELEMENTO.marca, ELEMENTO.modelo, ELEMENTO.serial, ELEMENTO.serial_bateria, ELEMENTO.rom, ELEMENTO.ram, ELEMENTO.placa, SERVICIO.descripcion_servicio, SERVICIO.precio
 FROM            SOLICITUD INNER JOIN
                          USUARIO ON SOLICITUD.id_usuario_solicitud = USUARIO.id_usuario INNER JOIN
                          PRIORIDAD ON SOLICITUD.id_prioridad_solicitud = PRIORIDAD.id_prioridad INNER JOIN
@@ -1524,4 +1529,47 @@ BEGIN
 		SET @TotalRegistrosInventario = @TotalRegistrosInventario -1;
 	END
 END 
+GO
+
+--PROCEDIMIENTO QUE CREA UNA FACTURA SIN REGISTROS PARA EL INICIO DE LA GENERACION DE UNA FACTURA FINAL
+CREATE PROCEDURE CrearFacturaSinRegistros
+@identifEmpleado VARCHAR(15)
+AS
+DECLARE @idEmpleado int, @fecha DATETIME, @idFacturaNueva int
+SET @fecha = (SELECT CURRENT_TIMESTAMP);
+SET @idEmpleado = (SELECT id_usuario FROM USUARIO WHERE identificacion = @identifEmpleado);
+
+BEGIN
+	INSERT INTO FACTURA (fecha,id_empleado_factura,id_estado_factura) 
+	VALUES (@fecha,@idEmpleado,5);
+	SET @idFacturaNueva =(@@IDENTITY);
+	 
+	INSERT INTO HISTORICO_FACTURA (id_empleado_historico,id_factura_historico,descripcion_historico,fecha_historico)
+	VALUES (@idEmpleado,@idFacturaNueva,'Se agrega Factura con estado Sin registros',@fecha);
+
+	SELECT id_factura,fecha FROM FACTURA WHERE id_factura = @idFacturaNueva;
+END
+GO
+
+--PROCEDIMIENTO QUE ELIMINA FACTURAS SIN REGISTROS.   ESTE PROC SE EJECUTARÁ POR MEDIO DE UN JOB QUE HARÁ EL PROCESO CADA X PERIODO DE TIEMPO
+CREATE PROCEDURE GarbageCollector_FacturasSinRegistros_Automatico
+AS
+DECLARE @TotalRegistros int
+BEGIN
+
+SET @TotalRegistros =  (SELECT COUNT(*) FROM SOLICITUD);
+DELETE FROM HISTORICO_FACTURA WHERE id_factura_historico IN (SELECT id_factura FROM FACTURA 
+								WHERE id_estado_factura = 5)
+
+DELETE FROM FACTURA WHERE id_estado_factura = 5
+
+END
+GO
+
+--PROCEDIMIENTO QUE TRAE EL ID DE LA ULTIMA FACTURA CREADA
+CREATE PROCEDURE ObtenerIdUltimaFacturaGenerada
+AS
+BEGIN
+	SELECT COUNT(*) FROM factura
+END
 GO

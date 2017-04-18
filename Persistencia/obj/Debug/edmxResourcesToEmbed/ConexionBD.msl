@@ -574,5 +574,6 @@
     <FunctionImportMapping FunctionImportName="InsertarProducto" FunctionName="bdServiciosDigitalesProyModel.Store.InsertarProducto" />
     <FunctionImportMapping FunctionImportName="ValidarAutenticacionLogin" FunctionName="bdServiciosDigitalesProyModel.Store.ValidarAutenticacionLogin" />
     <FunctionImportMapping FunctionImportName="ObtenerIdUltimaFacturaGenerada" FunctionName="bdServiciosDigitalesProyModel.Store.ObtenerIdUltimaFacturaGenerada" />
+    <FunctionImportMapping FunctionImportName="ConsultarCantidadProductoXid" FunctionName="bdServiciosDigitalesProyModel.Store.ConsultarCantidadProductoXid" />
   </EntityContainerMapping>
 </Mapping>

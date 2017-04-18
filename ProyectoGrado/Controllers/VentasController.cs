@@ -20,11 +20,11 @@ namespace ServiciosDigitalesProy.Controllers
         public ActionResult CrearFactura()
         {
             string resultado = "", tipoResultado = "";
-            int idFactura = CatalogoVentas.GetInstance().ObtenerIdUltimaFacturaGenerada(ref resultado, ref tipoResultado)+1;
+            int idFactura = CatalogoVentas.GetInstance().ObtenerIdUltimaFacturaGenerada(ref resultado, ref tipoResultado) + 1;
             DateTime horaActual = DateTime.Now;
             if (idFactura > 1)
             {
-                Factura factura = new Factura(idFactura,horaActual);
+                Factura factura = new Factura(idFactura, horaActual);
                 Session["Factura"] = factura;
                 TempData["mensaje"] = resultado;
                 TempData["estado"] = tipoResultado;
@@ -89,12 +89,13 @@ namespace ServiciosDigitalesProy.Controllers
                 TempData["estado"] = "success";
                 Session["Factura"] = factura;
             }
-            else {
+            else
+            {
                 TempData["mensaje"] = "Ya existe un cliente asociado a esta Factura";
                 TempData["estado"] = "danger";
             }
             return View("CrearFactura", factura);
-            
+
 
         }
 
@@ -124,7 +125,7 @@ namespace ServiciosDigitalesProy.Controllers
                     }
                     producto = null;
                 }
-              
+
                 Session["Productos"] = productosDisponibles;
                 return View(productosDisponibles);
             }
@@ -135,7 +136,7 @@ namespace ServiciosDigitalesProy.Controllers
                 return View("CrearFactura", factura);
             }
         }
-        
+
 
         /// <summary>
         /// AGREGA UN PRODUCTO SELECCIONADO EN EL MODAL A LA VISTA PRINCIPAL DE CREACION DE FACTURA
@@ -182,7 +183,7 @@ namespace ServiciosDigitalesProy.Controllers
             Factura factura = Session["Factura"] as Factura;
             string resultado = "", tipoResultado = "";
             List<Solicitud> solicitudes = CatalogoSolicitudes.GetInstance().ConsultarSolicitudes(ref resultado, ref tipoResultado);
-            List<Solicitud> solicitudesClientefactura =  new List<Solicitud>();
+            List<Solicitud> solicitudesClientefactura = new List<Solicitud>();
             Solicitud solicitud;
             if (solicitudes != null)
             {
@@ -195,12 +196,13 @@ namespace ServiciosDigitalesProy.Controllers
                     }
                     solicitud = null;
                 }
-                if (solicitudesClientefactura.Count !=0)
+                if (solicitudesClientefactura.Count != 0)
                 {
                     ViewBag.NombreCliente = factura.cliente.NombresApellidos;
                     Session["Solicitudes"] = solicitudesClientefactura;
                     return View(solicitudesClientefactura);
-                }else
+                }
+                else
                 {
                     TempData["mensaje"] = "No hay solicitudes asociadas al cliente en base de datos";
                     TempData["estado"] = "info";
@@ -250,23 +252,81 @@ namespace ServiciosDigitalesProy.Controllers
         }
 
 
-
+        /// <summary>
+        /// GENERA LA FACTURA Y LA ALISTA PARA MOSTRARLA AL USUARIO ANTES DE GUARDARLA EN BASE DE DATOS
+        /// TAMBIEN SE VALIDA EN STOCK Y SE REALIZAN CÁLCULOS PARA EL VALOR TOTAL DE LA FACTURA
+        /// </summary>
+        /// <param name="facturaa"></param>
+        /// <returns></returns>
         [HttpPost]
-        public ActionResult ConfirmarItems(Factura facturaa)
+        public ActionResult GenerarFactura(Factura facturaa)
         {
             Factura factura = Session["Factura"] as Factura;
-
-            for (int i=0;i<facturaa.listaDetallesProducto.Count;i++)
+            string res = "", tipores = "";
+            int cantidad = 0;
+            double Total = 0;
+            if (factura.listaDetallesProducto.Count != 0)
             {
-                factura.listaDetallesProducto[i].cantidad = facturaa.listaDetallesProducto[i].cantidad;
+                for (int i = 0; i < facturaa.listaDetallesProducto.Count; i++)
+                {
+                    factura.listaDetallesProducto[i].cantidad = facturaa.listaDetallesProducto[i].cantidad;
+                    if (facturaa.listaDetallesProducto[i].cantidad > 0)
+                    {
+                        cantidad = CatalogoInventarios.GetInstance().ConsultarCantidadProductoXid(facturaa.listaDetallesProducto[i].producto.id_producto, ref res, ref tipores);
+                        if (facturaa.listaDetallesProducto[i].cantidad > cantidad)
+                        {
+                            TempData["mensaje"] = "No hay la cantidad de existencias suficientes para el producto " + facturaa.listaDetallesProducto[i].producto.nombre;
+                            TempData["estado"] = "danger";
+                            return View("CrearFactura", factura);
+                        }
+                        else
+                        {
+                            factura.listaDetallesProducto[i].subtotal = facturaa.listaDetallesProducto[i].cantidad * facturaa.listaDetallesProducto[i].producto.precio_venta;
+
+                        }
+
+                    }
+                    else
+                    {
+                        TempData["mensaje"] = "En el campo Cantidad no se permiten valores menores o iguales a cero";
+                        TempData["estado"] = "danger";
+                        return View("CrearFactura", factura);
+                    }
+                    cantidad = 0;
+                }
+
+                // suma los precios de los items de los productos al total de la factura
+                for (int i = 0; i < factura.listaDetallesProducto.Count; i++)
+                {
+                    Total = factura.listaDetallesProducto[i].subtotal + Total;
+
+                }
             }
 
+            //Suma los precios de las solicitudes agregadas, al total de la factura
+            if (factura.listaDetallesSolicitud.Count != 0)
+            {
+                for (int i = 0; i < factura.listaDetallesSolicitud.Count; i++)
+                {
+                    Total = factura.listaDetallesSolicitud[i].solicitud.servicio.precio + Total;
+                }
+            }
+
+            factura.total = Total;
+
             Session["Factura"] = factura;
-            TempData["mensaje"] = "Producto Agregado";
-            TempData["estado"] = "info";
-            return View("CrearFactura", factura);
+            TempData["mensaje"] = "Factura Generada correctamente.  Haga clic en Guardar para confirmar";
+            TempData["estado"] = "success";
+            return View("GenerarFactura", factura);
         }
 
+
+        [HttpGet]
+        public ActionResult ModificarFacturaGenerada()
+        {
+            Factura factura = Session["Factura"] as Factura;
+            return View("CrearFactura", factura);
+        }
 
         /// <summary>
         /// ELIMINA UN ITEM PRODUCTO DENTRO DE LA FACTURA QUE SE ESTA GENERANDO
@@ -286,7 +346,7 @@ namespace ServiciosDigitalesProy.Controllers
             TempData["mensaje"] = "Item removido Correctamente";
             TempData["estado"] = "info";
             Session["Factura"] = factura;
-         
+
             return View("CrearFactura", factura);
         }
 

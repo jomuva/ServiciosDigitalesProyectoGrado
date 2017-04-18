@@ -735,6 +735,9 @@
   <Function Name="Consultar_id_UsuarioXIdentificacion" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
     <Parameter Name="codigo" Type="int" Mode="In" />
   </Function>
+  <Function Name="ConsultarCantidadProductoXid" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
+    <Parameter Name="idProd" Type="int" Mode="In" />
+  </Function>
   <Function Name="ConsultarCantidadXProducto" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
     <Parameter Name="id_inventario" Type="int" Mode="In" />
   </Function>

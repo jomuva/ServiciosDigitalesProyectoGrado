@@ -633,5 +633,14 @@ namespace Persistencia
         {
             return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction<Nullable<int>>("ObtenerIdUltimaFacturaGenerada");
         }
+    
+        public virtual ObjectResult<Nullable<int>> ConsultarCantidadProductoXid(Nullable<int> idProd)
+        {
+            var idProdParameter = idProd.HasValue ?
+                new ObjectParameter("idProd", idProd) :
+                new ObjectParameter("idProd", typeof(int));
+    
+            return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction<Nullable<int>>("ConsultarCantidadProductoXid", idProdParameter);
+        }
     }
 }

@@ -75,6 +75,34 @@ namespace ProyectoGrado.Catalogos
         }
 
 
+
+        /// <summary>
+        /// TRAE LA CANTIDAD DE EXISTENCIAS DE UN PRODUCTO EN ESPECIAL
+        /// </summary>
+        /// <param name="ident"></param>
+        /// <param name="resultado"></param>
+        /// <param name="tipoResultado"></param>
+        /// <returns></returns>
+        public int ConsultarCantidadProductoXid(int ident, ref string resultado, ref string tipoResultado)
+        {
+            object oUsers = null;
+            string dynObj;
+            dynamic dyn;
+            int cantidad = 0;
+
+            oUsers = inventariosDatos.ConsultarCantidadProductoXid(ident, ref resultado, ref tipoResultado);
+
+            dynObj = JsonConvert.SerializeObject(oUsers);
+            dyn = JsonConvert.DeserializeObject(dynObj);
+
+            foreach (var item in dyn)
+            {
+                cantidad = item;
+            }
+
+            return cantidad;
+        }
+
         /// <summary>
         /// Consulta el historico de un inventario segun su id
         /// </summary>

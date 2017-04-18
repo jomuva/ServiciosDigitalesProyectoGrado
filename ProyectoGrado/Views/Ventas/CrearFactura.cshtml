@@ -119,7 +119,7 @@
                 <div class="row">
                     <div style="margin-top: 10px;margin-right:-40px;">
                         <div class="col-md-2 pull-left">
-                            <a class="btn btn-danger" id="btnAdicionarProducto" data-toggle="modal" href="#miModalAdicionarProducto">
+                            <a class="btn btn-success" id="btnAdicionarProducto" data-toggle="modal" href="#miModalAdicionarProducto">
                                 Adicionar <b>Producto</b>
                             </a>
                         </div>
@@ -138,7 +138,7 @@
     </div>
     <!-- /.FIN BOTONES DE ADICION DE ITEMS DE PRODUCTO Y SOLICITUD -->
     <!-- /.INICIO CUERPO DE FACTURA DONDE VAN LOS DETALLES -->
-    @using (Html.BeginForm("ConfirmarItems", "Ventas"))
+    @using (Html.BeginForm("GenerarFactura", "Ventas"))
     {
         <!-- INICIO SECCION ITEMS PRODUCTO-->
         <div class="form-horizontal col-md-10 col-md-offset-1" style="border-style: solid;">
@@ -148,6 +148,9 @@
 
                     <thead>
                         <tr>
+                            @*<td class="hidden">
+                                    <b>idProducto</b>
+                                </td>*@
                             <td style="width: 1px;">
                                 <b>Cantidad</b>
                             </td>
@@ -166,14 +169,17 @@
                         @for (int i = 0; i < Model.listaDetallesProducto.Count; i++)
                         {
                             <tr>
+                                @Html.HiddenFor(x => x.listaDetallesProducto[i].producto.id_producto)
                                 <td>
                                     @Html.TextBoxFor(model => this.Model.listaDetallesProducto[i].cantidad, new { htmlAttributes = new { @class = "form-control", @type = "number" } })
                                 </td>
                                 <td>
                                     @Html.DisplayFor(modelItem => this.Model.listaDetallesProducto[i].producto.nombre)
+
                                 </td>
                                 <td>
                                     @Html.DisplayFor(modelItem => this.Model.listaDetallesProducto[i].producto.precio_venta, new { htmlAttributes = new { style = "width: 100px;" } })
+                                    @Html.HiddenFor(x => x.listaDetallesProducto[i].producto.precio_venta)
                                 </td>
                                 <td>
                                     <a href="@Url.Action("eliminarItemProducto", null, new { id = this.Model.listaDetallesProducto[i].producto.id_producto })">
@@ -193,6 +199,7 @@
                                 </td>
                                 <td>
                                     @Html.DisplayFor(modelItem => this.Model.listaDetallesSolicitud[i].solicitud.servicio.precio, new { htmlAttributes = new { style = "width: 100px;" } })
+                                    @Html.HiddenFor(x => x.listaDetallesSolicitud[i].solicitud.servicio.precio)
                                 </td>
                                 <td>
                                     <a href="@Url.Action("eliminarItemSolicitud", null, new { id = this.Model.listaDetallesSolicitud[i].solicitud.id_solicitud })">
@@ -217,7 +224,7 @@
                         <input type="submit" id="Generar" value="Generar" class="btn btn-success" />
                     </div>
                     <div class="col-md-2" style="padding-left: 0px;">
-                        @Html.ActionLink("Cancelar Factura", "CrearFactura", null, new { @class = "btn btn-danger" })
+                        @Html.ActionLink("Limpiar Factura", "CrearFactura", null, new { @class = "btn btn-danger" })
                     </div>
                 </div>
             </div>

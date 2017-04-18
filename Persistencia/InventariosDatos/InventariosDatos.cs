@@ -55,6 +55,33 @@ namespace Persistencia.InventariosDatos
 
         }
 
+
+        /// <summary>
+        /// TRAE LA CANTIDAD DE EXISTENCIAS DE UN PRODUCTO EN ESPECIAL
+        /// </summary>
+        /// <param name="data"></param>
+        /// <param name="resultado"></param>
+        /// <param name="tipoResultado"></param>
+        /// <returns></returns>
+        public object ConsultarCantidadProductoXid(int data, ref string resultado, ref string tipoResultado)
+        {
+
+            object cantidad = null;
+            try
+            {
+                    var consulta = conexion.conexiones.ConsultarCantidadProductoXid(data).ToList();
+                    return consulta.ToList();
+            }
+            catch (Exception ex)
+            {
+                resultado = ex.Message;
+                tipoResultado = "danger";
+            }
+
+
+            return cantidad;
+
+        }
         /// <summary>
         /// Consulta la cantidad de existencias que hay en el producto indicado
         /// </summary>

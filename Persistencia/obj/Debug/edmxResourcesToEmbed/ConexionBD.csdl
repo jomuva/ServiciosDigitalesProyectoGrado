@@ -1008,6 +1008,9 @@
       <Parameter Name="passwd" Mode="In" Type="String" />
     </FunctionImport>
     <FunctionImport Name="ObtenerIdUltimaFacturaGenerada" ReturnType="Collection(Int32)" />
+    <FunctionImport Name="ConsultarCantidadProductoXid" ReturnType="Collection(Int32)">
+      <Parameter Name="idProd" Mode="In" Type="Int32" />
+    </FunctionImport>
   </EntityContainer>
   <ComplexType Name="ConsultarCategorias_Elemento_Result">
     <Property Type="Int32" Name="id_categoria_elemento" Nullable="false" />

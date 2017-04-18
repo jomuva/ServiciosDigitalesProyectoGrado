@@ -740,6 +740,9 @@
         <Function Name="Consultar_id_UsuarioXIdentificacion" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
           <Parameter Name="codigo" Type="int" Mode="In" />
         </Function>
+        <Function Name="ConsultarCantidadProductoXid" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
+          <Parameter Name="idProd" Type="int" Mode="In" />
+        </Function>
         <Function Name="ConsultarCantidadXProducto" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
           <Parameter Name="id_inventario" Type="int" Mode="In" />
         </Function>
@@ -1995,6 +1998,9 @@
             <Parameter Name="passwd" Mode="In" Type="String" />
           </FunctionImport>
           <FunctionImport Name="ObtenerIdUltimaFacturaGenerada" ReturnType="Collection(Int32)" />
+          <FunctionImport Name="ConsultarCantidadProductoXid" ReturnType="Collection(Int32)">
+            <Parameter Name="idProd" Mode="In" Type="Int32" />
+          </FunctionImport>
         </EntityContainer>
         <ComplexType Name="ConsultarCategorias_Elemento_Result">
           <Property Type="Int32" Name="id_categoria_elemento" Nullable="false" />
@@ -2749,6 +2755,7 @@
           <FunctionImportMapping FunctionImportName="InsertarProducto" FunctionName="bdServiciosDigitalesProyModel.Store.InsertarProducto" />
           <FunctionImportMapping FunctionImportName="ValidarAutenticacionLogin" FunctionName="bdServiciosDigitalesProyModel.Store.ValidarAutenticacionLogin" />
           <FunctionImportMapping FunctionImportName="ObtenerIdUltimaFacturaGenerada" FunctionName="bdServiciosDigitalesProyModel.Store.ObtenerIdUltimaFacturaGenerada" />
+          <FunctionImportMapping FunctionImportName="ConsultarCantidadProductoXid" FunctionName="bdServiciosDigitalesProyModel.Store.ConsultarCantidadProductoXid" />
         </EntityContainerMapping>
       </Mapping>
     </edmx:Mappings>

@@ -133,9 +133,83 @@ namespace ProyectoGrado.Catalogos
                                                 idFactura, Convert.ToDecimal(factura.valorPagado),Convert.ToDecimal(factura.total),
                                                 facturaVacia.fecha, ref resultado, ref tipoResultado);
 
-            //Actualizo el inventario segun la venta realizada
-
         }
+
+
+        public List<Factura> ConsultarFacturas(ref string resultado, ref string tipoResultado)
+        {
+            object oFacturas = null, oDetallesProducto=null, oDetallesSolicitudes=null;
+            List<Factura> facturas = new List<Factura>();
+            List<DetalleFacturaProducto> DetallesFacturaProductos = new List<DetalleFacturaProducto>();
+            List<DetalleFacturaSolicitud> DetallesFacturaSolicitudes = new List<DetalleFacturaSolicitud>();
+            DetalleFacturaProducto detalleProducto = new DetalleFacturaProducto();
+            string dynObj, dynObj2;
+            dynamic dyn, dyn2;
+            int idFacturaDetalle = 0;
+            int i = 1;
+            oFacturas = ventasDatos.ConsultarFacturas(ref resultado, ref tipoResultado);
+            
+            if (tipoResultado != "danger")
+            {
+                dynObj = JsonConvert.SerializeObject(oFacturas);
+                dyn = JsonConvert.DeserializeObject(dynObj);
+
+                foreach (var item in dyn)
+                {
+                    facturas.Add(new Factura {
+                        id_factura = item.id_factura,
+                        estado = new EstadoFactura((string)item.descripcion_estado_factura),
+                        fecha = item.fecha,
+                        valorPagado = item.saldo,
+                        total = item.valor_total,
+                        cliente = new Usuario((string)item.identificacion,(string)item.apellidos,(string)item.nombrs)
+                    });
+
+                    //busco lista de detalles de producto segun id factura
+                    oDetallesProducto = ventasDatos.ConsultarDetallesFacturaProductoXid(i, ref resultado, ref tipoResultado);
+                    if (oDetallesProducto != null)
+                    {
+                        DetallesFacturaProductos = new List<DetalleFacturaProducto>();
+                        dynObj2 = JsonConvert.SerializeObject(oDetallesProducto);
+                        dyn2= JsonConvert.DeserializeObject(dynObj2);
+                        foreach (var item2 in dyn2)
+                        {
+                            DetallesFacturaProductos.Add(new DetalleFacturaProducto{
+                                producto = new Producto((string)item2.nombre_producto,(double)item2.precio_venta),
+                                cantidad = (int)item2.cantidad_venta,
+                            });
+                        }
+                        facturas[idFacturaDetalle].listaDetallesProducto = DetallesFacturaProductos;
+                    }
+                   
+                    oDetallesProducto = null;
+                    dyn2 = null;
+                    dynObj2 = null;
+                    //busco lista de detalles de solicitudes segun id factura
+                    oDetallesSolicitudes = ventasDatos.ConsultarDetallesFacturaSolicitudXid(i, ref resultado, ref tipoResultado);
+                    if (oDetallesSolicitudes != null)
+                    {
+                        DetallesFacturaSolicitudes = new List<DetalleFacturaSolicitud>();
+                        dynObj2 = JsonConvert.SerializeObject(oDetallesSolicitudes);
+                        dyn2 = JsonConvert.DeserializeObject(dynObj2);
+                        foreach (var item2 in dyn2)
+                        {
+                            DetallesFacturaSolicitudes.Add(new DetalleFacturaSolicitud
+                            {
+                                solicitud = new Solicitud((new Servicio((string)item2.descripcion_servicio,(double)item2.precio))),
+                            });
+                        }
+                        
+                        facturas[idFacturaDetalle].listaDetallesSolicitud = DetallesFacturaSolicitudes;
+                    }
+                    i++;
+                    idFacturaDetalle++;
+                    oDetallesSolicitudes = null;
+                }
+            }
+            return facturas;
+        }
+
 
     }
 }

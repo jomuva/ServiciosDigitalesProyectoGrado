@@ -16,7 +16,11 @@ namespace ServiciosDigitalesProy.Models
             precio_venta = 0;
         }
 
-
+        public Producto(string nombre, double precioVenta)
+        {
+            this.nombre = nombre;
+            this.precio_venta = precio_venta;
+        }
         public Producto(string nombre, int id)
         {
             this.nombre = nombre;

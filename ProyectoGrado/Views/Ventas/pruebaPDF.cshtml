@@ -1,0 +1,26 @@
+﻿
+@{
+    Layout = null;
+}
+
+<!DOCTYPE html>
+
+<html>
+<head>
+    <meta name="viewport" content="width=device-width" />
+    <title>pruebaPDF</title>
+</head>
+<body>
+    <div> 
+        PROBANDO EL PDF
+
+        <div class="row" style="margin-left: 650px;margin-bottom:10px">
+            <div class="col-md-4 inputGroupContainer">
+                <div class="input-group">
+                    @Html.ActionLink("Exportar PDF", "ExportarPDF", null, new { @class = "btn btn-danger" })
+                </div>
+            </div>
+        </div>
+    </div>
+</body>
+</html>

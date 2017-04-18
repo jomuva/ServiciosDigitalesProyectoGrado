@@ -37,6 +37,8 @@ namespace ServiciosDigitalesProy.Models
             this.nombres = nombres;
         }
 
+
+
         public int idUsuario { get; set; }
 
         [RegularExpression(@"^[0-9a-zA-ZáéíóÚ.ÁÉÍÓÚ. ]{1,40}$", ErrorMessage = "Los Caracteres especiales no son permitidos.")]

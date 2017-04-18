@@ -286,13 +286,17 @@
     </AssociationSetMapping>
     <FunctionImportMapping FunctionImportName="ActualizarEstadoProducto_Automatico" FunctionName="bdServiciosDigitalesProyModel.Store.ActualizarEstadoProducto_Automatico" />
     <FunctionImportMapping FunctionImportName="ActualizarEstadoSolicitud_Automatico" FunctionName="bdServiciosDigitalesProyModel.Store.ActualizarEstadoSolicitud_Automatico" />
+    <FunctionImportMapping FunctionImportName="ActualizarFacturaVacia" FunctionName="bdServiciosDigitalesProyModel.Store.ActualizarFacturaVacia" />
     <FunctionImportMapping FunctionImportName="ActualizarInventarioProductos" FunctionName="bdServiciosDigitalesProyModel.Store.ActualizarInventarioProductos" />
+    <FunctionImportMapping FunctionImportName="ActualizarInventarioXVenta" FunctionName="bdServiciosDigitalesProyModel.Store.ActualizarInventarioXVenta" />
     <FunctionImportMapping FunctionImportName="ActualizarProducto" FunctionName="bdServiciosDigitalesProyModel.Store.ActualizarProducto" />
     <FunctionImportMapping FunctionImportName="ActualizarServicio" FunctionName="bdServiciosDigitalesProyModel.Store.ActualizarServicio" />
     <FunctionImportMapping FunctionImportName="AgregarAnotacionHistoricoInventario" FunctionName="bdServiciosDigitalesProyModel.Store.AgregarAnotacionHistoricoInventario" />
     <FunctionImportMapping FunctionImportName="AgregarAnotacionHistoricoInventarioBajas" FunctionName="bdServiciosDigitalesProyModel.Store.AgregarAnotacionHistoricoInventarioBajas" />
     <FunctionImportMapping FunctionImportName="AgregarAnotacionHistoricoSolicitud" FunctionName="bdServiciosDigitalesProyModel.Store.AgregarAnotacionHistoricoSolicitud" />
     <FunctionImportMapping FunctionImportName="AgregarBajaInventario" FunctionName="bdServiciosDigitalesProyModel.Store.AgregarBajaInventario" />
+    <FunctionImportMapping FunctionImportName="AgregarDetalleFacturaProducto" FunctionName="bdServiciosDigitalesProyModel.Store.AgregarDetalleFacturaProducto" />
+    <FunctionImportMapping FunctionImportName="AgregarDetalleFacturaSolicitud" FunctionName="bdServiciosDigitalesProyModel.Store.AgregarDetalleFacturaSolicitud" />
     <FunctionImportMapping FunctionImportName="AgregarElemento" FunctionName="bdServiciosDigitalesProyModel.Store.AgregarElemento" />
     <FunctionImportMapping FunctionImportName="AgregarServicio" FunctionName="bdServiciosDigitalesProyModel.Store.AgregarServicio" />
     <FunctionImportMapping FunctionImportName="AgregarUsuario" FunctionName="bdServiciosDigitalesProyModel.Store.AgregarUsuario" />
@@ -300,6 +304,7 @@
     <FunctionImportMapping FunctionImportName="CambiarEstadoSolicitud" FunctionName="bdServiciosDigitalesProyModel.Store.CambiarEstadoSolicitud" />
     <FunctionImportMapping FunctionImportName="ConsultaNombresEmpleadosXSolicitud" FunctionName="bdServiciosDigitalesProyModel.Store.ConsultaNombresEmpleadosXSolicitud" />
     <FunctionImportMapping FunctionImportName="Consultar_id_UsuarioXIdentificacion" FunctionName="bdServiciosDigitalesProyModel.Store.Consultar_id_UsuarioXIdentificacion" />
+    <FunctionImportMapping FunctionImportName="ConsultarCantidadProductoXid" FunctionName="bdServiciosDigitalesProyModel.Store.ConsultarCantidadProductoXid" />
     <FunctionImportMapping FunctionImportName="ConsultarCantidadXProducto" FunctionName="bdServiciosDigitalesProyModel.Store.ConsultarCantidadXProducto" />
     <FunctionImportMapping FunctionImportName="ConsultarCategorias_Elemento" FunctionName="bdServiciosDigitalesProyModel.Store.ConsultarCategorias_Elemento">
       <ResultMapping>
@@ -314,6 +319,34 @@
         <ComplexTypeMapping TypeName="bdServiciosDigitalesProyModel.ConsultarCategoriasProductos_Result">
           <ScalarProperty Name="id_categoria" ColumnName="id_categoria" />
           <ScalarProperty Name="descripcion" ColumnName="descripcion" />
+        </ComplexTypeMapping>
+      </ResultMapping>
+    </FunctionImportMapping>
+    <FunctionImportMapping FunctionImportName="ConsultarDetallesFacturaProducto" FunctionName="bdServiciosDigitalesProyModel.Store.ConsultarDetallesFacturaProducto">
+      <ResultMapping>
+        <ComplexTypeMapping TypeName="bdServiciosDigitalesProyModel.ConsultarDetallesFacturaProducto_Result">
+          <ScalarProperty Name="nombre_producto" ColumnName="nombre_producto" />
+          <ScalarProperty Name="cantidad_venta" ColumnName="cantidad_venta" />
+          <ScalarProperty Name="id_factura" ColumnName="id_factura" />
+          <ScalarProperty Name="precio_venta" ColumnName="precio_venta" />
+        </ComplexTypeMapping>
+      </ResultMapping>
+    </FunctionImportMapping>
+    <FunctionImportMapping FunctionImportName="ConsultarDetallesFacturaProductoXid" FunctionName="bdServiciosDigitalesProyModel.Store.ConsultarDetallesFacturaProductoXid">
+      <ResultMapping>
+        <ComplexTypeMapping TypeName="bdServiciosDigitalesProyModel.ConsultarDetallesFacturaProductoXid_Result">
+          <ScalarProperty Name="nombre_producto" ColumnName="nombre_producto" />
+          <ScalarProperty Name="cantidad_venta" ColumnName="cantidad_venta" />
+          <ScalarProperty Name="id_factura" ColumnName="id_factura" />
+          <ScalarProperty Name="precio_venta" ColumnName="precio_venta" />
+        </ComplexTypeMapping>
+      </ResultMapping>
+    </FunctionImportMapping>
+    <FunctionImportMapping FunctionImportName="ConsultarDetallesFacturaSolicitudXid" FunctionName="bdServiciosDigitalesProyModel.Store.ConsultarDetallesFacturaSolicitudXid">
+      <ResultMapping>
+        <ComplexTypeMapping TypeName="bdServiciosDigitalesProyModel.ConsultarDetallesFacturaSolicitudXid_Result">
+          <ScalarProperty Name="descripcion_servicio" ColumnName="descripcion_servicio" />
+          <ScalarProperty Name="precio" ColumnName="precio" />
         </ComplexTypeMapping>
       </ResultMapping>
     </FunctionImportMapping>
@@ -349,6 +382,44 @@
         <ComplexTypeMapping TypeName="bdServiciosDigitalesProyModel.ConsultarEstadosSolicitud_Result">
           <ScalarProperty Name="id_estado_solicitud" ColumnName="id_estado_solicitud" />
           <ScalarProperty Name="descripcion" ColumnName="descripcion" />
+        </ComplexTypeMapping>
+      </ResultMapping>
+    </FunctionImportMapping>
+    <FunctionImportMapping FunctionImportName="ConsultarFacturas" FunctionName="bdServiciosDigitalesProyModel.Store.ConsultarFacturas">
+      <ResultMapping>
+        <ComplexTypeMapping TypeName="bdServiciosDigitalesProyModel.ConsultarFacturas_Result">
+          <ScalarProperty Name="id_factura" ColumnName="id_factura" />
+          <ScalarProperty Name="descripcion_estado_factura" ColumnName="descripcion_estado_factura" />
+          <ScalarProperty Name="fecha" ColumnName="fecha" />
+          <ScalarProperty Name="saldo" ColumnName="saldo" />
+          <ScalarProperty Name="valor_total" ColumnName="valor_total" />
+          <ScalarProperty Name="nombres" ColumnName="nombres" />
+          <ScalarProperty Name="apellidos" ColumnName="apellidos" />
+          <ScalarProperty Name="identificacion" ColumnName="identificacion" />
+          <ScalarProperty Name="precio_venta" ColumnName="precio_venta" />
+          <ScalarProperty Name="nombre_producto" ColumnName="nombre_producto" />
+          <ScalarProperty Name="cantidad_venta" ColumnName="cantidad_venta" />
+          <ScalarProperty Name="descripcion_servicio" ColumnName="descripcion_servicio" />
+          <ScalarProperty Name="precio" ColumnName="precio" />
+        </ComplexTypeMapping>
+      </ResultMapping>
+    </FunctionImportMapping>
+    <FunctionImportMapping FunctionImportName="ConsultarFacturaXid" FunctionName="bdServiciosDigitalesProyModel.Store.ConsultarFacturaXid">
+      <ResultMapping>
+        <ComplexTypeMapping TypeName="bdServiciosDigitalesProyModel.ConsultarFacturaXid_Result">
+          <ScalarProperty Name="id_factura" ColumnName="id_factura" />
+          <ScalarProperty Name="descripcion_estado_factura" ColumnName="descripcion_estado_factura" />
+          <ScalarProperty Name="fecha" ColumnName="fecha" />
+          <ScalarProperty Name="saldo" ColumnName="saldo" />
+          <ScalarProperty Name="valor_total" ColumnName="valor_total" />
+          <ScalarProperty Name="nombres" ColumnName="nombres" />
+          <ScalarProperty Name="apellidos" ColumnName="apellidos" />
+          <ScalarProperty Name="identificacion" ColumnName="identificacion" />
+          <ScalarProperty Name="precio_venta" ColumnName="precio_venta" />
+          <ScalarProperty Name="nombre_producto" ColumnName="nombre_producto" />
+          <ScalarProperty Name="cantidad_venta" ColumnName="cantidad_venta" />
+          <ScalarProperty Name="descripcion_servicio" ColumnName="descripcion_servicio" />
+          <ScalarProperty Name="precio" ColumnName="precio" />
         </ComplexTypeMapping>
       </ResultMapping>
     </FunctionImportMapping>
@@ -572,12 +643,7 @@
     <FunctionImportMapping FunctionImportName="GarbageCollector_FacturasSinRegistros_Automatico" FunctionName="bdServiciosDigitalesProyModel.Store.GarbageCollector_FacturasSinRegistros_Automatico" />
     <FunctionImportMapping FunctionImportName="GenerarSolicitud" FunctionName="bdServiciosDigitalesProyModel.Store.GenerarSolicitud" />
     <FunctionImportMapping FunctionImportName="InsertarProducto" FunctionName="bdServiciosDigitalesProyModel.Store.InsertarProducto" />
-    <FunctionImportMapping FunctionImportName="ValidarAutenticacionLogin" FunctionName="bdServiciosDigitalesProyModel.Store.ValidarAutenticacionLogin" />
     <FunctionImportMapping FunctionImportName="ObtenerIdUltimaFacturaGenerada" FunctionName="bdServiciosDigitalesProyModel.Store.ObtenerIdUltimaFacturaGenerada" />
-    <FunctionImportMapping FunctionImportName="ConsultarCantidadProductoXid" FunctionName="bdServiciosDigitalesProyModel.Store.ConsultarCantidadProductoXid" />
-    <FunctionImportMapping FunctionImportName="ActualizarFacturaVacia" FunctionName="bdServiciosDigitalesProyModel.Store.ActualizarFacturaVacia" />
-    <FunctionImportMapping FunctionImportName="ActualizarInventarioXVenta" FunctionName="bdServiciosDigitalesProyModel.Store.ActualizarInventarioXVenta" />
-    <FunctionImportMapping FunctionImportName="AgregarDetalleFacturaProducto" FunctionName="bdServiciosDigitalesProyModel.Store.AgregarDetalleFacturaProducto" />
-    <FunctionImportMapping FunctionImportName="AgregarDetalleFacturaSolicitud" FunctionName="bdServiciosDigitalesProyModel.Store.AgregarDetalleFacturaSolicitud" />
+    <FunctionImportMapping FunctionImportName="ValidarAutenticacionLogin" FunctionName="bdServiciosDigitalesProyModel.Store.ValidarAutenticacionLogin" />
   </EntityContainerMapping>
 </Mapping>

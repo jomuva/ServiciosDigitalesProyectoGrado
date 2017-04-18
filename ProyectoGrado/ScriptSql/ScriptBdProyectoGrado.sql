@@ -1654,3 +1654,90 @@ BEGIN
 END
 GO
 
+
+-- PROCEDIMIENTO QUE CONSULTA LOS DETALLE DE FACTURA PRODUCTO SEGUN UN NUM DE FACTURA ESPECIFICO
+CREATE PROCEDURE ConsultarDetallesFacturaProductoXid 
+@idFactura int
+AS
+BEGIN
+SELECT        PRODUCTO.nombre_producto, DETALLE_FACTURA_PRODUCTO.cantidad_venta, FACTURA.id_factura, PRODUCTO.precio_venta
+FROM            DETALLE_FACTURA_PRODUCTO INNER JOIN
+                         FACTURA ON DETALLE_FACTURA_PRODUCTO.id_factura_detalle_factura = FACTURA.id_factura INNER JOIN
+                         PRODUCTO ON DETALLE_FACTURA_PRODUCTO.id_producto_detalle_factura = PRODUCTO.id_producto
+	WHERE id_factura_detalle_factura = @idFactura
+END
+GO
+
+
+--PROCEDIMIENTO QUE CONSULTA TODOS LOS DETALLES DE FACTURA EN BD
+CREATE PROCEDURE ConsultarDetallesFacturaProducto
+AS
+BEGIN
+SELECT        PRODUCTO.nombre_producto, DETALLE_FACTURA_PRODUCTO.cantidad_venta, FACTURA.id_factura, PRODUCTO.precio_venta
+FROM            DETALLE_FACTURA_PRODUCTO INNER JOIN
+                         FACTURA ON DETALLE_FACTURA_PRODUCTO.id_factura_detalle_factura = FACTURA.id_factura INNER JOIN
+                         PRODUCTO ON DETALLE_FACTURA_PRODUCTO.id_producto_detalle_factura = PRODUCTO.id_producto
+END
+GO
+
+
+
+
+-- PROCEDIMIENTO QUE CONSULTA LOS DETALLES DE FACTURA DE LA SOLICITUD SEGUN NUMERO DE FACTURA ESPECIFICO
+CREATE PROCEDURE ConsultarDetallesFacturaSolicitudXid 
+@idFactura int
+AS
+BEGIN
+SELECT        SERVICIO.descripcion_servicio, SERVICIO.precio
+FROM            DETALLE_FACTURA_SOLICITUD INNER JOIN
+                         FACTURA ON DETALLE_FACTURA_SOLICITUD.id_factura_detalle_factura = FACTURA.id_factura INNER JOIN
+                         SOLICITUD ON DETALLE_FACTURA_SOLICITUD.id_solicitud_detalle_factura = SOLICITUD.id_solicitud INNER JOIN
+                         SERVICIO ON SOLICITUD.id_servicio_solicitud = SERVICIO.id_servicio
+WHERE FACTURA.id_factura = @idFactura
+END
+GO
+
+
+-- CONSULTA LA FACTURA COMPLETA SEGUN SU ID PARA PRESENTARLA AL USUARIO
+CREATE PROCEDURE ConsultarFacturaXid
+@idFactura int
+AS
+BEGIN
+
+SELECT        FACTURA.id_factura, ESTADO_FACTURA.descripcion_estado_factura, FACTURA.fecha, FACTURA.saldo, FACTURA.valor_total, USUARIO.nombres, USUARIO.apellidos, USUARIO.identificacion, 
+                         PRODUCTO.precio_venta, PRODUCTO.nombre_producto, DETALLE_FACTURA_PRODUCTO.cantidad_venta, SERVICIO.descripcion_servicio, SERVICIO.precio
+FROM            ESTADO_FACTURA INNER JOIN
+                         FACTURA ON ESTADO_FACTURA.id_estado_factura = FACTURA.id_estado_factura INNER JOIN
+                         DETALLE_FACTURA_PRODUCTO ON FACTURA.id_factura = DETALLE_FACTURA_PRODUCTO.id_factura_detalle_factura INNER JOIN
+                         DETALLE_FACTURA_SOLICITUD ON FACTURA.id_factura = DETALLE_FACTURA_SOLICITUD.id_factura_detalle_factura INNER JOIN
+                         PRODUCTO ON DETALLE_FACTURA_PRODUCTO.id_producto_detalle_factura = PRODUCTO.id_producto INNER JOIN
+                         SOLICITUD ON DETALLE_FACTURA_SOLICITUD.id_solicitud_detalle_factura = SOLICITUD.id_solicitud INNER JOIN
+                         SERVICIO ON SOLICITUD.id_servicio_solicitud = SERVICIO.id_servicio INNER JOIN
+                         USUARIO ON FACTURA.id_cliente_factura = USUARIO.id_usuario 
+WHERE        FACTURA.id_factura =  @idFactura
+END
+GO
+
+
+--CONSULTA TODAS LAS FACTURAS EXISTENTES
+CREATE PROCEDURE ConsultarFacturas
+AS
+BEGIN
+
+SELECT        FACTURA.id_factura, ESTADO_FACTURA.descripcion_estado_factura, FACTURA.fecha, FACTURA.saldo, FACTURA.valor_total, USUARIO.nombres, USUARIO.apellidos, USUARIO.identificacion, 
+                         PRODUCTO.precio_venta, PRODUCTO.nombre_producto, DETALLE_FACTURA_PRODUCTO.cantidad_venta, SERVICIO.descripcion_servicio, SERVICIO.precio
+FROM            ESTADO_FACTURA INNER JOIN
+                         FACTURA ON ESTADO_FACTURA.id_estado_factura = FACTURA.id_estado_factura INNER JOIN
+                         DETALLE_FACTURA_PRODUCTO ON FACTURA.id_factura = DETALLE_FACTURA_PRODUCTO.id_factura_detalle_factura INNER JOIN
+                         DETALLE_FACTURA_SOLICITUD ON FACTURA.id_factura = DETALLE_FACTURA_SOLICITUD.id_factura_detalle_factura INNER JOIN
+                         PRODUCTO ON DETALLE_FACTURA_PRODUCTO.id_producto_detalle_factura = PRODUCTO.id_producto INNER JOIN
+                         SOLICITUD ON DETALLE_FACTURA_SOLICITUD.id_solicitud_detalle_factura = SOLICITUD.id_solicitud INNER JOIN
+                         SERVICIO ON SOLICITUD.id_servicio_solicitud = SERVICIO.id_servicio INNER JOIN
+                         USUARIO ON FACTURA.id_cliente_factura = USUARIO.id_usuario 
+
+END
+GO
+
+
+
+

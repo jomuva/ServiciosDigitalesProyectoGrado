@@ -134,3 +134,4 @@ C:\Proyecto de Grado Capas\ServiciosDigitalesProyectoGrado\ProyectoGrado\bin\es\
 C:\Proyecto de Grado Capas\ServiciosDigitalesProyectoGrado\ProyectoGrado\bin\es\System.Web.WebPages.Razor.resources.dll
 C:\Proyecto de Grado Capas\ServiciosDigitalesProyectoGrado\ProyectoGrado\obj\Debug\ProyectoGrado.dll
 C:\Proyecto de Grado Capas\ServiciosDigitalesProyectoGrado\ProyectoGrado\obj\Debug\ProyectoGrado.pdb
+C:\Proyecto de Grado Capas\ServiciosDigitalesProyectoGrado\ProyectoGrado\bin\Rotativa.dll

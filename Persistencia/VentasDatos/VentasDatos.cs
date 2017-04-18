@@ -174,7 +174,15 @@ namespace Persistencia.VentasDatos
         }
 
 
-
+        /// <summary>
+        /// Actualiza el inventario de productos luego de una venta
+        /// </summary>
+        /// <param name="idProducto"></param>
+        /// <param name="cantidadVendida"></param>
+        /// <param name="fecha"></param>
+        /// <param name="identifEmpleado"></param>
+        /// <param name="resultado"></param>
+        /// <param name="tipoResultado"></param>
         public void ActualizarInventarioXVenta(int idProducto, int cantidadVendida, DateTime fecha, string identifEmpleado, 
                                                ref string resultado, ref string tipoResultado)
         {
@@ -191,6 +199,103 @@ namespace Persistencia.VentasDatos
             }
 
         }
+
+
+        /// <summary>
+        /// CONSULTA LA FACTURA COMPLETA SEGUN SU ID PARA PRESENTARLA AL USUARIO
+        /// </summary>
+        /// <param name="idFactura"></param>
+        /// <param name="resultado"></param>
+        /// <param name="tipoResultado"></param>
+        /// <returns></returns>
+        public object ConsultarFacturaXid(int idFactura, ref string resultado, ref string tipoResultado)
+        {
+            object factura = null;
+
+            try
+            {
+                factura = conexion.conexiones.ConsultarFacturaXid(idFactura).ToList();
+                tipoResultado = "success";
+            }
+            catch 
+            {
+
+                resultado = "Error al consultar la factura.  Por favor intente más tarde";
+                tipoResultado = "danger";
+            }
+
+            return factura;
+        }
+
+        /// <summary>
+        /// CONSULTA TODAS LAS FACTURAS EXISTENTES
+        /// </summary>
+        /// <param name="idFactura"></param>
+        /// <param name="resultado"></param>
+        /// <param name="tipoResultado"></param>
+        /// <returns></returns>
+        public object ConsultarFacturas(ref string resultado, ref string tipoResultado)
+        {
+            object facturas = null;
+
+            try
+            {
+                facturas = conexion.conexiones.ConsultarFacturas().ToList();
+                tipoResultado = "success";
+            }
+            catch
+            {
+
+                resultado = "Error al consultar las facturas.  Por favor intente más tarde";
+                tipoResultado = "danger";
+            }
+
+            return facturas;
+        }
+
+
+        public object ConsultarDetallesFacturaProductoXid(int idFactura, ref string resultado, ref string tipoResultado)
+        {
+            object facturas = null;
+
+            try
+            {
+                facturas = conexion.conexiones.ConsultarDetallesFacturaProductoXid(idFactura).ToList();
+                tipoResultado = "success";
+            }
+            catch
+            {
+
+                resultado = "Error al consultar el detalle de producto.  Por favor intente más tarde";
+                tipoResultado = "danger";
+            }
+
+            return facturas;
+        }
+
+
+        public object ConsultarDetallesFacturaSolicitudXid(int idFactura, ref string resultado, ref string tipoResultado)
+        {
+            object facturas = null;
+
+            try
+            {
+                facturas = conexion.conexiones.ConsultarDetallesFacturaSolicitudXid(idFactura).ToList();
+                tipoResultado = "success";
+            }
+            catch
+            {
+
+                resultado = "Error al consultar el detalle de solicitud.  Por favor intente más tarde";
+                tipoResultado = "danger";
+            }
+
+            return facturas;
+        }
+
+
+        
+
 
     }
 }

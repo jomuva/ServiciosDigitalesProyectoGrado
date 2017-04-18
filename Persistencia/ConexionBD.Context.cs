@@ -65,6 +65,39 @@ namespace Persistencia
             return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction("ActualizarEstadoSolicitud_Automatico");
         }
     
+        public virtual int ActualizarFacturaVacia(string identifCliente, string identifEmpleado, Nullable<int> estado, Nullable<int> idFactura, Nullable<decimal> valorPagado, Nullable<decimal> total, Nullable<System.DateTime> fecha)
+        {
+            var identifClienteParameter = identifCliente != null ?
+                new ObjectParameter("identifCliente", identifCliente) :
+                new ObjectParameter("identifCliente", typeof(string));
+    
+            var identifEmpleadoParameter = identifEmpleado != null ?
+                new ObjectParameter("identifEmpleado", identifEmpleado) :
+                new ObjectParameter("identifEmpleado", typeof(string));
+    
+            var estadoParameter = estado.HasValue ?
+                new ObjectParameter("estado", estado) :
+                new ObjectParameter("estado", typeof(int));
+    
+            var idFacturaParameter = idFactura.HasValue ?
+                new ObjectParameter("idFactura", idFactura) :
+                new ObjectParameter("idFactura", typeof(int));
+    
+            var valorPagadoParameter = valorPagado.HasValue ?
+                new ObjectParameter("valorPagado", valorPagado) :
+                new ObjectParameter("valorPagado", typeof(decimal));
+    
+            var totalParameter = total.HasValue ?
+                new ObjectParameter("total", total) :
+                new ObjectParameter("total", typeof(decimal));
+    
+            var fechaParameter = fecha.HasValue ?
+                new ObjectParameter("fecha", fecha) :
+                new ObjectParameter("fecha", typeof(System.DateTime));
+    
+            return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction("ActualizarFacturaVacia", identifClienteParameter, identifEmpleadoParameter, estadoParameter, idFacturaParameter, valorPagadoParameter, totalParameter, fechaParameter);
+        }
+    
         public virtual int ActualizarInventarioProductos(Nullable<int> id_inventario, Nullable<int> id_producto, Nullable<int> cantidad, string identifEmpleado)
         {
             var id_inventarioParameter = id_inventario.HasValue ?
@@ -84,6 +117,27 @@ namespace Persistencia
                 new ObjectParameter("identifEmpleado", typeof(string));
     
             return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction("ActualizarInventarioProductos", id_inventarioParameter, id_productoParameter, cantidadParameter, identifEmpleadoParameter);
+        }
+    
+        public virtual int ActualizarInventarioXVenta(Nullable<int> idProducto, Nullable<int> cantidadVendida, Nullable<System.DateTime> fecha, string identifEmpleado)
+        {
+            var idProductoParameter = idProducto.HasValue ?
+                new ObjectParameter("idProducto", idProducto) :
+                new ObjectParameter("idProducto", typeof(int));
+    
+            var cantidadVendidaParameter = cantidadVendida.HasValue ?
+                new ObjectParameter("cantidadVendida", cantidadVendida) :
+                new ObjectParameter("cantidadVendida", typeof(int));
+    
+            var fechaParameter = fecha.HasValue ?
+                new ObjectParameter("fecha", fecha) :
+                new ObjectParameter("fecha", typeof(System.DateTime));
+    
+            var identifEmpleadoParameter = identifEmpleado != null ?
+                new ObjectParameter("identifEmpleado", identifEmpleado) :
+                new ObjectParameter("identifEmpleado", typeof(string));
+    
+            return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction("ActualizarInventarioXVenta", idProductoParameter, cantidadVendidaParameter, fechaParameter, identifEmpleadoParameter);
         }
     
         public virtual int ActualizarProducto(Nullable<int> idProd, string nombre_prod, Nullable<decimal> precio_costo, Nullable<decimal> precio_venta)
@@ -194,6 +248,40 @@ namespace Persistencia
                 new ObjectParameter("descripcionBaja", typeof(string));
     
             return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction("AgregarBajaInventario", id_productoParameter, cantidadBajasParameter, identifEmpleadoParameter, descripcionBajaParameter);
+        }
+    
+        public virtual int AgregarDetalleFacturaProducto(Nullable<int> idProducto, Nullable<int> cantidad, Nullable<int> idFactura)
+        {
+            var idProductoParameter = idProducto.HasValue ?
+                new ObjectParameter("idProducto", idProducto) :
+                new ObjectParameter("idProducto", typeof(int));
+    
+            var cantidadParameter = cantidad.HasValue ?
+                new ObjectParameter("cantidad", cantidad) :
+                new ObjectParameter("cantidad", typeof(int));
+    
+            var idFacturaParameter = idFactura.HasValue ?
+                new ObjectParameter("idFactura", idFactura) :
+                new ObjectParameter("idFactura", typeof(int));
+    
+            return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction("AgregarDetalleFacturaProducto", idProductoParameter, cantidadParameter, idFacturaParameter);
+        }
+    
+        public virtual int AgregarDetalleFacturaSolicitud(Nullable<int> idSolicitud, Nullable<int> cantidad, Nullable<int> idFactura)
+        {
+            var idSolicitudParameter = idSolicitud.HasValue ?
+                new ObjectParameter("idSolicitud", idSolicitud) :
+                new ObjectParameter("idSolicitud", typeof(int));
+    
+            var cantidadParameter = cantidad.HasValue ?
+                new ObjectParameter("cantidad", cantidad) :
+                new ObjectParameter("cantidad", typeof(int));
+    
+            var idFacturaParameter = idFactura.HasValue ?
+                new ObjectParameter("idFactura", idFactura) :
+                new ObjectParameter("idFactura", typeof(int));
+    
+            return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction("AgregarDetalleFacturaSolicitud", idSolicitudParameter, cantidadParameter, idFacturaParameter);
         }
     
         public virtual ObjectResult<Nullable<int>> AgregarElemento(Nullable<int> id_categ, Nullable<int> id_tipo_elem, string serial, string placa, string modelo, string marca, string ram, string rom, string serial_bateria, string sO)
@@ -351,6 +439,15 @@ namespace Persistencia
             return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction<Nullable<int>>("Consultar_id_UsuarioXIdentificacion", codigoParameter);
         }
     
+        public virtual ObjectResult<Nullable<int>> ConsultarCantidadProductoXid(Nullable<int> idProd)
+        {
+            var idProdParameter = idProd.HasValue ?
+                new ObjectParameter("idProd", idProd) :
+                new ObjectParameter("idProd", typeof(int));
+    
+            return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction<Nullable<int>>("ConsultarCantidadProductoXid", idProdParameter);
+        }
+    
         public virtual ObjectResult<Nullable<int>> ConsultarCantidadXProducto(Nullable<int> id_inventario)
         {
             var id_inventarioParameter = id_inventario.HasValue ?
@@ -370,6 +467,29 @@ namespace Persistencia
             return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction<ConsultarCategoriasProductos_Result>("ConsultarCategoriasProductos");
         }
     
+        public virtual ObjectResult<ConsultarDetallesFacturaProducto_Result> ConsultarDetallesFacturaProducto()
+        {
+            return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction<ConsultarDetallesFacturaProducto_Result>("ConsultarDetallesFacturaProducto");
+        }
+    
+        public virtual ObjectResult<ConsultarDetallesFacturaProductoXid_Result> ConsultarDetallesFacturaProductoXid(Nullable<int> idFactura)
+        {
+            var idFacturaParameter = idFactura.HasValue ?
+                new ObjectParameter("idFactura", idFactura) :
+                new ObjectParameter("idFactura", typeof(int));
+    
+            return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction<ConsultarDetallesFacturaProductoXid_Result>("ConsultarDetallesFacturaProductoXid", idFacturaParameter);
+        }
+    
+        public virtual ObjectResult<ConsultarDetallesFacturaSolicitudXid_Result> ConsultarDetallesFacturaSolicitudXid(Nullable<int> idFactura)
+        {
+            var idFacturaParameter = idFactura.HasValue ?
+                new ObjectParameter("idFactura", idFactura) :
+                new ObjectParameter("idFactura", typeof(int));
+    
+            return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction<ConsultarDetallesFacturaSolicitudXid_Result>("ConsultarDetallesFacturaSolicitudXid", idFacturaParameter);
+        }
+    
         public virtual ObjectResult<ConsultarElementos_Result> ConsultarElementos()
         {
             return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction<ConsultarElementos_Result>("ConsultarElementos");
@@ -387,6 +507,20 @@ namespace Persistencia
         public virtual ObjectResult<ConsultarEstadosSolicitud_Result> ConsultarEstadosSolicitud()
         {
             return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction<ConsultarEstadosSolicitud_Result>("ConsultarEstadosSolicitud");
+        }
+    
+        public virtual ObjectResult<ConsultarFacturas_Result> ConsultarFacturas()
+        {
+            return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction<ConsultarFacturas_Result>("ConsultarFacturas");
+        }
+    
+        public virtual ObjectResult<ConsultarFacturaXid_Result> ConsultarFacturaXid(Nullable<int> idFactura)
+        {
+            var idFacturaParameter = idFactura.HasValue ?
+                new ObjectParameter("idFactura", idFactura) :
+                new ObjectParameter("idFactura", typeof(int));
+    
+            return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction<ConsultarFacturaXid_Result>("ConsultarFacturaXid", idFacturaParameter);
         }
     
         public virtual ObjectResult<ConsultarHistoricoInventarioBajasX_id_Result> ConsultarHistoricoInventarioBajasX_id(Nullable<int> id_inventario)
@@ -616,6 +750,11 @@ namespace Persistencia
             return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction("InsertarProducto", id_estado_prodParameter, id_categoriaParameter, nombre_prodParameter, precio_costoParameter, precio_ventaParameter, identifEmpleadoParameter, cantidadParameter);
         }
     
+        public virtual ObjectResult<Nullable<int>> ObtenerIdUltimaFacturaGenerada()
+        {
+            return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction<Nullable<int>>("ObtenerIdUltimaFacturaGenerada");
+        }
+    
         public virtual ObjectResult<string> ValidarAutenticacionLogin(string username, string passwd)
         {
             var usernameParameter = username != null ?
@@ -627,108 +766,6 @@ namespace Persistencia
                 new ObjectParameter("passwd", typeof(string));
     
             return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction<string>("ValidarAutenticacionLogin", usernameParameter, passwdParameter);
-        }
-    
-        public virtual ObjectResult<Nullable<int>> ObtenerIdUltimaFacturaGenerada()
-        {
-            return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction<Nullable<int>>("ObtenerIdUltimaFacturaGenerada");
-        }
-    
-        public virtual ObjectResult<Nullable<int>> ConsultarCantidadProductoXid(Nullable<int> idProd)
-        {
-            var idProdParameter = idProd.HasValue ?
-                new ObjectParameter("idProd", idProd) :
-                new ObjectParameter("idProd", typeof(int));
-    
-            return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction<Nullable<int>>("ConsultarCantidadProductoXid", idProdParameter);
-        }
-    
-        public virtual int ActualizarFacturaVacia(string identifCliente, string identifEmpleado, Nullable<int> estado, Nullable<int> idFactura, Nullable<decimal> valorPagado, Nullable<decimal> total, Nullable<System.DateTime> fecha)
-        {
-            var identifClienteParameter = identifCliente != null ?
-                new ObjectParameter("identifCliente", identifCliente) :
-                new ObjectParameter("identifCliente", typeof(string));
-    
-            var identifEmpleadoParameter = identifEmpleado != null ?
-                new ObjectParameter("identifEmpleado", identifEmpleado) :
-                new ObjectParameter("identifEmpleado", typeof(string));
-    
-            var estadoParameter = estado.HasValue ?
-                new ObjectParameter("estado", estado) :
-                new ObjectParameter("estado", typeof(int));
-    
-            var idFacturaParameter = idFactura.HasValue ?
-                new ObjectParameter("idFactura", idFactura) :
-                new ObjectParameter("idFactura", typeof(int));
-    
-            var valorPagadoParameter = valorPagado.HasValue ?
-                new ObjectParameter("valorPagado", valorPagado) :
-                new ObjectParameter("valorPagado", typeof(decimal));
-    
-            var totalParameter = total.HasValue ?
-                new ObjectParameter("total", total) :
-                new ObjectParameter("total", typeof(decimal));
-    
-            var fechaParameter = fecha.HasValue ?
-                new ObjectParameter("fecha", fecha) :
-                new ObjectParameter("fecha", typeof(System.DateTime));
-    
-            return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction("ActualizarFacturaVacia", identifClienteParameter, identifEmpleadoParameter, estadoParameter, idFacturaParameter, valorPagadoParameter, totalParameter, fechaParameter);
-        }
-    
-        public virtual int ActualizarInventarioXVenta(Nullable<int> idProducto, Nullable<int> cantidadVendida, Nullable<System.DateTime> fecha, string identifEmpleado)
-        {
-            var idProductoParameter = idProducto.HasValue ?
-                new ObjectParameter("idProducto", idProducto) :
-                new ObjectParameter("idProducto", typeof(int));
-    
-            var cantidadVendidaParameter = cantidadVendida.HasValue ?
-                new ObjectParameter("cantidadVendida", cantidadVendida) :
-                new ObjectParameter("cantidadVendida", typeof(int));
-    
-            var fechaParameter = fecha.HasValue ?
-                new ObjectParameter("fecha", fecha) :
-                new ObjectParameter("fecha", typeof(System.DateTime));
-    
-            var identifEmpleadoParameter = identifEmpleado != null ?
-                new ObjectParameter("identifEmpleado", identifEmpleado) :
-                new ObjectParameter("identifEmpleado", typeof(string));
-    
-            return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction("ActualizarInventarioXVenta", idProductoParameter, cantidadVendidaParameter, fechaParameter, identifEmpleadoParameter);
-        }
-    
-        public virtual int AgregarDetalleFacturaProducto(Nullable<int> idProducto, Nullable<int> cantidad, Nullable<int> idFactura)
-        {
-            var idProductoParameter = idProducto.HasValue ?
-                new ObjectParameter("idProducto", idProducto) :
-                new ObjectParameter("idProducto", typeof(int));
-    
-            var cantidadParameter = cantidad.HasValue ?
-                new ObjectParameter("cantidad", cantidad) :
-                new ObjectParameter("cantidad", typeof(int));
-    
-            var idFacturaParameter = idFactura.HasValue ?
-                new ObjectParameter("idFactura", idFactura) :
-                new ObjectParameter("idFactura", typeof(int));
-    
-            return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction("AgregarDetalleFacturaProducto", idProductoParameter, cantidadParameter, idFacturaParameter);
-        }
-    
-        public virtual int AgregarDetalleFacturaSolicitud(Nullable<int> idSolicitud, Nullable<int> cantidad, Nullable<int> idFactura)
-        {
-            var idSolicitudParameter = idSolicitud.HasValue ?
-                new ObjectParameter("idSolicitud", idSolicitud) :
-                new ObjectParameter("idSolicitud", typeof(int));
-    
-            var cantidadParameter = cantidad.HasValue ?
-                new ObjectParameter("cantidad", cantidad) :
-                new ObjectParameter("cantidad", typeof(int));
-    
-            var idFacturaParameter = idFactura.HasValue ?
-                new ObjectParameter("idFactura", idFactura) :
-                new ObjectParameter("idFactura", typeof(int));
-    
-            return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction("AgregarDetalleFacturaSolicitud", idSolicitudParameter, cantidadParameter, idFacturaParameter);
         }
     }
 }

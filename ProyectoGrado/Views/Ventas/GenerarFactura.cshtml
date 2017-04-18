@@ -162,7 +162,7 @@
         </div>
     </div>
     <!--FIN SECCION ITEMS PRODUCTO-->
-
+  
     <div class="row" style="margin-left: 650px;margin-bottom:10px">
         @Html.Label("Total a Pagar:", htmlAttributes: new { @class = "control-label col-md-3" })
         <div class="col-md-4 inputGroupContainer">
@@ -172,6 +172,7 @@
             </div>
         </div>
     </div>
+
     @using (Html.BeginForm("GuardarFactura", "Ventas", FormMethod.Post, new { @id = "Form1" }))
     {
         <section>

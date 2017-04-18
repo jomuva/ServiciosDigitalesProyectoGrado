@@ -22,6 +22,11 @@ namespace ServiciosDigitalesProy.Models
             TieneElemento = 0;
         }
 
+        public Solicitud(Servicio servicio)
+        {
+            this.servicio = new Servicio(servicio.descripcion);
+        }
+
         public int id_solicitud { get; set; }
         public PrioridadSolicitud prioridadSolicitud { get; set; }
         public EstadoSolicitud estadoSolicitud { get; set; }

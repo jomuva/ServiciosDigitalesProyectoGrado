@@ -8,6 +8,7 @@ using ProyectoGrado.Catalogos;
 using ServiciosDigitalesProy.Catalogos;
 using ProyectoGrado.Tags;
 using System.ComponentModel.DataAnnotations;
+using Rotativa; 
 
 namespace ServiciosDigitalesProy.Controllers
 {
@@ -112,9 +113,11 @@ namespace ServiciosDigitalesProy.Controllers
             string resultado = "", tipoResultado = "";
             Factura factura = Session["Factura"] as Factura;
             List<Producto> productos = CatalogoProductos.GetInstance().ConsultarProductos("", ref resultado, ref tipoResultado);
+            List<Inventario> inventarios = CatalogoInventarios.GetInstance().ConsultarInventarios("",ref resultado, ref tipoResultado);
+
             List<Producto> productosDisponibles = new List<Producto>();
             Producto producto = null;
-
+            Inventario temp = null;
 
             if (productos != null)
             {
@@ -123,6 +126,9 @@ namespace ServiciosDigitalesProy.Controllers
                     producto = (item.estado.id == 1) ? item : null;
                     if (producto != null)
                     {
+
+                        temp = inventarios.Find(x => x.producto.id_producto == producto.id_producto);
+                        producto.cantid = (temp.cantidadExistencias).ToString();
                         productosDisponibles.Add(producto);
                     }
                     producto = null;
@@ -315,7 +321,11 @@ namespace ServiciosDigitalesProy.Controllers
         }
 
 
-
+        /// <summary>
+        /// Guarda la factura generada en BD junto con el total pagado
+        /// </summary>
+        /// <param name="facturaa"></param>
+        /// <returns></returns>
         [HttpPost]
         public ActionResult GuardarFactura(Factura facturaa)
         {
@@ -352,6 +362,11 @@ namespace ServiciosDigitalesProy.Controllers
             
         }
 
+
+        /// <summary>
+        /// Vuelve a la vista crearFactura para modificar algun cambio antes de guardarla en BD
+        /// </summary>
+        /// <returns></returns>
         [HttpGet]
         public ActionResult ModificarFacturaGenerada()
         {
@@ -407,6 +422,47 @@ namespace ServiciosDigitalesProy.Controllers
         }
 
 
+        /// <summary>
+        /// CONSULTA EL TOTAL DE LAS FACTURAS EXISTENTES Y LAS MUESTRA EN LA VISTA
+        /// </summary>
+        /// <returns></returns>
+        [HttpGet]
+        public ActionResult ConsultarFacturas()
+        {
+            string resultado = "", tipoResultado = "";
+            List<Factura> facturas = new List<Factura>();
+
+            facturas =  CatalogoVentas.GetInstance().ConsultarFacturas(ref resultado, ref tipoResultado);
+
+            if (tipoResultado == "danger")
+            {
+                TempData["mensaje"] = resultado;
+                TempData["estado"] = tipoResultado;
+                return RedirectToAction("IndexInterno", "Home");
+            }
+
+            return View(facturas);
+        }
+
+
+
+
+
+
+
+        public ActionResult ExportarPDF()
+        {
+            return new ActionAsPdf("pruebaPDF")
+            {
+                FileName = Server.MapPath("~/Reportes/FacturaGenerada.pdf")
+            };
+
+        }
+
+        public ActionResult pruebaPDF()
+        {
+            return View();
+        }
 
 
 

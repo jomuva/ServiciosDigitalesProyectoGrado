@@ -846,10 +846,25 @@
     </AssociationSet>
     <FunctionImport Name="ActualizarEstadoProducto_Automatico" />
     <FunctionImport Name="ActualizarEstadoSolicitud_Automatico" />
+    <FunctionImport Name="ActualizarFacturaVacia">
+      <Parameter Name="identifCliente" Mode="In" Type="String" />
+      <Parameter Name="identifEmpleado" Mode="In" Type="String" />
+      <Parameter Name="estado" Mode="In" Type="Int32" />
+      <Parameter Name="idFactura" Mode="In" Type="Int32" />
+      <Parameter Name="valorPagado" Mode="In" Type="Decimal" />
+      <Parameter Name="total" Mode="In" Type="Decimal" />
+      <Parameter Name="fecha" Mode="In" Type="DateTime" />
+    </FunctionImport>
     <FunctionImport Name="ActualizarInventarioProductos">
       <Parameter Name="id_inventario" Mode="In" Type="Int32" />
       <Parameter Name="id_producto" Mode="In" Type="Int32" />
       <Parameter Name="cantidad" Mode="In" Type="Int32" />
+      <Parameter Name="identifEmpleado" Mode="In" Type="String" />
+    </FunctionImport>
+    <FunctionImport Name="ActualizarInventarioXVenta">
+      <Parameter Name="idProducto" Mode="In" Type="Int32" />
+      <Parameter Name="cantidadVendida" Mode="In" Type="Int32" />
+      <Parameter Name="fecha" Mode="In" Type="DateTime" />
       <Parameter Name="identifEmpleado" Mode="In" Type="String" />
     </FunctionImport>
     <FunctionImport Name="ActualizarProducto">
@@ -883,6 +898,16 @@
       <Parameter Name="cantidadBajas" Mode="In" Type="Int32" />
       <Parameter Name="identifEmpleado" Mode="In" Type="String" />
       <Parameter Name="descripcionBaja" Mode="In" Type="String" />
+    </FunctionImport>
+    <FunctionImport Name="AgregarDetalleFacturaProducto">
+      <Parameter Name="idProducto" Mode="In" Type="Int32" />
+      <Parameter Name="cantidad" Mode="In" Type="Int32" />
+      <Parameter Name="idFactura" Mode="In" Type="Int32" />
+    </FunctionImport>
+    <FunctionImport Name="AgregarDetalleFacturaSolicitud">
+      <Parameter Name="idSolicitud" Mode="In" Type="Int32" />
+      <Parameter Name="cantidad" Mode="In" Type="Int32" />
+      <Parameter Name="idFactura" Mode="In" Type="Int32" />
     </FunctionImport>
     <FunctionImport Name="AgregarElemento" ReturnType="Collection(Int32)">
       <Parameter Name="id_categ" Mode="In" Type="Int32" />
@@ -927,16 +952,30 @@
     <FunctionImport Name="Consultar_id_UsuarioXIdentificacion" ReturnType="Collection(Int32)">
       <Parameter Name="codigo" Mode="In" Type="Int32" />
     </FunctionImport>
+    <FunctionImport Name="ConsultarCantidadProductoXid" ReturnType="Collection(Int32)">
+      <Parameter Name="idProd" Mode="In" Type="Int32" />
+    </FunctionImport>
     <FunctionImport Name="ConsultarCantidadXProducto" ReturnType="Collection(Int32)">
       <Parameter Name="id_inventario" Mode="In" Type="Int32" />
     </FunctionImport>
     <FunctionImport Name="ConsultarCategorias_Elemento" ReturnType="Collection(bdServiciosDigitalesProyModel.ConsultarCategorias_Elemento_Result)" />
     <FunctionImport Name="ConsultarCategoriasProductos" ReturnType="Collection(bdServiciosDigitalesProyModel.ConsultarCategoriasProductos_Result)" />
+    <FunctionImport Name="ConsultarDetallesFacturaProducto" ReturnType="Collection(bdServiciosDigitalesProyModel.ConsultarDetallesFacturaProducto_Result)" />
+    <FunctionImport Name="ConsultarDetallesFacturaProductoXid" ReturnType="Collection(bdServiciosDigitalesProyModel.ConsultarDetallesFacturaProductoXid_Result)">
+      <Parameter Name="idFactura" Mode="In" Type="Int32" />
+    </FunctionImport>
+    <FunctionImport Name="ConsultarDetallesFacturaSolicitudXid" ReturnType="Collection(bdServiciosDigitalesProyModel.ConsultarDetallesFacturaSolicitudXid_Result)">
+      <Parameter Name="idFactura" Mode="In" Type="Int32" />
+    </FunctionImport>
     <FunctionImport Name="ConsultarElementos" ReturnType="Collection(bdServiciosDigitalesProyModel.ConsultarElementos_Result)" />
     <FunctionImport Name="ConsultarEstado_Solicitud" ReturnType="Collection(bdServiciosDigitalesProyModel.ConsultarEstado_Solicitud_Result)">
       <Parameter Name="idSolic" Mode="In" Type="Int32" />
     </FunctionImport>
     <FunctionImport Name="ConsultarEstadosSolicitud" ReturnType="Collection(bdServiciosDigitalesProyModel.ConsultarEstadosSolicitud_Result)" />
+    <FunctionImport Name="ConsultarFacturas" ReturnType="Collection(bdServiciosDigitalesProyModel.ConsultarFacturas_Result)" />
+    <FunctionImport Name="ConsultarFacturaXid" ReturnType="Collection(bdServiciosDigitalesProyModel.ConsultarFacturaXid_Result)">
+      <Parameter Name="idFactura" Mode="In" Type="Int32" />
+    </FunctionImport>
     <FunctionImport Name="ConsultarHistoricoInventarioBajasX_id" ReturnType="Collection(bdServiciosDigitalesProyModel.ConsultarHistoricoInventarioBajasX_id_Result)">
       <Parameter Name="id_inventario" Mode="In" Type="Int32" />
     </FunctionImport>
@@ -1003,38 +1042,10 @@
       <Parameter Name="identifEmpleado" Mode="In" Type="String" />
       <Parameter Name="cantidad" Mode="In" Type="Int32" />
     </FunctionImport>
+    <FunctionImport Name="ObtenerIdUltimaFacturaGenerada" ReturnType="Collection(Int32)" />
     <FunctionImport Name="ValidarAutenticacionLogin" ReturnType="Collection(String)">
       <Parameter Name="username" Mode="In" Type="String" />
       <Parameter Name="passwd" Mode="In" Type="String" />
-    </FunctionImport>
-    <FunctionImport Name="ObtenerIdUltimaFacturaGenerada" ReturnType="Collection(Int32)" />
-    <FunctionImport Name="ConsultarCantidadProductoXid" ReturnType="Collection(Int32)">
-      <Parameter Name="idProd" Mode="In" Type="Int32" />
-    </FunctionImport>
-    <FunctionImport Name="ActualizarFacturaVacia">
-      <Parameter Name="identifCliente" Mode="In" Type="String" />
-      <Parameter Name="identifEmpleado" Mode="In" Type="String" />
-      <Parameter Name="estado" Mode="In" Type="Int32" />
-      <Parameter Name="idFactura" Mode="In" Type="Int32" />
-      <Parameter Name="valorPagado" Mode="In" Type="Decimal" />
-      <Parameter Name="total" Mode="In" Type="Decimal" />
-      <Parameter Name="fecha" Mode="In" Type="DateTime" />
-    </FunctionImport>
-    <FunctionImport Name="ActualizarInventarioXVenta">
-      <Parameter Name="idProducto" Mode="In" Type="Int32" />
-      <Parameter Name="cantidadVendida" Mode="In" Type="Int32" />
-      <Parameter Name="fecha" Mode="In" Type="DateTime" />
-      <Parameter Name="identifEmpleado" Mode="In" Type="String" />
-    </FunctionImport>
-    <FunctionImport Name="AgregarDetalleFacturaProducto">
-      <Parameter Name="idProducto" Mode="In" Type="Int32" />
-      <Parameter Name="cantidad" Mode="In" Type="Int32" />
-      <Parameter Name="idFactura" Mode="In" Type="Int32" />
-    </FunctionImport>
-    <FunctionImport Name="AgregarDetalleFacturaSolicitud">
-      <Parameter Name="idSolicitud" Mode="In" Type="Int32" />
-      <Parameter Name="cantidad" Mode="In" Type="Int32" />
-      <Parameter Name="idFactura" Mode="In" Type="Int32" />
     </FunctionImport>
   </EntityContainer>
   <ComplexType Name="ConsultarCategorias_Elemento_Result">
@@ -1044,6 +1055,22 @@
   <ComplexType Name="ConsultarCategoriasProductos_Result">
     <Property Type="Int32" Name="id_categoria" Nullable="false" />
     <Property Type="String" Name="descripcion" Nullable="false" MaxLength="50" />
+  </ComplexType>
+  <ComplexType Name="ConsultarDetallesFacturaProducto_Result">
+    <Property Type="String" Name="nombre_producto" Nullable="false" MaxLength="100" />
+    <Property Type="Int32" Name="cantidad_venta" Nullable="false" />
+    <Property Type="Int32" Name="id_factura" Nullable="false" />
+    <Property Type="Decimal" Name="precio_venta" Nullable="true" Precision="20" Scale="4" />
+  </ComplexType>
+  <ComplexType Name="ConsultarDetallesFacturaProductoXid_Result">
+    <Property Type="String" Name="nombre_producto" Nullable="false" MaxLength="100" />
+    <Property Type="Int32" Name="cantidad_venta" Nullable="false" />
+    <Property Type="Int32" Name="id_factura" Nullable="false" />
+    <Property Type="Decimal" Name="precio_venta" Nullable="true" Precision="20" Scale="4" />
+  </ComplexType>
+  <ComplexType Name="ConsultarDetallesFacturaSolicitudXid_Result">
+    <Property Type="String" Name="descripcion_servicio" Nullable="false" MaxLength="50" />
+    <Property Type="Decimal" Name="precio" Nullable="true" Precision="20" Scale="4" />
   </ComplexType>
   <ComplexType Name="ConsultarElementos_Result">
     <Property Type="Int32" Name="id_elemento" Nullable="false" />
@@ -1067,6 +1094,36 @@
   <ComplexType Name="ConsultarEstadosSolicitud_Result">
     <Property Type="Int32" Name="id_estado_solicitud" Nullable="false" />
     <Property Type="String" Name="descripcion" Nullable="true" MaxLength="50" />
+  </ComplexType>
+  <ComplexType Name="ConsultarFacturas_Result">
+    <Property Type="Int32" Name="id_factura" Nullable="false" />
+    <Property Type="String" Name="descripcion_estado_factura" Nullable="false" MaxLength="20" />
+    <Property Type="DateTime" Name="fecha" Nullable="false" Precision="23" />
+    <Property Type="Decimal" Name="saldo" Nullable="true" Precision="30" Scale="4" />
+    <Property Type="Decimal" Name="valor_total" Nullable="true" Precision="30" Scale="4" />
+    <Property Type="String" Name="nombres" Nullable="false" MaxLength="30" />
+    <Property Type="String" Name="apellidos" Nullable="false" MaxLength="30" />
+    <Property Type="String" Name="identificacion" Nullable="false" MaxLength="15" />
+    <Property Type="Decimal" Name="precio_venta" Nullable="true" Precision="20" Scale="4" />
+    <Property Type="String" Name="nombre_producto" Nullable="false" MaxLength="100" />
+    <Property Type="Int32" Name="cantidad_venta" Nullable="false" />
+    <Property Type="String" Name="descripcion_servicio" Nullable="false" MaxLength="50" />
+    <Property Type="Decimal" Name="precio" Nullable="true" Precision="20" Scale="4" />
+  </ComplexType>
+  <ComplexType Name="ConsultarFacturaXid_Result">
+    <Property Type="Int32" Name="id_factura" Nullable="false" />
+    <Property Type="String" Name="descripcion_estado_factura" Nullable="false" MaxLength="20" />
+    <Property Type="DateTime" Name="fecha" Nullable="false" Precision="23" />
+    <Property Type="Decimal" Name="saldo" Nullable="true" Precision="30" Scale="4" />
+    <Property Type="Decimal" Name="valor_total" Nullable="true" Precision="30" Scale="4" />
+    <Property Type="String" Name="nombres" Nullable="false" MaxLength="30" />
+    <Property Type="String" Name="apellidos" Nullable="false" MaxLength="30" />
+    <Property Type="String" Name="identificacion" Nullable="false" MaxLength="15" />
+    <Property Type="Decimal" Name="precio_venta" Nullable="true" Precision="20" Scale="4" />
+    <Property Type="String" Name="nombre_producto" Nullable="false" MaxLength="100" />
+    <Property Type="Int32" Name="cantidad_venta" Nullable="false" />
+    <Property Type="String" Name="descripcion_servicio" Nullable="false" MaxLength="50" />
+    <Property Type="Decimal" Name="precio" Nullable="true" Precision="20" Scale="4" />
   </ComplexType>
   <ComplexType Name="ConsultarHistoricoInventarioBajasX_id_Result">
     <Property Type="DateTime" Name="fecha" Nullable="false" Precision="23" />

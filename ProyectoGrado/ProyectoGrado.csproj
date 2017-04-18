@@ -77,6 +77,10 @@
       <Private>True</Private>
     </Reference>
     <Reference Include="Microsoft.CSharp" />
+    <Reference Include="Rotativa, Version=1.0.0.0, Culture=neutral, processorArchitecture=MSIL">
+      <HintPath>..\packages\Rotativa.1.6.4\lib\net40\Rotativa.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
     <Reference Include="System" />
     <Reference Include="System.Data" />
     <Reference Include="System.Drawing" />
@@ -196,6 +200,7 @@
   </ItemGroup>
   <ItemGroup>
     <Content Include="favicon.ico" />
+    <Content Include="Rotativa\wkhtmltopdf.exe" />
     <Content Include="ScriptSql\JOB Actualizar Estado Producto.sql" />
     <Content Include="ScriptSql\JOB Actualizar Estado Solicitud.sql" />
     <Content Include="ScriptSql\ScriptBdProyectoGrado.sql" />
@@ -258,6 +263,9 @@
     <Content Include="Views\Ventas\Partials\_ModalAdicionarSolicitud.cshtml" />
     <Content Include="Views\Ventas\BuscarSolicitudes.cshtml" />
     <Content Include="Views\Ventas\GenerarFactura.cshtml" />
+    <Content Include="App_Browsers\qt.browser" />
+    <Content Include="Views\Ventas\pruebaPDF.cshtml" />
+    <Content Include="Views\Ventas\ConsultarFacturas.cshtml" />
     <None Include="Xcore\Scripts\jquery-1.10.2.intellisense.js" />
     <Content Include="Xcore\Scripts\Formulario\index.js" />
     <Content Include="Xcore\Scripts\jquery-1.10.2.js" />
@@ -330,6 +338,7 @@
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
+    <Folder Include="Reportes\" />
   </ItemGroup>
   <ItemGroup>
     <Content Include="Xcore\Content\fonts\glyphicons-halflings-regular.woff" />

@@ -31,6 +31,9 @@
                                                     <td>
                                                         <b>Precio Venta</b>
                                                     </td>
+                                                    <td>
+                                                        <b>Cant. Existencias</b>
+                                                    </td>
                                                     <th></th>
                                                 </tr>
                                             </thead>
@@ -48,6 +51,9 @@
                                                             </td>
                                                             <td>
                                                                 $@Html.DisplayFor(modelItem => item.precio_venta)
+                                                            </td>
+                                                            <td>
+                                                                 @Html.DisplayFor(modelItem => item.cantid)
                                                             </td>
                                                             <td>
                                                                 @Html.ActionLink("Agregar", "AdicionarProductoAFactura", new RouteValueDictionary(new { id = item.id_producto }))

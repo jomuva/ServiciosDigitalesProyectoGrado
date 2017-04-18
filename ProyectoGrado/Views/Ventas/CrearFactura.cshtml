@@ -175,7 +175,7 @@
                                 </td>
                                 <td>
                                     @Html.DisplayFor(modelItem => this.Model.listaDetallesProducto[i].producto.nombre)
-
+                                    @Html.HiddenFor(x => x.listaDetallesProducto[i].producto.nombre)
                                 </td>
                                 <td>
                                     @Html.DisplayFor(modelItem => this.Model.listaDetallesProducto[i].producto.precio_venta, new { htmlAttributes = new { style = "width: 100px;" } })
@@ -229,9 +229,7 @@
                 </div>
             </div>
         }
-
     }
-    @*}*@
 </div>
 @section Scripts {
     <script src="~/Xcore/Scripts/Modales/ModalElemento.js"></script>

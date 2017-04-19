@@ -426,7 +426,7 @@ INSERT INTO [dbo].[ESTADO_FACTURA]
 
 	-- TABLA  FACTURA, TABLA QUE CONTIENE LOS REGISTROS DE LA FACTURA DE VENTA GENERADA
 create table FACTURA(
-id_factura int not null IDENTITY,
+id_factura int not null IDENTITY (1,1),
 fecha DATETIME not null,
 id_cliente_factura int,
 id_empleado_factura int,
@@ -453,10 +453,10 @@ INSERT INTO [dbo].[FACTURA]
 		   ,[valor_total])
      VALUES
             ('2016-11-29 02:57:24.480',8,2,3,20000,95000),
-			('2016-12-13 02:57:24.480',4,3,1,0,60000),
-			('2017-02-10 02:57:24.480',5,2,1,0,70000),
+			('2016-12-13 02:57:24.480',9,3,4,0,60000),
+			('2017-02-10 02:57:24.480',5,2,4,0,70000),
 			('2017-02-25 02:57:24.480',6,3,4,0,55000),
-			('2017-03-03 02:57:24.480',7,3,4,10000,40000)
+			('2017-03-03 02:57:24.480',7,3,3,10000,40000)
 		
 	GO	
 	
@@ -481,7 +481,7 @@ INSERT INTO [dbo].[HISTORICO_FACTURA]
             (2,1,'Se agrega factura y se asigna al cliente correctamente','2017-04-08 02:57:24.480'),
 			(3,2,'Se agrega factura y se asigna al cliente correctamente','2017-04-07 02:57:24.480'),
 			(3,3,'Se agrega factura y se asigna al cliente correctamente','2017-03-06 02:57:24.480'),
-			(2,5,'Se agrega factura con estado Sin registros','2017-04-08 02:57:24.480'),
+			(2,4,'Se agrega factura con estado Sin registros','2017-04-08 02:57:24.480'),
 			(2,5,'Se agrega factura con estado Sin registros','2017-04-06 02:57:24.480')
 	GO
 
@@ -1724,20 +1724,80 @@ CREATE PROCEDURE ConsultarFacturas
 AS
 BEGIN
 
-SELECT        FACTURA.id_factura, ESTADO_FACTURA.descripcion_estado_factura, FACTURA.fecha, FACTURA.saldo, FACTURA.valor_total, USUARIO.nombres, USUARIO.apellidos, USUARIO.identificacion, 
-                         PRODUCTO.precio_venta, PRODUCTO.nombre_producto, DETALLE_FACTURA_PRODUCTO.cantidad_venta, SERVICIO.descripcion_servicio, SERVICIO.precio
-FROM            ESTADO_FACTURA INNER JOIN
-                         FACTURA ON ESTADO_FACTURA.id_estado_factura = FACTURA.id_estado_factura INNER JOIN
-                         DETALLE_FACTURA_PRODUCTO ON FACTURA.id_factura = DETALLE_FACTURA_PRODUCTO.id_factura_detalle_factura INNER JOIN
-                         DETALLE_FACTURA_SOLICITUD ON FACTURA.id_factura = DETALLE_FACTURA_SOLICITUD.id_factura_detalle_factura INNER JOIN
-                         PRODUCTO ON DETALLE_FACTURA_PRODUCTO.id_producto_detalle_factura = PRODUCTO.id_producto INNER JOIN
-                         SOLICITUD ON DETALLE_FACTURA_SOLICITUD.id_solicitud_detalle_factura = SOLICITUD.id_solicitud INNER JOIN
-                         SERVICIO ON SOLICITUD.id_servicio_solicitud = SERVICIO.id_servicio INNER JOIN
-                         USUARIO ON FACTURA.id_cliente_factura = USUARIO.id_usuario 
+SELECT        FACTURA.id_factura, FACTURA.fecha, USUARIO.identificacion, USUARIO.apellidos, USUARIO.nombres, ESTADO_FACTURA.descripcion_estado_factura, FACTURA.saldo, FACTURA.valor_total
+FROM            FACTURA INNER JOIN
+                         USUARIO ON FACTURA.id_cliente_factura = USUARIO.id_usuario INNER JOIN
+                         ESTADO_FACTURA ON FACTURA.id_estado_factura = ESTADO_FACTURA.id_estado_factura
 
+END
+GO
+
+--PROCEDIMIENTO QUE CONSULTA EL ESTADO DE UNA FACTURA SEGUN SU ID Y TRAE EL VALOR , EL SALDO Y EL ESTADO
+CREATE PROCEDURE ConsultarEstadoFactura
+@idFactura int
+AS
+BEGIN
+SELECT        FACTURA.id_factura, FACTURA.saldo, FACTURA.valor_total, ESTADO_FACTURA.descripcion_estado_factura
+FROM            ESTADO_FACTURA INNER JOIN
+                         FACTURA ON ESTADO_FACTURA.id_estado_factura = FACTURA.id_estado_factura
+WHERE FACTURA.id_factura = @idFactura;
+END
+GO
+
+
+--  ACTUALIZA EL ESTADO DE LA FACTURA Y SE ACTUALIZA EL NUEVO PAGO REALIZADO
+CREATE PROCEDURE ActualizarEstadoFactura
+@idFactura int,
+@idEstado int,
+@pago decimal(30,4),
+@identifEmpleado VARCHAR(15)
+AS
+DECLARE @fecha DATETIME, @idEmpleado int, @saldoActual Decimal(30,4),@saldoNuevo decimal(30,4)
+SET @fecha = (SELECT CURRENT_TIMESTAMP);
+SET @idEmpleado = (SELECT id_usuario FROM USUARIO WHERE identificacion = @identifEmpleado);
+SET @saldoActual = (SELECT saldo FROM FACTURA WHERE id_factura = @idFactura);
+
+BEGIN
+	UPDATE FACTURA SET id_estado_factura = @idEstado, saldo = saldo - @pago
+	WHERE id_factura =  @idFactura;
+	SET @saldoNuevo =(SELECT saldo FROM FACTURA WHERE id_factura = @idFactura);
+
+	INSERT INTO HISTORICO_FACTURA (id_empleado_historico,id_factura_historico,descripcion_historico,fecha_historico)
+	VALUES (@idEmpleado,@idFactura,'Se actualiza el estado de la factura.  Saldo anterior: '+cast(@saldoActual as varchar)+' - Nuevo Saldo: '+cast(@saldoNuevo as varchar),@fecha);
+END
+GO
+
+
+-- CONSULTA EL HISTORICO DE UNA FACTURA ESPECIFICA
+CREATE PROCEDURE ConsultarHistoricoFacturaX_id
+@idFactura int
+AS
+BEGIN 
+SELECT        HISTORICO_FACTURA.fecha_historico, HISTORICO_FACTURA.descripcion_historico, USUARIO.apellidos, USUARIO.nombres, FACTURA.id_factura
+FROM            HISTORICO_FACTURA INNER JOIN
+                         FACTURA ON HISTORICO_FACTURA.id_factura_historico = FACTURA.id_factura INNER JOIN
+                         USUARIO ON HISTORICO_FACTURA.id_empleado_historico = USUARIO.id_usuario
+WHERE FACTURA.id_factura = @idFactura
 END
 GO
 
 
 
+CREATE PROCEDURE AnularFactura
+@idFactura int,
+@identifEmpleado VARCHAR(15),
+@MotivoAnulacion VARCHAR(500)
+AS
+DECLARE @fecha DATETIME, @idEmpleado int
+SET @fecha = (SELECT CURRENT_TIMESTAMP);
+SET @idEmpleado = (SELECT id_usuario FROM USUARIO WHERE identificacion = @identifEmpleado);
+
+BEGIN
+	UPDATE FACTURA SET id_estado_factura = 2
+	WHERE id_factura =  @idFactura;
+
+	INSERT INTO HISTORICO_FACTURA (id_empleado_historico,id_factura_historico,descripcion_historico,fecha_historico)
+	VALUES (@idEmpleado,@idFactura,'factura Anulada, Motivo: '+@MotivoAnulacion,@fecha);
+END
+GO
 

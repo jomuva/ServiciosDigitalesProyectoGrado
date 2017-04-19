@@ -266,6 +266,12 @@
     <Content Include="App_Browsers\qt.browser" />
     <Content Include="Views\Ventas\pruebaPDF.cshtml" />
     <Content Include="Views\Ventas\ConsultarFacturas.cshtml" />
+    <Content Include="Views\Ventas\VerDetalleFactura.cshtml" />
+    <Content Include="Views\Ventas\ActualizarEstadoFactura.cshtml" />
+    <Content Include="Views\Ventas\ConsultarHistoricoFacturaXid.cshtml" />
+    <Content Include="Views\Ventas\Partials\_Script.cshtml" />
+    <Content Include="Views\Ventas\Partials\_ModalAnularFactura.cshtml" />
+    <Content Include="Views\Ventas\AnularFactura.cshtml" />
     <None Include="Xcore\Scripts\jquery-1.10.2.intellisense.js" />
     <Content Include="Xcore\Scripts\Formulario\index.js" />
     <Content Include="Xcore\Scripts\jquery-1.10.2.js" />

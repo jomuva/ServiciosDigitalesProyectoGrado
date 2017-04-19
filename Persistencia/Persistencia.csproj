@@ -91,6 +91,9 @@
     <Compile Include="ConsultarElementos_Result.cs">
       <DependentUpon>ConexionBD.tt</DependentUpon>
     </Compile>
+    <Compile Include="ConsultarEstadoFactura_Result.cs">
+      <DependentUpon>ConexionBD.tt</DependentUpon>
+    </Compile>
     <Compile Include="ConsultarEstadosSolicitud_Result.cs">
       <DependentUpon>ConexionBD.tt</DependentUpon>
     </Compile>
@@ -101,6 +104,9 @@
       <DependentUpon>ConexionBD.tt</DependentUpon>
     </Compile>
     <Compile Include="ConsultarFacturaXid_Result.cs">
+      <DependentUpon>ConexionBD.tt</DependentUpon>
+    </Compile>
+    <Compile Include="ConsultarHistoricoFacturaX_id_Result.cs">
       <DependentUpon>ConexionBD.tt</DependentUpon>
     </Compile>
     <Compile Include="ConsultarHistoricoInventarioBajasX_id_Result.cs">

@@ -19,6 +19,11 @@ $("#btnAdicionarSolicitud").click(function (eve) {
     $("#modal-content3").load("/Ventas/BuscarSolicitudes");
 });
 
+//$("#btnAnular").click(function (eve) {
+//    $("#modal-content4").load("/Ventas/AnularFactura/"+ $(this).data("id"));
+//});
+
+
 
 
 

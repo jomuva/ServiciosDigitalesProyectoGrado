@@ -652,6 +652,12 @@
       </Dependent>
     </ReferentialConstraint>
   </Association>
+  <Function Name="ActualizarEstadoFactura" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
+    <Parameter Name="idFactura" Type="int" Mode="In" />
+    <Parameter Name="idEstado" Type="int" Mode="In" />
+    <Parameter Name="pago" Type="decimal" Mode="In" />
+    <Parameter Name="identifEmpleado" Type="varchar" Mode="In" />
+  </Function>
   <Function Name="ActualizarEstadoProducto_Automatico" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo" />
   <Function Name="ActualizarEstadoSolicitud_Automatico" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo" />
   <Function Name="ActualizarFacturaVacia" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
@@ -746,6 +752,11 @@
     <Parameter Name="username" Type="varchar" Mode="In" />
     <Parameter Name="Passwd" Type="nvarchar" Mode="In" />
   </Function>
+  <Function Name="AnularFactura" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
+    <Parameter Name="idFactura" Type="int" Mode="In" />
+    <Parameter Name="identifEmpleado" Type="varchar" Mode="In" />
+    <Parameter Name="MotivoAnulacion" Type="varchar" Mode="In" />
+  </Function>
   <Function Name="CambiarEstadoProducto" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
     <Parameter Name="idProd" Type="int" Mode="In" />
     <Parameter Name="idEstado" Type="int" Mode="In" />
@@ -779,9 +790,15 @@
   <Function Name="ConsultarEstado_Solicitud" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
     <Parameter Name="idSolic" Type="int" Mode="In" />
   </Function>
+  <Function Name="ConsultarEstadoFactura" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
+    <Parameter Name="idFactura" Type="int" Mode="In" />
+  </Function>
   <Function Name="ConsultarEstadosSolicitud" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo" />
   <Function Name="ConsultarFacturas" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo" />
   <Function Name="ConsultarFacturaXid" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
+    <Parameter Name="idFactura" Type="int" Mode="In" />
+  </Function>
+  <Function Name="ConsultarHistoricoFacturaX_id" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
     <Parameter Name="idFactura" Type="int" Mode="In" />
   </Function>
   <Function Name="ConsultarHistoricoInventarioBajasX_id" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">

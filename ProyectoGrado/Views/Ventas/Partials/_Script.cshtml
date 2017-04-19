@@ -1,0 +1,42 @@
+﻿@Scripts.Render("~/bundles/bootstrap")
+
+<script type="text/javascript" language="javascript">
+
+    $(document).ready(function () {
+
+        var table = Personalizados.inicializarDatatable();
+
+        $('.table tbody').on('click', 'tr', function () {
+            if ($(this).hasClass('selected')) {
+                $(this).removeClass('selected');
+            }
+            else {
+                $('.table tbody tr.selected').removeClass('selected');
+                $(this).addClass('selected');
+            }
+        });
+
+        $('#CambiarEstado').click(function () {
+            var total = $("#CambiarEstado");
+            var id = $('.table .selected td')[0].innerHTML;
+            var id2 = $.trim(id);
+            var linkID = this.id;
+            var theProp = $("#" + linkID).attr("href");
+            var urlFinal = theProp.replace('idSeleccionado', id2);
+            total.prop('href',urlFinal);
+        });
+
+
+        $('#Escalar').click(function () {
+            var total = $("#Escalar");
+            var id = $('.table .selected td')[0].innerHTML;
+            var id2 = $.trim(id);
+            var linkID = this.id;
+            var theProp = $("#" + linkID).attr("href");
+            var urlFinal = theProp.replace('idSeleccionado', id2);
+            total.prop('href', urlFinal);
+        });
+    });
+
+   
+</script>

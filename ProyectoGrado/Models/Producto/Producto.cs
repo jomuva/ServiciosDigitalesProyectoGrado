@@ -16,10 +16,10 @@ namespace ServiciosDigitalesProy.Models
             precio_venta = 0;
         }
 
-        public Producto(string nombre, double precioVenta)
+        public Producto(string nombre, string precio)
         {
             this.nombre = nombre;
-            this.precio_venta = precio_venta;
+            this.precio = precio;
         }
         public Producto(string nombre, int id)
         {
@@ -45,6 +45,7 @@ namespace ServiciosDigitalesProy.Models
 
         [Required(AllowEmptyStrings = false, ErrorMessage = "El campo de \"precio_venta\" es obligatorio.")]
         public double precio_venta { get; set; }
+        public string precio { get; set; }
 
         public int id_producto { get; set; }
 

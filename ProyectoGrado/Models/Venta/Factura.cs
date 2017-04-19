@@ -11,7 +11,7 @@ namespace ServiciosDigitalesProy.Models
         {
             id_factura = 0;
             cliente = new Usuario();
-            id_empleado = 0;
+            Empleado = new Usuario();
             estado = new EstadoFactura();
             listaDetallesSolicitud = new List<DetalleFacturaSolicitud>();
             listaDetallesProducto = new List<DetalleFacturaProducto>();
@@ -25,7 +25,7 @@ namespace ServiciosDigitalesProy.Models
             this.id_factura = id;
             this.fecha = fecha;
             cliente = new Usuario();
-            id_empleado = 0;
+            Empleado = new Usuario();
             estado = new EstadoFactura();
             listaDetallesSolicitud = new List<DetalleFacturaSolicitud>();
             listaDetallesProducto = new List<DetalleFacturaProducto>();
@@ -36,7 +36,7 @@ namespace ServiciosDigitalesProy.Models
 
         public int id_factura { get; set; }
         public Usuario cliente { get; set; }
-        public int id_empleado { get; set; }
+        public Usuario Empleado { get; set; }
         public double total { get; set; }
         [RegularExpression(@"^[0-9a-zA-ZáéíóÚ.ÁÉÍÓÚ. ]{1,40}$", ErrorMessage = "El Pago debe ser igual o mayor a cero")]
         public double valorPagado { get; set; }

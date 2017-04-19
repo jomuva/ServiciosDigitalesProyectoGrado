@@ -2,7 +2,7 @@
 
 @{
     ViewBag.Title = " Ventas";
-    ViewBag.SubSeccion = "Crear Factura";
+    ViewBag.SubSeccion = "Ver Detalle Factura No: " + ViewBag.idFactura;
 }
 
 <h3>@ViewBag.SubSeccion</h3>
@@ -39,7 +39,10 @@
     <!-- /.INICIO DE ENCABEZADO FACTURA -->
 
     @Html.AntiForgeryToken()
-    <div class="form-horizontal col-md-10 col-md-offset-1" style="border-style: solid;">
+    <div class="col-md-6 col-md-offset-5" style="text-align: right;">
+        @Html.ActionLink("Ver Histórico", "ConsultarHistoricoFacturaXid", new { id = Model.id_factura}, new { @class = "btn btn-danger" })
+    </div>
+    <div class="form-horizontal col-md-10 col-md-offset-1" style="border-style: solid;margin-top: 10px;">
         <section class="panel">
 
             <header>
@@ -97,7 +100,6 @@
         </section>
     </div>
     <!-- /.FIN DE ENCABEZADO FACTURA -->
-    <!-- /.INICIO CUERPO DE FACTURA DONDE VAN LOS DETALLES -->
     <!-- INICIO SECCION ITEMS PRODUCTO-->
 
 
@@ -162,44 +164,36 @@
         </div>
     </div>
     <!--FIN SECCION ITEMS PRODUCTO-->
-  
-    <div class="row" style="margin-left: 650px;margin-bottom:10px">
-        @Html.Label("Total a Pagar:", htmlAttributes: new { @class = "control-label col-md-3" })
-        <div class="col-md-4 inputGroupContainer">
-            <div class="input-group">
-                <span class="input-group-addon"><i class="fa fa-money"></i></span>
-                <b> @Html.TextBoxFor(model => model.total, "{0:c}", new { @class = "form-control required numeric", @readonly = "readonly", @style = "background-color: #f5baba;" })</b>
+    <section>
+        <div class="row" style="margin-left: 650px;margin-bottom:10px">
+            @Html.Label("Total:", htmlAttributes: new { @class = "control-label col-md-3" })
+            <div class="col-md-4 inputGroupContainer">
+                <div class="input-group">
+                    <span class="input-group-addon"><i class="fa fa-money"></i></span>
+                    <b> @Html.TextBoxFor(model => model.total, "{0:c}", new { @class = "form-control required numeric", @readonly = "readonly", @style = "background-color: #f5baba;" })</b>
+                </div>
             </div>
         </div>
-    </div>
+        <div class="row" style="margin-left: 650px;margin-bottom:10px">
+            @Html.Label("Saldo Pendiente:", htmlAttributes: new { @class = "control-label col-md-3" })
+            <div class="col-md-4 inputGroupContainer">
+                <div class="input-group">
+                    <span class="input-group-addon"><i class="fa fa-money"></i></span>
 
-    @using (Html.BeginForm("GuardarFactura", "Ventas", FormMethod.Post, new { @id = "Form1" }))
-    {
-        <section>
-            <div class="row" style="margin-left: 650px;margin-bottom:10px">
-                @Html.Label("Valor Pagado:", htmlAttributes: new { @class = "control-label col-md-3" })
-                <div class="col-md-4 inputGroupContainer">
-                    <div class="input-group">
-                        <span class="input-group-addon"><i class="fa fa-money"></i></span>
-                        <b> @Html.EditorFor(model => this.Model.valorPagado, "{0:c}", new { htmlAttributes = new { @class = "form-control required numeric", @type = "number" } })</b>
-                    </div>
-                    @Html.ValidationMessageFor(model => model.valorPagado, "", new { @class = "text-danger" })
+                    <b> @Html.EditorFor(model => this.Model.valorPagado, "{0:c}", new { htmlAttributes = new { @class = "form-control required numeric", @type = "number" } })</b>
+                </div>
 
+            </div>
+        </div>
+        <div class="row">
+            <div class="form-group" style="padding-right: 30px;margin-top: 10px;">
+                
+                <div class="col-md-4 pull-right" style="padding-left: 0px;">
+                    @Html.ActionLink("Volver", "ConsultarFacturas", null, new { @class = "btn btn-primary" })
                 </div>
             </div>
-            <div class="row">
-                <div class="col-md-pull-1 input-group pull-right" style="padding-right: 30px;margin-top: 10px;">
-                    <div class="col-md-6" style="text-align: right;">
-                        <input type="submit" value="Guardar" class="btn btn-success" />
-                        @*@Html.ActionLink("Guardar", "GuardarFactura", null, new { @class = "btn btn-success" })*@
-                    </div>
-                    <div class="col-md-2" style="padding-left: 0px;">
-                        @Html.ActionLink("Modificar", "ModificarFacturaGenerada", null, new { @class = "btn btn-danger" })
-                    </div>
-                </div>
-            </div>
-        </section>
-    }
+        </div>
+    </section>
 </div>
 @section Scripts {
     <script src="~/Xcore/Scripts/Modales/ModalElemento.js"></script>

@@ -1,0 +1,107 @@
+﻿@model ServiciosDigitalesProy.Models.Factura
+@{
+    ViewBag.Title = " Ventas";
+    ViewBag.SubSeccion = "Actualizar estado Factura No # " + ViewBag.idFactura;
+}
+
+<h3>@ViewBag.SubSeccion</h3>
+
+<div class="col-lg-12">
+    <!--breadcrumbs start -->
+    <ul class="breadcrumb">
+        <li><a href="#"><i class="fa fa-th-list"></i>@ViewBag.Title</a></li>
+        <li class="active"><a href="#">@ViewBag.SubSeccion</a></li>
+    </ul>
+    <!--breadcrumbs end -->
+</div>
+
+<div id="page-wrapper">
+    <div class="row">
+        <div class="col-lg-6">
+            <div class="panel panel-default">
+                <div class="panel-heading">
+                    Estado de la Factura
+                </div>
+                <div class="panel-body">
+                    <div class="row">
+                        <div class="col-lg-12">
+                            @using (Html.BeginForm("UpdateEstadoFactura", "Ventas", FormMethod.Post))
+                            {
+                                <div class="row">
+                                    <div class="form-group col-md-4">
+                                        <label>Código Factura</label>
+                                        @Html.TextBox("Código Factura:", Model.id_factura, new { @class = "form-control", @readonly = "readonly" })
+                                    </div>
+                                    @Html.Hidden("id_factura", Model.id_factura)
+
+                                    @if (Model.estado.Descripcion != "Anulado" && Model.estado.Descripcion != "Cancelado")
+                                    {
+                                        <div class="form-group pull-right" style="padding-right 25px;margin-right: 30px;">
+                                            @Html.ActionLink("Anular Factura", "AnularFactura", new { id = Model.id_factura }, new { @class = "btn btn-danger" })
+                                        </div>
+                                    }
+                                </div>
+                                <div class="row">
+                                    <div class="form-group col-md-4">
+                                        <label>Estado Actual</label>
+                                        @Html.TextBox("Estado Actual:", Model.estado.Descripcion, new { @class = "form-control", @disabled = "disabled" })
+                                    </div>
+                                </div>
+                                <div class="row">
+                                    <div class="form-group col-md-4">
+                                        <label>Saldo</label>
+                                        @Html.TextBox("Saldo:", Model.valorPagado, new { @class = "form-control", @readonly = "readonly" })
+                                    </div>
+                                </div>
+                                <div class="row">
+                                    <div class="form-group col-md-4">
+                                        <label>Total</label>
+                                        @Html.TextBox("Total:", Model.total, new { @class = "form-control", @readonly = "readonly" })
+                                    </div>
+                                </div>
+                                <div class="row">
+                                    @Html.Hidden("total", Model.total)
+                                    <div class="form-group col-md-4">
+                                        <label>Ingrese Nuevo Pago</label>
+                                        <b> @Html.EditorFor(model => this.Model.valorPagado, "{0:c}", new { htmlAttributes = new { @class = "form-control required numeric", @type = "number" } })</b>
+                                    </div>
+                                    @Html.ValidationMessageFor(model => model.valorPagado, "", new { @class = "text-danger" })
+                                </div>
+
+                                <div class="row">
+                                    @if (Model.valorPagado != 0)
+                                    {
+                                        <button type="submit" name="submitButton" id="submitButton" class="btn btn-success col-md-3">Actualizar</button>
+                                    }
+                                    <div class="form-group">
+                                        @Html.ActionLink("Volver", "ConsultarFacturas", null, new { @class = "btn btn-primary", @style = "border-bottom-left-radius: 20px;" })
+                                    </div>
+                                </div>
+
+                            }
+                        </div>
+                    </div>
+                    <!-- /.row (nested) -->
+                </div>
+                <!-- /.panel-body -->
+            </div>
+            <!-- /.panel -->
+        </div>
+        <!-- /.col-lg-6 -->
+    </div>
+    <!-- /.row -->
+</div>
+@section Scripts {
+    @Scripts.Render("~/bundles/jqueryval")
+}
+@if ((string)TempData["mensaje"] != null || (string)TempData["mensaje"] != "")
+{
+    <script>
+        $(function (msg) {
+            $.bootstrapGrowl('@((string)TempData["mensaje"])', {
+                type: '@((string)TempData["estado"])',
+                offset: { from: 'top', amount: 100 }
+            });
+        });
+    </script>
+}

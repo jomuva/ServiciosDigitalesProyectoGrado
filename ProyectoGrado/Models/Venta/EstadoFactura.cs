@@ -15,6 +15,9 @@ namespace ServiciosDigitalesProy.Models
             this.Descripcion = descripcion;
         }
         public int id { get; set; }
+
+
+        [RegularExpression(@"^[0-9a-zA-ZáéíóÚ.ÁÉÍÓÚ. ]{1,500}$", ErrorMessage = "Los Caracteres especiales no son permitidos.")]
         public string Descripcion { get; set; }
   
     }

@@ -8,7 +8,7 @@ using ProyectoGrado.Catalogos;
 using ServiciosDigitalesProy.Catalogos;
 using ProyectoGrado.Tags;
 using System.ComponentModel.DataAnnotations;
-using Rotativa; 
+using Rotativa;
 
 namespace ServiciosDigitalesProy.Controllers
 {
@@ -113,7 +113,7 @@ namespace ServiciosDigitalesProy.Controllers
             string resultado = "", tipoResultado = "";
             Factura factura = Session["Factura"] as Factura;
             List<Producto> productos = CatalogoProductos.GetInstance().ConsultarProductos("", ref resultado, ref tipoResultado);
-            List<Inventario> inventarios = CatalogoInventarios.GetInstance().ConsultarInventarios("",ref resultado, ref tipoResultado);
+            List<Inventario> inventarios = CatalogoInventarios.GetInstance().ConsultarInventarios("", ref resultado, ref tipoResultado);
 
             List<Producto> productosDisponibles = new List<Producto>();
             Producto producto = null;
@@ -204,10 +204,10 @@ namespace ServiciosDigitalesProy.Controllers
                     }
                     solicitud = null;
                 }
-                    ViewBag.NombreCliente = factura.cliente.NombresApellidos;
-                    Session["Solicitudes"] = solicitudesClientefactura;
-                    return View(solicitudesClientefactura);
-                
+                ViewBag.NombreCliente = factura.cliente.NombresApellidos;
+                Session["Solicitudes"] = solicitudesClientefactura;
+                return View(solicitudesClientefactura);
+
             }
             else
             {
@@ -331,17 +331,17 @@ namespace ServiciosDigitalesProy.Controllers
         {
             Factura factura = Session["Factura"] as Factura;
             string resultado = "", tipoResultado = "";
-            if(facturaa.valorPagado>=0 && facturaa.valorPagado <= factura.total)
+            if (facturaa.valorPagado >= 0 && facturaa.valorPagado <= factura.total)
             {
-                factura.estado.id = facturaa.valorPagado==0?factura.estado.id=4: facturaa.valorPagado == factura.total ?1: facturaa.valorPagado < factura.total?3:2;
+                factura.estado.id = facturaa.valorPagado == 0 ? factura.estado.id = 4 : facturaa.valorPagado == factura.total ? 1 : facturaa.valorPagado < factura.total ? 3 : 2;
                 factura.valorPagado = facturaa.valorPagado;
                 Session["Factura"] = factura;
-                CatalogoVentas.GetInstance().GuardarFactura(factura,ref resultado,ref tipoResultado);
+                CatalogoVentas.GetInstance().GuardarFactura(factura, ref resultado, ref tipoResultado);
                 if (tipoResultado == "success")
                 {
                     TempData["mensaje"] = "Factura Registrada Correctamente";
                     TempData["estado"] = "success";
-                    
+
                 }
                 else
                 {
@@ -359,7 +359,7 @@ namespace ServiciosDigitalesProy.Controllers
             }
 
 
-            
+
         }
 
 
@@ -432,7 +432,7 @@ namespace ServiciosDigitalesProy.Controllers
             string resultado = "", tipoResultado = "";
             List<Factura> facturas = new List<Factura>();
 
-            facturas =  CatalogoVentas.GetInstance().ConsultarFacturas(ref resultado, ref tipoResultado);
+            facturas = CatalogoVentas.GetInstance().ConsultarFacturas(ref resultado, ref tipoResultado);
 
             if (tipoResultado == "danger")
             {
@@ -440,12 +440,91 @@ namespace ServiciosDigitalesProy.Controllers
                 TempData["estado"] = tipoResultado;
                 return RedirectToAction("IndexInterno", "Home");
             }
-
+            Session["Facturas"] = facturas;
             return View(facturas);
         }
 
 
+        [HttpGet]
+        public ActionResult VerDetalleFactura(int id)
+        {
+            List<Factura> facturas = Session["Facturas"] as List<Factura>;
+            Factura factura = facturas.Find(x => x.id_factura == id);
+            factura.cliente.NombresApellidos = factura.cliente.nombres + " " + factura.cliente.apellidos;
+            ViewBag.idFactura = factura.id_factura;
+            return View(factura);
+        }
 
+        [HttpGet]
+        public ActionResult ActualizarEstadoFactura(int id)
+        {
+            string resultado = "", tipoResultado = "";
+            Factura factura = CatalogoVentas.GetInstance().ConsultarEstadoFactura(id, ref resultado, ref tipoResultado);
+            Session["EstadoFactura"] = factura;
+            Session["saldo"] = factura.valorPagado;
+            ViewBag.idFactura = factura.id_factura;
+            return View(factura);
+        }
+
+
+
+        [HttpPost]
+        public ActionResult UpdateEstadoFactura(Factura factura)
+        {
+            string resultado = "", tipoResultado = "";
+            List<Factura> facturas = CatalogoVentas.GetInstance().ConsultarFacturas(ref resultado, ref tipoResultado);
+
+            if (factura.valorPagado > (double)Session["saldo"])
+            {
+                TempData["mensaje"] = "El valor pagado no puede exceder el total de la factura";
+                TempData["estado"] = "danger";
+                return View("ActualizarEstadoFactura", Session["EstadoFactura"] as Factura);
+            }
+            
+            factura.estado.id = factura.valorPagado < (double)Session["saldo"] ? 3: factura.valorPagado == (double)Session["saldo"] ? 1 : factura.valorPagado == 0 ? 4 : 2;
+            CatalogoVentas.GetInstance().ActualizarEstadoFactura(factura, ref resultado, ref tipoResultado);
+
+
+            TempData["mensaje"] = resultado;
+            TempData["estado"] = tipoResultado;
+            return View("ConsultarFacturas", facturas);
+        }
+
+
+
+        [HttpGet]
+        public ActionResult ConsultarHistoricoFacturaXid(int id)
+        {
+            string resultado = "", tipoResultado = "";
+            List<HistoricoFactura> historico = CatalogoVentas.GetInstance().ConsultarHistoricoFacturaXid(id, ref resultado, ref tipoResultado);
+            ViewBag.idFactura = historico[0].id_Factura;
+            return View(historico);
+        }
+
+
+
+        [HttpGet]
+        public ActionResult AnularFactura(int id)
+        {
+
+            Factura factura = new Factura();
+            factura.id_factura = id;
+
+            return View(factura);
+        }
+
+        [HttpPost]
+        public ActionResult AnularFactura(Factura fact)
+        {
+            string resultado = "", tipoResultado = "";
+            List<Factura> facturas = CatalogoVentas.GetInstance().ConsultarFacturas(ref resultado, ref tipoResultado);
+
+            CatalogoVentas.GetInstance().AnularFactura(fact.id_factura,fact.estado.Descripcion, ref resultado, ref tipoResultado);
+            
+            TempData["mensaje"] = resultado;
+            TempData["estado"] = tipoResultado;
+            return View("ConsultarFacturas", facturas);
+        }
 
 
 

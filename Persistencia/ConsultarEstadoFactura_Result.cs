@@ -11,15 +11,11 @@ namespace Persistencia
 {
     using System;
     
-    public partial class ConsultarFacturas_Result
+    public partial class ConsultarEstadoFactura_Result
     {
         public int id_factura { get; set; }
-        public System.DateTime fecha { get; set; }
-        public string identificacion { get; set; }
-        public string apellidos { get; set; }
-        public string nombres { get; set; }
-        public string descripcion_estado_factura { get; set; }
         public Nullable<decimal> saldo { get; set; }
         public Nullable<decimal> valor_total { get; set; }
+        public string descripcion_estado_factura { get; set; }
     }
 }

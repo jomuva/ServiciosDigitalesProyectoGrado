@@ -294,7 +294,105 @@ namespace Persistencia.VentasDatos
         }
 
 
-        
+        /// <summary>
+        /// Consulta el estado de la factura segun su id
+        /// </summary>
+        /// <param name="idFactura"></param>
+        /// <param name="resultado"></param>
+        /// <param name="tipoResultado"></param>
+        /// <returns></returns>
+        public object ConsultarEstadoFactura(int idFactura, ref string resultado, ref string tipoResultado)
+        {
+            object facturas = null;
+
+            try
+            {
+                facturas = conexion.conexiones.ConsultarEstadoFactura(idFactura).ToList();
+                tipoResultado = "success";
+            }
+            catch
+            {
+
+                resultado = "Error al consultar el estado de la factura.  Por favor intente más tarde";
+                tipoResultado = "danger";
+            }
+
+            return facturas;
+        }
+
+        public object ActualizarEstadoFactura(int idFactura,int idEstado, decimal nuevoPago,string identifEmpleado,ref string resultado, ref string tipoResultado)
+        {
+            object facturas = null;
+
+            try
+            {
+                facturas = conexion.conexiones.ActualizarEstadoFactura(idFactura,idEstado,nuevoPago,identifEmpleado);
+                resultado = "Actualización de factura realizada correctamente";
+                tipoResultado = "success";
+            }
+            catch
+            {
+
+                resultado = "Error al actualizar el estado de la factura.  Por favor intente más tarde";
+                tipoResultado = "danger";
+            }
+
+            return facturas;
+        }
+
+        /// <summary>
+        /// CONSULTA EL HISTORICO DE UNA FACTURA ESPECIFICA
+        /// </summary>
+        /// <param name="idFactura"></param>
+        /// <param name="resultado"></param>
+        /// <param name="tipoResultado"></param>
+        /// <returns></returns>
+        public object ConsultarHistoricoFacturaXid(int idFactura, ref string resultado, ref string tipoResultado)
+        {
+            object facturas = null;
+
+            try
+            {
+                facturas = conexion.conexiones.ConsultarHistoricoFacturaX_id(idFactura).ToList();
+                tipoResultado = "success";
+            }
+            catch
+            {
+
+                resultado = "Error al consultar el histórico de la factura.  Por favor intente más tarde";
+                tipoResultado = "danger";
+            }
+
+            return facturas;
+        }
+
+        /// <summary>
+        /// ANULA UNA FACTURA Y SE ANOTA EL MOTIVO
+        /// </summary>
+        /// <param name="idFactura"></param>
+        /// <param name="idEstado"></param>
+        /// <param name="nuevoPago"></param>
+        /// <param name="identifEmpleado"></param>
+        /// <param name="resultado"></param>
+        /// <param name="tipoResultado"></param>
+        /// <returns></returns>
+        public void AnularFactura(int idFactura, string identifEmpleado,string Motivo, ref string resultado, ref string tipoResultado)
+        {
+
+            try
+            {
+                conexion.conexiones.AnularFactura(idFactura, identifEmpleado,Motivo);
+                resultado = "Anulación de factura realizada correctamente";
+                tipoResultado = "success";
+            }
+            catch
+            {
+
+                resultado = "Error al Anular la factura.  Por favor intente más tarde";
+                tipoResultado = "danger";
+            }
+
+        }
 
 
     }

@@ -9,6 +9,7 @@
     <WebStackScaffolding_LayoutPageFile />
     <IISExpressAnonymousAuthentication>enabled</IISExpressAnonymousAuthentication>
     <IISExpressWindowsAuthentication>disabled</IISExpressWindowsAuthentication>
+    <NameOfLastUsedPublishProfile>ProyectoGrado</NameOfLastUsedPublishProfile>
   </PropertyGroup>
   <ProjectExtensions>
     <VisualStudio>

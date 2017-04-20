@@ -1,0 +1,1037 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Schema Namespace="bdServiciosDigitalesProyModel.Store" Provider="System.Data.SqlClient" ProviderManifestToken="2012" Alias="Self" xmlns:store="http://schemas.microsoft.com/ado/2007/12/edm/EntityStoreSchemaGenerator" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm/ssdl">
+  <EntityType Name="CATEGORIA_ELEMENTO">
+    <Key>
+      <PropertyRef Name="id_categoria_elemento" />
+    </Key>
+    <Property Name="id_categoria_elemento" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+    <Property Name="descripcion_categoria_elemento" Type="varchar" MaxLength="50" Nullable="false" />
+  </EntityType>
+  <EntityType Name="CATEGORIA_PRODUCTO">
+    <Key>
+      <PropertyRef Name="id_categoria" />
+    </Key>
+    <Property Name="id_categoria" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+    <Property Name="descripcion" Type="varchar" MaxLength="50" Nullable="false" />
+  </EntityType>
+  <EntityType Name="DETALLE_FACTURA_PRODUCTO">
+    <Key>
+      <PropertyRef Name="id_detalle_factura" />
+    </Key>
+    <Property Name="id_detalle_factura" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+    <Property Name="id_producto_detalle_factura" Type="int" />
+    <Property Name="id_factura_detalle_factura" Type="int" Nullable="false" />
+    <Property Name="cantidad_venta" Type="int" Nullable="false" />
+  </EntityType>
+  <EntityType Name="DETALLE_FACTURA_SOLICITUD">
+    <Key>
+      <PropertyRef Name="id_detalle_factura_solicitud" />
+    </Key>
+    <Property Name="id_detalle_factura_solicitud" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+    <Property Name="id_solicitud_detalle_factura" Type="int" />
+    <Property Name="id_factura_detalle_factura" Type="int" Nullable="false" />
+    <Property Name="cantidad_venta" Type="int" Nullable="false" />
+  </EntityType>
+  <EntityType Name="ELEMENTO">
+    <Key>
+      <PropertyRef Name="id_elemento" />
+    </Key>
+    <Property Name="id_elemento" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+    <Property Name="serial" Type="varchar" MaxLength="4" />
+    <Property Name="placa" Type="varchar" MaxLength="30" />
+    <Property Name="modelo" Type="varchar" MaxLength="30" />
+    <Property Name="marca" Type="varchar" MaxLength="15" />
+    <Property Name="ram" Type="varchar" MaxLength="10" />
+    <Property Name="rom" Type="varchar" MaxLength="15" />
+    <Property Name="serial_bateria" Type="varchar" MaxLength="4" />
+    <Property Name="sistema_operativo" Type="varchar" MaxLength="20" />
+    <Property Name="id_tipo_elemento" Type="int" Nullable="false" />
+    <Property Name="id_categoria_elemento" Type="int" Nullable="false" />
+  </EntityType>
+  <EntityType Name="ESCALADO">
+    <Key>
+      <PropertyRef Name="id_escalado" />
+    </Key>
+    <Property Name="id_escalado" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+    <Property Name="id_usuario_escalado" Type="int" />
+  </EntityType>
+  <EntityType Name="ESTADO_FACTURA">
+    <Key>
+      <PropertyRef Name="id_estado_factura" />
+    </Key>
+    <Property Name="id_estado_factura" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+    <Property Name="descripcion_estado_factura" Type="varchar" MaxLength="20" Nullable="false" />
+  </EntityType>
+  <EntityType Name="ESTADO_PRODUCTO">
+    <Key>
+      <PropertyRef Name="id_estado_producto" />
+    </Key>
+    <Property Name="id_estado_producto" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+    <Property Name="descripcion_estado_producto" Type="varchar" MaxLength="15" Nullable="false" />
+  </EntityType>
+  <EntityType Name="ESTADO_SOLICITUD">
+    <Key>
+      <PropertyRef Name="id_estado_solicitud" />
+    </Key>
+    <Property Name="id_estado_solicitud" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+    <Property Name="descripcion" Type="varchar" MaxLength="50" />
+  </EntityType>
+  <EntityType Name="ESTADO_USUARIO">
+    <Key>
+      <PropertyRef Name="id_estado" />
+    </Key>
+    <Property Name="id_estado" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+    <Property Name="descripcion" Type="varchar" MaxLength="20" Nullable="false" />
+  </EntityType>
+  <EntityType Name="FACTURA">
+    <Key>
+      <PropertyRef Name="id_factura" />
+    </Key>
+    <Property Name="id_factura" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+    <Property Name="fecha" Type="datetime" Nullable="false" />
+    <Property Name="id_cliente_factura" Type="int" />
+    <Property Name="id_empleado_factura" Type="int" />
+    <Property Name="id_estado_factura" Type="int" Nullable="false" />
+    <Property Name="saldo" Type="decimal" Precision="30" Scale="4" />
+    <Property Name="valor_total" Type="decimal" Precision="30" Scale="4" />
+  </EntityType>
+  <EntityType Name="HISTORICO_FACTURA">
+    <Key>
+      <PropertyRef Name="id_historico" />
+    </Key>
+    <Property Name="id_historico" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+    <Property Name="id_empleado_historico" Type="int" Nullable="false" />
+    <Property Name="id_factura_historico" Type="int" />
+    <Property Name="descripcion_historico" Type="varchar" MaxLength="500" Nullable="false" />
+    <Property Name="fecha_historico" Type="datetime" />
+  </EntityType>
+  <EntityType Name="HISTORICO_INVENTARIO">
+    <Key>
+      <PropertyRef Name="id_historico" />
+    </Key>
+    <Property Name="id_historico" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+    <Property Name="id_empleado" Type="int" Nullable="false" />
+    <Property Name="id_inventario_historico" Type="int" Nullable="false" />
+    <Property Name="fecha" Type="datetime" Nullable="false" />
+    <Property Name="descripcion" Type="varchar" MaxLength="500" Nullable="false" />
+  </EntityType>
+  <EntityType Name="HISTORICO_INVENTARIO_BAJAS">
+    <Key>
+      <PropertyRef Name="id_historico" />
+    </Key>
+    <Property Name="id_historico" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+    <Property Name="id_empleado" Type="int" Nullable="false" />
+    <Property Name="id_inventario_historico" Type="int" Nullable="false" />
+    <Property Name="fecha" Type="datetime" Nullable="false" />
+    <Property Name="descripcion" Type="varchar" MaxLength="500" Nullable="false" />
+  </EntityType>
+  <EntityType Name="HISTORICO_SOLICITUD">
+    <Key>
+      <PropertyRef Name="id_historico" />
+    </Key>
+    <Property Name="id_historico" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+    <Property Name="id_usuario_historico" Type="int" Nullable="false" />
+    <Property Name="id_solicitud_historico" Type="int" Nullable="false" />
+    <Property Name="descripcion_historico" Type="varchar" MaxLength="500" Nullable="false" />
+    <Property Name="fecha_historico" Type="datetime" />
+  </EntityType>
+  <EntityType Name="INVENTARIO">
+    <Key>
+      <PropertyRef Name="id_inventario" />
+    </Key>
+    <Property Name="id_inventario" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+    <Property Name="id_producto_inventario" Type="int" Nullable="false" />
+    <Property Name="cantidad_existencias" Type="int" Nullable="false" />
+    <Property Name="fecha_actualizacion_inventario" Type="datetime" Nullable="false" />
+  </EntityType>
+  <EntityType Name="INVENTARIO_BAJAS">
+    <Key>
+      <PropertyRef Name="id_inventario_bajas" />
+    </Key>
+    <Property Name="id_inventario_bajas" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+    <Property Name="id_producto_inventario" Type="int" Nullable="false" />
+    <Property Name="cantidad_existencias" Type="int" Nullable="false" />
+    <Property Name="fecha_actualizacion_inventario" Type="datetime" Nullable="false" />
+  </EntityType>
+  <EntityType Name="PERMISO">
+    <Key>
+      <PropertyRef Name="permisoID" />
+    </Key>
+    <Property Name="permisoID" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+    <Property Name="modulo" Type="varchar" MaxLength="20" />
+    <Property Name="descripcion" Type="varchar" MaxLength="100" />
+  </EntityType>
+  <EntityType Name="PERMISO_DENEGADO_POR_ROL">
+    <Key>
+      <PropertyRef Name="id_rol" />
+      <PropertyRef Name="permiso_id" />
+    </Key>
+    <Property Name="id_rol" Type="int" Nullable="false" />
+    <Property Name="permiso_id" Type="int" Nullable="false" />
+  </EntityType>
+  <EntityType Name="PRIORIDAD">
+    <Key>
+      <PropertyRef Name="id_prioridad" />
+    </Key>
+    <Property Name="id_prioridad" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+    <Property Name="descripcion_prioridad" Type="varchar" MaxLength="50" />
+    <Property Name="tiempo_solucion" Type="int" />
+  </EntityType>
+  <EntityType Name="PRODUCTO">
+    <Key>
+      <PropertyRef Name="id_producto" />
+    </Key>
+    <Property Name="id_producto" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+    <Property Name="id_estado_producto" Type="int" Nullable="false" />
+    <Property Name="id_categoria_producto" Type="int" Nullable="false" />
+    <Property Name="nombre_producto" Type="varchar" MaxLength="100" Nullable="false" />
+    <Property Name="precio_costo" Type="decimal" Precision="20" Scale="4" />
+    <Property Name="precio_venta" Type="decimal" Precision="20" Scale="4" />
+  </EntityType>
+  <EntityType Name="ROL">
+    <Key>
+      <PropertyRef Name="id_rol" />
+    </Key>
+    <Property Name="id_rol" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+    <Property Name="descripcion" Type="varchar" MaxLength="50" Nullable="false" />
+  </EntityType>
+  <EntityType Name="SERVICIO">
+    <Key>
+      <PropertyRef Name="id_servicio" />
+    </Key>
+    <Property Name="id_servicio" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+    <Property Name="descripcion_servicio" Type="varchar" MaxLength="50" Nullable="false" />
+    <Property Name="precio" Type="decimal" Precision="20" Scale="4" />
+  </EntityType>
+  <EntityType Name="SOLICITUD">
+    <Key>
+      <PropertyRef Name="id_solicitud" />
+    </Key>
+    <Property Name="id_solicitud" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+    <Property Name="id_prioridad_solicitud" Type="int" Nullable="false" />
+    <Property Name="id_estado_solicitud" Type="int" Nullable="false" />
+    <Property Name="id_usuario_solicitud" Type="int" Nullable="false" />
+    <Property Name="id_servicio_solicitud" Type="int" Nullable="false" />
+    <Property Name="id_elemento_solicitud" Type="int" />
+    <Property Name="id_escalado_solicitud" Type="int" />
+    <Property Name="fecha_solicitud" Type="datetime" />
+    <Property Name="descripcion" Type="varchar" MaxLength="300" />
+  </EntityType>
+  <EntityType Name="TELEFONO_USUARIO">
+    <Key>
+      <PropertyRef Name="id_telefono" />
+    </Key>
+    <Property Name="id_telefono" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+    <Property Name="id_usuario_telefono" Type="int" Nullable="false" />
+    <Property Name="numero_telefono" Type="varchar" MaxLength="15" />
+  </EntityType>
+  <EntityType Name="TIPO_ELEMENTO">
+    <Key>
+      <PropertyRef Name="id_tipo_elemento" />
+    </Key>
+    <Property Name="id_tipo_elemento" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+    <Property Name="descripcion_elemento" Type="varchar" MaxLength="50" Nullable="false" />
+  </EntityType>
+  <EntityType Name="TIPO_IDENTIFICACION_USUARIO">
+    <Key>
+      <PropertyRef Name="id_tipo_identificacion" />
+    </Key>
+    <Property Name="id_tipo_identificacion" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+    <Property Name="descripcion_tipo_identificacion" Type="varchar" MaxLength="50" Nullable="false" />
+  </EntityType>
+  <EntityType Name="USUARIO">
+    <Key>
+      <PropertyRef Name="id_usuario" />
+    </Key>
+    <Property Name="id_usuario" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+    <Property Name="id_tipo_Identificacion_usuario" Type="int" Nullable="false" />
+    <Property Name="id_estado_usuario" Type="int" Nullable="false" />
+    <Property Name="id_rol_usuario" Type="int" Nullable="false" />
+    <Property Name="identificacion" Type="varchar" MaxLength="15" Nullable="false" />
+    <Property Name="apellidos" Type="varchar" MaxLength="30" Nullable="false" />
+    <Property Name="nombres" Type="varchar" MaxLength="30" Nullable="false" />
+    <Property Name="direccion" Type="varchar" MaxLength="50" />
+    <Property Name="correo" Type="varchar" MaxLength="50" Nullable="false" />
+    <Property Name="sexo" Type="char" MaxLength="1" Nullable="false" />
+    <Property Name="usuario_login" Type="varchar" MaxLength="15" Nullable="false" />
+    <Property Name="password" Type="nvarchar" MaxLength="50" Nullable="false" />
+  </EntityType>
+  <Association Name="fk_categoria_elemento">
+    <End Role="CATEGORIA_ELEMENTO" Type="Self.CATEGORIA_ELEMENTO" Multiplicity="1" />
+    <End Role="ELEMENTO" Type="Self.ELEMENTO" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="CATEGORIA_ELEMENTO">
+        <PropertyRef Name="id_categoria_elemento" />
+      </Principal>
+      <Dependent Role="ELEMENTO">
+        <PropertyRef Name="id_categoria_elemento" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="fk_categoria_producto">
+    <End Role="CATEGORIA_PRODUCTO" Type="Self.CATEGORIA_PRODUCTO" Multiplicity="1" />
+    <End Role="PRODUCTO" Type="Self.PRODUCTO" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="CATEGORIA_PRODUCTO">
+        <PropertyRef Name="id_categoria" />
+      </Principal>
+      <Dependent Role="PRODUCTO">
+        <PropertyRef Name="id_categoria_producto" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="fk_elemento_solicitud">
+    <End Role="ELEMENTO" Type="Self.ELEMENTO" Multiplicity="0..1" />
+    <End Role="SOLICITUD" Type="Self.SOLICITUD" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="ELEMENTO">
+        <PropertyRef Name="id_elemento" />
+      </Principal>
+      <Dependent Role="SOLICITUD">
+        <PropertyRef Name="id_elemento_solicitud" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="fk_empleado_factura">
+    <End Role="ESCALADO" Type="Self.ESCALADO" Multiplicity="0..1" />
+    <End Role="FACTURA" Type="Self.FACTURA" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="ESCALADO">
+        <PropertyRef Name="id_escalado" />
+      </Principal>
+      <Dependent Role="FACTURA">
+        <PropertyRef Name="id_empleado_factura" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="fk_empleado_historico_inventario">
+    <End Role="USUARIO" Type="Self.USUARIO" Multiplicity="1" />
+    <End Role="HISTORICO_INVENTARIO" Type="Self.HISTORICO_INVENTARIO" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="USUARIO">
+        <PropertyRef Name="id_usuario" />
+      </Principal>
+      <Dependent Role="HISTORICO_INVENTARIO">
+        <PropertyRef Name="id_empleado" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="fk_empleado_historico_inventario_bajas">
+    <End Role="USUARIO" Type="Self.USUARIO" Multiplicity="1" />
+    <End Role="HISTORICO_INVENTARIO_BAJAS" Type="Self.HISTORICO_INVENTARIO_BAJAS" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="USUARIO">
+        <PropertyRef Name="id_usuario" />
+      </Principal>
+      <Dependent Role="HISTORICO_INVENTARIO_BAJAS">
+        <PropertyRef Name="id_empleado" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="fk_escalado_solicitud">
+    <End Role="ESCALADO" Type="Self.ESCALADO" Multiplicity="0..1" />
+    <End Role="SOLICITUD" Type="Self.SOLICITUD" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="ESCALADO">
+        <PropertyRef Name="id_escalado" />
+      </Principal>
+      <Dependent Role="SOLICITUD">
+        <PropertyRef Name="id_escalado_solicitud" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="fk_estado_factura">
+    <End Role="ESTADO_FACTURA" Type="Self.ESTADO_FACTURA" Multiplicity="1" />
+    <End Role="FACTURA" Type="Self.FACTURA" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="ESTADO_FACTURA">
+        <PropertyRef Name="id_estado_factura" />
+      </Principal>
+      <Dependent Role="FACTURA">
+        <PropertyRef Name="id_estado_factura" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="fk_estado_producto">
+    <End Role="ESTADO_PRODUCTO" Type="Self.ESTADO_PRODUCTO" Multiplicity="1" />
+    <End Role="PRODUCTO" Type="Self.PRODUCTO" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="ESTADO_PRODUCTO">
+        <PropertyRef Name="id_estado_producto" />
+      </Principal>
+      <Dependent Role="PRODUCTO">
+        <PropertyRef Name="id_estado_producto" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="fk_estado_solicitud">
+    <End Role="ESTADO_SOLICITUD" Type="Self.ESTADO_SOLICITUD" Multiplicity="1" />
+    <End Role="SOLICITUD" Type="Self.SOLICITUD" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="ESTADO_SOLICITUD">
+        <PropertyRef Name="id_estado_solicitud" />
+      </Principal>
+      <Dependent Role="SOLICITUD">
+        <PropertyRef Name="id_estado_solicitud" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="fk_estado_usuario">
+    <End Role="ESTADO_USUARIO" Type="Self.ESTADO_USUARIO" Multiplicity="1" />
+    <End Role="USUARIO" Type="Self.USUARIO" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="ESTADO_USUARIO">
+        <PropertyRef Name="id_estado" />
+      </Principal>
+      <Dependent Role="USUARIO">
+        <PropertyRef Name="id_estado_usuario" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="fk_factura_detalle_factura_producto">
+    <End Role="FACTURA" Type="Self.FACTURA" Multiplicity="1" />
+    <End Role="DETALLE_FACTURA_PRODUCTO" Type="Self.DETALLE_FACTURA_PRODUCTO" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="FACTURA">
+        <PropertyRef Name="id_factura" />
+      </Principal>
+      <Dependent Role="DETALLE_FACTURA_PRODUCTO">
+        <PropertyRef Name="id_factura_detalle_factura" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="fk_factura_detalle_factura_solicitud">
+    <End Role="FACTURA" Type="Self.FACTURA" Multiplicity="1" />
+    <End Role="DETALLE_FACTURA_SOLICITUD" Type="Self.DETALLE_FACTURA_SOLICITUD" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="FACTURA">
+        <PropertyRef Name="id_factura" />
+      </Principal>
+      <Dependent Role="DETALLE_FACTURA_SOLICITUD">
+        <PropertyRef Name="id_factura_detalle_factura" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="fk_factura_historico">
+    <End Role="FACTURA" Type="Self.FACTURA" Multiplicity="0..1" />
+    <End Role="HISTORICO_FACTURA" Type="Self.HISTORICO_FACTURA" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="FACTURA">
+        <PropertyRef Name="id_factura" />
+      </Principal>
+      <Dependent Role="HISTORICO_FACTURA">
+        <PropertyRef Name="id_factura_historico" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="fk_id_rol_permiso_denegado">
+    <End Role="ROL" Type="Self.ROL" Multiplicity="1" />
+    <End Role="PERMISO_DENEGADO_POR_ROL" Type="Self.PERMISO_DENEGADO_POR_ROL" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="ROL">
+        <PropertyRef Name="id_rol" />
+      </Principal>
+      <Dependent Role="PERMISO_DENEGADO_POR_ROL">
+        <PropertyRef Name="id_rol" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="fk_inventario_historico_inventario">
+    <End Role="INVENTARIO" Type="Self.INVENTARIO" Multiplicity="1" />
+    <End Role="HISTORICO_INVENTARIO" Type="Self.HISTORICO_INVENTARIO" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="INVENTARIO">
+        <PropertyRef Name="id_inventario" />
+      </Principal>
+      <Dependent Role="HISTORICO_INVENTARIO">
+        <PropertyRef Name="id_inventario_historico" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="fk_inventario_historico_inventario_bajas">
+    <End Role="INVENTARIO_BAJAS" Type="Self.INVENTARIO_BAJAS" Multiplicity="1" />
+    <End Role="HISTORICO_INVENTARIO_BAJAS" Type="Self.HISTORICO_INVENTARIO_BAJAS" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="INVENTARIO_BAJAS">
+        <PropertyRef Name="id_inventario_bajas" />
+      </Principal>
+      <Dependent Role="HISTORICO_INVENTARIO_BAJAS">
+        <PropertyRef Name="id_inventario_historico" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="fk_permiso_id">
+    <End Role="PERMISO" Type="Self.PERMISO" Multiplicity="1" />
+    <End Role="PERMISO_DENEGADO_POR_ROL" Type="Self.PERMISO_DENEGADO_POR_ROL" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="PERMISO">
+        <PropertyRef Name="permisoID" />
+      </Principal>
+      <Dependent Role="PERMISO_DENEGADO_POR_ROL">
+        <PropertyRef Name="permiso_id" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="fk_prioridad_solicitud">
+    <End Role="PRIORIDAD" Type="Self.PRIORIDAD" Multiplicity="1" />
+    <End Role="SOLICITUD" Type="Self.SOLICITUD" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="PRIORIDAD">
+        <PropertyRef Name="id_prioridad" />
+      </Principal>
+      <Dependent Role="SOLICITUD">
+        <PropertyRef Name="id_prioridad_solicitud" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="fk_producto_detalle_factura">
+    <End Role="PRODUCTO" Type="Self.PRODUCTO" Multiplicity="0..1" />
+    <End Role="DETALLE_FACTURA_PRODUCTO" Type="Self.DETALLE_FACTURA_PRODUCTO" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="PRODUCTO">
+        <PropertyRef Name="id_producto" />
+      </Principal>
+      <Dependent Role="DETALLE_FACTURA_PRODUCTO">
+        <PropertyRef Name="id_producto_detalle_factura" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="fk_producto_inventario">
+    <End Role="PRODUCTO" Type="Self.PRODUCTO" Multiplicity="1" />
+    <End Role="INVENTARIO" Type="Self.INVENTARIO" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="PRODUCTO">
+        <PropertyRef Name="id_producto" />
+      </Principal>
+      <Dependent Role="INVENTARIO">
+        <PropertyRef Name="id_producto_inventario" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="fk_producto_inventario_bajas">
+    <End Role="PRODUCTO" Type="Self.PRODUCTO" Multiplicity="1" />
+    <End Role="INVENTARIO_BAJAS" Type="Self.INVENTARIO_BAJAS" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="PRODUCTO">
+        <PropertyRef Name="id_producto" />
+      </Principal>
+      <Dependent Role="INVENTARIO_BAJAS">
+        <PropertyRef Name="id_producto_inventario" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="fk_rol_usuario">
+    <End Role="ROL" Type="Self.ROL" Multiplicity="1" />
+    <End Role="USUARIO" Type="Self.USUARIO" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="ROL">
+        <PropertyRef Name="id_rol" />
+      </Principal>
+      <Dependent Role="USUARIO">
+        <PropertyRef Name="id_rol_usuario" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="fk_servicio_solicitud">
+    <End Role="SERVICIO" Type="Self.SERVICIO" Multiplicity="1" />
+    <End Role="SOLICITUD" Type="Self.SOLICITUD" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="SERVICIO">
+        <PropertyRef Name="id_servicio" />
+      </Principal>
+      <Dependent Role="SOLICITUD">
+        <PropertyRef Name="id_servicio_solicitud" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="fk_solicitud_detalle_factura">
+    <End Role="SOLICITUD" Type="Self.SOLICITUD" Multiplicity="0..1" />
+    <End Role="DETALLE_FACTURA_SOLICITUD" Type="Self.DETALLE_FACTURA_SOLICITUD" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="SOLICITUD">
+        <PropertyRef Name="id_solicitud" />
+      </Principal>
+      <Dependent Role="DETALLE_FACTURA_SOLICITUD">
+        <PropertyRef Name="id_solicitud_detalle_factura" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="fk_solicitud_historico">
+    <End Role="SOLICITUD" Type="Self.SOLICITUD" Multiplicity="1" />
+    <End Role="HISTORICO_SOLICITUD" Type="Self.HISTORICO_SOLICITUD" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="SOLICITUD">
+        <PropertyRef Name="id_solicitud" />
+      </Principal>
+      <Dependent Role="HISTORICO_SOLICITUD">
+        <PropertyRef Name="id_solicitud_historico" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="fk_tipo_elemento">
+    <End Role="TIPO_ELEMENTO" Type="Self.TIPO_ELEMENTO" Multiplicity="1" />
+    <End Role="ELEMENTO" Type="Self.ELEMENTO" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="TIPO_ELEMENTO">
+        <PropertyRef Name="id_tipo_elemento" />
+      </Principal>
+      <Dependent Role="ELEMENTO">
+        <PropertyRef Name="id_tipo_elemento" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="fk_tipo_Identificacion_usuario">
+    <End Role="TIPO_IDENTIFICACION_USUARIO" Type="Self.TIPO_IDENTIFICACION_USUARIO" Multiplicity="1" />
+    <End Role="USUARIO" Type="Self.USUARIO" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="TIPO_IDENTIFICACION_USUARIO">
+        <PropertyRef Name="id_tipo_identificacion" />
+      </Principal>
+      <Dependent Role="USUARIO">
+        <PropertyRef Name="id_tipo_Identificacion_usuario" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="fk_usuario_escalado">
+    <End Role="USUARIO" Type="Self.USUARIO" Multiplicity="0..1" />
+    <End Role="ESCALADO" Type="Self.ESCALADO" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="USUARIO">
+        <PropertyRef Name="id_usuario" />
+      </Principal>
+      <Dependent Role="ESCALADO">
+        <PropertyRef Name="id_usuario_escalado" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="fk_usuario_factura">
+    <End Role="USUARIO" Type="Self.USUARIO" Multiplicity="0..1" />
+    <End Role="FACTURA" Type="Self.FACTURA" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="USUARIO">
+        <PropertyRef Name="id_usuario" />
+      </Principal>
+      <Dependent Role="FACTURA">
+        <PropertyRef Name="id_cliente_factura" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="fk_usuario_historico">
+    <End Role="USUARIO" Type="Self.USUARIO" Multiplicity="1" />
+    <End Role="HISTORICO_SOLICITUD" Type="Self.HISTORICO_SOLICITUD" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="USUARIO">
+        <PropertyRef Name="id_usuario" />
+      </Principal>
+      <Dependent Role="HISTORICO_SOLICITUD">
+        <PropertyRef Name="id_usuario_historico" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="fk_usuario_solicitud">
+    <End Role="USUARIO" Type="Self.USUARIO" Multiplicity="1" />
+    <End Role="SOLICITUD" Type="Self.SOLICITUD" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="USUARIO">
+        <PropertyRef Name="id_usuario" />
+      </Principal>
+      <Dependent Role="SOLICITUD">
+        <PropertyRef Name="id_usuario_solicitud" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="fk_usuario_telefono">
+    <End Role="USUARIO" Type="Self.USUARIO" Multiplicity="1" />
+    <End Role="TELEFONO_USUARIO" Type="Self.TELEFONO_USUARIO" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="USUARIO">
+        <PropertyRef Name="id_usuario" />
+      </Principal>
+      <Dependent Role="TELEFONO_USUARIO">
+        <PropertyRef Name="id_usuario_telefono" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Function Name="ActualizarEstadoFactura" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
+    <Parameter Name="idFactura" Type="int" Mode="In" />
+    <Parameter Name="idEstado" Type="int" Mode="In" />
+    <Parameter Name="pago" Type="decimal" Mode="In" />
+    <Parameter Name="identifEmpleado" Type="varchar" Mode="In" />
+  </Function>
+  <Function Name="ActualizarEstadoProducto_Automatico" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo" />
+  <Function Name="ActualizarEstadoSolicitud_Automatico" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo" />
+  <Function Name="ActualizarFacturaVacia" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
+    <Parameter Name="identifCliente" Type="varchar" Mode="In" />
+    <Parameter Name="identifEmpleado" Type="varchar" Mode="In" />
+    <Parameter Name="estado" Type="int" Mode="In" />
+    <Parameter Name="idFactura" Type="int" Mode="In" />
+    <Parameter Name="valorPagado" Type="decimal" Mode="In" />
+    <Parameter Name="total" Type="decimal" Mode="In" />
+    <Parameter Name="fecha" Type="datetime" Mode="In" />
+  </Function>
+  <Function Name="ActualizarInventarioProductos" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
+    <Parameter Name="id_inventario" Type="int" Mode="In" />
+    <Parameter Name="id_producto" Type="int" Mode="In" />
+    <Parameter Name="cantidad" Type="int" Mode="In" />
+    <Parameter Name="identifEmpleado" Type="varchar" Mode="In" />
+  </Function>
+  <Function Name="ActualizarInventarioXVenta" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
+    <Parameter Name="idProducto" Type="int" Mode="In" />
+    <Parameter Name="cantidadVendida" Type="int" Mode="In" />
+    <Parameter Name="fecha" Type="datetime" Mode="In" />
+    <Parameter Name="identifEmpleado" Type="varchar" Mode="In" />
+  </Function>
+  <Function Name="ActualizarProducto" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
+    <Parameter Name="idProd" Type="int" Mode="In" />
+    <Parameter Name="nombre_prod" Type="varchar" Mode="In" />
+    <Parameter Name="precio_costo" Type="decimal" Mode="In" />
+    <Parameter Name="precio_venta" Type="decimal" Mode="In" />
+  </Function>
+  <Function Name="ActualizarServicio" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
+    <Parameter Name="idserv" Type="int" Mode="In" />
+    <Parameter Name="descripc" Type="varchar" Mode="In" />
+    <Parameter Name="precio" Type="decimal" Mode="In" />
+  </Function>
+  <Function Name="AgregarAnotacionHistoricoInventario" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
+    <Parameter Name="identifEmpleado" Type="varchar" Mode="In" />
+    <Parameter Name="idInventario" Type="int" Mode="In" />
+    <Parameter Name="descripcion" Type="varchar" Mode="In" />
+  </Function>
+  <Function Name="AgregarAnotacionHistoricoInventarioBajas" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
+    <Parameter Name="identifEmpleado" Type="varchar" Mode="In" />
+    <Parameter Name="idInventario" Type="int" Mode="In" />
+    <Parameter Name="descripcion" Type="varchar" Mode="In" />
+  </Function>
+  <Function Name="AgregarAnotacionHistoricoSolicitud" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
+    <Parameter Name="identifEmpleado" Type="varchar" Mode="In" />
+    <Parameter Name="idSolici" Type="int" Mode="In" />
+    <Parameter Name="descripcion" Type="varchar" Mode="In" />
+  </Function>
+  <Function Name="AgregarBajaInventario" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
+    <Parameter Name="id_producto" Type="int" Mode="In" />
+    <Parameter Name="cantidadBajas" Type="int" Mode="In" />
+    <Parameter Name="identifEmpleado" Type="varchar" Mode="In" />
+    <Parameter Name="descripcionBaja" Type="varchar" Mode="In" />
+  </Function>
+  <Function Name="AgregarDetalleFacturaProducto" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
+    <Parameter Name="idProducto" Type="int" Mode="In" />
+    <Parameter Name="cantidad" Type="int" Mode="In" />
+    <Parameter Name="idFactura" Type="int" Mode="In" />
+  </Function>
+  <Function Name="AgregarDetalleFacturaSolicitud" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
+    <Parameter Name="idSolicitud" Type="int" Mode="In" />
+    <Parameter Name="cantidad" Type="int" Mode="In" />
+    <Parameter Name="idFactura" Type="int" Mode="In" />
+  </Function>
+  <Function Name="AgregarElemento" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
+    <Parameter Name="id_categ" Type="int" Mode="In" />
+    <Parameter Name="id_tipo_elem" Type="int" Mode="In" />
+    <Parameter Name="serial" Type="varchar" Mode="In" />
+    <Parameter Name="placa" Type="varchar" Mode="In" />
+    <Parameter Name="modelo" Type="varchar" Mode="In" />
+    <Parameter Name="marca" Type="varchar" Mode="In" />
+    <Parameter Name="ram" Type="varchar" Mode="In" />
+    <Parameter Name="rom" Type="varchar" Mode="In" />
+    <Parameter Name="serial_bateria" Type="varchar" Mode="In" />
+    <Parameter Name="SO" Type="varchar" Mode="In" />
+  </Function>
+  <Function Name="AgregarServicio" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
+    <Parameter Name="descripc" Type="varchar" Mode="In" />
+    <Parameter Name="precio" Type="decimal" Mode="In" />
+  </Function>
+  <Function Name="AgregarUsuario" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
+    <Parameter Name="tipoIdent" Type="int" Mode="In" />
+    <Parameter Name="estado" Type="int" Mode="In" />
+    <Parameter Name="rol" Type="int" Mode="In" />
+    <Parameter Name="identif" Type="varchar" Mode="In" />
+    <Parameter Name="apellidos" Type="varchar" Mode="In" />
+    <Parameter Name="nombres" Type="varchar" Mode="In" />
+    <Parameter Name="direccion" Type="varchar" Mode="In" />
+    <Parameter Name="correo" Type="varchar" Mode="In" />
+    <Parameter Name="sexo" Type="char" Mode="In" />
+    <Parameter Name="username" Type="varchar" Mode="In" />
+    <Parameter Name="Passwd" Type="nvarchar" Mode="In" />
+  </Function>
+  <Function Name="AnularFactura" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
+    <Parameter Name="idFactura" Type="int" Mode="In" />
+    <Parameter Name="identifEmpleado" Type="varchar" Mode="In" />
+    <Parameter Name="MotivoAnulacion" Type="varchar" Mode="In" />
+  </Function>
+  <Function Name="CambiarEstadoProducto" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
+    <Parameter Name="idProd" Type="int" Mode="In" />
+    <Parameter Name="idEstado" Type="int" Mode="In" />
+  </Function>
+  <Function Name="CambiarEstadoSolicitud" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
+    <Parameter Name="idSolicit" Type="int" Mode="In" />
+    <Parameter Name="idEstadoAnterior" Type="int" Mode="In" />
+    <Parameter Name="idEstadoNuevo" Type="int" Mode="In" />
+    <Parameter Name="identifEmpleado" Type="varchar" Mode="In" />
+  </Function>
+  <Function Name="ConsultaNombresEmpleadosXSolicitud" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo" />
+  <Function Name="Consultar_id_UsuarioXIdentificacion" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
+    <Parameter Name="codigo" Type="int" Mode="In" />
+  </Function>
+  <Function Name="ConsultarCantidadProductoXid" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
+    <Parameter Name="idProd" Type="int" Mode="In" />
+  </Function>
+  <Function Name="ConsultarCantidadXProducto" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
+    <Parameter Name="id_inventario" Type="int" Mode="In" />
+  </Function>
+  <Function Name="ConsultarCategorias_Elemento" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo" />
+  <Function Name="ConsultarCategoriasProductos" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo" />
+  <Function Name="ConsultarDetallesFacturaProducto" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo" />
+  <Function Name="ConsultarDetallesFacturaProductoXid" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
+    <Parameter Name="idFactura" Type="int" Mode="In" />
+  </Function>
+  <Function Name="ConsultarDetallesFacturaSolicitudXid" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
+    <Parameter Name="idFactura" Type="int" Mode="In" />
+  </Function>
+  <Function Name="ConsultarElementos" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo" />
+  <Function Name="ConsultarEstado_Solicitud" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
+    <Parameter Name="idSolic" Type="int" Mode="In" />
+  </Function>
+  <Function Name="ConsultarEstadoFactura" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
+    <Parameter Name="idFactura" Type="int" Mode="In" />
+  </Function>
+  <Function Name="ConsultarEstadosSolicitud" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo" />
+  <Function Name="ConsultarFacturas" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo" />
+  <Function Name="ConsultarFacturaXid" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
+    <Parameter Name="idFactura" Type="int" Mode="In" />
+  </Function>
+  <Function Name="ConsultarHistoricoFacturaX_id" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
+    <Parameter Name="idFactura" Type="int" Mode="In" />
+  </Function>
+  <Function Name="ConsultarHistoricoInventarioBajasX_id" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
+    <Parameter Name="id_inventario" Type="int" Mode="In" />
+  </Function>
+  <Function Name="ConsultarHistoricoInventarioX_id" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
+    <Parameter Name="id_inventario" Type="int" Mode="In" />
+  </Function>
+  <Function Name="ConsultarHistoricoSolicitudX_id" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
+    <Parameter Name="id_solicitud" Type="int" Mode="In" />
+  </Function>
+  <Function Name="ConsultarInventarioBajas" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo" />
+  <Function Name="ConsultarInventarios" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo" />
+  <Function Name="ConsultarInventarioXCodigoProducto" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
+    <Parameter Name="codigo" Type="int" Mode="In" />
+  </Function>
+  <Function Name="ConsultarInventarioXNombreProducto" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
+    <Parameter Name="nombr" Type="varchar" Mode="In" />
+  </Function>
+  <Function Name="ConsultarPermisosXUsuario" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
+    <Parameter Name="identif" Type="varchar" Mode="In" />
+  </Function>
+  <Function Name="ConsultarProductos" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo" />
+  <Function Name="ConsultarProductoXCodigo" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
+    <Parameter Name="codigo" Type="int" Mode="In" />
+  </Function>
+  <Function Name="ConsultarProductoXNombre" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
+    <Parameter Name="nombr" Type="varchar" Mode="In" />
+  </Function>
+  <Function Name="ConsultarRolUsuario" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
+    <Parameter Name="identif" Type="varchar" Mode="In" />
+  </Function>
+  <Function Name="ConsultarServicio" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
+    <Parameter Name="codigo" Type="int" Mode="In" />
+  </Function>
+  <Function Name="ConsultarServicios" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo" />
+  <Function Name="ConsultarSolicitudes" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo" />
+  <Function Name="ConsultarSolicitudesXEmpleado" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
+    <Parameter Name="identif" Type="varchar" Mode="In" />
+  </Function>
+  <Function Name="ConsultarTiposElemento" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo" />
+  <Function Name="ConsultarTiposPrioridad" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo" />
+  <Function Name="CrearFacturaSinRegistros" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
+    <Parameter Name="identifEmpleado" Type="varchar" Mode="In" />
+  </Function>
+  <Function Name="EscalarSolicitud" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
+    <Parameter Name="id_solicitud" Type="int" Mode="In" />
+    <Parameter Name="identifEmpleado" Type="varchar" Mode="In" />
+  </Function>
+  <Function Name="GarbageCollector_FacturasSinRegistros_Automatico" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo" />
+  <Function Name="GenerarSolicitud" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
+    <Parameter Name="id_prioridad" Type="int" Mode="In" />
+    <Parameter Name="id_estado" Type="int" Mode="In" />
+    <Parameter Name="identifEmpleado" Type="varchar" Mode="In" />
+    <Parameter Name="id_cliente" Type="int" Mode="In" />
+    <Parameter Name="id_servicio" Type="int" Mode="In" />
+    <Parameter Name="id_elemento" Type="int" Mode="In" />
+    <Parameter Name="descripcion" Type="varchar" Mode="In" />
+  </Function>
+  <Function Name="InsertarProducto" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
+    <Parameter Name="id_estado_prod" Type="int" Mode="In" />
+    <Parameter Name="id_categoria" Type="int" Mode="In" />
+    <Parameter Name="nombre_prod" Type="varchar" Mode="In" />
+    <Parameter Name="precio_costo" Type="decimal" Mode="In" />
+    <Parameter Name="precio_venta" Type="decimal" Mode="In" />
+    <Parameter Name="identifEmpleado" Type="varchar" Mode="In" />
+    <Parameter Name="cantidad" Type="int" Mode="In" />
+  </Function>
+  <Function Name="ObtenerIdUltimaFacturaGenerada" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo" />
+  <Function Name="ValidarAutenticacionLogin" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
+    <Parameter Name="username" Type="varchar" Mode="In" />
+    <Parameter Name="passwd" Type="nvarchar" Mode="In" />
+  </Function>
+  <EntityContainer Name="bdServiciosDigitalesProyModelStoreContainer">
+    <EntitySet Name="CATEGORIA_ELEMENTO" EntityType="Self.CATEGORIA_ELEMENTO" Schema="dbo" store:Type="Tables" />
+    <EntitySet Name="CATEGORIA_PRODUCTO" EntityType="Self.CATEGORIA_PRODUCTO" Schema="dbo" store:Type="Tables" />
+    <EntitySet Name="DETALLE_FACTURA_PRODUCTO" EntityType="Self.DETALLE_FACTURA_PRODUCTO" Schema="dbo" store:Type="Tables" />
+    <EntitySet Name="DETALLE_FACTURA_SOLICITUD" EntityType="Self.DETALLE_FACTURA_SOLICITUD" Schema="dbo" store:Type="Tables" />
+    <EntitySet Name="ELEMENTO" EntityType="Self.ELEMENTO" Schema="dbo" store:Type="Tables" />
+    <EntitySet Name="ESCALADO" EntityType="Self.ESCALADO" Schema="dbo" store:Type="Tables" />
+    <EntitySet Name="ESTADO_FACTURA" EntityType="Self.ESTADO_FACTURA" Schema="dbo" store:Type="Tables" />
+    <EntitySet Name="ESTADO_PRODUCTO" EntityType="Self.ESTADO_PRODUCTO" Schema="dbo" store:Type="Tables" />
+    <EntitySet Name="ESTADO_SOLICITUD" EntityType="Self.ESTADO_SOLICITUD" Schema="dbo" store:Type="Tables" />
+    <EntitySet Name="ESTADO_USUARIO" EntityType="Self.ESTADO_USUARIO" Schema="dbo" store:Type="Tables" />
+    <EntitySet Name="FACTURA" EntityType="Self.FACTURA" Schema="dbo" store:Type="Tables" />
+    <EntitySet Name="HISTORICO_FACTURA" EntityType="Self.HISTORICO_FACTURA" Schema="dbo" store:Type="Tables" />
+    <EntitySet Name="HISTORICO_INVENTARIO" EntityType="Self.HISTORICO_INVENTARIO" Schema="dbo" store:Type="Tables" />
+    <EntitySet Name="HISTORICO_INVENTARIO_BAJAS" EntityType="Self.HISTORICO_INVENTARIO_BAJAS" Schema="dbo" store:Type="Tables" />
+    <EntitySet Name="HISTORICO_SOLICITUD" EntityType="Self.HISTORICO_SOLICITUD" Schema="dbo" store:Type="Tables" />
+    <EntitySet Name="INVENTARIO" EntityType="Self.INVENTARIO" Schema="dbo" store:Type="Tables" />
+    <EntitySet Name="INVENTARIO_BAJAS" EntityType="Self.INVENTARIO_BAJAS" Schema="dbo" store:Type="Tables" />
+    <EntitySet Name="PERMISO" EntityType="Self.PERMISO" Schema="dbo" store:Type="Tables" />
+    <EntitySet Name="PERMISO_DENEGADO_POR_ROL" EntityType="Self.PERMISO_DENEGADO_POR_ROL" Schema="dbo" store:Type="Tables" />
+    <EntitySet Name="PRIORIDAD" EntityType="Self.PRIORIDAD" Schema="dbo" store:Type="Tables" />
+    <EntitySet Name="PRODUCTO" EntityType="Self.PRODUCTO" Schema="dbo" store:Type="Tables" />
+    <EntitySet Name="ROL" EntityType="Self.ROL" Schema="dbo" store:Type="Tables" />
+    <EntitySet Name="SERVICIO" EntityType="Self.SERVICIO" Schema="dbo" store:Type="Tables" />
+    <EntitySet Name="SOLICITUD" EntityType="Self.SOLICITUD" Schema="dbo" store:Type="Tables" />
+    <EntitySet Name="TELEFONO_USUARIO" EntityType="Self.TELEFONO_USUARIO" Schema="dbo" store:Type="Tables" />
+    <EntitySet Name="TIPO_ELEMENTO" EntityType="Self.TIPO_ELEMENTO" Schema="dbo" store:Type="Tables" />
+    <EntitySet Name="TIPO_IDENTIFICACION_USUARIO" EntityType="Self.TIPO_IDENTIFICACION_USUARIO" Schema="dbo" store:Type="Tables" />
+    <EntitySet Name="USUARIO" EntityType="Self.USUARIO" Schema="dbo" store:Type="Tables" />
+    <AssociationSet Name="fk_categoria_elemento" Association="Self.fk_categoria_elemento">
+      <End Role="CATEGORIA_ELEMENTO" EntitySet="CATEGORIA_ELEMENTO" />
+      <End Role="ELEMENTO" EntitySet="ELEMENTO" />
+    </AssociationSet>
+    <AssociationSet Name="fk_categoria_producto" Association="Self.fk_categoria_producto">
+      <End Role="CATEGORIA_PRODUCTO" EntitySet="CATEGORIA_PRODUCTO" />
+      <End Role="PRODUCTO" EntitySet="PRODUCTO" />
+    </AssociationSet>
+    <AssociationSet Name="fk_elemento_solicitud" Association="Self.fk_elemento_solicitud">
+      <End Role="ELEMENTO" EntitySet="ELEMENTO" />
+      <End Role="SOLICITUD" EntitySet="SOLICITUD" />
+    </AssociationSet>
+    <AssociationSet Name="fk_empleado_factura" Association="Self.fk_empleado_factura">
+      <End Role="ESCALADO" EntitySet="ESCALADO" />
+      <End Role="FACTURA" EntitySet="FACTURA" />
+    </AssociationSet>
+    <AssociationSet Name="fk_empleado_historico_inventario" Association="Self.fk_empleado_historico_inventario">
+      <End Role="USUARIO" EntitySet="USUARIO" />
+      <End Role="HISTORICO_INVENTARIO" EntitySet="HISTORICO_INVENTARIO" />
+    </AssociationSet>
+    <AssociationSet Name="fk_empleado_historico_inventario_bajas" Association="Self.fk_empleado_historico_inventario_bajas">
+      <End Role="USUARIO" EntitySet="USUARIO" />
+      <End Role="HISTORICO_INVENTARIO_BAJAS" EntitySet="HISTORICO_INVENTARIO_BAJAS" />
+    </AssociationSet>
+    <AssociationSet Name="fk_escalado_solicitud" Association="Self.fk_escalado_solicitud">
+      <End Role="ESCALADO" EntitySet="ESCALADO" />
+      <End Role="SOLICITUD" EntitySet="SOLICITUD" />
+    </AssociationSet>
+    <AssociationSet Name="fk_estado_factura" Association="Self.fk_estado_factura">
+      <End Role="ESTADO_FACTURA" EntitySet="ESTADO_FACTURA" />
+      <End Role="FACTURA" EntitySet="FACTURA" />
+    </AssociationSet>
+    <AssociationSet Name="fk_estado_producto" Association="Self.fk_estado_producto">
+      <End Role="ESTADO_PRODUCTO" EntitySet="ESTADO_PRODUCTO" />
+      <End Role="PRODUCTO" EntitySet="PRODUCTO" />
+    </AssociationSet>
+    <AssociationSet Name="fk_estado_solicitud" Association="Self.fk_estado_solicitud">
+      <End Role="ESTADO_SOLICITUD" EntitySet="ESTADO_SOLICITUD" />
+      <End Role="SOLICITUD" EntitySet="SOLICITUD" />
+    </AssociationSet>
+    <AssociationSet Name="fk_estado_usuario" Association="Self.fk_estado_usuario">
+      <End Role="ESTADO_USUARIO" EntitySet="ESTADO_USUARIO" />
+      <End Role="USUARIO" EntitySet="USUARIO" />
+    </AssociationSet>
+    <AssociationSet Name="fk_factura_detalle_factura_producto" Association="Self.fk_factura_detalle_factura_producto">
+      <End Role="FACTURA" EntitySet="FACTURA" />
+      <End Role="DETALLE_FACTURA_PRODUCTO" EntitySet="DETALLE_FACTURA_PRODUCTO" />
+    </AssociationSet>
+    <AssociationSet Name="fk_factura_detalle_factura_solicitud" Association="Self.fk_factura_detalle_factura_solicitud">
+      <End Role="FACTURA" EntitySet="FACTURA" />
+      <End Role="DETALLE_FACTURA_SOLICITUD" EntitySet="DETALLE_FACTURA_SOLICITUD" />
+    </AssociationSet>
+    <AssociationSet Name="fk_factura_historico" Association="Self.fk_factura_historico">
+      <End Role="FACTURA" EntitySet="FACTURA" />
+      <End Role="HISTORICO_FACTURA" EntitySet="HISTORICO_FACTURA" />
+    </AssociationSet>
+    <AssociationSet Name="fk_id_rol_permiso_denegado" Association="Self.fk_id_rol_permiso_denegado">
+      <End Role="ROL" EntitySet="ROL" />
+      <End Role="PERMISO_DENEGADO_POR_ROL" EntitySet="PERMISO_DENEGADO_POR_ROL" />
+    </AssociationSet>
+    <AssociationSet Name="fk_inventario_historico_inventario" Association="Self.fk_inventario_historico_inventario">
+      <End Role="INVENTARIO" EntitySet="INVENTARIO" />
+      <End Role="HISTORICO_INVENTARIO" EntitySet="HISTORICO_INVENTARIO" />
+    </AssociationSet>
+    <AssociationSet Name="fk_inventario_historico_inventario_bajas" Association="Self.fk_inventario_historico_inventario_bajas">
+      <End Role="INVENTARIO_BAJAS" EntitySet="INVENTARIO_BAJAS" />
+      <End Role="HISTORICO_INVENTARIO_BAJAS" EntitySet="HISTORICO_INVENTARIO_BAJAS" />
+    </AssociationSet>
+    <AssociationSet Name="fk_permiso_id" Association="Self.fk_permiso_id">
+      <End Role="PERMISO" EntitySet="PERMISO" />
+      <End Role="PERMISO_DENEGADO_POR_ROL" EntitySet="PERMISO_DENEGADO_POR_ROL" />
+    </AssociationSet>
+    <AssociationSet Name="fk_prioridad_solicitud" Association="Self.fk_prioridad_solicitud">
+      <End Role="PRIORIDAD" EntitySet="PRIORIDAD" />
+      <End Role="SOLICITUD" EntitySet="SOLICITUD" />
+    </AssociationSet>
+    <AssociationSet Name="fk_producto_detalle_factura" Association="Self.fk_producto_detalle_factura">
+      <End Role="PRODUCTO" EntitySet="PRODUCTO" />
+      <End Role="DETALLE_FACTURA_PRODUCTO" EntitySet="DETALLE_FACTURA_PRODUCTO" />
+    </AssociationSet>
+    <AssociationSet Name="fk_producto_inventario" Association="Self.fk_producto_inventario">
+      <End Role="PRODUCTO" EntitySet="PRODUCTO" />
+      <End Role="INVENTARIO" EntitySet="INVENTARIO" />
+    </AssociationSet>
+    <AssociationSet Name="fk_producto_inventario_bajas" Association="Self.fk_producto_inventario_bajas">
+      <End Role="PRODUCTO" EntitySet="PRODUCTO" />
+      <End Role="INVENTARIO_BAJAS" EntitySet="INVENTARIO_BAJAS" />
+    </AssociationSet>
+    <AssociationSet Name="fk_rol_usuario" Association="Self.fk_rol_usuario">
+      <End Role="ROL" EntitySet="ROL" />
+      <End Role="USUARIO" EntitySet="USUARIO" />
+    </AssociationSet>
+    <AssociationSet Name="fk_servicio_solicitud" Association="Self.fk_servicio_solicitud">
+      <End Role="SERVICIO" EntitySet="SERVICIO" />
+      <End Role="SOLICITUD" EntitySet="SOLICITUD" />
+    </AssociationSet>
+    <AssociationSet Name="fk_solicitud_detalle_factura" Association="Self.fk_solicitud_detalle_factura">
+      <End Role="SOLICITUD" EntitySet="SOLICITUD" />
+      <End Role="DETALLE_FACTURA_SOLICITUD" EntitySet="DETALLE_FACTURA_SOLICITUD" />
+    </AssociationSet>
+    <AssociationSet Name="fk_solicitud_historico" Association="Self.fk_solicitud_historico">
+      <End Role="SOLICITUD" EntitySet="SOLICITUD" />
+      <End Role="HISTORICO_SOLICITUD" EntitySet="HISTORICO_SOLICITUD" />
+    </AssociationSet>
+    <AssociationSet Name="fk_tipo_elemento" Association="Self.fk_tipo_elemento">
+      <End Role="TIPO_ELEMENTO" EntitySet="TIPO_ELEMENTO" />
+      <End Role="ELEMENTO" EntitySet="ELEMENTO" />
+    </AssociationSet>
+    <AssociationSet Name="fk_tipo_Identificacion_usuario" Association="Self.fk_tipo_Identificacion_usuario">
+      <End Role="TIPO_IDENTIFICACION_USUARIO" EntitySet="TIPO_IDENTIFICACION_USUARIO" />
+      <End Role="USUARIO" EntitySet="USUARIO" />
+    </AssociationSet>
+    <AssociationSet Name="fk_usuario_escalado" Association="Self.fk_usuario_escalado">
+      <End Role="USUARIO" EntitySet="USUARIO" />
+      <End Role="ESCALADO" EntitySet="ESCALADO" />
+    </AssociationSet>
+    <AssociationSet Name="fk_usuario_factura" Association="Self.fk_usuario_factura">
+      <End Role="USUARIO" EntitySet="USUARIO" />
+      <End Role="FACTURA" EntitySet="FACTURA" />
+    </AssociationSet>
+    <AssociationSet Name="fk_usuario_historico" Association="Self.fk_usuario_historico">
+      <End Role="USUARIO" EntitySet="USUARIO" />
+      <End Role="HISTORICO_SOLICITUD" EntitySet="HISTORICO_SOLICITUD" />
+    </AssociationSet>
+    <AssociationSet Name="fk_usuario_solicitud" Association="Self.fk_usuario_solicitud">
+      <End Role="USUARIO" EntitySet="USUARIO" />
+      <End Role="SOLICITUD" EntitySet="SOLICITUD" />
+    </AssociationSet>
+    <AssociationSet Name="fk_usuario_telefono" Association="Self.fk_usuario_telefono">
+      <End Role="USUARIO" EntitySet="USUARIO" />
+      <End Role="TELEFONO_USUARIO" EntitySet="TELEFONO_USUARIO" />
+    </AssociationSet>
+  </EntityContainer>
+</Schema>

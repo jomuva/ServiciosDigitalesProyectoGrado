@@ -109,7 +109,8 @@
         </div>
     </div>
 </section>
-@if ((string)TempData["mensaje"] != null || (string)TempData["mensaje"] != "")
+@Html.Partial("Partials/_Script")
+@if ((string)TempData["mensaje"] != null && (string)TempData["mensaje"] != "")
 {
     <script>
         $(function (msg) {

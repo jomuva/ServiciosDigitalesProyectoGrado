@@ -22,10 +22,10 @@ namespace ServiciosDigitalesProy.Controllers
             user.producto.estadosProducto = new SelectList(CatalogoProductos.GetInstance().ConsultarEstadosProducto(), "id", "Descripcion");
             user.producto.categoriasProductoSelect = new SelectList(CatalogoProductos.GetInstance().ConsultarCategoriasProducto(), "id", "Descripcion");
 
-            return View("AdicionarProducto",user);
+            return View("AdicionarProducto", user);
         }
 
-      
+
         [HttpPost]
         public ActionResult InsertarProducto(Inventario model)
         {
@@ -36,11 +36,15 @@ namespace ServiciosDigitalesProy.Controllers
             {
                 CatalogoProductos.GetInstance().InsertarProducto(model, out resultado, out tipoResultado);
 
-                //List<Usuario> usuarios;
-                //usuarios = CatalogoUsuarios.GetInstance().ConsultarClientes("", ref resultado, ref tipoResultado);
 
                 TempData["mensaje"] = resultado;
                 TempData["estado"] = tipoResultado;
+                if (tipoResultado == "danger")
+                {
+                    model.producto.estadosProducto = new SelectList(CatalogoProductos.GetInstance().ConsultarEstadosProducto(), "id", "Descripcion");
+                    model.producto.categoriasProductoSelect = new SelectList(CatalogoProductos.GetInstance().ConsultarCategoriasProducto(), "id", "Descripcion");
+                    return View("AdicionarProducto", model);
+                }
                 List<Producto> productos;
                 productos = CatalogoProductos.GetInstance().ConsultarProductos("", ref resultado2, ref tipoResultado2);
                 return View("RespuestaConsultaProductos", productos);
@@ -48,6 +52,8 @@ namespace ServiciosDigitalesProy.Controllers
 
             TempData["mensaje"] = "Por favor verifique los datos ingresados";
             TempData["estado"] = "danger";
+            model.producto.estadosProducto = new SelectList(CatalogoProductos.GetInstance().ConsultarEstadosProducto(), "id", "Descripcion");
+            model.producto.categoriasProductoSelect = new SelectList(CatalogoProductos.GetInstance().ConsultarCategoriasProducto(), "id", "Descripcion");
             return View("AdicionarProducto", model);
 
         }
@@ -59,7 +65,7 @@ namespace ServiciosDigitalesProy.Controllers
             return View("ConsultarProductos");
         }
 
-       
+
         [HttpPost]
         public ActionResult ConsultarProductos(string identificacion)
         {
@@ -80,7 +86,8 @@ namespace ServiciosDigitalesProy.Controllers
                 {
                     return View("RespuestaConsultaProductos", productos);
                 }
-            }else
+            }
+            else
             {
                 TempData["mensaje"] = "No se encontraron registro con los parámetros de consulta ingresados";
                 TempData["estado"] = "danger";
@@ -116,7 +123,7 @@ namespace ServiciosDigitalesProy.Controllers
         public ActionResult UpdateProducto(Producto prod)
         {
             string resultado = "", tipoResultado = "";
-            string res="", tipoRes="";
+            string res = "", tipoRes = "";
             if (ModelState.IsValid)
             {
                 CatalogoProductos.GetInstance().ModificarProducto(prod, ref res, ref tipoRes);

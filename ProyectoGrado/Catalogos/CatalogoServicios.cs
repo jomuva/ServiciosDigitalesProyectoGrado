@@ -38,8 +38,26 @@ namespace ServiciosDigitalesProy.Catalogos
         /// <param name="tipoResultado"></param>
         public void AgregarServicio(Servicio servicio, out string resultado, out string tipoResultado)
         {
-            serviciosdatos.AgregarServicio( servicio.descripcion,servicio.precio,
+            object oResult =  serviciosdatos.AgregarServicio( servicio.descripcion,servicio.precio,
                                             out resultado,out tipoResultado);
+            int result = 0;
+
+            var dynObj = JsonConvert.SerializeObject(oResult);
+            dynamic  dyn = JsonConvert.DeserializeObject(dynObj);
+
+
+            foreach (var item in dyn)
+            {
+                result = (int)item;
+            }
+            
+
+            if (result == 0)
+            {
+                resultado = "ya existe un servicio con la misma descripción";
+                tipoResultado = "danger";
+            }
+
         }
 
         

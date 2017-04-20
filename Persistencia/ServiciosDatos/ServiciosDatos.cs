@@ -20,11 +20,12 @@ namespace Persistencia.ServiciosDatos
         /// <param name="descripcion"></param>
         /// <param name="resultado"></param>
         /// <param name="tipoResultado"></param>
-        public void AgregarServicio(string descripcion,double precio, out string resultado, out string tipoResultado)
+        public object AgregarServicio(string descripcion,double precio, out string resultado, out string tipoResultado)
         {
+            object result = null;
             try
             {
-                conexion.conexiones.AgregarServicio(descripcion,Convert.ToDecimal(precio));
+                result =  conexion.conexiones.AgregarServicio(descripcion,Convert.ToDecimal(precio)).ToList();
                 conexion.conexiones.SaveChanges();
 
                 resultado = "Se ha agregado el servicio exitosamente";
@@ -35,7 +36,8 @@ namespace Persistencia.ServiciosDatos
                 resultado = ex.Message;
                 tipoResultado = "danger";
             }
-            
+
+            return result;
         }
 
         /// <summary>

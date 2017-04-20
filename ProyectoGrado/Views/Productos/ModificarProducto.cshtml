@@ -27,33 +27,44 @@
 
             <div class="form-group">
                 @Html.Label("Código :*", htmlAttributes: new { @class = "control-label col-md-4" })
-                <div class="col-md-8">
-                    @Html.EditorFor(model => model.id_producto, new { htmlAttributes = new { @class = "form-control", @disabled = "disabled" } })
-                    @Html.ValidationMessageFor(model => model.id_producto, "", new { @class = "text-danger" })
+                <div class="col-md-6 inputGroupContainer">
+                    <div class="input-group">
+                        <span class="input-group-addon"><i class="fa fa-book"></i></span>
+                        @Html.EditorFor(model => model.id_producto, new { htmlAttributes = new { @class = "form-control", @disabled = "disabled" } })
+                    </div>
                 </div>
                 @Html.Hidden("id_producto", Model.id_producto)
             </div>
 
             <div class="form-group">
                 @Html.Label("Nombre :*", htmlAttributes: new { @class = "control-label col-md-4" })
-                <div class="col-md-8">
-                    @Html.EditorFor(model => model.nombre, new { htmlAttributes = new { @class = "form-control" } })
+                <div class="col-md-6 inputGroupContainer">
+                    <div class="input-group">
+                        <span class="input-group-addon"><i class="fa fa-book"></i></span>
+                        @Html.EditorFor(model => model.nombre, new { htmlAttributes = new { @class = "form-control" } })
+                    </div>
                     @Html.ValidationMessageFor(model => model.nombre, "", new { @class = "text-danger" })
                 </div>
             </div>
 
             <div class="form-group">
                 @Html.Label("Precio Costo :*", htmlAttributes: new { @class = "control-label col-md-4" })
-                <div class="col-md-8">
-                    @Html.EditorFor(model => model.precio_costo, new { htmlAttributes = new { @class = "form-control", @type = "number" } })
+                <div class="col-md-4 inputGroupContainer">
+                    <div class="input-group">
+                        <span class="input-group-addon"><i class="fa fa-money"></i></span>
+                        @Html.EditorFor(model => model.precio_costo, new { htmlAttributes = new { @class = "form-control", @type = "number" } })
+                    </div>
                     @Html.ValidationMessageFor(model => model.precio_costo, "", new { @class = "text-danger" })
                 </div>
             </div>
 
             <div class="form-group">
                 @Html.Label("Precio Venta :*", htmlAttributes: new { @class = "control-label col-md-4" })
-                <div class="col-md-8">
-                    @Html.EditorFor(model => model.precio_venta, new { htmlAttributes = new { @class = "form-control", @type = "number" } })
+                <div class="col-md-4 inputGroupContainer">
+                    <div class="input-group">
+                        <span class="input-group-addon"><i class="fa fa-money"></i></span>
+                        @Html.EditorFor(model => model.precio_venta, new { htmlAttributes = new { @class = "form-control", @type = "number" } })
+                    </div>
                     @Html.ValidationMessageFor(model => model.precio_venta, "", new { @class = "text-danger" })
                 </div>
             </div>

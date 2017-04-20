@@ -360,7 +360,7 @@ namespace Persistencia.UsuarioDatos
         public void ModificarCliente(
                     string TelefonoFijo, string TelefonoCelular, string username,
                     string email, string identificacion, string nombres, string apellidos, 
-                    string direccion, string sexo, string password, int idTipoIdentificacion, 
+                    string direccion, string sexo, int idTipoIdentificacion, 
                     out string res, out string tipoRes)
         {
 
@@ -376,7 +376,7 @@ namespace Persistencia.UsuarioDatos
                     USUARIO.direccion = direccion;
                     USUARIO.correo = email;
                     USUARIO.sexo = sexo;
-                    USUARIO.password = password;
+                    //USUARIO.password = password;
                 }
                 conexion.conexiones.SaveChanges();
 
@@ -728,7 +728,7 @@ namespace Persistencia.UsuarioDatos
         public void ModificarEmpleado(
                                      string TelefonoFijo, string TelefonoCelular, string username,
                                      string email, string identificacion, string nombres, string apellidos,
-                                     string direccion, string sexo, string password, int idTipoIdentificacion, int idRol,
+                                     string direccion, string sexo, int idTipoIdentificacion, int idRol,
                                      out string res, out string tipoRes)
         {
 
@@ -744,7 +744,7 @@ namespace Persistencia.UsuarioDatos
                     USUARIO.direccion = direccion;
                     USUARIO.correo = email;
                     USUARIO.sexo = sexo;
-                    USUARIO.password = password;
+                    //USUARIO.password = password;
                     USUARIO.id_rol_usuario = idRol;
 
                 }

@@ -273,6 +273,10 @@
     <Content Include="Views\Ventas\Partials\_Script.cshtml" />
     <Content Include="Views\Ventas\Partials\_ModalAnularFactura.cshtml" />
     <Content Include="Views\Ventas\AnularFactura.cshtml" />
+    <None Include="Properties\PublishProfiles\ProyectoGrado.pubxml" />
+    <Content Include="Views\Servicios\Partials\_Script.cshtml" />
+    <Content Include="Views\Productos\Partials\_Script.cshtml" />
+    <Content Include="Views\Usuarios\Partials\_Script.cshtml" />
     <None Include="Xcore\Scripts\jquery-1.10.2.intellisense.js" />
     <Content Include="Xcore\Scripts\Formulario\index.js" />
     <Content Include="Xcore\Scripts\jquery-1.10.2.js" />

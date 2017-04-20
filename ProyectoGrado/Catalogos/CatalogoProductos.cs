@@ -37,10 +37,28 @@ namespace ProyectoGrado.Catalogos
         /// <returns>Lista de Tipos de Identificación</returns>
         public void InsertarProducto(Inventario inventario, out string resultado, out string tipoResultado)
         {
-            productoDatos.InsertarProducto(inventario.producto.estado.id, inventario.producto.categoria.id, inventario.producto.nombre,
+           object oResult = productoDatos.InsertarProducto(inventario.producto.estado.id, inventario.producto.categoria.id, inventario.producto.nombre,
                                             inventario.producto.precio_costo, inventario.producto.precio_venta,
                                             inventario.cantidadExistencias,SessionHelper.GetUser().ToString(),
                                             out resultado,out tipoResultado);
+
+            int result = 0;
+
+            var dynObj = JsonConvert.SerializeObject(oResult);
+            dynamic dyn = JsonConvert.DeserializeObject(dynObj);
+
+
+            foreach (var item in dyn)
+            {
+                result = (int)item;
+            }
+
+
+            if (result == 0)
+            {
+                resultado = "ya existe un producto con la misma descripción";
+                tipoResultado = "danger";
+            }
         }
 
         /// <summary>

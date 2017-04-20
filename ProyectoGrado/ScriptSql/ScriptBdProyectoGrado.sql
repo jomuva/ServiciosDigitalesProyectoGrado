@@ -847,27 +847,31 @@ INSERT INTO [dbo].[DETALLE_FACTURA_SOLICITUD]
 @cantidad int
 as
 BEGIN 
+	IF NOT EXISTS(SELECT nombre_producto FROM PRODUCTO WHERE nombre_producto =@nombre_prod)
+	BEGIN
+		INSERT INTO PRODUCTO (id_estado_producto,id_categoria_producto,nombre_producto,precio_costo,precio_venta)
+		VALUES (@id_estado_prod,@id_categoria,@nombre_prod,@precio_costo,@precio_venta);
 
-INSERT INTO PRODUCTO (id_estado_producto,id_categoria_producto,nombre_producto,precio_costo,precio_venta)
-VALUES (@id_estado_prod,@id_categoria,@nombre_prod,@precio_costo,@precio_venta);
+		declare  @id_prod int,
+				 @idInventario int,
+				 @idEmpleado int,
+				 @fecha DATETIME;
+		SET @fecha =  (SELECT CURRENT_TIMESTAMP);		 
+		SET @id_prod = (SELECT id_producto FROM PRODUCTO WHERE nombre_producto = @nombre_prod);
+		SET @idEmpleado = (SELECT id_usuario FROM USUARIO WHERE identificacion = @identifEmpleado);
 
-declare  @id_prod int,
-		 @idInventario int,
-		 @idEmpleado int,
-         @fecha DATETIME;
-SET @fecha =  (SELECT CURRENT_TIMESTAMP);		 
-SET @id_prod = (SELECT id_producto FROM PRODUCTO WHERE nombre_producto = @nombre_prod);
-SET @idEmpleado = (SELECT id_usuario FROM USUARIO WHERE identificacion = @identifEmpleado);
+		INSERT INTO INVENTARIO (id_producto_inventario,cantidad_existencias,fecha_actualizacion_inventario)
+		VALUES (@id_prod,@cantidad,@fecha);
+		SET @idInventario = @@IDENTITY;
 
-INSERT INTO INVENTARIO (id_producto_inventario,cantidad_existencias,fecha_actualizacion_inventario)
-VALUES (@id_prod,@cantidad,@fecha);
-SET @idInventario = @@IDENTITY;
+		INSERT INTO INVENTARIO_BAJAS (id_producto_inventario,cantidad_existencias,fecha_actualizacion_inventario)
+		VALUES (@id_prod,0,@fecha);
 
-INSERT INTO INVENTARIO_BAJAS (id_producto_inventario,cantidad_existencias,fecha_actualizacion_inventario)
-VALUES (@id_prod,0,@fecha);
-
-INSERT INTO HISTORICO_INVENTARIO (id_empleado,id_inventario_historico,fecha,descripcion)
-VALUES (@idEmpleado,@idInventario,@fecha,'Se agrega el producto '+@nombre_prod+' y se crea su inventario con una cantidad inicial en stock de '+cast(@cantidad as varchar) )
+		INSERT INTO HISTORICO_INVENTARIO (id_empleado,id_inventario_historico,fecha,descripcion)
+		VALUES (@idEmpleado,@idInventario,@fecha,'Se agrega el producto '+@nombre_prod+' y se crea su inventario con una cantidad inicial en stock de '+cast(@cantidad as varchar) )
+	END
+	
+SELECT @@ROWCOUNT;
 
 END
 GO
@@ -969,13 +973,18 @@ CREATE PROCEDURE AgregarServicio
 @descripc VARCHAR(50),
 @precio decimal(20,4)
 as
+
 BEGIN 
-
-INSERT INTO SERVICIO (descripcion_servicio,precio)
-VALUES (@descripc,@precio);
-
+IF NOT EXISTS(SELECT descripcion_servicio FROM SERVICIO WHERE descripcion_servicio =@descripc)
+	BEGIN
+	INSERT INTO SERVICIO (descripcion_servicio,precio)
+	VALUES (@descripc,@precio);
+	END
+	
+SELECT @@ROWCOUNT;
 END
 GO
+
 
 --PROCEDIMIENTO ALMACENADO PARA consultar los servicios
 CREATE PROCEDURE ConsultarServicios

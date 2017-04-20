@@ -67,6 +67,8 @@ namespace ServiciosDigitalesProy.Models
         [RegularExpression(@"^[0-9a-zA-ZáéíóÚ.ÁÉÍÓÚ#-. ]{1,40}$", ErrorMessage = "Los Caracteres especiales no son permitidos.")]
         public string direccion { get; set; }
 
+
+        [StringLength(18, ErrorMessage = "El {0} debe tener un mínimo de 4 caracteres y máximo de 18.", MinimumLength = 4)]
         [Required(AllowEmptyStrings = false, ErrorMessage = "El campo de \"Password\" es obligatorio.")]
         [DataType(DataType.Password)]
         public string password { get; set; }

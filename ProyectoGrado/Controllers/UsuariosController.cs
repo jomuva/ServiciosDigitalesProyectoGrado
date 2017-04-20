@@ -123,7 +123,9 @@ namespace ServiciosDigitalesProy.Controllers
         {
             string resultado = "", tipoResultado = "";
             string res, tipoRes;
-            if (ModelState.IsValid)
+            if (ModelState.IsValidField("nombrs")&& ModelState.IsValidField("apellidos")&& ModelState.IsValidField("idTipoIdentificacion")
+                && ModelState.IsValidField("direccion")&& ModelState.IsValidField("sexo")&& ModelState.IsValidField("TelefonoFijo")
+                && ModelState.IsValidField("TelefonoCelular"))
             {
                 CatalogoUsuarios.GetInstance().ModificarCliente(user, out res, out tipoRes);
                 List<Usuario> usuarios;
@@ -134,8 +136,10 @@ namespace ServiciosDigitalesProy.Controllers
                 return View("Clientes/RespuestaConsultaClientes", usuarios);
 
             }
-
-            return RedirectToAction("Clientes/ModificarCliente", user.identificacion);
+            TempData["mensaje"] = "Datos incorrectos, verifique la información";
+            TempData["estado"] = "danger";
+            user.tiposIdentificacion = new SelectList(CatalogoUsuarios.GetInstance().ConsultarTiposIdentificacion(), "id", "Descripcion");
+            return View("Clientes/ModificarCliente", user);
         }
 
 
@@ -329,7 +333,9 @@ namespace ServiciosDigitalesProy.Controllers
         {
             string resultado = "", tipoResultado = "";
             string res, tipoRes;
-            if (ModelState.IsValid)
+            if (ModelState.IsValidField("nombrs") && ModelState.IsValidField("apellidos") && ModelState.IsValidField("idTipoIdentificacion")
+               && ModelState.IsValidField("direccion") && ModelState.IsValidField("sexo") && ModelState.IsValidField("TelefonoFijo")
+               && ModelState.IsValidField("TelefonoCelular"))
             {
                 CatalogoUsuarios.GetInstance().ModificarEmpleado(user, out res, out tipoRes);
                 List<Usuario> usuarios;
@@ -341,7 +347,11 @@ namespace ServiciosDigitalesProy.Controllers
 
             }
 
-            return RedirectToAction("Empleados/ModificarEmpleado", user.identificacion);
+            TempData["mensaje"] = "Datos incorrectos, verifique la información";
+            TempData["estado"] = "danger";
+            user.tiposIdentificacion = new SelectList(CatalogoUsuarios.GetInstance().ConsultarTiposIdentificacion(), "id", "Descripcion");
+            user.Roles = new SelectList(CatalogoUsuarios.GetInstance().ConsultarRolesEmpleado(), "id", "Descripcion");
+            return View("Empleados/ModificarEmpleado", user);
         }
 
 

@@ -30,9 +30,12 @@ namespace ServiciosDigitalesProy.Controllers
             if (ModelState.IsValid)
             {
                 CatalogoServicios.GetInstance().AgregarServicio(model, out resultado, out tipoResultado);
-
                 TempData["mensaje"] = resultado;
                 TempData["estado"] = tipoResultado;
+                if (tipoResultado == "danger")
+                {
+                    return View("AdicionarServicio",model);
+                }
                 List<Servicio> servicios;
                 servicios = CatalogoServicios.GetInstance().ConsultarServicios(ref resultado, ref tipoResultado);
                 return View("ConsultaServicios", servicios);

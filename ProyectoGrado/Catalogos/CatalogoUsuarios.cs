@@ -232,7 +232,7 @@ namespace ServiciosDigitalesProy.Catalogos
                                         (
                                             cliente.TelefonoFijo, cliente.TelefonoCelular, cliente.username,
                                             cliente.email, cliente.identificacion, cliente.nombres, cliente.apellidos,
-                                            cliente.direccion, cliente.sexo, cliente.password, cliente.idTipoIdentificacion,
+                                            cliente.direccion, cliente.sexo, cliente.idTipoIdentificacion,
                                             out res, out tipoRes
                                         );
         }
@@ -377,7 +377,7 @@ namespace ServiciosDigitalesProy.Catalogos
                                            (
                                                 cliente.TelefonoFijo, cliente.TelefonoCelular, cliente.username,
                                                 cliente.email, cliente.identificacion, cliente.nombres, cliente.apellidos,
-                                                cliente.direccion, cliente.sexo, cliente.password, cliente.idTipoIdentificacion,
+                                                cliente.direccion, cliente.sexo, cliente.idTipoIdentificacion,
                                                 cliente.idRol, out res, out tipoRes
                                            );
         }

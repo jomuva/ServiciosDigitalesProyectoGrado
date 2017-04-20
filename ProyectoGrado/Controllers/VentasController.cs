@@ -9,6 +9,7 @@ using ServiciosDigitalesProy.Catalogos;
 using ProyectoGrado.Tags;
 using System.ComponentModel.DataAnnotations;
 using Rotativa;
+using Models.Comun;
 
 namespace ServiciosDigitalesProy.Controllers
 {
@@ -18,6 +19,7 @@ namespace ServiciosDigitalesProy.Controllers
         //public Factura factura;
 
         [HttpGet]
+        [PermisoAttribute(Permiso = RolesPermisos.puede_crear_factura)]
         public ActionResult CrearFactura()
         {
             string resultado = "", tipoResultado = "";
@@ -446,6 +448,7 @@ namespace ServiciosDigitalesProy.Controllers
 
 
         [HttpGet]
+        [Permiso(Permiso = RolesPermisos.puede_ver_detalle_factura)]
         public ActionResult VerDetalleFactura(int id)
         {
             List<Factura> facturas = Session["Facturas"] as List<Factura>;
@@ -456,6 +459,7 @@ namespace ServiciosDigitalesProy.Controllers
         }
 
         [HttpGet]
+        [Permiso(Permiso = RolesPermisos.puede_pagar_factura)]
         public ActionResult ActualizarEstadoFactura(int id)
         {
             string resultado = "", tipoResultado = "";
@@ -493,6 +497,7 @@ namespace ServiciosDigitalesProy.Controllers
 
 
         [HttpGet]
+        [Permiso(Permiso = RolesPermisos.puede_ver_historico_factura)]
         public ActionResult ConsultarHistoricoFacturaXid(int id)
         {
             string resultado = "", tipoResultado = "";
@@ -504,6 +509,7 @@ namespace ServiciosDigitalesProy.Controllers
 
 
         [HttpGet]
+        [Permiso(Permiso = RolesPermisos.puede_anular_factura)]
         public ActionResult AnularFactura(int id)
         {
 

@@ -46,6 +46,7 @@ namespace ProyectoGrado.Controllers
         [HttpPost]
         public ActionResult Login(Usuario user)
         {
+
             if (!user.username.Equals("") && (!user.password.Equals("")))
             {
                 string resultado = "", tipoResultado = "";
@@ -70,7 +71,7 @@ namespace ProyectoGrado.Controllers
         [Autenticado]
         public ActionResult Salir()
         {
-           
+         
             SessionHelper.DestroyUserSession();
             Session.Abandon();
             return Redirect("~/");

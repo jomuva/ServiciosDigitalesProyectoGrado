@@ -72,7 +72,7 @@ INSERT INTO [dbo].[TIPO_IDENTIFICACION_USUARIO]
 	
 -- TABLA  PERMISO, INDICA EL MODULO AL QUE SE LE DA PERMISO Y UNA DESCRIPCION DEL PERMISO	
 create table PERMISO(
-permisoID int not null IDENTITY,
+permisoID int not null IDENTITY(1,1),
 modulo varchar(20),
 descripcion varchar(100),
 primary key (permisoID)
@@ -81,36 +81,47 @@ INSERT INTO [dbo].[PERMISO]
            ([modulo]
 		   ,[descripcion])
      VALUES
-            ('cliente','Puede_crear_nuevo_cliente'),
-		    ('cliente','Puede_modificar_cliente'),
-		    ('cliente','Puede_consultar_cliente'),
-			('cliente','Puede_cambiar_estado_cliente'),
-			('empleado','Puede_crear_nuevo_empleado'),
-		    ('empleado','Puede_modificar_empleado'),
-		    ('empleado','Puede_consultar_empleado'),
-			('empleado','Puede_cambiar_estado_empleado'),
-			('producto','Puede_crear_nuevo_producto'),
-		    ('producto','Puede_modificar_producto'),
-		    ('producto','Puede_consultar_producto'),
-			('producto','Puede_cambiar_estado_producto'),
-			('servicio','Puede_crear_nuevo_servicio'),
-		    ('servicio','Puede_modificar_servicio'),
-		    ('servicio','Puede_consultar_servicio'),
-			('solicitud','Puede_crear_nuevo_elemento'),
-		    ('solicitud','Puede_consultar_solicitud'),
-			('solicitud','Puede_cambiar_estado_solicitud'),
-			('solicitud','Puede_escalar_solicitud'),
-			('solicitud','Puede_consultar_historico_solicitud'),
-			('solicitud','Puede_agregar_anotacion_historico'),
-			('solicitud','Puede_crear_solicitud'),
-			('inventario','Puede_agregar_inventario'),
-			('inventario','Puede_consultar_inventario'),
-			('inventario','Puede_modificar_inventario'),
-			('inventario','Puede_asignar_inventario_sucursal'),
-			('ventas','Puede_agregar_factura'),
-			('ventas','Puede_agregar_detalle_factura'),
-			('ventas','Puede_consultar_factura'),
-			('solicitud','Puede_Ver_Columna_Empleado_Asignado')
+            ('servicio','puede_adicionar_servicio'),
+			('servicio','puede_consultar_servicio'),
+			('servicio','puede_editar_servicio'),
+			('factura','puede_crear_factura'),
+			('factura','puede_consultar_factura'),
+			('factura','puede_anular_factura'),
+			('factura','puede_pagar_factura'),
+			('factura','puede_ver_historico_factura'),
+			('factura','puede_ver_detalle_factura'),
+			('cliente','puede_adicionar_cliente'),
+			('cliente','puede_consultar_cliente'),
+			('cliente','puede_editar_cliente'),
+			('cliente','puede_ver_detalles_cliente'),
+			('cliente','puede_cambiar_estado_cliente'),
+			('empleado','puede_adicionar_empleado'),
+			('empleado','puede_editar_empleado'),
+			('empleado','puede_ver_detalles_empleado'),
+			('empleado','puede_cambiar_estado_empleado'),
+			('producto','puede_adicionar_producto'),
+			('producto','puede_consultar_producto'),
+			('producto','puede_editar_producto'),
+			('producto','puede_cambiar_estado_producto'),
+			('inventario','puede_consultar_inventario'),
+			('inventario','puede_ver_historico_inventario'),
+			('inventario','puede_agregar_anotacion_inventario'),
+			('inventario','puede_agregar_existancias_inventario'),
+			('inventario','puede_consultar_inventario_bajas'),
+			('inventario','puede_ver_historio_inventario_bajas'),
+			('inventario','puede_agregar_anotacion_inventario_bajas'),
+			('inventario','puede_agregar_bajas_inventario'),
+			('solicitudes','puede_consultar_solicitudes'),
+			('solicitudes','puede_agregar_elemento'),
+			('solicitudes','puede_crear_solicitudes'),
+			('solicitudes','puede_cambiar_estado_solicitud'),
+			('solicitudes','puede_escalar_solicitud'),
+			('solicitudes','puede_ver_detalle_solicitud'),
+			('solicitudes','puede_agregar_anotacion_solicitud'),
+			('solicitudes','puede_consultar_elementos'),
+			('solicitudes','Puede_Ver_Columna_Empleado_Asignado'),
+			('empleado','Puede_consultar_empleado')
+
 	
 	GO	
 	
@@ -146,15 +157,43 @@ INSERT INTO [dbo].[PERMISO_DENEGADO_POR_ROL]
            ([id_rol]
 		   ,[permiso_id])
      VALUES
-			(3,30),
-			(4,30),
-            (3,5),
-		    (3,6),
+			(3,1),
+			(4,1),
+			(3,3),
+			(4,3),
+			(3,4),
+			(3,6),
+			(4,6),
 			(3,7),
 			(3,8),
-			(3,10),
+			(3,9),
 			(3,14),
-			(3,25)
+			(4,14),
+			(3,15),
+			(4,15),
+			(3,16),
+			(4,16),
+			(3,17),
+			(4,17),
+			(3,18),
+			(4,18),
+			(3,19),
+			(3,21),
+			(3,22),
+			(4,22),
+			(3,24),
+			(3,25),
+			(3,26),
+			(3,27),
+			(3,28),
+			(3,29),
+			(3,30),
+			(4,30),
+			(3,39),
+			(4,39),
+			(3,40),
+			(4,40)
+
  GO
 	
 -- TABLA  ESTADO USUARIO, EL ESTADO EN EL QUE SE ENCUENTRA UN USUARIO (ELIMINADO, ACTIVO, INACTIVO, BLOQUEADO)	
@@ -877,8 +916,8 @@ IF(@cantidadProd=0)
 END
 
 SELECT id_producto,id_estado_producto,nombre_producto,precio_costo,precio_venta FROM PRODUCTO
-WHERE nombre_producto = @nombr
-
+WHERE nombre_producto like '%'+@nombr+'%'
+END
 GO
 
 
@@ -1336,7 +1375,7 @@ SELECT        INVENTARIO.id_inventario, PRODUCTO.nombre_producto, INVENTARIO.id_
 FROM            INVENTARIO INNER JOIN
                          PRODUCTO ON INVENTARIO.id_producto_inventario = PRODUCTO.id_producto INNER JOIN
                          ESTADO_PRODUCTO ON PRODUCTO.id_estado_producto = ESTADO_PRODUCTO.id_estado_producto
-WHERE PRODUCTO.nombre_producto =  @nombr
+WHERE PRODUCTO.nombre_producto like  '%'+@nombr+'%'
 END
 GO
 

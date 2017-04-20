@@ -844,6 +844,12 @@
       <End Role="ROL" EntitySet="ROL" />
       <End Role="PERMISO" EntitySet="PERMISO" />
     </AssociationSet>
+    <FunctionImport Name="ActualizarEstadoFactura">
+      <Parameter Name="idFactura" Mode="In" Type="Int32" />
+      <Parameter Name="idEstado" Mode="In" Type="Int32" />
+      <Parameter Name="pago" Mode="In" Type="Decimal" />
+      <Parameter Name="identifEmpleado" Mode="In" Type="String" />
+    </FunctionImport>
     <FunctionImport Name="ActualizarEstadoProducto_Automatico" />
     <FunctionImport Name="ActualizarEstadoSolicitud_Automatico" />
     <FunctionImport Name="ActualizarFacturaVacia">
@@ -938,6 +944,11 @@
       <Parameter Name="username" Mode="In" Type="String" />
       <Parameter Name="Passwd" Mode="In" Type="String" />
     </FunctionImport>
+    <FunctionImport Name="AnularFactura">
+      <Parameter Name="idFactura" Mode="In" Type="Int32" />
+      <Parameter Name="identifEmpleado" Mode="In" Type="String" />
+      <Parameter Name="MotivoAnulacion" Mode="In" Type="String" />
+    </FunctionImport>
     <FunctionImport Name="CambiarEstadoProducto">
       <Parameter Name="idProd" Mode="In" Type="Int32" />
       <Parameter Name="idEstado" Mode="In" Type="Int32" />
@@ -971,9 +982,15 @@
     <FunctionImport Name="ConsultarEstado_Solicitud" ReturnType="Collection(bdServiciosDigitalesProyModel.ConsultarEstado_Solicitud_Result)">
       <Parameter Name="idSolic" Mode="In" Type="Int32" />
     </FunctionImport>
+    <FunctionImport Name="ConsultarEstadoFactura" ReturnType="Collection(bdServiciosDigitalesProyModel.ConsultarEstadoFactura_Result)">
+      <Parameter Name="idFactura" Mode="In" Type="Int32" />
+    </FunctionImport>
     <FunctionImport Name="ConsultarEstadosSolicitud" ReturnType="Collection(bdServiciosDigitalesProyModel.ConsultarEstadosSolicitud_Result)" />
     <FunctionImport Name="ConsultarFacturas" ReturnType="Collection(bdServiciosDigitalesProyModel.ConsultarFacturas_Result)" />
     <FunctionImport Name="ConsultarFacturaXid" ReturnType="Collection(bdServiciosDigitalesProyModel.ConsultarFacturaXid_Result)">
+      <Parameter Name="idFactura" Mode="In" Type="Int32" />
+    </FunctionImport>
+    <FunctionImport Name="ConsultarHistoricoFacturaX_id" ReturnType="Collection(bdServiciosDigitalesProyModel.ConsultarHistoricoFacturaX_id_Result)">
       <Parameter Name="idFactura" Mode="In" Type="Int32" />
     </FunctionImport>
     <FunctionImport Name="ConsultarHistoricoInventarioBajasX_id" ReturnType="Collection(bdServiciosDigitalesProyModel.ConsultarHistoricoInventarioBajasX_id_Result)">
@@ -1047,23 +1064,6 @@
       <Parameter Name="username" Mode="In" Type="String" />
       <Parameter Name="passwd" Mode="In" Type="String" />
     </FunctionImport>
-    <FunctionImport Name="ConsultarEstadoFactura" ReturnType="Collection(bdServiciosDigitalesProyModel.ConsultarEstadoFactura_Result)">
-      <Parameter Name="idFactura" Mode="In" Type="Int32" />
-    </FunctionImport>
-    <FunctionImport Name="ActualizarEstadoFactura">
-      <Parameter Name="idFactura" Mode="In" Type="Int32" />
-      <Parameter Name="idEstado" Mode="In" Type="Int32" />
-      <Parameter Name="pago" Mode="In" Type="Decimal" />
-      <Parameter Name="identifEmpleado" Mode="In" Type="String" />
-    </FunctionImport>
-    <FunctionImport Name="ConsultarHistoricoFacturaX_id" ReturnType="Collection(bdServiciosDigitalesProyModel.ConsultarHistoricoFacturaX_id_Result)">
-      <Parameter Name="idFactura" Mode="In" Type="Int32" />
-    </FunctionImport>
-    <FunctionImport Name="AnularFactura">
-      <Parameter Name="idFactura" Mode="In" Type="Int32" />
-      <Parameter Name="identifEmpleado" Mode="In" Type="String" />
-      <Parameter Name="MotivoAnulacion" Mode="In" Type="String" />
-    </FunctionImport>
   </EntityContainer>
   <ComplexType Name="ConsultarCategorias_Elemento_Result">
     <Property Type="Int32" Name="id_categoria_elemento" Nullable="false" />
@@ -1108,6 +1108,12 @@
     <Property Type="Int32" Name="id_estado_solicitud" Nullable="false" />
     <Property Type="String" Name="descripcion" Nullable="true" MaxLength="50" />
   </ComplexType>
+  <ComplexType Name="ConsultarEstadoFactura_Result">
+    <Property Type="Int32" Name="id_factura" Nullable="false" />
+    <Property Type="Decimal" Name="saldo" Nullable="true" Precision="30" Scale="4" />
+    <Property Type="Decimal" Name="valor_total" Nullable="true" Precision="30" Scale="4" />
+    <Property Type="String" Name="descripcion_estado_factura" Nullable="false" MaxLength="20" />
+  </ComplexType>
   <ComplexType Name="ConsultarEstadosSolicitud_Result">
     <Property Type="Int32" Name="id_estado_solicitud" Nullable="false" />
     <Property Type="String" Name="descripcion" Nullable="true" MaxLength="50" />
@@ -1136,6 +1142,13 @@
     <Property Type="Int32" Name="cantidad_venta" Nullable="false" />
     <Property Type="String" Name="descripcion_servicio" Nullable="false" MaxLength="50" />
     <Property Type="Decimal" Name="precio" Nullable="true" Precision="20" Scale="4" />
+  </ComplexType>
+  <ComplexType Name="ConsultarHistoricoFacturaX_id_Result">
+    <Property Type="DateTime" Name="fecha_historico" Nullable="true" Precision="23" />
+    <Property Type="String" Name="descripcion_historico" Nullable="false" MaxLength="500" />
+    <Property Type="String" Name="apellidos" Nullable="false" MaxLength="30" />
+    <Property Type="String" Name="nombres" Nullable="false" MaxLength="30" />
+    <Property Type="Int32" Name="id_factura" Nullable="false" />
   </ComplexType>
   <ComplexType Name="ConsultarHistoricoInventarioBajasX_id_Result">
     <Property Type="DateTime" Name="fecha" Nullable="false" Precision="23" />
@@ -1279,18 +1292,5 @@
   <ComplexType Name="CrearFacturaSinRegistros_Result">
     <Property Type="Int32" Name="id_factura" Nullable="false" />
     <Property Type="DateTime" Name="fecha" Nullable="false" Precision="23" />
-  </ComplexType>
-  <ComplexType Name="ConsultarEstadoFactura_Result">
-    <Property Type="Int32" Name="id_factura" Nullable="false" />
-    <Property Type="Decimal" Name="saldo" Nullable="true" Precision="30" Scale="4" />
-    <Property Type="Decimal" Name="valor_total" Nullable="true" Precision="30" Scale="4" />
-    <Property Type="String" Name="descripcion_estado_factura" Nullable="false" MaxLength="20" />
-  </ComplexType>
-  <ComplexType Name="ConsultarHistoricoFacturaX_id_Result">
-    <Property Type="DateTime" Name="fecha_historico" Nullable="true" Precision="23" />
-    <Property Type="String" Name="descripcion_historico" Nullable="false" MaxLength="500" />
-    <Property Type="String" Name="apellidos" Nullable="false" MaxLength="30" />
-    <Property Type="String" Name="nombres" Nullable="false" MaxLength="30" />
-    <Property Type="Int32" Name="id_factura" Nullable="false" />
   </ComplexType>
 </Schema>

@@ -6,6 +6,8 @@ using System.Web.Mvc;
 using ServiciosDigitalesProy.Models;
 using ServiciosDigitalesProy.Catalogos;
 using ProyectoGrado.Tags;
+using Models.Comun;
+
 namespace ServiciosDigitalesProy.Controllers
 {
     [Autenticado]
@@ -13,6 +15,7 @@ namespace ServiciosDigitalesProy.Controllers
     {
 
         [HttpGet]
+        [PermisoAttribute(Permiso = RolesPermisos.puede_adicionar_servicio)]
         public ActionResult AgregarServicio()
         {
             return View("AdicionarServicio");
@@ -30,7 +33,9 @@ namespace ServiciosDigitalesProy.Controllers
 
                 TempData["mensaje"] = resultado;
                 TempData["estado"] = tipoResultado;
-                return RedirectToAction("ConsultarServicios");
+                List<Servicio> servicios;
+                servicios = CatalogoServicios.GetInstance().ConsultarServicios(ref resultado, ref tipoResultado);
+                return View("ConsultaServicios", servicios);
             }
 
             TempData["mensaje"] = "Por favor verifique los datos ingresados";
@@ -60,6 +65,7 @@ namespace ServiciosDigitalesProy.Controllers
         /// <param name="id"></param>
         /// <returns></returns>
         [HttpGet]
+        [PermisoAttribute(Permiso = RolesPermisos.puede_editar_servicio)]
         public ActionResult ModificarServicio(int id)
         {
             string resultado = "", tipoResultado = "";

@@ -284,6 +284,7 @@
         <ScalarProperty Name="permisoID" ColumnName="permiso_id" />
       </EndProperty>
     </AssociationSetMapping>
+    <FunctionImportMapping FunctionImportName="ActualizarEstadoFactura" FunctionName="bdServiciosDigitalesProyModel.Store.ActualizarEstadoFactura" />
     <FunctionImportMapping FunctionImportName="ActualizarEstadoProducto_Automatico" FunctionName="bdServiciosDigitalesProyModel.Store.ActualizarEstadoProducto_Automatico" />
     <FunctionImportMapping FunctionImportName="ActualizarEstadoSolicitud_Automatico" FunctionName="bdServiciosDigitalesProyModel.Store.ActualizarEstadoSolicitud_Automatico" />
     <FunctionImportMapping FunctionImportName="ActualizarFacturaVacia" FunctionName="bdServiciosDigitalesProyModel.Store.ActualizarFacturaVacia" />
@@ -300,6 +301,7 @@
     <FunctionImportMapping FunctionImportName="AgregarElemento" FunctionName="bdServiciosDigitalesProyModel.Store.AgregarElemento" />
     <FunctionImportMapping FunctionImportName="AgregarServicio" FunctionName="bdServiciosDigitalesProyModel.Store.AgregarServicio" />
     <FunctionImportMapping FunctionImportName="AgregarUsuario" FunctionName="bdServiciosDigitalesProyModel.Store.AgregarUsuario" />
+    <FunctionImportMapping FunctionImportName="AnularFactura" FunctionName="bdServiciosDigitalesProyModel.Store.AnularFactura" />
     <FunctionImportMapping FunctionImportName="CambiarEstadoProducto" FunctionName="bdServiciosDigitalesProyModel.Store.CambiarEstadoProducto" />
     <FunctionImportMapping FunctionImportName="CambiarEstadoSolicitud" FunctionName="bdServiciosDigitalesProyModel.Store.CambiarEstadoSolicitud" />
     <FunctionImportMapping FunctionImportName="ConsultaNombresEmpleadosXSolicitud" FunctionName="bdServiciosDigitalesProyModel.Store.ConsultaNombresEmpleadosXSolicitud" />
@@ -377,6 +379,16 @@
         </ComplexTypeMapping>
       </ResultMapping>
     </FunctionImportMapping>
+    <FunctionImportMapping FunctionImportName="ConsultarEstadoFactura" FunctionName="bdServiciosDigitalesProyModel.Store.ConsultarEstadoFactura">
+      <ResultMapping>
+        <ComplexTypeMapping TypeName="bdServiciosDigitalesProyModel.ConsultarEstadoFactura_Result">
+          <ScalarProperty Name="id_factura" ColumnName="id_factura" />
+          <ScalarProperty Name="saldo" ColumnName="saldo" />
+          <ScalarProperty Name="valor_total" ColumnName="valor_total" />
+          <ScalarProperty Name="descripcion_estado_factura" ColumnName="descripcion_estado_factura" />
+        </ComplexTypeMapping>
+      </ResultMapping>
+    </FunctionImportMapping>
     <FunctionImportMapping FunctionImportName="ConsultarEstadosSolicitud" FunctionName="bdServiciosDigitalesProyModel.Store.ConsultarEstadosSolicitud">
       <ResultMapping>
         <ComplexTypeMapping TypeName="bdServiciosDigitalesProyModel.ConsultarEstadosSolicitud_Result">
@@ -415,6 +427,17 @@
           <ScalarProperty Name="cantidad_venta" ColumnName="cantidad_venta" />
           <ScalarProperty Name="descripcion_servicio" ColumnName="descripcion_servicio" />
           <ScalarProperty Name="precio" ColumnName="precio" />
+        </ComplexTypeMapping>
+      </ResultMapping>
+    </FunctionImportMapping>
+    <FunctionImportMapping FunctionImportName="ConsultarHistoricoFacturaX_id" FunctionName="bdServiciosDigitalesProyModel.Store.ConsultarHistoricoFacturaX_id">
+      <ResultMapping>
+        <ComplexTypeMapping TypeName="bdServiciosDigitalesProyModel.ConsultarHistoricoFacturaX_id_Result">
+          <ScalarProperty Name="fecha_historico" ColumnName="fecha_historico" />
+          <ScalarProperty Name="descripcion_historico" ColumnName="descripcion_historico" />
+          <ScalarProperty Name="apellidos" ColumnName="apellidos" />
+          <ScalarProperty Name="nombres" ColumnName="nombres" />
+          <ScalarProperty Name="id_factura" ColumnName="id_factura" />
         </ComplexTypeMapping>
       </ResultMapping>
     </FunctionImportMapping>
@@ -640,28 +663,5 @@
     <FunctionImportMapping FunctionImportName="InsertarProducto" FunctionName="bdServiciosDigitalesProyModel.Store.InsertarProducto" />
     <FunctionImportMapping FunctionImportName="ObtenerIdUltimaFacturaGenerada" FunctionName="bdServiciosDigitalesProyModel.Store.ObtenerIdUltimaFacturaGenerada" />
     <FunctionImportMapping FunctionImportName="ValidarAutenticacionLogin" FunctionName="bdServiciosDigitalesProyModel.Store.ValidarAutenticacionLogin" />
-    <FunctionImportMapping FunctionImportName="ConsultarEstadoFactura" FunctionName="bdServiciosDigitalesProyModel.Store.ConsultarEstadoFactura">
-      <ResultMapping>
-        <ComplexTypeMapping TypeName="bdServiciosDigitalesProyModel.ConsultarEstadoFactura_Result">
-          <ScalarProperty Name="id_factura" ColumnName="id_factura" />
-          <ScalarProperty Name="saldo" ColumnName="saldo" />
-          <ScalarProperty Name="valor_total" ColumnName="valor_total" />
-          <ScalarProperty Name="descripcion_estado_factura" ColumnName="descripcion_estado_factura" />
-        </ComplexTypeMapping>
-      </ResultMapping>
-    </FunctionImportMapping>
-    <FunctionImportMapping FunctionImportName="ActualizarEstadoFactura" FunctionName="bdServiciosDigitalesProyModel.Store.ActualizarEstadoFactura" />
-    <FunctionImportMapping FunctionImportName="ConsultarHistoricoFacturaX_id" FunctionName="bdServiciosDigitalesProyModel.Store.ConsultarHistoricoFacturaX_id">
-      <ResultMapping>
-        <ComplexTypeMapping TypeName="bdServiciosDigitalesProyModel.ConsultarHistoricoFacturaX_id_Result">
-          <ScalarProperty Name="fecha_historico" ColumnName="fecha_historico" />
-          <ScalarProperty Name="descripcion_historico" ColumnName="descripcion_historico" />
-          <ScalarProperty Name="apellidos" ColumnName="apellidos" />
-          <ScalarProperty Name="nombres" ColumnName="nombres" />
-          <ScalarProperty Name="id_factura" ColumnName="id_factura" />
-        </ComplexTypeMapping>
-      </ResultMapping>
-    </FunctionImportMapping>
-    <FunctionImportMapping FunctionImportName="AnularFactura" FunctionName="bdServiciosDigitalesProyModel.Store.AnularFactura" />
   </EntityContainerMapping>
 </Mapping>

@@ -6,6 +6,7 @@ using System.Web.Mvc;
 using ServiciosDigitalesProy.Models;
 using ServiciosDigitalesProy.Catalogos;
 using ProyectoGrado.Tags;
+using Models.Comun;
 
 namespace ServiciosDigitalesProy.Controllers
 {
@@ -51,6 +52,7 @@ namespace ServiciosDigitalesProy.Controllers
         /// </summary>
         /// <returns></returns>
         [HttpGet]
+
         public ActionResult AdicionarCliente()
         {
             Usuario user = new Usuario();
@@ -143,6 +145,7 @@ namespace ServiciosDigitalesProy.Controllers
         ///// <param name="id"></param>
         ///// <returns></returns>
         [HttpGet]
+        [Permiso(Permiso = RolesPermisos.puede_cambiar_estado_cliente)]
         public ActionResult CambiarEstadoCliente(string id)
         {
             string resultado = "", tipoResultado = "";
@@ -216,6 +219,7 @@ namespace ServiciosDigitalesProy.Controllers
 
         #region Empleados
         [HttpGet]
+        [Permiso(Permiso = RolesPermisos.Puede_consultar_empleado)]
         public ActionResult ConsultarEmpleados()
         {
             return View("Empleados/ConsultarEmpleados");
@@ -251,6 +255,7 @@ namespace ServiciosDigitalesProy.Controllers
         /// </summary>
         /// <returns></returns>
         [HttpGet]
+        [Permiso(Permiso = RolesPermisos.puede_adicionar_empleado)]
         public ActionResult AdicionarEmpleado()
         {
             Usuario user = new Usuario();
@@ -292,6 +297,7 @@ namespace ServiciosDigitalesProy.Controllers
         /// <param name="id"></param>
         /// <returns></returns>
         [HttpGet]
+        [Permiso(Permiso = RolesPermisos.puede_editar_empleado)]
         public ActionResult ModificarEmpleado(string id)
         {
             string resp;

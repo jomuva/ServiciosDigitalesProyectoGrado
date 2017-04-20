@@ -43,7 +43,17 @@
                                     @Html.DropDownListFor(x => x.estado.id, Model.estadosProducto, null, new { @class = "form-control" })
                                 </div>
 
-                                <button type="submit" name="submitButton" id="submitButton" class="btn btn-primary">Aceptar</button>
+
+                                <div class="form-group">
+                                    <div class="col-md-4">
+                                        <button type="submit" name="submitButton" id="submitButton" class="btn btn-success">Aceptar</button>
+                                    </div>
+                                    <div class="col-md-5">
+                                        @Html.ActionLink("Volver", "VolverDetallesProducto", new { id = Model.id_producto }, new { @class = "btn btn-primary" })
+                                    </div>
+                                </div>
+
+                               
                             }
                         </div>
                     </div>

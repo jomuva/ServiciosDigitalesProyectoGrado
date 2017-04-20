@@ -40,9 +40,11 @@ namespace ServiciosDigitalesProy.Models
 
         public EstadoProducto estado { get; set; }
 
+        [Range(0, 50000000, ErrorMessage = "El precio debe ser un valor mayor a cero")]
         [Required(AllowEmptyStrings = false, ErrorMessage = "El campo de \"precio_costo\" es obligatorio.")]
         public double precio_costo { get; set; }
 
+        [Range(0, 50000000, ErrorMessage = "El precio debe ser un valor mayor a cero")]
         [Required(AllowEmptyStrings = false, ErrorMessage = "El campo de \"precio_venta\" es obligatorio.")]
         public double precio_venta { get; set; }
         public string precio { get; set; }

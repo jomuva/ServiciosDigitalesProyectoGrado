@@ -47,7 +47,7 @@
                                                     </div>
                                                 </div>
                                             </div>
-                                            <a id=@("btnAnotacionInventario"+(string)ViewBag.titulo) data-toggle="modal" href="#miModalAnotacionInventario" data-id="@ViewBag.idInventario">
+                                            <a id= @("btnAnotacion1"+(string)ViewBag.titulo) data-toggle="modal" href="#miModalAnotacionInventario" data-id="@ViewBag.idInventario">
                                             @*<a href="@Url.Action("AgregarAnotacion", "Solicitudes",  new { id = (int)ViewBag.idInventario })">*@
                                                 <div class="panel-footer">
                                                     <span class="pull-left">Agregar Anotación</span>
@@ -117,6 +117,13 @@
         </div>
     </div>
 </section>
+
+@section Scripts {
+    @*<script src="~/Xcore/Scripts/Modales/ModalElemento.js"></script>*@
+    @Scripts.Render("~/bundles/jqueryval")
+}
+
+
 @Html.Partial("Partials/_Script")
 
 @if ((string)TempData["mensaje"] != null || (string)TempData["mensaje"] != "")
@@ -129,10 +136,6 @@
             });
         });
     </script>
-}
-@section Scripts {
-    <script src="~/Xcore/Scripts/Modales/ModalElemento.js"></script>
-@Scripts.Render("~/bundles/jqueryval")
 }
 
    

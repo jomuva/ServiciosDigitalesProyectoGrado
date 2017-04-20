@@ -6,135 +6,136 @@
     ViewBag.SubSeccion = "Generar Solicitud";
 }
 
-<h3>@ViewBag.SubSeccion</h3>
-<div class="col-lg-12">
-    <!--breadcrumbs start -->
-    <ul class="breadcrumb">
-        <li><a href="#"><i class="fa fa-th-list"></i>@ViewBag.Title</a></li>
-        <li class="active"><a href="#">@ViewBag.SubSeccion</a></li>
-    </ul>
-    <!--breadcrumbs end -->
-</div>
-<style>
-    .form-horizontal .control-label {
-    text-align: left;
-    }
-    textarea {
-        width: 400px;
-        height: 100px;
-    }
-   
-
-</style>
-@Html.Partial("Partials/_Modal")
-
-@using (Html.BeginForm("GenerarSolicitud", "Solicitudes"))
-{
-    @Html.AntiForgeryToken()
-
-
-    <div class="form-horizontal col-md-10 col-md-offset-1" style="border-style: solid;">
-        <hr />
-        @Html.ValidationSummary(true, "", new { @class = "text-danger" })
-
-        <div class="row">
-            <div class="form-group">
-                @*<div class="col-md-3 col-md-offset-2">
-                    <a id="btnElemento" data-toggle="modal" href="#miModal" class="btn btn-warning btn-lg">Elementos</a>
-                </div>*@
-                <div class="col-lg-3 col-md-6">
-                    <div class="panel panel-primary">
-                        <div class="panel-heading">
-                            <div class="row">
-                                <div class="col-xs-3">
-                                    <i class="fa fa-newspaper-o fa-5x"></i>
-                                </div>
-                                <div class="col-xs-9 text-right">
-                                    <div class="huge"><i class="fa fa-plus-circle"></i></div>
-                                    <div>Element</div>
-                                </div>
-                            </div>
-                        </div>
-                        <a id="btnElemento" data-toggle="modal" href="#miModal">
-                            <div class="panel-footer">
-                                <span class="pull-left">Asignar Elemento</span>
-                                <span class="pull-right"><i class="fa fa-arrow-circle-right"></i></span>
-                                <div class="clearfix"></div>
-                            </div>
-                        </a>
-                    </div>
-                </div>
-
-                @Html.Label("Id Elemento Asignado:", htmlAttributes: new { @class = "control-label col-md-3" })
-                <div class="col-md-3 inputGroupContainer">
-                    <div class="input-group">
-                        <span class="input-group-addon"><i class="fa fa-tasks"></i></span>
-                        @Html.EditorFor(model => model.elemento.id_elemento, new { htmlAttributes = new { @class = "form-control", placeholder = "Id Elemento", @readonly = "readonly" } })
-                    </div>
-                    @*@Html.ValidationMessageFor(model => model.descripcion, "", new { @class = "text-danger" })*@
-                </div>
-            </div>
-        </div>
-
-        <div class="row">
-            <div class="form-group">
-                @Html.Label("Servicios:", htmlAttributes: new { @class = "control-label col-md-1" })
-                <div class="col-md-4 inputGroupContainer">
-                    <div class="input-group">
-                        <span class="input-group-addon"><i class="fa fa-newspaper-o"></i></span>
-                        @Html.DropDownListFor(x => x.servicio.id_servicio, Model.ListaServiciosSelect, null, new { @class = "form-control" })
-                    </div>
-                </div>
-                @Html.Label("Clientes:", htmlAttributes: new { @class = "control-label col-md-1" })
-                <div class="col-md-5 inputGroupContainer">
-                    <div class="input-group">
-                        <span class="input-group-addon"><i class="fa fa-users"></i></span>
-                        @Html.DropDownListFor(x => x.cliente.id, Model.ListaClientesSelect, null, new { @class = "form-control" })
-                    </div>
-                </div>
-            </div>
-        </div>
-        <div class="row">
-            <div class="form-group">
-                @Html.Label("Prioridad:", htmlAttributes: new { @class = "control-label col-md-1" })
-                <div class="col-md-4 inputGroupContainer">
-                    <div class="input-group">
-                        <span class="input-group-addon"><i class="fa fa-upload"></i></span>
-                        @Html.DropDownListFor(x => x.prioridadSolicitud.id, Model.prioridadSolicitudSelect, null, new { @class = "form-control" })
-                    </div>
-                </div>
-                @Html.Label("Estado:", htmlAttributes: new { @class = "control-label col-md-1" })
-                <div class="col-md-3 inputGroupContainer">
-                    <div class="input-group">
-                        <span class="input-group-addon"><i class="fa fa-spinner"></i></span>
-                        @Html.DropDownListFor(x => x.estadoSolicitud.id, Model.estadoSolicitudSelect, null, new { @class = "form-control" })
-                    </div>
-                </div>
-            </div>
-        </div>
-        <div class="row">
-            <div class="form-group">
-                @Html.Label("Descripción :", htmlAttributes: new { @class = "control-label col-md-2" })
-                <div class="col-md-8 inputGroupContainer">
-                    <div class="input-group">
-                        @Html.TextAreaFor(model => model.descripcion, new { htmlAttributes = new { @class = "form-control", placeholder = "Descripción", @maxlength="300", @type = "text"} })
-                    </div>
-                    @Html.ValidationMessageFor(model => model.descripcion, "", new { @class = "text-danger" })
-                </div>
-            </div>
-        </div>
-        <div class="row">
-            <div class="form-group">
-                <div class="col-md-offset-2 col-md-2"  style="text-align: right;">
-                    <input type="submit" id="Generar" value="Generar" class="btn btn-success" />
-                </div>
-                <div class="col-md-2" style="padding-left: 0px;">
-                    @Html.ActionLink("Volver", "ConsultarSolicitudes", null, new { @class = "btn btn-primary" })
-                </div>
-            </div>
-        </div>
+<div class="row">
+    <h3>@ViewBag.SubSeccion</h3>
+    <div class="col-lg-12">
+        <!--breadcrumbs start -->
+        <ul class="breadcrumb">
+            <li><a href="#"><i class="fa fa-th-list"></i>@ViewBag.Title</a></li>
+            <li class="active"><a href="#">@ViewBag.SubSeccion</a></li>
+        </ul>
+        <!--breadcrumbs end -->
     </div>
-}
+    <style>
+        .form-horizontal .control-label {
+            text-align: left;
+        }
+
+        textarea {
+            width: 400px;
+            height: 100px;
+        }
+    </style>
+    @Html.Partial("Partials/_Modal")
+
+    @using (Html.BeginForm("GenerarSolicitud", "Solicitudes"))
+    {
+        @Html.AntiForgeryToken()
+
+
+        <div class="form-horizontal col-md-10 col-md-offset-1" style="border-style: solid;">
+            <hr />
+            @Html.ValidationSummary(true, "", new { @class = "text-danger" })
+
+            <div class="row">
+                <div class="form-group">
+                    @*<div class="col-md-3 col-md-offset-2">
+                            <a id="btnElemento" data-toggle="modal" href="#miModal" class="btn btn-warning btn-lg">Elementos</a>
+                        </div>*@
+                    <div class="col-lg-3 col-md-6">
+                        <div class="panel panel-primary">
+                            <div class="panel-heading">
+                                <div class="row">
+                                    <div class="col-xs-3">
+                                        <i class="fa fa-newspaper-o fa-5x"></i>
+                                    </div>
+                                    <div class="col-xs-9 text-right">
+                                        <div class="huge"><i class="fa fa-plus-circle"></i></div>
+                                        <div>Element</div>
+                                    </div>
+                                </div>
+                            </div>
+                            <a id="btnElemento" data-toggle="modal" href="#miModal">
+                                <div class="panel-footer">
+                                    <span class="pull-left">Asignar Elemento</span>
+                                    <span class="pull-right"><i class="fa fa-arrow-circle-right"></i></span>
+                                    <div class="clearfix"></div>
+                                </div>
+                            </a>
+                        </div>
+                    </div>
+
+                    @Html.Label("Id Elemento Asignado:", htmlAttributes: new { @class = "control-label col-md-3" })
+                    <div class="col-md-3 inputGroupContainer">
+                        <div class="input-group">
+                            <span class="input-group-addon"><i class="fa fa-tasks"></i></span>
+                            @Html.EditorFor(model => model.elemento.id_elemento, new { htmlAttributes = new { @class = "form-control", placeholder = "Id Elemento", @readonly = "readonly" } })
+                        </div>
+                        @*@Html.ValidationMessageFor(model => model.descripcion, "", new { @class = "text-danger" })*@
+                    </div>
+                </div>
+            </div>
+
+            <div class="row">
+                <div class="form-group">
+                    @Html.Label("Servicios:", htmlAttributes: new { @class = "control-label col-md-1" })
+                    <div class="col-md-4 inputGroupContainer">
+                        <div class="input-group">
+                            <span class="input-group-addon"><i class="fa fa-newspaper-o"></i></span>
+                            @Html.DropDownListFor(x => x.servicio.id_servicio, Model.ListaServiciosSelect, null, new { @class = "form-control" })
+                        </div>
+                    </div>
+                    @Html.Label("Clientes:", htmlAttributes: new { @class = "control-label col-md-1" })
+                    <div class="col-md-5 inputGroupContainer">
+                        <div class="input-group">
+                            <span class="input-group-addon"><i class="fa fa-users"></i></span>
+                            @Html.DropDownListFor(x => x.cliente.id, Model.ListaClientesSelect, null, new { @class = "form-control" })
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="row">
+                <div class="form-group">
+                    @Html.Label("Prioridad:", htmlAttributes: new { @class = "control-label col-md-1" })
+                    <div class="col-md-4 inputGroupContainer">
+                        <div class="input-group">
+                            <span class="input-group-addon"><i class="fa fa-upload"></i></span>
+                            @Html.DropDownListFor(x => x.prioridadSolicitud.id, Model.prioridadSolicitudSelect, null, new { @class = "form-control" })
+                        </div>
+                    </div>
+                    @Html.Label("Estado:", htmlAttributes: new { @class = "control-label col-md-1" })
+                    <div class="col-md-3 inputGroupContainer">
+                        <div class="input-group">
+                            <span class="input-group-addon"><i class="fa fa-spinner"></i></span>
+                            @Html.DropDownListFor(x => x.estadoSolicitud.id, Model.estadoSolicitudSelect, null, new { @class = "form-control" })
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="row">
+                <div class="form-group">
+                    @Html.Label("Descripción :", htmlAttributes: new { @class = "control-label col-md-2" })
+                    <div class="col-md-8 inputGroupContainer">
+                        <div class="input-group">
+                            @Html.TextAreaFor(model => model.descripcion, new { htmlAttributes = new { @class = "form-control", placeholder = "Descripción", @maxlength = "300", @type = "text" } })
+                        </div>
+                        @Html.ValidationMessageFor(model => model.descripcion, "", new { @class = "text-danger" })
+                    </div>
+                </div>
+            </div>
+            <div class="row">
+                <div class="form-group">
+                    <div class="col-md-offset-2 col-md-2" style="text-align: right;">
+                        <input type="submit" id="Generar" value="Generar" class="btn btn-success" />
+                    </div>
+                    <div class="col-md-2" style="padding-left: 0px;">
+                        @Html.ActionLink("Volver", "ConsultarSolicitudes", null, new { @class = "btn btn-primary" })
+                    </div>
+                </div>
+            </div>
+        </div>
+    }
+</div>
 @if ((string)TempData["mensaje"] != null && (string)TempData["mensaje"] != "")
             {
     <script>

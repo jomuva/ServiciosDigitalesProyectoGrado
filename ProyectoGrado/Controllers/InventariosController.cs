@@ -7,6 +7,7 @@ using ServiciosDigitalesProy.Models;
 using ProyectoGrado.Catalogos;
 using ProyectoGrado.Tags;
 using System.ComponentModel.DataAnnotations;
+using Models.Comun;
 
 namespace ServiciosDigitalesProy.Controllers
 {
@@ -48,6 +49,8 @@ namespace ServiciosDigitalesProy.Controllers
         }
 
         [HttpGet]
+        [Permiso(Permiso = RolesPermisos.puede_ver_historico_inventario)]
+
         public ActionResult ConsultarHistoricoInventarios(int id)
         {
             string resultado = "", tipoResultado = "";
@@ -59,6 +62,7 @@ namespace ServiciosDigitalesProy.Controllers
 
 
         [HttpGet]
+        [Permiso(Permiso = RolesPermisos.puede_agregar_existancias_inventario)]
         public ActionResult ActualizarInventarioXProducto(int id)
         {
             string resultado = "", tipoResultado = "";
@@ -91,6 +95,8 @@ namespace ServiciosDigitalesProy.Controllers
 
 
         [HttpGet]
+        [Permiso(Permiso = RolesPermisos.puede_agregar_anotacion_inventario)]
+
         public ActionResult AgregarAnotacionInventario(int id)
         {
             string resultado = "", tipoResultado = "";
@@ -129,6 +135,7 @@ namespace ServiciosDigitalesProy.Controllers
 
 
         [HttpGet]
+        [Permiso(Permiso = RolesPermisos.puede_consultar_inventario_bajas)]
         public ActionResult ConsultarInventariosBajas()
         {
 
@@ -149,6 +156,7 @@ namespace ServiciosDigitalesProy.Controllers
         }
 
         [HttpGet]
+        [Permiso(Permiso = RolesPermisos.puede_ver_historio_inventario_bajas)]
         public ActionResult ConsultarHistoricoInventariosBajas(int id)
         {
             string resultado = "", tipoResultado = "";
@@ -161,6 +169,7 @@ namespace ServiciosDigitalesProy.Controllers
 
 
         [HttpGet]
+        [Permiso(Permiso = RolesPermisos.puede_agregar_bajas_inventario)]
         public ActionResult AdicionarBajas(int id)
         {
             Inventario inventario = new Inventario();
@@ -171,6 +180,7 @@ namespace ServiciosDigitalesProy.Controllers
 
 
         [HttpPost]
+        [Permiso(Permiso = RolesPermisos.puede_agregar_bajas_inventario)]
         public ActionResult AdicionarBajas(Inventario inventario)
         {
             if (ModelState.IsValidField("descripcion") && ModelState.IsValidField("cantidadExistencias"))
@@ -199,6 +209,8 @@ namespace ServiciosDigitalesProy.Controllers
         }
 
         [HttpGet]
+        [Permiso(Permiso = RolesPermisos.puede_agregar_anotacion_inventario_bajas)]
+
         public ActionResult AgregarAnotacionInventarioBajas(int id)
         {
             string resultado = "", tipoResultado = "";

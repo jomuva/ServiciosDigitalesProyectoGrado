@@ -43,7 +43,15 @@
                                     @Html.DropDownListFor(x => x.idEmpleado, Model.ListaEmpleadosSelect, null, new { @class = "form-control" })
                                 </div>
 
-                                <button type="submit" name="submitButton" id="submitButton" class="btn btn-primary">Escalar Solicitud</button>
+                                <div class="row">
+                                    <div class="col-md-4">
+                                        <button type="submit" name="submitButton" id="submitButton" class="btn btn-warning">Escalar</button>
+                                    </div>
+                                    <div class="col-md-4">
+                                        @Html.ActionLink("Volver", "ConsultarSolicitudes", null, new { @class = "btn btn-primary" })
+                                    </div>
+                                </div>
+                               
                             }
                         </div>
                     </div>

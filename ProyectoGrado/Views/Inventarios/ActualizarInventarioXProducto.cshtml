@@ -45,7 +45,16 @@
                                     @Html.ValidationMessageFor(model => Model.cantidadExistencias, "", new { @class = "text-danger" })
                                 </div>
 
-                                <button type="submit" name="submitButton" id="submitButton" class="btn btn-primary">Aceptar</button>
+
+                                <div class="row">
+                                    <div class="col-md-4">
+                                        <button type="submit" name="submitButton" id="submitButton" class="btn btn-success">Actualizar</button>
+                                    </div>
+                                    <div class="col-md-4">
+                                        @Html.ActionLink("Volver", "ConsultarInventarios", null, new { @class = "btn btn-primary" })
+                                    </div>
+                                </div>
+                               
                             }
                         </div>
                     </div>

@@ -55,6 +55,27 @@ namespace Persistencia
         public virtual DbSet<TIPO_IDENTIFICACION_USUARIO> TIPO_IDENTIFICACION_USUARIO { get; set; }
         public virtual DbSet<USUARIO> USUARIO { get; set; }
     
+        public virtual int ActualizarEstadoFactura(Nullable<int> idFactura, Nullable<int> idEstado, Nullable<decimal> pago, string identifEmpleado)
+        {
+            var idFacturaParameter = idFactura.HasValue ?
+                new ObjectParameter("idFactura", idFactura) :
+                new ObjectParameter("idFactura", typeof(int));
+    
+            var idEstadoParameter = idEstado.HasValue ?
+                new ObjectParameter("idEstado", idEstado) :
+                new ObjectParameter("idEstado", typeof(int));
+    
+            var pagoParameter = pago.HasValue ?
+                new ObjectParameter("pago", pago) :
+                new ObjectParameter("pago", typeof(decimal));
+    
+            var identifEmpleadoParameter = identifEmpleado != null ?
+                new ObjectParameter("identifEmpleado", identifEmpleado) :
+                new ObjectParameter("identifEmpleado", typeof(string));
+    
+            return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction("ActualizarEstadoFactura", idFacturaParameter, idEstadoParameter, pagoParameter, identifEmpleadoParameter);
+        }
+    
         public virtual int ActualizarEstadoProducto_Automatico()
         {
             return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction("ActualizarEstadoProducto_Automatico");
@@ -391,6 +412,23 @@ namespace Persistencia
             return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction("AgregarUsuario", tipoIdentParameter, estadoParameter, rolParameter, identifParameter, apellidosParameter, nombresParameter, direccionParameter, correoParameter, sexoParameter, usernameParameter, passwdParameter);
         }
     
+        public virtual int AnularFactura(Nullable<int> idFactura, string identifEmpleado, string motivoAnulacion)
+        {
+            var idFacturaParameter = idFactura.HasValue ?
+                new ObjectParameter("idFactura", idFactura) :
+                new ObjectParameter("idFactura", typeof(int));
+    
+            var identifEmpleadoParameter = identifEmpleado != null ?
+                new ObjectParameter("identifEmpleado", identifEmpleado) :
+                new ObjectParameter("identifEmpleado", typeof(string));
+    
+            var motivoAnulacionParameter = motivoAnulacion != null ?
+                new ObjectParameter("MotivoAnulacion", motivoAnulacion) :
+                new ObjectParameter("MotivoAnulacion", typeof(string));
+    
+            return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction("AnularFactura", idFacturaParameter, identifEmpleadoParameter, motivoAnulacionParameter);
+        }
+    
         public virtual int CambiarEstadoProducto(Nullable<int> idProd, Nullable<int> idEstado)
         {
             var idProdParameter = idProd.HasValue ?
@@ -504,6 +542,15 @@ namespace Persistencia
             return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction<ConsultarEstado_Solicitud_Result>("ConsultarEstado_Solicitud", idSolicParameter);
         }
     
+        public virtual ObjectResult<ConsultarEstadoFactura_Result> ConsultarEstadoFactura(Nullable<int> idFactura)
+        {
+            var idFacturaParameter = idFactura.HasValue ?
+                new ObjectParameter("idFactura", idFactura) :
+                new ObjectParameter("idFactura", typeof(int));
+    
+            return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction<ConsultarEstadoFactura_Result>("ConsultarEstadoFactura", idFacturaParameter);
+        }
+    
         public virtual ObjectResult<ConsultarEstadosSolicitud_Result> ConsultarEstadosSolicitud()
         {
             return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction<ConsultarEstadosSolicitud_Result>("ConsultarEstadosSolicitud");
@@ -521,6 +568,15 @@ namespace Persistencia
                 new ObjectParameter("idFactura", typeof(int));
     
             return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction<ConsultarFacturaXid_Result>("ConsultarFacturaXid", idFacturaParameter);
+        }
+    
+        public virtual ObjectResult<ConsultarHistoricoFacturaX_id_Result> ConsultarHistoricoFacturaX_id(Nullable<int> idFactura)
+        {
+            var idFacturaParameter = idFactura.HasValue ?
+                new ObjectParameter("idFactura", idFactura) :
+                new ObjectParameter("idFactura", typeof(int));
+    
+            return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction<ConsultarHistoricoFacturaX_id_Result>("ConsultarHistoricoFacturaX_id", idFacturaParameter);
         }
     
         public virtual ObjectResult<ConsultarHistoricoInventarioBajasX_id_Result> ConsultarHistoricoInventarioBajasX_id(Nullable<int> id_inventario)
@@ -766,62 +822,6 @@ namespace Persistencia
                 new ObjectParameter("passwd", typeof(string));
     
             return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction<string>("ValidarAutenticacionLogin", usernameParameter, passwdParameter);
-        }
-    
-        public virtual ObjectResult<ConsultarEstadoFactura_Result> ConsultarEstadoFactura(Nullable<int> idFactura)
-        {
-            var idFacturaParameter = idFactura.HasValue ?
-                new ObjectParameter("idFactura", idFactura) :
-                new ObjectParameter("idFactura", typeof(int));
-    
-            return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction<ConsultarEstadoFactura_Result>("ConsultarEstadoFactura", idFacturaParameter);
-        }
-    
-        public virtual int ActualizarEstadoFactura(Nullable<int> idFactura, Nullable<int> idEstado, Nullable<decimal> pago, string identifEmpleado)
-        {
-            var idFacturaParameter = idFactura.HasValue ?
-                new ObjectParameter("idFactura", idFactura) :
-                new ObjectParameter("idFactura", typeof(int));
-    
-            var idEstadoParameter = idEstado.HasValue ?
-                new ObjectParameter("idEstado", idEstado) :
-                new ObjectParameter("idEstado", typeof(int));
-    
-            var pagoParameter = pago.HasValue ?
-                new ObjectParameter("pago", pago) :
-                new ObjectParameter("pago", typeof(decimal));
-    
-            var identifEmpleadoParameter = identifEmpleado != null ?
-                new ObjectParameter("identifEmpleado", identifEmpleado) :
-                new ObjectParameter("identifEmpleado", typeof(string));
-    
-            return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction("ActualizarEstadoFactura", idFacturaParameter, idEstadoParameter, pagoParameter, identifEmpleadoParameter);
-        }
-    
-        public virtual ObjectResult<ConsultarHistoricoFacturaX_id_Result> ConsultarHistoricoFacturaX_id(Nullable<int> idFactura)
-        {
-            var idFacturaParameter = idFactura.HasValue ?
-                new ObjectParameter("idFactura", idFactura) :
-                new ObjectParameter("idFactura", typeof(int));
-    
-            return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction<ConsultarHistoricoFacturaX_id_Result>("ConsultarHistoricoFacturaX_id", idFacturaParameter);
-        }
-    
-        public virtual int AnularFactura(Nullable<int> idFactura, string identifEmpleado, string motivoAnulacion)
-        {
-            var idFacturaParameter = idFactura.HasValue ?
-                new ObjectParameter("idFactura", idFactura) :
-                new ObjectParameter("idFactura", typeof(int));
-    
-            var identifEmpleadoParameter = identifEmpleado != null ?
-                new ObjectParameter("identifEmpleado", identifEmpleado) :
-                new ObjectParameter("identifEmpleado", typeof(string));
-    
-            var motivoAnulacionParameter = motivoAnulacion != null ?
-                new ObjectParameter("MotivoAnulacion", motivoAnulacion) :
-                new ObjectParameter("MotivoAnulacion", typeof(string));
-    
-            return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction("AnularFactura", idFacturaParameter, identifEmpleadoParameter, motivoAnulacionParameter);
         }
     }
 }

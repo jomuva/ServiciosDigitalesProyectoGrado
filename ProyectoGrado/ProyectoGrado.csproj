@@ -221,9 +221,10 @@
     <Content Include="Xcore\Content\jquery.validate.bootstrap.css" />
     <Content Include="Xcore\Content\sb-admin.css" />
     <Content Include="Xcore\Content\Site.css" />
-    <Content Include="Xcore\Imagenes\LogoServiciosDigitales.JPG" />
+    <Content Include="Xcore\Imagenes\FondoLoginFinal7.png" />
     <Content Include="Xcore\Imagenes\LogoServiciosDigitales2.jpg" />
     <Content Include="Xcore\Imagenes\paginaPrincipal.JPG" />
+    <Content Include="Xcore\Imagenes\SERVICIOS DIGITALES logo1.png" />
     <Content Include="Xcore\Scripts\bootstrap.js" />
     <Content Include="Xcore\Scripts\bootstrap.min.js" />
     <Content Include="Xcore\Scripts\dataTables.bootstrap.min.js" />

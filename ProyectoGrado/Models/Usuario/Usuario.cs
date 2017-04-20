@@ -49,14 +49,17 @@ namespace ServiciosDigitalesProy.Models
         [Required(AllowEmptyStrings = false, ErrorMessage = "El campo de \"Apellidos\" es obligatorio.")]
         public string apellidos { get; set; }
 
-        [RegularExpression("^[0-9]*$", ErrorMessage = "El Teléfono celular debe ser numérico")]
+        [RegularExpression("^[0-9]*$", ErrorMessage = "La identificación debe ser numérica")]
         [Required(AllowEmptyStrings = false, ErrorMessage = "El campo de \"Identificación\" es obligatorio.")]
         //[Range(6, 10, ErrorMessage = "La {0} debe estar entre {1} y {2} dígitos.")]
         public string identificacion { get; set; }
 
+
+        [Range(1111111, 99999999999, ErrorMessage = "El teléfono debe tener 7 dígitos")]
         [RegularExpression("^[0-9]*$", ErrorMessage = "El Teléfono Fijo debe ser numérico")]
         public string TelefonoFijo { get; set; }
 
+        [Range(1111111111, 99999999999, ErrorMessage = "El teléfono celular debe tener 10 digitos")]
         [RegularExpression("^[0-9]*$", ErrorMessage = "El Teléfono celular debe ser numérico")]
         [Required(AllowEmptyStrings = false, ErrorMessage = "El campo de \"Teléfono Celular\" es obligatorio.")]
         public string TelefonoCelular { get; set; }

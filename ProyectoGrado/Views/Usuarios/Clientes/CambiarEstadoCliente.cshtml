@@ -40,7 +40,7 @@
 
                                 <div class="form-group">
                                     <label>Estado</label>
-                                    @Html.DropDownListFor(x => x.idEstado, Model.tiposEstado, null, new { @class = "form-control" })
+                                    @Html.DropDownListFor(x => x.idEstado, Model.tiposEstado,Model.estado, new { @class = "form-control" })
                                 </div>
 
                                 <button type="submit" name="submitButton" id="submitButton" class="btn btn-primary">Aceptar</button>

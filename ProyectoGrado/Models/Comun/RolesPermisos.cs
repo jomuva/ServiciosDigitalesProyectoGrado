@@ -7,57 +7,46 @@ namespace Models.Comun
 {
 public enum RolesPermisos
 {
-        #region Clientes
-            Puede_crear_nuevo_cliente = 1,
-            Puede_modificar_cliente = 2,
-            Puede_consultar_cliente = 3,
-            Puede_cambiar_estado_cliente = 4,
-        #endregion
-
-        #region Empleado
-            Puede_crear_nuevo_empleado = 5,
-            Puede_modificar_empleado = 6,
-            Puede_consultar_empleado = 7,
-            Puede_cambiar_estado_empleado = 8,
-        #endregion
-
-        #region Producto
-            Puede_crear_nuevo_producto = 9,
-            Puede_modificar_producto = 10,
-            Puede_consultar_producto = 11,
-            Puede_cambiar_estado_producto = 12,
-        #endregion
-
-        #region Servicio
-            Puede_crear_nuevo_servicio = 13,
-            Puede_modificar_servicio = 14,
-            Puede_consultar_servicio = 15,
-        #endregion
-
-        #region Solicitud
-            Puede_crear_nuevo_elemento = 16,
-            Puede_consultar_solicitud = 17,
-            Puede_cambiar_estado_solicitud = 18,
-            Puede_escalar_solicitud = 19,
-            Puede_consultar_historico_solicitud = 20,
-            Puede_agregar_anotacion_historico = 21,
-            Puede_crear_solicitud = 22,
-            Puede_Ver_Columna_Empleado_Asignado = 30,
-        #endregion
-
-        #region Inventario
-        Puede_agregar_inventario = 23,
-            Puede_consultar_inventario = 24,
-            Puede_modificar_inventario = 25,
-            Puede_asignar_inventario_sucursal = 26,
-        #endregion
-
-        #region Venta
-            Puede_agregar_factura = 27,
-            Puede_agregar_detalle_factura = 28,
-            Puede_consultar_factur = 29,
-        #endregion
-
+        puede_adicionar_servicio = 1,
+        puede_consultar_servicio = 2,
+        puede_editar_servicio = 3,
+        puede_crear_factura = 4,
+        puede_consultar_factura = 5,
+        puede_anular_factura = 6,
+        puede_pagar_factura = 7,
+        puede_ver_historico_factura = 8,
+        puede_ver_detalle_factura = 9,
+        puede_adicionar_cliente = 10,
+        puede_consultar_cliente = 11,
+        puede_editar_cliente = 12,
+        puede_ver_detalles_cliente = 13,
+        puede_cambiar_estado_cliente = 14,
+        puede_adicionar_empleado = 15,
+        puede_editar_empleado = 16,
+        puede_ver_detalles_empleado = 17,
+        puede_cambiar_estado_empleado = 18,
+        puede_adicionar_producto = 19,
+        puede_consultar_producto = 20,
+        puede_editar_producto = 21,
+        puede_cambiar_estado_producto = 22,
+        puede_consultar_inventario = 23,
+        puede_ver_historico_inventario = 24,
+        puede_agregar_anotacion_inventario = 25,
+        puede_agregar_existancias_inventario = 26,
+        puede_consultar_inventario_bajas = 27,
+        puede_ver_historio_inventario_bajas = 28,
+        puede_agregar_anotacion_inventario_bajas = 29,
+        puede_agregar_bajas_inventario = 30,
+        puede_consultar_solicitudes = 31,
+        puede_agregar_elemento = 32,
+        puede_crear_solicitudes = 33,
+        puede_cambiar_estado_solicitud = 34,
+        puede_escalar_solicitud = 35,
+        puede_ver_detalle_solicitud = 36,
+        puede_agregar_anotacion_solicitud = 37,
+        puede_consultar_elementos = 38,
+        Puede_Ver_Columna_Empleado_Asignado = 39,
+        Puede_consultar_empleado = 40
 
     }
 }

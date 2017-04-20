@@ -3,5 +3,17 @@
 <script type="text/javascript" language="javascript">
     $(document).ready(function () {
         var table = Personalizados.inicializarDatatable();
+
+        $("#btnAnotacion1").click(function (eve) {
+            $("#modal-content").load("/Inventarios/AgregarAnotacionInventario/" + $(this).data("id"));
+        });
+
+        $("#btnAnotacion1Bajas").click(function (eve) {
+            $("#modal-content").load("/Inventarios/AgregarAnotacionInventarioBajas/" + $(this).data("id"));
+        });
+
     });
+
+
 </script>
+

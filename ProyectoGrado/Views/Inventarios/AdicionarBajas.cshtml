@@ -70,10 +70,22 @@
                                             </div>
                                         </div>
                                     </div>
+                                    @*<div class="row">
+                                        <div class="col-md-4">
+                                            <button type="submit" name="submitButton" id="submitButton" class="btn btn-success">Actualizar</button>
+                                        </div>
+                                        <div class="col-md-4">
+                                            @Html.ActionLink("Volver", "ConsultarSolicitudes", null, new { @class = "btn btn-primary" })
+                                        </div>
+                                    </div>*@
+
                                     <div class="row">
                                         <div class="form-group">
-                                            <div class="col-md-offset-4 col-md-2">
+                                            <div class="col-md-3">
                                                 <input type="submit" id="Aceptar" value="Aceptar" class="btn btn-success" />
+                                            </div>
+                                            <div class="col-md-2">
+                                                @Html.ActionLink("Volver", "ConsultarInventariosBajas", new { identificacion = ViewBag.idInventario == null ? "" : ViewBag.idInventario }, new { @class = "btn btn-primary" })
                                             </div>
                                         </div>
                                     </div>

@@ -33,6 +33,8 @@ namespace ServiciosDigitalesProy.Models
         public int id_servicio { get; set; }
         public string sPrecio { get; set; }
 
+
+        [Range(0, 50000000, ErrorMessage = "El precio debe ser un valor mayor a cero")]
         [Required(AllowEmptyStrings = false, ErrorMessage = "El campo de \"precio\" es obligatorio.")]
         public double precio { get; set; }
     }

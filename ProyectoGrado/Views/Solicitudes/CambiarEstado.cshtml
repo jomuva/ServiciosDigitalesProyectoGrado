@@ -37,13 +37,20 @@
                                     <label>Estado Actual</label>
                                     @Html.TextBox("Estado Actual", Model.estadoSolicitud.Descripcion, new { @class = "form-control", @disabled = "disabled" })
                                 </div>
-                                
+
                                 <div class="form-group">
                                     <label>Tipos de Estado</label>
                                     @Html.DropDownListFor(x => x.estadoSolicitud.id, Model.estadoSolicitudSelect, null, new { @class = "form-control" })
                                 </div>
+                                <div class="row">
+                                    <div class="col-md-4">
+                                        <button type="submit" name="submitButton" id="submitButton" class="btn btn-success">Actualizar</button>
 
-                                <button type="submit" name="submitButton" id="submitButton" class="btn btn-primary">Aceptar</button>
+                                    </div>
+                                    <div class="col-md-4">
+                                        @Html.ActionLink("Volver", "ConsultarSolicitudes", null, new { @class = "btn btn-primary" })
+                                    </div>
+                                </div>
                             }
                         </div>
                     </div>
@@ -65,6 +72,6 @@
                 type: '@((string)TempData["estado"])',
                 offset: { from: 'top', amount: 100 }
             });
-    });
+        });
     </script>
 }

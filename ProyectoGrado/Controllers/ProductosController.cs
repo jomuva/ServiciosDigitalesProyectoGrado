@@ -6,6 +6,7 @@ using System.Web.Mvc;
 using ServiciosDigitalesProy.Models;
 using ProyectoGrado.Catalogos;
 using ProyectoGrado.Tags;
+using Models.Comun;
 
 namespace ServiciosDigitalesProy.Controllers
 {
@@ -14,6 +15,7 @@ namespace ServiciosDigitalesProy.Controllers
     {
 
         [HttpGet]
+        [Permiso(Permiso = RolesPermisos.puede_adicionar_producto)]
         public ActionResult InsertarProducto()
         {
             Inventario user = new Inventario();
@@ -66,15 +68,23 @@ namespace ServiciosDigitalesProy.Controllers
             List<Producto> productos;
             productos = CatalogoProductos.GetInstance().ConsultarProductos(identificacion, ref resultado, ref tipoResultado);
             TempData["identificacionConsulta"] = identificacion;
-            TempData["mensaje"] = resultado;
-            TempData["estado"] = tipoResultado;
-            if (tipoResultado == "danger")
+            if (productos.Count != 0)
             {
+                TempData["mensaje"] = resultado;
+                TempData["estado"] = tipoResultado;
+                if (tipoResultado == "danger")
+                {
+                    return View("ConsultarProductos");
+                }
+                else
+                {
+                    return View("RespuestaConsultaProductos", productos);
+                }
+            }else
+            {
+                TempData["mensaje"] = "No se encontraron registro con los parámetros de consulta ingresados";
+                TempData["estado"] = "danger";
                 return View("ConsultarProductos");
-            }
-            else
-            {
-                return View("RespuestaConsultaProductos", productos);
             }
         }
 
@@ -84,6 +94,7 @@ namespace ServiciosDigitalesProy.Controllers
         /// <param name="id"></param>
         /// <returns></returns>
         [HttpGet]
+        [Permiso(Permiso = RolesPermisos.puede_editar_producto)]
         public ActionResult ModificarProducto(string id)
         {
             string resultado = "", tipoResultado = "";
@@ -127,6 +138,7 @@ namespace ServiciosDigitalesProy.Controllers
         /// <param name="id"></param>
         /// <returns></returns>
         [HttpGet]
+        [Permiso(Permiso = RolesPermisos.puede_cambiar_estado_producto)]
         public ActionResult CambiarEstadoProducto(string id)
         {
             string resultado = "", tipoResultado = "";

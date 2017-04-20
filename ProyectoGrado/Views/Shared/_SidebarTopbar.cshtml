@@ -11,7 +11,7 @@
 
 
             <a href="~/Home/Index" class="logo" onclick="location.reload();">
-                <img src="@Url.Content("/Xcore/Imagenes/LogoServiciosDigitales2.JPG")" title="Servicios Digitales" style="width:170px;height:80px;margin-top:2px;" />
+                <img src="@Url.Content("/Xcore/Imagenes/SERVICIOS DIGITALES logo1.png")" title="Servicios Digitales" style="width:inherit;height:80px;margin-top:2px;margin-left: 20px;" />
             </a>
         </div>
         <!-- Top Menu Items -->
@@ -127,7 +127,7 @@
         <!-- Sidebar Menu Items - These collapse to the responsive navigation menu on small screens -->
         <div class="collapse navbar-collapse navbar-ex1-collapse">
             <ul class="nav navbar-nav side-nav">
-               
+
                 <li>
                     <a href="javascript:;" data-toggle="collapse" data-target="#servicios"><i class="fa fa-fw fa-edit"></i> Servicios <i class="fa fa-fw fa-caret-down"></i></a>
                     <ul id="servicios" class="collapse">
@@ -159,12 +159,15 @@
                         <li>
                             @Html.ActionLink("Consultar Clientes", "ConsultarClientes", "Usuarios")
                         </li>
-                        <li>
-                            @Html.ActionLink("Adicionar Empleado", "AdicionarEmpleado", "Usuarios")
-                        </li>
-                        <li>
-                            @Html.ActionLink("Consultar Empleados", "ConsultarEmpleados", "Usuarios")
-                        </li>
+                        @if (ValidadorPermisos.TienePermiso(RolesPermisos.Puede_consultar_empleado))
+                        {
+                            <li>
+                                @Html.ActionLink("Adicionar Empleado", "AdicionarEmpleado", "Usuarios")
+                            </li>
+                            <li>
+                                @Html.ActionLink("Consultar Empleados", "ConsultarEmpleados", "Usuarios")
+                            </li>
+                        }
                     </ul>
                 </li>
                 <li>
@@ -184,9 +187,12 @@
                         <li>
                             @Html.ActionLink("Consultar Inventario de Productos", "ConsultarInventarios", "Inventarios")
                         </li>
-                        <li>
-                            @Html.ActionLink("Consultar Inventario de Bajas", "ConsultarInventariosBajas", "Inventarios")
-                        </li>
+                        @if (ValidadorPermisos.TienePermiso(RolesPermisos.puede_consultar_inventario_bajas))
+                        {
+                            <li>
+                                @Html.ActionLink("Consultar Inventario de Bajas", "ConsultarInventariosBajas", "Inventarios")
+                            </li>
+                        }
                     </ul>
                 </li>
                 <li>
@@ -200,7 +206,7 @@
                         </li>
                     </ul>
                 </li>
-              
+
             </ul>
 
         </div>

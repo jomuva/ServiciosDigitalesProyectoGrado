@@ -17,7 +17,7 @@ namespace ServiciosDigitalesProy.Controllers
 
 
         [HttpGet]
-        [PermisoAttribute(Permiso = RolesPermisos.Puede_consultar_solicitud)]
+        [Permiso(Permiso = RolesPermisos.puede_consultar_solicitudes)]
         public ActionResult ConsultarSolicitudes()
         {
             string resultado = "", tipoResultado = "";
@@ -31,6 +31,7 @@ namespace ServiciosDigitalesProy.Controllers
 
         
         [HttpGet]
+        [Permiso(Permiso = RolesPermisos.puede_consultar_elementos)]
         public ActionResult ConsultarElementos()
         {
             string resultado = "", tipoResultado = "";
@@ -61,6 +62,7 @@ namespace ServiciosDigitalesProy.Controllers
        
 
         [HttpGet]
+        [Permiso(Permiso = RolesPermisos.puede_ver_detalle_solicitud)]
         public ActionResult VerSolicitud(int id)
         {
             List<Solicitud> solicitudes = Session["solicitudes"] as List<Solicitud>;
@@ -99,11 +101,12 @@ namespace ServiciosDigitalesProy.Controllers
 
 
         [HttpGet]
+        [Permiso(Permiso = RolesPermisos.puede_cambiar_estado_solicitud)]
         public ActionResult CambiarEstado(string id)
         {
             Solicitud solicitud;
             string resultado = "", tipoResultado = "";
-            if (id != "idSeleccionado")
+            if (id != "idSeleccionado" && id != "CrearElemento" && id != "GenerarSolicitud")
             {
                 int idSolicitud = Convert.ToInt32(id);
                 solicitud = CatalogoSolicitudes.GetInstance().ConsultaEstadoSolicitud_X_id(idSolicitud, ref resultado, ref tipoResultado);
@@ -145,6 +148,7 @@ namespace ServiciosDigitalesProy.Controllers
 
 
         [HttpGet]
+        [Permiso(Permiso = RolesPermisos.puede_agregar_elemento)]
         public ActionResult CrearElemento()
         {
             Elemento element = new Elemento();
@@ -163,6 +167,7 @@ namespace ServiciosDigitalesProy.Controllers
             return View("ConsultarSolicitudes", Session["solicitudes"] as List<Solicitud>);
         }
 
+        [Permiso(Permiso = RolesPermisos.puede_crear_solicitudes)]
         public Solicitud CrearSolicitudVacia()
         {
             string res = "", tipores = "";
@@ -176,10 +181,11 @@ namespace ServiciosDigitalesProy.Controllers
         #region Escalar
 
         [HttpGet]
+        [Permiso(Permiso = RolesPermisos.puede_escalar_solicitud)]
         public ActionResult Escalar(string id)
         {
             string resultado = "", tipoResultado = "";
-            if (id != "idSeleccionado")
+            if (id != "idSeleccionado" && id != "CrearElemento" && id != "GenerarSolicitud")
             {
                 int idSolicitud = Convert.ToInt32(id);
                 
@@ -233,6 +239,7 @@ namespace ServiciosDigitalesProy.Controllers
             return View(historico);
         }
         [HttpGet]
+        [Permiso(Permiso = RolesPermisos.puede_agregar_anotacion_solicitud)]
         public ActionResult AgregarAnotacionModal(int id)
         {
             Solicitud solicitud= CrearSolicitudVacia();

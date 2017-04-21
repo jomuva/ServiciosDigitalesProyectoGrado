@@ -257,9 +257,7 @@ id_validar int not null IDENTITY,
 idEmpleado int, 
 estado VARCHAR(10),
 primary key (id_validar),
-	CONSTRAINT  fk_validar_usuario
-	FOREIGN KEY ( idEmpleado  )
-	REFERENCES   ESCALADO ( id_escalado  ),
+
 );
 GO
 	

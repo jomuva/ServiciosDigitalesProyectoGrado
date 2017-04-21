@@ -17,7 +17,5 @@ namespace Persistencia
         public int id_validar { get; set; }
         public Nullable<int> idEmpleado { get; set; }
         public string estado { get; set; }
-    
-        public virtual ESCALADO ESCALADO { get; set; }
     }
 }

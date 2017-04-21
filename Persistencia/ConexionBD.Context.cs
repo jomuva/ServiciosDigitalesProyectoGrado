@@ -15,10 +15,10 @@ namespace Persistencia
     using System.Data.Entity.Core.Objects;
     using System.Linq;
     
-    public partial class bdServiciosDigitalesProyEntities2 : DbContext
+    public partial class bdServiciosDigitalesProyEntities : DbContext
     {
-        public bdServiciosDigitalesProyEntities2()
-            : base("name=bdServiciosDigitalesProyEntities2")
+        public bdServiciosDigitalesProyEntities()
+            : base("name=bdServiciosDigitalesProyEntities")
         {
         }
     

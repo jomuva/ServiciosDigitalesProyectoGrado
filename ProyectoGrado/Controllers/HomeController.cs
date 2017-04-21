@@ -29,6 +29,11 @@ namespace ProyectoGrado.Controllers
             return View("Index");
         }
 
+        public ActionResult IndexLogo()
+        {
+           
+            return View("Index");
+        }
 
         public ActionResult Login()
         {

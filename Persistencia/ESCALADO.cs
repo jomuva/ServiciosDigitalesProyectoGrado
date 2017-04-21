@@ -19,7 +19,6 @@ namespace Persistencia
         {
             this.FACTURA = new HashSet<FACTURA>();
             this.SOLICITUD = new HashSet<SOLICITUD>();
-            this.VALIDAR_USUARIO_LOGUEADO = new HashSet<VALIDAR_USUARIO_LOGUEADO>();
         }
     
         public int id_escalado { get; set; }
@@ -30,7 +29,5 @@ namespace Persistencia
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
         public virtual ICollection<SOLICITUD> SOLICITUD { get; set; }
         public virtual USUARIO USUARIO { get; set; }
-        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
-        public virtual ICollection<VALIDAR_USUARIO_LOGUEADO> VALIDAR_USUARIO_LOGUEADO { get; set; }
     }
 }

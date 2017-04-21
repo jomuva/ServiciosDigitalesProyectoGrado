@@ -660,18 +660,6 @@
       </Dependent>
     </ReferentialConstraint>
   </Association>
-  <Association Name="fk_validar_usuario">
-    <End Role="ESCALADO" Type="Self.ESCALADO" Multiplicity="0..1" />
-    <End Role="VALIDAR_USUARIO_LOGUEADO" Type="Self.VALIDAR_USUARIO_LOGUEADO" Multiplicity="*" />
-    <ReferentialConstraint>
-      <Principal Role="ESCALADO">
-        <PropertyRef Name="id_escalado" />
-      </Principal>
-      <Dependent Role="VALIDAR_USUARIO_LOGUEADO">
-        <PropertyRef Name="idEmpleado" />
-      </Dependent>
-    </ReferentialConstraint>
-  </Association>
   <Function Name="ActualizarEstadoFactura" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
     <Parameter Name="idFactura" Type="int" Mode="In" />
     <Parameter Name="idEstado" Type="int" Mode="In" />
@@ -1059,10 +1047,6 @@
     <AssociationSet Name="fk_usuario_telefono" Association="Self.fk_usuario_telefono">
       <End Role="USUARIO" EntitySet="USUARIO" />
       <End Role="TELEFONO_USUARIO" EntitySet="TELEFONO_USUARIO" />
-    </AssociationSet>
-    <AssociationSet Name="fk_validar_usuario" Association="Self.fk_validar_usuario">
-      <End Role="ESCALADO" EntitySet="ESCALADO" />
-      <End Role="VALIDAR_USUARIO_LOGUEADO" EntitySet="VALIDAR_USUARIO_LOGUEADO" />
     </AssociationSet>
   </EntityContainer>
 </Schema>

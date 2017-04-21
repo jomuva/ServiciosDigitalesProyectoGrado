@@ -66,7 +66,6 @@
     <NavigationProperty Name="FACTURA" Relationship="Self.fk_empleado_factura" FromRole="ESCALADO" ToRole="FACTURA" />
     <NavigationProperty Name="SOLICITUD" Relationship="Self.fk_escalado_solicitud" FromRole="ESCALADO" ToRole="SOLICITUD" />
     <NavigationProperty Name="USUARIO" Relationship="Self.fk_usuario_escalado" FromRole="ESCALADO" ToRole="USUARIO" />
-    <NavigationProperty Name="VALIDAR_USUARIO_LOGUEADO" Relationship="Self.fk_validar_usuario" FromRole="ESCALADO" ToRole="VALIDAR_USUARIO_LOGUEADO" />
   </EntityType>
   <EntityType Name="ESTADO_FACTURA">
     <Key>
@@ -320,7 +319,6 @@
     <Property Name="id_validar" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
     <Property Name="idEmpleado" Type="Int32" />
     <Property Name="estado" Type="String" MaxLength="10" FixedLength="false" Unicode="false" />
-    <NavigationProperty Name="ESCALADO" Relationship="Self.fk_validar_usuario" FromRole="VALIDAR_USUARIO_LOGUEADO" ToRole="ESCALADO" />
   </EntityType>
   <Association Name="fk_categoria_elemento">
     <End Role="CATEGORIA_ELEMENTO" Type="Self.CATEGORIA_ELEMENTO" Multiplicity="1" />
@@ -451,18 +449,6 @@
       </Principal>
       <Dependent Role="ESCALADO">
         <PropertyRef Name="id_usuario_escalado" />
-      </Dependent>
-    </ReferentialConstraint>
-  </Association>
-  <Association Name="fk_validar_usuario">
-    <End Role="ESCALADO" Type="Self.ESCALADO" Multiplicity="0..1" />
-    <End Role="VALIDAR_USUARIO_LOGUEADO" Type="Self.VALIDAR_USUARIO_LOGUEADO" Multiplicity="*" />
-    <ReferentialConstraint>
-      <Principal Role="ESCALADO">
-        <PropertyRef Name="id_escalado" />
-      </Principal>
-      <Dependent Role="VALIDAR_USUARIO_LOGUEADO">
-        <PropertyRef Name="idEmpleado" />
       </Dependent>
     </ReferentialConstraint>
   </Association>
@@ -710,7 +696,7 @@
     <End Role="ROL" Type="Self.ROL" Multiplicity="*" />
     <End Role="PERMISO" Type="Self.PERMISO" Multiplicity="*" />
   </Association>
-  <EntityContainer Name="bdServiciosDigitalesProyEntities2" annotation:LazyLoadingEnabled="true">
+  <EntityContainer Name="bdServiciosDigitalesProyEntities" annotation:LazyLoadingEnabled="true">
     <EntitySet Name="CATEGORIA_ELEMENTO" EntityType="Self.CATEGORIA_ELEMENTO" />
     <EntitySet Name="CATEGORIA_PRODUCTO" EntityType="Self.CATEGORIA_PRODUCTO" />
     <EntitySet Name="DETALLE_FACTURA_PRODUCTO" EntityType="Self.DETALLE_FACTURA_PRODUCTO" />
@@ -782,10 +768,6 @@
     <AssociationSet Name="fk_usuario_escalado" Association="Self.fk_usuario_escalado">
       <End Role="USUARIO" EntitySet="USUARIO" />
       <End Role="ESCALADO" EntitySet="ESCALADO" />
-    </AssociationSet>
-    <AssociationSet Name="fk_validar_usuario" Association="Self.fk_validar_usuario">
-      <End Role="ESCALADO" EntitySet="ESCALADO" />
-      <End Role="VALIDAR_USUARIO_LOGUEADO" EntitySet="VALIDAR_USUARIO_LOGUEADO" />
     </AssociationSet>
     <AssociationSet Name="fk_estado_factura" Association="Self.fk_estado_factura">
       <End Role="ESTADO_FACTURA" EntitySet="ESTADO_FACTURA" />

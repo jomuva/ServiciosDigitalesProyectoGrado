@@ -19,6 +19,7 @@ namespace ProyectoGrado.Controllers
         {
             TempData["mensaje"] = "Bienvenido " + SessionHelper.GetNombreUsuarioLogueado() +  "!!!";
             TempData["estado"] = "success";
+            CatalogoUsuarios.GetInstance().CambiarEstadoLogueo(SessionHelper.GetNombreUsuarioLogueado());
             return View();
         }
 
@@ -46,16 +47,27 @@ namespace ProyectoGrado.Controllers
         [HttpPost]
         public ActionResult Login(Usuario user)
         {
-
+            string res = "", tipores = "";
             if (!user.username.Equals("") && (!user.password.Equals("")))
             {
+               
                 string resultado = "", tipoResultado = "";
                 CatalogoUsuarios.GetInstance().ValidarAutenticacionLogin(user, ref resultado, ref tipoResultado);
                 if (tipoResultado=="danger" || tipoResultado == "")
                 {
-                    return PartialView("Login", user);
+                    TempData["mensaje"] = resultado;
+                    TempData["estado"] = "danger";
+                    return PartialView("Login");
                 }else
                 {
+                    CatalogoUsuarios.GetInstance().ConsultarEstadoLogueoUser(user.username,ref res,ref tipores);
+                    if (tipores == "info")
+                    {
+                        TempData["mensaje"] = res;
+                        TempData["estado"] = tipores;
+                        return PartialView("Login");
+                    }
+
                     return RedirectToAction("Index");
                 }
                
@@ -71,7 +83,7 @@ namespace ProyectoGrado.Controllers
         [Autenticado]
         public ActionResult Salir()
         {
-         
+            CatalogoUsuarios.GetInstance().CambiarEstadoLogueo(SessionHelper.GetNombreUsuarioLogueado());
             SessionHelper.DestroyUserSession();
             Session.Abandon();
             return Redirect("~/");

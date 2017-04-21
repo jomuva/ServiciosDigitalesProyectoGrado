@@ -250,6 +250,18 @@ primary key (id_escalado),
 			REFERENCES   USUARIO ( id_usuario  )			
 );
 GO
+
+--TABLA QUE IMPIDE LOGUEAR UN USUARIO EN MAS DE UNA ESTACION
+CREATE TABLE VALIDAR_USUARIO_LOGUEADO(
+id_validar int not null IDENTITY,
+idEmpleado int, 
+estado VARCHAR(10),
+primary key (id_validar),
+	CONSTRAINT  fk_validar_usuario
+	FOREIGN KEY ( idEmpleado  )
+	REFERENCES   ESCALADO ( id_escalado  ),
+);
+GO
 	
 -- PROCEDIMIENTO ALMACENADO PARA AGREGAR USUARIO	
 CREATE PROCEDURE AgregarUsuario
@@ -274,6 +286,7 @@ SET @idusu = @@IDENTITY;
 IF(@rol<>1)
 	BEGIN
 		INSERT INTO ESCALADO (id_usuario_escalado) VALUES (@idusu);
+		INSERT INTO VALIDAR_USUARIO_LOGUEADO (idEmpleado,estado) VALUES (@idusu,'NoActivo');
 	END
 END
 GO
@@ -301,6 +314,7 @@ go
 exec AgregarUsuario 1,1,1,'1016251441','rodriguez ortiz','manuel','Calle 112 No 23 - 56','mrodriguez@hotmail.com','M','mrodriguez','mrodriguez'
 go
 
+DELETE VALIDAR_USUARIO_LOGUEADO WHERE idEmpleado = 1
 DELETE ESCALADO WHERE id_usuario_escalado = 1
 GO
 
@@ -341,6 +355,9 @@ INSERT INTO [dbo].[TELEFONO_USUARIO]
 			(11,'3515121320'),
 			(11,'2515446')
 	GO
+
+
+
 
 	
 -- TABLA  SERVICIOS, LOS SERVICIOS DISPONIBLES A OFRECER
@@ -921,7 +938,7 @@ END
 
 SELECT id_producto,id_estado_producto,nombre_producto,precio_costo,precio_venta FROM PRODUCTO
 WHERE nombre_producto like '%'+@nombr+'%'
-END
+
 GO
 
 
@@ -1848,4 +1865,34 @@ BEGIN
 	VALUES (@idEmpleado,@idFactura,'factura Anulada, Motivo: '+@MotivoAnulacion,@fecha);
 END
 GO
+
+
+-- CONSULTA EL ESTADO DE UN EMPLEADO PARA SABER SI ESTA LOGUEADO O NO
+CREATE PROCEDURE ConsultarEstadoLogueoUser
+@username VARCHAR(15)
+AS
+DECLARE @idEmpleado int
+SET @idEmpleado = (SELECT id_usuario FROM USUARIO WHERE usuario_login = @username);
+BEGIN 
+	SELECT estado FROM VALIDAR_USUARIO_LOGUEADO WHERE idEmpleado = @idEmpleado
+END
+GO
+
+-- ACTUALIZA EL ESTADO DE LOGUEO DEL USUARIO
+CREATE PROCEDURE CambiarEstadoLogueoUser
+@username VARCHAR(15)
+AS
+DECLARE @idEmpleado int, @estadoActual VARCHAR(15)
+SET @idEmpleado = (SELECT id_usuario FROM USUARIO WHERE usuario_login = @username);
+SET @estadoActual = (SELECT estado FROM VALIDAR_USUARIO_LOGUEADO WHERE idEmpleado = @idEmpleado);
+BEGIN 
+	IF (@estadoActual = 'NoActivo')
+	BEGIN
+		UPDATE VALIDAR_USUARIO_LOGUEADO SET estado = 'Activo' WHERE idEmpleado = @idEmpleado;
+	END
+	ELSE IF (@estadoActual = 'Activo')
+		UPDATE VALIDAR_USUARIO_LOGUEADO SET estado = 'NoActivo' WHERE idEmpleado = @idEmpleado;
+END
+GO
+
 

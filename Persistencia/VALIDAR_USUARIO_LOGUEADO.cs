@@ -12,12 +12,12 @@ namespace Persistencia
     using System;
     using System.Collections.Generic;
     
-    public partial class sysdiagrams
+    public partial class VALIDAR_USUARIO_LOGUEADO
     {
-        public string name { get; set; }
-        public int principal_id { get; set; }
-        public int diagram_id { get; set; }
-        public Nullable<int> version { get; set; }
-        public byte[] definition { get; set; }
+        public int id_validar { get; set; }
+        public Nullable<int> idEmpleado { get; set; }
+        public string estado { get; set; }
+    
+        public virtual ESCALADO ESCALADO { get; set; }
     }
 }

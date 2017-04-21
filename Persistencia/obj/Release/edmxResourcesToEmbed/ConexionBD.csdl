@@ -66,6 +66,7 @@
     <NavigationProperty Name="FACTURA" Relationship="Self.fk_empleado_factura" FromRole="ESCALADO" ToRole="FACTURA" />
     <NavigationProperty Name="SOLICITUD" Relationship="Self.fk_escalado_solicitud" FromRole="ESCALADO" ToRole="SOLICITUD" />
     <NavigationProperty Name="USUARIO" Relationship="Self.fk_usuario_escalado" FromRole="ESCALADO" ToRole="USUARIO" />
+    <NavigationProperty Name="VALIDAR_USUARIO_LOGUEADO" Relationship="Self.fk_validar_usuario" FromRole="ESCALADO" ToRole="VALIDAR_USUARIO_LOGUEADO" />
   </EntityType>
   <EntityType Name="ESTADO_FACTURA">
     <Key>
@@ -312,6 +313,15 @@
     <NavigationProperty Name="TELEFONO_USUARIO" Relationship="Self.fk_usuario_telefono" FromRole="USUARIO" ToRole="TELEFONO_USUARIO" />
     <NavigationProperty Name="TIPO_IDENTIFICACION_USUARIO" Relationship="Self.fk_tipo_Identificacion_usuario" FromRole="USUARIO" ToRole="TIPO_IDENTIFICACION_USUARIO" />
   </EntityType>
+  <EntityType Name="VALIDAR_USUARIO_LOGUEADO">
+    <Key>
+      <PropertyRef Name="id_validar" />
+    </Key>
+    <Property Name="id_validar" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+    <Property Name="idEmpleado" Type="Int32" />
+    <Property Name="estado" Type="String" MaxLength="10" FixedLength="false" Unicode="false" />
+    <NavigationProperty Name="ESCALADO" Relationship="Self.fk_validar_usuario" FromRole="VALIDAR_USUARIO_LOGUEADO" ToRole="ESCALADO" />
+  </EntityType>
   <Association Name="fk_categoria_elemento">
     <End Role="CATEGORIA_ELEMENTO" Type="Self.CATEGORIA_ELEMENTO" Multiplicity="1" />
     <End Role="ELEMENTO" Type="Self.ELEMENTO" Multiplicity="*" />
@@ -441,6 +451,18 @@
       </Principal>
       <Dependent Role="ESCALADO">
         <PropertyRef Name="id_usuario_escalado" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="fk_validar_usuario">
+    <End Role="ESCALADO" Type="Self.ESCALADO" Multiplicity="0..1" />
+    <End Role="VALIDAR_USUARIO_LOGUEADO" Type="Self.VALIDAR_USUARIO_LOGUEADO" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="ESCALADO">
+        <PropertyRef Name="id_escalado" />
+      </Principal>
+      <Dependent Role="VALIDAR_USUARIO_LOGUEADO">
+        <PropertyRef Name="idEmpleado" />
       </Dependent>
     </ReferentialConstraint>
   </Association>
@@ -716,6 +738,7 @@
     <EntitySet Name="TIPO_ELEMENTO" EntityType="Self.TIPO_ELEMENTO" />
     <EntitySet Name="TIPO_IDENTIFICACION_USUARIO" EntityType="Self.TIPO_IDENTIFICACION_USUARIO" />
     <EntitySet Name="USUARIO" EntityType="Self.USUARIO" />
+    <EntitySet Name="VALIDAR_USUARIO_LOGUEADO" EntityType="Self.VALIDAR_USUARIO_LOGUEADO" />
     <AssociationSet Name="fk_categoria_elemento" Association="Self.fk_categoria_elemento">
       <End Role="CATEGORIA_ELEMENTO" EntitySet="CATEGORIA_ELEMENTO" />
       <End Role="ELEMENTO" EntitySet="ELEMENTO" />
@@ -759,6 +782,10 @@
     <AssociationSet Name="fk_usuario_escalado" Association="Self.fk_usuario_escalado">
       <End Role="USUARIO" EntitySet="USUARIO" />
       <End Role="ESCALADO" EntitySet="ESCALADO" />
+    </AssociationSet>
+    <AssociationSet Name="fk_validar_usuario" Association="Self.fk_validar_usuario">
+      <End Role="ESCALADO" EntitySet="ESCALADO" />
+      <End Role="VALIDAR_USUARIO_LOGUEADO" EntitySet="VALIDAR_USUARIO_LOGUEADO" />
     </AssociationSet>
     <AssociationSet Name="fk_estado_factura" Association="Self.fk_estado_factura">
       <End Role="ESTADO_FACTURA" EntitySet="ESTADO_FACTURA" />
@@ -927,7 +954,7 @@
       <Parameter Name="serial_bateria" Mode="In" Type="String" />
       <Parameter Name="SO" Mode="In" Type="String" />
     </FunctionImport>
-    <FunctionImport Name="AgregarServicio">
+    <FunctionImport Name="AgregarServicio" ReturnType="Collection(Int32)">
       <Parameter Name="descripc" Mode="In" Type="String" />
       <Parameter Name="precio" Mode="In" Type="Decimal" />
     </FunctionImport>
@@ -948,6 +975,9 @@
       <Parameter Name="idFactura" Mode="In" Type="Int32" />
       <Parameter Name="identifEmpleado" Mode="In" Type="String" />
       <Parameter Name="MotivoAnulacion" Mode="In" Type="String" />
+    </FunctionImport>
+    <FunctionImport Name="CambiarEstadoLogueoUser">
+      <Parameter Name="username" Mode="In" Type="String" />
     </FunctionImport>
     <FunctionImport Name="CambiarEstadoProducto">
       <Parameter Name="idProd" Mode="In" Type="Int32" />
@@ -984,6 +1014,9 @@
     </FunctionImport>
     <FunctionImport Name="ConsultarEstadoFactura" ReturnType="Collection(bdServiciosDigitalesProyModel.ConsultarEstadoFactura_Result)">
       <Parameter Name="idFactura" Mode="In" Type="Int32" />
+    </FunctionImport>
+    <FunctionImport Name="ConsultarEstadoLogueoUser" ReturnType="Collection(String)">
+      <Parameter Name="username" Mode="In" Type="String" />
     </FunctionImport>
     <FunctionImport Name="ConsultarEstadosSolicitud" ReturnType="Collection(bdServiciosDigitalesProyModel.ConsultarEstadosSolicitud_Result)" />
     <FunctionImport Name="ConsultarFacturas" ReturnType="Collection(bdServiciosDigitalesProyModel.ConsultarFacturas_Result)" />
@@ -1050,7 +1083,7 @@
       <Parameter Name="id_elemento" Mode="In" Type="Int32" />
       <Parameter Name="descripcion" Mode="In" Type="String" />
     </FunctionImport>
-    <FunctionImport Name="InsertarProducto">
+    <FunctionImport Name="InsertarProducto" ReturnType="Collection(Int32)">
       <Parameter Name="id_estado_prod" Mode="In" Type="Int32" />
       <Parameter Name="id_categoria" Mode="In" Type="Int32" />
       <Parameter Name="nombre_prod" Mode="In" Type="String" />

@@ -66,7 +66,6 @@ C:\ProyectoGrado\ProyectoGrado\ProyectoGrado\bin\es\System.Web.WebPages.Razor.re
 C:\ProyectoGrado\ProyectoGrado\ProyectoGrado\obj\Debug\ProyectoGrado.csprojResolveAssemblyReference.cache
 C:\ProyectoGrado\ProyectoGrado\ProyectoGrado\obj\Debug\ProyectoGrado.dll
 C:\ProyectoGrado\ProyectoGrado\ProyectoGrado\obj\Debug\ProyectoGrado.pdb
-C:\Proyecto de Grado Capas\ServiciosDigitalesProyectoGrado\ProyectoGrado\obj\Debug\ProyectoGrado.csprojResolveAssemblyReference.cache
 C:\Proyecto de Grado Capas\ServiciosDigitalesProyectoGrado\ProyectoGrado\bin\ApplicationInsights.config
 C:\Proyecto de Grado Capas\ServiciosDigitalesProyectoGrado\ProyectoGrado\bin\roslyn\csc.exe
 C:\Proyecto de Grado Capas\ServiciosDigitalesProyectoGrado\ProyectoGrado\bin\roslyn\Microsoft.Build.Tasks.CodeAnalysis.dll
@@ -95,6 +94,7 @@ C:\Proyecto de Grado Capas\ServiciosDigitalesProyectoGrado\ProyectoGrado\bin\Mic
 C:\Proyecto de Grado Capas\ServiciosDigitalesProyectoGrado\ProyectoGrado\bin\Microsoft.Web.Infrastructure.dll
 C:\Proyecto de Grado Capas\ServiciosDigitalesProyectoGrado\ProyectoGrado\bin\Newtonsoft.Json.dll
 C:\Proyecto de Grado Capas\ServiciosDigitalesProyectoGrado\ProyectoGrado\bin\Persistencia.dll
+C:\Proyecto de Grado Capas\ServiciosDigitalesProyectoGrado\ProyectoGrado\bin\Rotativa.dll
 C:\Proyecto de Grado Capas\ServiciosDigitalesProyectoGrado\ProyectoGrado\bin\Session.dll
 C:\Proyecto de Grado Capas\ServiciosDigitalesProyectoGrado\ProyectoGrado\bin\System.Web.Helpers.dll
 C:\Proyecto de Grado Capas\ServiciosDigitalesProyectoGrado\ProyectoGrado\bin\System.Web.Mvc.dll
@@ -132,6 +132,6 @@ C:\Proyecto de Grado Capas\ServiciosDigitalesProyectoGrado\ProyectoGrado\bin\es\
 C:\Proyecto de Grado Capas\ServiciosDigitalesProyectoGrado\ProyectoGrado\bin\es\System.Web.WebPages.resources.dll
 C:\Proyecto de Grado Capas\ServiciosDigitalesProyectoGrado\ProyectoGrado\bin\es\System.Web.WebPages.Deployment.resources.dll
 C:\Proyecto de Grado Capas\ServiciosDigitalesProyectoGrado\ProyectoGrado\bin\es\System.Web.WebPages.Razor.resources.dll
+C:\Proyecto de Grado Capas\ServiciosDigitalesProyectoGrado\ProyectoGrado\obj\Debug\ProyectoGrado.csprojResolveAssemblyReference.cache
 C:\Proyecto de Grado Capas\ServiciosDigitalesProyectoGrado\ProyectoGrado\obj\Debug\ProyectoGrado.dll
 C:\Proyecto de Grado Capas\ServiciosDigitalesProyectoGrado\ProyectoGrado\obj\Debug\ProyectoGrado.pdb
-C:\Proyecto de Grado Capas\ServiciosDigitalesProyectoGrado\ProyectoGrado\bin\Rotativa.dll

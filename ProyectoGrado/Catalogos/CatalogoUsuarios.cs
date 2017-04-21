@@ -417,6 +417,41 @@ namespace ServiciosDigitalesProy.Catalogos
 
             return Roles;
         }
+
+
+
+        public void ConsultarEstadoLogueoUser(string identif, ref string resultado, ref string tipoResultado)
+        {
+            object oResult = usuarioDatos.ConsultarEstadoLogueoUser(identif);
+
+            string result = "";
+
+            var dynObj = JsonConvert.SerializeObject(oResult);
+            dynamic dyn = JsonConvert.DeserializeObject(dynObj);
+
+
+            foreach (var item in dyn)
+            {
+                result = (string)item;
+            }
+
+
+            if (result == "Activo")
+            {
+                resultado = "ya existe una Estación de trabajo activa para este usuario";
+                tipoResultado = "info";
+            }else
+            {
+                tipoResultado = "success";
+            }
+        }
+
+
+        public void CambiarEstadoLogueo(string identif)
+        {
+            usuarioDatos.CambiarEstadoLogueoUser(identif);
+        
+        }
         #endregion
     }
 

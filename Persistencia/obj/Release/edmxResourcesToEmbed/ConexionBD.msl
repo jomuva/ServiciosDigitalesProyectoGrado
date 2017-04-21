@@ -276,6 +276,15 @@
         </MappingFragment>
       </EntityTypeMapping>
     </EntitySetMapping>
+    <EntitySetMapping Name="VALIDAR_USUARIO_LOGUEADO">
+      <EntityTypeMapping TypeName="bdServiciosDigitalesProyModel.VALIDAR_USUARIO_LOGUEADO">
+        <MappingFragment StoreEntitySet="VALIDAR_USUARIO_LOGUEADO">
+          <ScalarProperty Name="id_validar" ColumnName="id_validar" />
+          <ScalarProperty Name="idEmpleado" ColumnName="idEmpleado" />
+          <ScalarProperty Name="estado" ColumnName="estado" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
     <AssociationSetMapping Name="PERMISO_DENEGADO_POR_ROL" TypeName="bdServiciosDigitalesProyModel.PERMISO_DENEGADO_POR_ROL" StoreEntitySet="PERMISO_DENEGADO_POR_ROL">
       <EndProperty Name="ROL">
         <ScalarProperty Name="id_rol" ColumnName="id_rol" />
@@ -302,6 +311,7 @@
     <FunctionImportMapping FunctionImportName="AgregarServicio" FunctionName="bdServiciosDigitalesProyModel.Store.AgregarServicio" />
     <FunctionImportMapping FunctionImportName="AgregarUsuario" FunctionName="bdServiciosDigitalesProyModel.Store.AgregarUsuario" />
     <FunctionImportMapping FunctionImportName="AnularFactura" FunctionName="bdServiciosDigitalesProyModel.Store.AnularFactura" />
+    <FunctionImportMapping FunctionImportName="CambiarEstadoLogueoUser" FunctionName="bdServiciosDigitalesProyModel.Store.CambiarEstadoLogueoUser" />
     <FunctionImportMapping FunctionImportName="CambiarEstadoProducto" FunctionName="bdServiciosDigitalesProyModel.Store.CambiarEstadoProducto" />
     <FunctionImportMapping FunctionImportName="CambiarEstadoSolicitud" FunctionName="bdServiciosDigitalesProyModel.Store.CambiarEstadoSolicitud" />
     <FunctionImportMapping FunctionImportName="ConsultaNombresEmpleadosXSolicitud" FunctionName="bdServiciosDigitalesProyModel.Store.ConsultaNombresEmpleadosXSolicitud" />
@@ -389,6 +399,7 @@
         </ComplexTypeMapping>
       </ResultMapping>
     </FunctionImportMapping>
+    <FunctionImportMapping FunctionImportName="ConsultarEstadoLogueoUser" FunctionName="bdServiciosDigitalesProyModel.Store.ConsultarEstadoLogueoUser" />
     <FunctionImportMapping FunctionImportName="ConsultarEstadosSolicitud" FunctionName="bdServiciosDigitalesProyModel.Store.ConsultarEstadosSolicitud">
       <ResultMapping>
         <ComplexTypeMapping TypeName="bdServiciosDigitalesProyModel.ConsultarEstadosSolicitud_Result">

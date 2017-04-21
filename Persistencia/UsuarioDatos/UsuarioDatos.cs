@@ -834,6 +834,42 @@ namespace Persistencia.UsuarioDatos
 
 
         }
+
+        /// <summary>
+        /// CONSULTA EL ESTADO DE UN EMPLEADO PARA SABER SI ESTA LOGUEADO O NO
+        /// </summary>
+        /// <param name="resultado"></param>
+        /// <param name="tipoResultado"></param>
+        /// <returns></returns>
+        public object ConsultarEstadoLogueoUser(string identifEmpleado)
+        {
+            object estado = null;
+            try
+            {
+                estado = conexion.conexiones.ConsultarEstadoLogueoUser(identifEmpleado).ToList();
+
+                return estado;
+            }
+            catch 
+            {
+            }
+
+            return estado;
+        }
+
+        public void CambiarEstadoLogueoUser(string identifEmpleado)
+        {
+            try
+            {
+                conexion.conexiones.CambiarEstadoLogueoUser(identifEmpleado);
+
+            }
+            catch
+            {
+            }
+
+        }
+
         #endregion
     }
 }

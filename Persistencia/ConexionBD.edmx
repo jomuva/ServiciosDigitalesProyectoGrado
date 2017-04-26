@@ -57,8 +57,9 @@
           <Key>
             <PropertyRef Name="id_escalado" />
           </Key>
-          <Property Name="id_escalado" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="id_escalado" Type="int" Nullable="false" />
           <Property Name="id_usuario_escalado" Type="int" />
+          <Property Name="id_sucursal_escalado" Type="int" />
         </EntityType>
         <EntityType Name="ESTADO_FACTURA">
           <Key>
@@ -146,6 +147,7 @@
           </Key>
           <Property Name="id_inventario" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
           <Property Name="id_producto_inventario" Type="int" Nullable="false" />
+          <Property Name="id_sucursal_inventario" Type="int" />
           <Property Name="cantidad_existencias" Type="int" Nullable="false" />
           <Property Name="fecha_actualizacion_inventario" Type="datetime" Nullable="false" />
         </EntityType>
@@ -155,6 +157,7 @@
           </Key>
           <Property Name="id_inventario_bajas" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
           <Property Name="id_producto_inventario" Type="int" Nullable="false" />
+          <Property Name="id_sucursal_inventario" Type="int" />
           <Property Name="cantidad_existencias" Type="int" Nullable="false" />
           <Property Name="fecha_actualizacion_inventario" Type="datetime" Nullable="false" />
         </EntityType>
@@ -221,6 +224,27 @@
           <Property Name="id_escalado_solicitud" Type="int" />
           <Property Name="fecha_solicitud" Type="datetime" />
           <Property Name="descripcion" Type="varchar" MaxLength="300" />
+        </EntityType>
+        <EntityType Name="SUCURSAL">
+          <Key>
+            <PropertyRef Name="id_sucursal" />
+          </Key>
+          <Property Name="id_sucursal" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="nombre" Type="varchar" MaxLength="20" Nullable="false" />
+          <Property Name="direccion" Type="varchar" MaxLength="50" />
+          <Property Name="ciudad" Type="varchar" MaxLength="50" />
+          <Property Name="telefonoFijo" Type="varchar" MaxLength="10" />
+          <Property Name="telefonoCelular" Type="varchar" MaxLength="10" />
+        </EntityType>
+        <EntityType Name="sysdiagrams">
+          <Key>
+            <PropertyRef Name="diagram_id" />
+          </Key>
+          <Property Name="name" Type="nvarchar" MaxLength="128" Nullable="false" />
+          <Property Name="principal_id" Type="int" Nullable="false" />
+          <Property Name="diagram_id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="version" Type="int" />
+          <Property Name="definition" Type="varbinary(max)" />
         </EntityType>
         <EntityType Name="TELEFONO_USUARIO">
           <Key>
@@ -581,6 +605,42 @@
             </Dependent>
           </ReferentialConstraint>
         </Association>
+        <Association Name="fk_sucursal_escalado">
+          <End Role="SUCURSAL" Type="Self.SUCURSAL" Multiplicity="0..1" />
+          <End Role="ESCALADO" Type="Self.ESCALADO" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="SUCURSAL">
+              <PropertyRef Name="id_sucursal" />
+            </Principal>
+            <Dependent Role="ESCALADO">
+              <PropertyRef Name="id_sucursal_escalado" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="fk_sucursal_inventario">
+          <End Role="SUCURSAL" Type="Self.SUCURSAL" Multiplicity="0..1" />
+          <End Role="INVENTARIO" Type="Self.INVENTARIO" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="SUCURSAL">
+              <PropertyRef Name="id_sucursal" />
+            </Principal>
+            <Dependent Role="INVENTARIO">
+              <PropertyRef Name="id_sucursal_inventario" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="fk_sucursal_inventario_bajas">
+          <End Role="SUCURSAL" Type="Self.SUCURSAL" Multiplicity="0..1" />
+          <End Role="INVENTARIO_BAJAS" Type="Self.INVENTARIO_BAJAS" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="SUCURSAL">
+              <PropertyRef Name="id_sucursal" />
+            </Principal>
+            <Dependent Role="INVENTARIO_BAJAS">
+              <PropertyRef Name="id_sucursal_inventario" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
         <Association Name="fk_tipo_elemento">
           <End Role="TIPO_ELEMENTO" Type="Self.TIPO_ELEMENTO" Multiplicity="1" />
           <End Role="ELEMENTO" Type="Self.ELEMENTO" Multiplicity="*" />
@@ -764,6 +824,7 @@
           <Parameter Name="sexo" Type="char" Mode="In" />
           <Parameter Name="username" Type="varchar" Mode="In" />
           <Parameter Name="Passwd" Type="nvarchar" Mode="In" />
+          <Parameter Name="idSucursal" Type="int" Mode="In" />
         </Function>
         <Function Name="AnularFactura" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
           <Parameter Name="idFactura" Type="int" Mode="In" />
@@ -867,6 +928,7 @@
           <Parameter Name="id_solicitud" Type="int" Mode="In" />
           <Parameter Name="identifEmpleado" Type="varchar" Mode="In" />
         </Function>
+        <Function Name="fn_diagramobjects" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="true" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo" ReturnType="int" />
         <Function Name="GarbageCollector_FacturasSinRegistros_Automatico" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo" />
         <Function Name="GenerarSolicitud" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
           <Parameter Name="id_prioridad" Type="int" Mode="In" />
@@ -885,8 +947,39 @@
           <Parameter Name="precio_venta" Type="decimal" Mode="In" />
           <Parameter Name="identifEmpleado" Type="varchar" Mode="In" />
           <Parameter Name="cantidad" Type="int" Mode="In" />
+          <Parameter Name="id_sucursal" Type="int" Mode="In" />
         </Function>
         <Function Name="ObtenerIdUltimaFacturaGenerada" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo" />
+        <Function Name="sp_alterdiagram" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
+          <Parameter Name="diagramname" Type="nvarchar" Mode="In" />
+          <Parameter Name="owner_id" Type="int" Mode="In" />
+          <Parameter Name="version" Type="int" Mode="In" />
+          <Parameter Name="definition" Type="varbinary(max)" Mode="In" />
+        </Function>
+        <Function Name="sp_creatediagram" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
+          <Parameter Name="diagramname" Type="nvarchar" Mode="In" />
+          <Parameter Name="owner_id" Type="int" Mode="In" />
+          <Parameter Name="version" Type="int" Mode="In" />
+          <Parameter Name="definition" Type="varbinary(max)" Mode="In" />
+        </Function>
+        <Function Name="sp_dropdiagram" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
+          <Parameter Name="diagramname" Type="nvarchar" Mode="In" />
+          <Parameter Name="owner_id" Type="int" Mode="In" />
+        </Function>
+        <Function Name="sp_helpdiagramdefinition" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
+          <Parameter Name="diagramname" Type="nvarchar" Mode="In" />
+          <Parameter Name="owner_id" Type="int" Mode="In" />
+        </Function>
+        <Function Name="sp_helpdiagrams" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
+          <Parameter Name="diagramname" Type="nvarchar" Mode="In" />
+          <Parameter Name="owner_id" Type="int" Mode="In" />
+        </Function>
+        <Function Name="sp_renamediagram" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
+          <Parameter Name="diagramname" Type="nvarchar" Mode="In" />
+          <Parameter Name="owner_id" Type="int" Mode="In" />
+          <Parameter Name="new_diagramname" Type="nvarchar" Mode="In" />
+        </Function>
+        <Function Name="sp_upgraddiagrams" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo" />
         <Function Name="ValidarAutenticacionLogin" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
           <Parameter Name="username" Type="varchar" Mode="In" />
           <Parameter Name="passwd" Type="nvarchar" Mode="In" />
@@ -916,6 +1009,8 @@
           <EntitySet Name="ROL" EntityType="Self.ROL" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="SERVICIO" EntityType="Self.SERVICIO" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="SOLICITUD" EntityType="Self.SOLICITUD" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="SUCURSAL" EntityType="Self.SUCURSAL" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="sysdiagrams" EntityType="Self.sysdiagrams" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="TELEFONO_USUARIO" EntityType="Self.TELEFONO_USUARIO" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="TIPO_ELEMENTO" EntityType="Self.TIPO_ELEMENTO" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="TIPO_IDENTIFICACION_USUARIO" EntityType="Self.TIPO_IDENTIFICACION_USUARIO" Schema="dbo" store:Type="Tables" />
@@ -1025,6 +1120,18 @@
             <End Role="SOLICITUD" EntitySet="SOLICITUD" />
             <End Role="HISTORICO_SOLICITUD" EntitySet="HISTORICO_SOLICITUD" />
           </AssociationSet>
+          <AssociationSet Name="fk_sucursal_escalado" Association="Self.fk_sucursal_escalado">
+            <End Role="SUCURSAL" EntitySet="SUCURSAL" />
+            <End Role="ESCALADO" EntitySet="ESCALADO" />
+          </AssociationSet>
+          <AssociationSet Name="fk_sucursal_inventario" Association="Self.fk_sucursal_inventario">
+            <End Role="SUCURSAL" EntitySet="SUCURSAL" />
+            <End Role="INVENTARIO" EntitySet="INVENTARIO" />
+          </AssociationSet>
+          <AssociationSet Name="fk_sucursal_inventario_bajas" Association="Self.fk_sucursal_inventario_bajas">
+            <End Role="SUCURSAL" EntitySet="SUCURSAL" />
+            <End Role="INVENTARIO_BAJAS" EntitySet="INVENTARIO_BAJAS" />
+          </AssociationSet>
           <AssociationSet Name="fk_tipo_elemento" Association="Self.fk_tipo_elemento">
             <End Role="TIPO_ELEMENTO" EntitySet="TIPO_ELEMENTO" />
             <End Role="ELEMENTO" EntitySet="ELEMENTO" />
@@ -1120,10 +1227,12 @@
           <Key>
             <PropertyRef Name="id_escalado" />
           </Key>
-          <Property Name="id_escalado" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="id_escalado" Type="Int32" Nullable="false" />
           <Property Name="id_usuario_escalado" Type="Int32" />
+          <Property Name="id_sucursal_escalado" Type="Int32" />
           <NavigationProperty Name="FACTURA" Relationship="Self.fk_empleado_factura" FromRole="ESCALADO" ToRole="FACTURA" />
           <NavigationProperty Name="SOLICITUD" Relationship="Self.fk_escalado_solicitud" FromRole="ESCALADO" ToRole="SOLICITUD" />
+          <NavigationProperty Name="SUCURSAL" Relationship="Self.fk_sucursal_escalado" FromRole="ESCALADO" ToRole="SUCURSAL" />
           <NavigationProperty Name="USUARIO" Relationship="Self.fk_usuario_escalado" FromRole="ESCALADO" ToRole="USUARIO" />
         </EntityType>
         <EntityType Name="ESTADO_FACTURA">
@@ -1229,10 +1338,12 @@
           </Key>
           <Property Name="id_inventario" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
           <Property Name="id_producto_inventario" Type="Int32" Nullable="false" />
+          <Property Name="id_sucursal_inventario" Type="Int32" />
           <Property Name="cantidad_existencias" Type="Int32" Nullable="false" />
           <Property Name="fecha_actualizacion_inventario" Type="DateTime" Nullable="false" Precision="3" />
           <NavigationProperty Name="HISTORICO_INVENTARIO" Relationship="Self.fk_inventario_historico_inventario" FromRole="INVENTARIO" ToRole="HISTORICO_INVENTARIO" />
           <NavigationProperty Name="PRODUCTO" Relationship="Self.fk_producto_inventario" FromRole="INVENTARIO" ToRole="PRODUCTO" />
+          <NavigationProperty Name="SUCURSAL" Relationship="Self.fk_sucursal_inventario" FromRole="INVENTARIO" ToRole="SUCURSAL" />
         </EntityType>
         <EntityType Name="INVENTARIO_BAJAS">
           <Key>
@@ -1240,10 +1351,12 @@
           </Key>
           <Property Name="id_inventario_bajas" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
           <Property Name="id_producto_inventario" Type="Int32" Nullable="false" />
+          <Property Name="id_sucursal_inventario" Type="Int32" />
           <Property Name="cantidad_existencias" Type="Int32" Nullable="false" />
           <Property Name="fecha_actualizacion_inventario" Type="DateTime" Nullable="false" Precision="3" />
           <NavigationProperty Name="HISTORICO_INVENTARIO_BAJAS" Relationship="Self.fk_inventario_historico_inventario_bajas" FromRole="INVENTARIO_BAJAS" ToRole="HISTORICO_INVENTARIO_BAJAS" />
           <NavigationProperty Name="PRODUCTO" Relationship="Self.fk_producto_inventario_bajas" FromRole="INVENTARIO_BAJAS" ToRole="PRODUCTO" />
+          <NavigationProperty Name="SUCURSAL" Relationship="Self.fk_sucursal_inventario_bajas" FromRole="INVENTARIO_BAJAS" ToRole="SUCURSAL" />
         </EntityType>
         <EntityType Name="PERMISO">
           <Key>
@@ -1318,6 +1431,30 @@
           <NavigationProperty Name="PRIORIDAD" Relationship="Self.fk_prioridad_solicitud" FromRole="SOLICITUD" ToRole="PRIORIDAD" />
           <NavigationProperty Name="SERVICIO" Relationship="Self.fk_servicio_solicitud" FromRole="SOLICITUD" ToRole="SERVICIO" />
           <NavigationProperty Name="USUARIO" Relationship="Self.fk_usuario_solicitud" FromRole="SOLICITUD" ToRole="USUARIO" />
+        </EntityType>
+        <EntityType Name="SUCURSAL">
+          <Key>
+            <PropertyRef Name="id_sucursal" />
+          </Key>
+          <Property Name="id_sucursal" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="nombre" Type="String" MaxLength="20" FixedLength="false" Unicode="false" Nullable="false" />
+          <Property Name="direccion" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
+          <Property Name="ciudad" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
+          <Property Name="telefonoFijo" Type="String" MaxLength="10" FixedLength="false" Unicode="false" />
+          <Property Name="telefonoCelular" Type="String" MaxLength="10" FixedLength="false" Unicode="false" />
+          <NavigationProperty Name="ESCALADO" Relationship="Self.fk_sucursal_escalado" FromRole="SUCURSAL" ToRole="ESCALADO" />
+          <NavigationProperty Name="INVENTARIO" Relationship="Self.fk_sucursal_inventario" FromRole="SUCURSAL" ToRole="INVENTARIO" />
+          <NavigationProperty Name="INVENTARIO_BAJAS" Relationship="Self.fk_sucursal_inventario_bajas" FromRole="SUCURSAL" ToRole="INVENTARIO_BAJAS" />
+        </EntityType>
+        <EntityType Name="sysdiagrams">
+          <Key>
+            <PropertyRef Name="diagram_id" />
+          </Key>
+          <Property Name="name" Type="String" MaxLength="128" FixedLength="false" Unicode="true" Nullable="false" />
+          <Property Name="principal_id" Type="Int32" Nullable="false" />
+          <Property Name="diagram_id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="version" Type="Int32" />
+          <Property Name="definition" Type="Binary" MaxLength="Max" FixedLength="false" />
         </EntityType>
         <EntityType Name="TELEFONO_USUARIO">
           <Key>
@@ -1499,6 +1636,18 @@
             </Dependent>
           </ReferentialConstraint>
         </Association>
+        <Association Name="fk_sucursal_escalado">
+          <End Role="SUCURSAL" Type="Self.SUCURSAL" Multiplicity="0..1" />
+          <End Role="ESCALADO" Type="Self.ESCALADO" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="SUCURSAL">
+              <PropertyRef Name="id_sucursal" />
+            </Principal>
+            <Dependent Role="ESCALADO">
+              <PropertyRef Name="id_sucursal_escalado" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
         <Association Name="fk_usuario_escalado">
           <End Role="USUARIO" Type="Self.USUARIO" Multiplicity="0..1" />
           <End Role="ESCALADO" Type="Self.ESCALADO" Multiplicity="*" />
@@ -1667,6 +1816,18 @@
             </Dependent>
           </ReferentialConstraint>
         </Association>
+        <Association Name="fk_sucursal_inventario">
+          <End Role="SUCURSAL" Type="Self.SUCURSAL" Multiplicity="0..1" />
+          <End Role="INVENTARIO" Type="Self.INVENTARIO" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="SUCURSAL">
+              <PropertyRef Name="id_sucursal" />
+            </Principal>
+            <Dependent Role="INVENTARIO">
+              <PropertyRef Name="id_sucursal_inventario" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
         <Association Name="fk_producto_inventario_bajas">
           <End Role="PRODUCTO" Type="Self.PRODUCTO" Multiplicity="1" />
           <End Role="INVENTARIO_BAJAS" Type="Self.INVENTARIO_BAJAS" Multiplicity="*" />
@@ -1676,6 +1837,18 @@
             </Principal>
             <Dependent Role="INVENTARIO_BAJAS">
               <PropertyRef Name="id_producto_inventario" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="fk_sucursal_inventario_bajas">
+          <End Role="SUCURSAL" Type="Self.SUCURSAL" Multiplicity="0..1" />
+          <End Role="INVENTARIO_BAJAS" Type="Self.INVENTARIO_BAJAS" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="SUCURSAL">
+              <PropertyRef Name="id_sucursal" />
+            </Principal>
+            <Dependent Role="INVENTARIO_BAJAS">
+              <PropertyRef Name="id_sucursal_inventario" />
             </Dependent>
           </ReferentialConstraint>
         </Association>
@@ -1755,7 +1928,7 @@
           <End Role="ROL" Type="Self.ROL" Multiplicity="*" />
           <End Role="PERMISO" Type="Self.PERMISO" Multiplicity="*" />
         </Association>
-        <EntityContainer Name="bdServiciosDigitalesProyEntities" annotation:LazyLoadingEnabled="true">
+        <EntityContainer Name="bdServiciosDigitalesProyEntities1" annotation:LazyLoadingEnabled="true">
           <EntitySet Name="CATEGORIA_ELEMENTO" EntityType="Self.CATEGORIA_ELEMENTO" />
           <EntitySet Name="CATEGORIA_PRODUCTO" EntityType="Self.CATEGORIA_PRODUCTO" />
           <EntitySet Name="DETALLE_FACTURA_PRODUCTO" EntityType="Self.DETALLE_FACTURA_PRODUCTO" />
@@ -1779,6 +1952,8 @@
           <EntitySet Name="ROL" EntityType="Self.ROL" />
           <EntitySet Name="SERVICIO" EntityType="Self.SERVICIO" />
           <EntitySet Name="SOLICITUD" EntityType="Self.SOLICITUD" />
+          <EntitySet Name="SUCURSAL" EntityType="Self.SUCURSAL" />
+          <EntitySet Name="sysdiagrams" EntityType="Self.sysdiagrams" />
           <EntitySet Name="TELEFONO_USUARIO" EntityType="Self.TELEFONO_USUARIO" />
           <EntitySet Name="TIPO_ELEMENTO" EntityType="Self.TIPO_ELEMENTO" />
           <EntitySet Name="TIPO_IDENTIFICACION_USUARIO" EntityType="Self.TIPO_IDENTIFICACION_USUARIO" />
@@ -1823,6 +1998,10 @@
           <AssociationSet Name="fk_escalado_solicitud" Association="Self.fk_escalado_solicitud">
             <End Role="ESCALADO" EntitySet="ESCALADO" />
             <End Role="SOLICITUD" EntitySet="SOLICITUD" />
+          </AssociationSet>
+          <AssociationSet Name="fk_sucursal_escalado" Association="Self.fk_sucursal_escalado">
+            <End Role="SUCURSAL" EntitySet="SUCURSAL" />
+            <End Role="ESCALADO" EntitySet="ESCALADO" />
           </AssociationSet>
           <AssociationSet Name="fk_usuario_escalado" Association="Self.fk_usuario_escalado">
             <End Role="USUARIO" EntitySet="USUARIO" />
@@ -1880,8 +2059,16 @@
             <End Role="PRODUCTO" EntitySet="PRODUCTO" />
             <End Role="INVENTARIO" EntitySet="INVENTARIO" />
           </AssociationSet>
+          <AssociationSet Name="fk_sucursal_inventario" Association="Self.fk_sucursal_inventario">
+            <End Role="SUCURSAL" EntitySet="SUCURSAL" />
+            <End Role="INVENTARIO" EntitySet="INVENTARIO" />
+          </AssociationSet>
           <AssociationSet Name="fk_producto_inventario_bajas" Association="Self.fk_producto_inventario_bajas">
             <End Role="PRODUCTO" EntitySet="PRODUCTO" />
+            <End Role="INVENTARIO_BAJAS" EntitySet="INVENTARIO_BAJAS" />
+          </AssociationSet>
+          <AssociationSet Name="fk_sucursal_inventario_bajas" Association="Self.fk_sucursal_inventario_bajas">
+            <End Role="SUCURSAL" EntitySet="SUCURSAL" />
             <End Role="INVENTARIO_BAJAS" EntitySet="INVENTARIO_BAJAS" />
           </AssociationSet>
           <AssociationSet Name="fk_prioridad_solicitud" Association="Self.fk_prioridad_solicitud">
@@ -2011,6 +2198,7 @@
             <Parameter Name="sexo" Mode="In" Type="String" />
             <Parameter Name="username" Mode="In" Type="String" />
             <Parameter Name="Passwd" Mode="In" Type="String" />
+            <Parameter Name="idSucursal" Mode="In" Type="Int32" />
           </FunctionImport>
           <FunctionImport Name="AnularFactura">
             <Parameter Name="idFactura" Mode="In" Type="Int32" />
@@ -2132,8 +2320,39 @@
             <Parameter Name="precio_venta" Mode="In" Type="Decimal" />
             <Parameter Name="identifEmpleado" Mode="In" Type="String" />
             <Parameter Name="cantidad" Mode="In" Type="Int32" />
+            <Parameter Name="id_sucursal" Mode="In" Type="Int32" />
           </FunctionImport>
           <FunctionImport Name="ObtenerIdUltimaFacturaGenerada" ReturnType="Collection(Int32)" />
+          <FunctionImport Name="sp_alterdiagram">
+            <Parameter Name="diagramname" Mode="In" Type="String" />
+            <Parameter Name="owner_id" Mode="In" Type="Int32" />
+            <Parameter Name="version" Mode="In" Type="Int32" />
+            <Parameter Name="definition" Mode="In" Type="Binary" />
+          </FunctionImport>
+          <FunctionImport Name="sp_creatediagram">
+            <Parameter Name="diagramname" Mode="In" Type="String" />
+            <Parameter Name="owner_id" Mode="In" Type="Int32" />
+            <Parameter Name="version" Mode="In" Type="Int32" />
+            <Parameter Name="definition" Mode="In" Type="Binary" />
+          </FunctionImport>
+          <FunctionImport Name="sp_dropdiagram">
+            <Parameter Name="diagramname" Mode="In" Type="String" />
+            <Parameter Name="owner_id" Mode="In" Type="Int32" />
+          </FunctionImport>
+          <FunctionImport Name="sp_helpdiagramdefinition" ReturnType="Collection(bdServiciosDigitalesProyModel.sp_helpdiagramdefinition_Result)">
+            <Parameter Name="diagramname" Mode="In" Type="String" />
+            <Parameter Name="owner_id" Mode="In" Type="Int32" />
+          </FunctionImport>
+          <FunctionImport Name="sp_helpdiagrams" ReturnType="Collection(bdServiciosDigitalesProyModel.sp_helpdiagrams_Result)">
+            <Parameter Name="diagramname" Mode="In" Type="String" />
+            <Parameter Name="owner_id" Mode="In" Type="Int32" />
+          </FunctionImport>
+          <FunctionImport Name="sp_renamediagram">
+            <Parameter Name="diagramname" Mode="In" Type="String" />
+            <Parameter Name="owner_id" Mode="In" Type="Int32" />
+            <Parameter Name="new_diagramname" Mode="In" Type="String" />
+          </FunctionImport>
+          <FunctionImport Name="sp_upgraddiagrams" />
           <FunctionImport Name="ValidarAutenticacionLogin" ReturnType="Collection(String)">
             <Parameter Name="username" Mode="In" Type="String" />
             <Parameter Name="passwd" Mode="In" Type="String" />
@@ -2367,12 +2586,23 @@
           <Property Type="Int32" Name="id_factura" Nullable="false" />
           <Property Type="DateTime" Name="fecha" Nullable="false" Precision="23" />
         </ComplexType>
+        <ComplexType Name="sp_helpdiagramdefinition_Result">
+          <Property Type="Int32" Name="version" Nullable="true" />
+          <Property Type="Binary" Name="definition" Nullable="true" />
+        </ComplexType>
+        <ComplexType Name="sp_helpdiagrams_Result">
+          <Property Type="String" Name="Database" Nullable="true" MaxLength="128" />
+          <Property Type="String" Name="Name" Nullable="false" MaxLength="128" />
+          <Property Type="Int32" Name="ID" Nullable="false" />
+          <Property Type="String" Name="Owner" Nullable="true" MaxLength="128" />
+          <Property Type="Int32" Name="OwnerID" Nullable="false" />
+        </ComplexType>
       </Schema>
     </edmx:ConceptualModels>
     <!-- C-S mapping content -->
     <edmx:Mappings>
       <Mapping Space="C-S" xmlns="http://schemas.microsoft.com/ado/2009/11/mapping/cs">
-        <EntityContainerMapping StorageEntityContainer="bdServiciosDigitalesProyModelStoreContainer" CdmEntityContainer="bdServiciosDigitalesProyEntities">
+        <EntityContainerMapping StorageEntityContainer="bdServiciosDigitalesProyModelStoreContainer" CdmEntityContainer="bdServiciosDigitalesProyEntities1">
           <EntitySetMapping Name="CATEGORIA_ELEMENTO">
             <EntityTypeMapping TypeName="bdServiciosDigitalesProyModel.CATEGORIA_ELEMENTO">
               <MappingFragment StoreEntitySet="CATEGORIA_ELEMENTO">
@@ -2431,6 +2661,7 @@
               <MappingFragment StoreEntitySet="ESCALADO">
                 <ScalarProperty Name="id_escalado" ColumnName="id_escalado" />
                 <ScalarProperty Name="id_usuario_escalado" ColumnName="id_usuario_escalado" />
+                <ScalarProperty Name="id_sucursal_escalado" ColumnName="id_sucursal_escalado" />
               </MappingFragment>
             </EntityTypeMapping>
           </EntitySetMapping>
@@ -2528,6 +2759,7 @@
               <MappingFragment StoreEntitySet="INVENTARIO">
                 <ScalarProperty Name="id_inventario" ColumnName="id_inventario" />
                 <ScalarProperty Name="id_producto_inventario" ColumnName="id_producto_inventario" />
+                <ScalarProperty Name="id_sucursal_inventario" ColumnName="id_sucursal_inventario" />
                 <ScalarProperty Name="cantidad_existencias" ColumnName="cantidad_existencias" />
                 <ScalarProperty Name="fecha_actualizacion_inventario" ColumnName="fecha_actualizacion_inventario" />
               </MappingFragment>
@@ -2538,6 +2770,7 @@
               <MappingFragment StoreEntitySet="INVENTARIO_BAJAS">
                 <ScalarProperty Name="id_inventario_bajas" ColumnName="id_inventario_bajas" />
                 <ScalarProperty Name="id_producto_inventario" ColumnName="id_producto_inventario" />
+                <ScalarProperty Name="id_sucursal_inventario" ColumnName="id_sucursal_inventario" />
                 <ScalarProperty Name="cantidad_existencias" ColumnName="cantidad_existencias" />
                 <ScalarProperty Name="fecha_actualizacion_inventario" ColumnName="fecha_actualizacion_inventario" />
               </MappingFragment>
@@ -2602,6 +2835,29 @@
                 <ScalarProperty Name="id_escalado_solicitud" ColumnName="id_escalado_solicitud" />
                 <ScalarProperty Name="fecha_solicitud" ColumnName="fecha_solicitud" />
                 <ScalarProperty Name="descripcion" ColumnName="descripcion" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="SUCURSAL">
+            <EntityTypeMapping TypeName="bdServiciosDigitalesProyModel.SUCURSAL">
+              <MappingFragment StoreEntitySet="SUCURSAL">
+                <ScalarProperty Name="id_sucursal" ColumnName="id_sucursal" />
+                <ScalarProperty Name="nombre" ColumnName="nombre" />
+                <ScalarProperty Name="direccion" ColumnName="direccion" />
+                <ScalarProperty Name="ciudad" ColumnName="ciudad" />
+                <ScalarProperty Name="telefonoFijo" ColumnName="telefonoFijo" />
+                <ScalarProperty Name="telefonoCelular" ColumnName="telefonoCelular" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="sysdiagrams">
+            <EntityTypeMapping TypeName="bdServiciosDigitalesProyModel.sysdiagrams">
+              <MappingFragment StoreEntitySet="sysdiagrams">
+                <ScalarProperty Name="name" ColumnName="name" />
+                <ScalarProperty Name="principal_id" ColumnName="principal_id" />
+                <ScalarProperty Name="diagram_id" ColumnName="diagram_id" />
+                <ScalarProperty Name="version" ColumnName="version" />
+                <ScalarProperty Name="definition" ColumnName="definition" />
               </MappingFragment>
             </EntityTypeMapping>
           </EntitySetMapping>
@@ -3045,6 +3301,30 @@
           <FunctionImportMapping FunctionImportName="GenerarSolicitud" FunctionName="bdServiciosDigitalesProyModel.Store.GenerarSolicitud" />
           <FunctionImportMapping FunctionImportName="InsertarProducto" FunctionName="bdServiciosDigitalesProyModel.Store.InsertarProducto" />
           <FunctionImportMapping FunctionImportName="ObtenerIdUltimaFacturaGenerada" FunctionName="bdServiciosDigitalesProyModel.Store.ObtenerIdUltimaFacturaGenerada" />
+          <FunctionImportMapping FunctionImportName="sp_alterdiagram" FunctionName="bdServiciosDigitalesProyModel.Store.sp_alterdiagram" />
+          <FunctionImportMapping FunctionImportName="sp_creatediagram" FunctionName="bdServiciosDigitalesProyModel.Store.sp_creatediagram" />
+          <FunctionImportMapping FunctionImportName="sp_dropdiagram" FunctionName="bdServiciosDigitalesProyModel.Store.sp_dropdiagram" />
+          <FunctionImportMapping FunctionImportName="sp_helpdiagramdefinition" FunctionName="bdServiciosDigitalesProyModel.Store.sp_helpdiagramdefinition">
+            <ResultMapping>
+              <ComplexTypeMapping TypeName="bdServiciosDigitalesProyModel.sp_helpdiagramdefinition_Result">
+                <ScalarProperty Name="version" ColumnName="version" />
+                <ScalarProperty Name="definition" ColumnName="definition" />
+              </ComplexTypeMapping>
+            </ResultMapping>
+          </FunctionImportMapping>
+          <FunctionImportMapping FunctionImportName="sp_helpdiagrams" FunctionName="bdServiciosDigitalesProyModel.Store.sp_helpdiagrams">
+            <ResultMapping>
+              <ComplexTypeMapping TypeName="bdServiciosDigitalesProyModel.sp_helpdiagrams_Result">
+                <ScalarProperty Name="Database" ColumnName="Database" />
+                <ScalarProperty Name="Name" ColumnName="Name" />
+                <ScalarProperty Name="ID" ColumnName="ID" />
+                <ScalarProperty Name="Owner" ColumnName="Owner" />
+                <ScalarProperty Name="OwnerID" ColumnName="OwnerID" />
+              </ComplexTypeMapping>
+            </ResultMapping>
+          </FunctionImportMapping>
+          <FunctionImportMapping FunctionImportName="sp_renamediagram" FunctionName="bdServiciosDigitalesProyModel.Store.sp_renamediagram" />
+          <FunctionImportMapping FunctionImportName="sp_upgraddiagrams" FunctionName="bdServiciosDigitalesProyModel.Store.sp_upgraddiagrams" />
           <FunctionImportMapping FunctionImportName="ValidarAutenticacionLogin" FunctionName="bdServiciosDigitalesProyModel.Store.ValidarAutenticacionLogin" />
         </EntityContainerMapping>
       </Mapping>

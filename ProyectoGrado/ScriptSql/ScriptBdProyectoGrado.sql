@@ -195,7 +195,32 @@ INSERT INTO [dbo].[PERMISO_DENEGADO_POR_ROL]
 			(4,40)
 
  GO
-	
+
+-- TABLA SUCURSAL, CONTIENE LA INFORMACIÓN DE CADA SUCURSAL DISPONIBLE PARA EL SISTEMA
+create table SUCURSAL(
+id_sucursal int  not null IDENTITY(1,1),
+nombre varchar(20) not null,
+direccion varchar(50),
+ciudad varchar(50),
+telefonoFijo varchar(10),
+telefonoCelular varchar(10),
+primary key (id_sucursal)
+);
+INSERT INTO [dbo].[SUCURSAL]
+           ([nombre]
+           ,[direccion]
+           ,[ciudad]
+           ,[telefonoFijo]
+           ,[telefonoCelular])
+     VALUES
+            ('Portoalegre','Calle 138 No 57B - 01','Bogotá','17539603','3118298869'),
+		    ('Ricaurte','Calle 12 No 29 - 32','Bogotá','15225154','3203151484'),
+		    ('Chapinero','Calle 72 No 13A - 14','Bogotá','15242669','3502156223'),
+			('Bosa','Calle 63 Sur No 73 - 70','Bogotá','16255145','3162512365')	
+GO	
+
+
+
 -- TABLA  ESTADO USUARIO, EL ESTADO EN EL QUE SE ENCUENTRA UN USUARIO (ELIMINADO, ACTIVO, INACTIVO, BLOQUEADO)	
 create table ESTADO_USUARIO(
 id_estado int  not null IDENTITY,
@@ -216,7 +241,7 @@ INSERT INTO [dbo].[ESTADO_USUARIO]
 
 -- TABLA  USUARIO, LOS USUARIOS TANTO EMPLEADOS COMO CLIENTES
 create table USUARIO (
-id_usuario int  not null IDENTITY,
+id_usuario int  not null IDENTITY(1,1),
 id_tipo_Identificacion_usuario int  not null,
 id_estado_usuario int  not null,
 id_rol_usuario int not null,
@@ -240,14 +265,21 @@ primary key (id_usuario)
     	REFERENCES   ROL ( id_rol  ),	
 );
 GO
+
+
+
 -- TABLA  ESCALADO, A QUE USUARIO SE LE ESCALA LA SOLICITUD
 create table ESCALADO(
 id_escalado int not null,
 id_usuario_escalado int,
+id_sucursal_escalado int,
 primary key (id_escalado),
 	CONSTRAINT  fk_usuario_escalado
 			FOREIGN KEY ( id_usuario_escalado  )
-			REFERENCES   USUARIO ( id_usuario  )			
+			REFERENCES   USUARIO ( id_usuario  ),
+	CONSTRAINT  fk_sucursal_escalado
+			FOREIGN KEY ( id_sucursal_escalado  )
+			REFERENCES   SUCURSAL ( id_sucursal  )			
 );
 GO
 
@@ -273,7 +305,8 @@ CREATE PROCEDURE AgregarUsuario
 @correo VARCHAR(50),
 @sexo CHAR(1),
 @username VARCHAR(15),
-@Passwd nVARCHAR(50)
+@Passwd nVARCHAR(50),
+@idSucursal int
 as
 BEGIN 
 DECLARE @idusu int;
@@ -283,33 +316,33 @@ VALUES (@tipoIdent,@estado,@rol,@identif,@apellidos,@nombres,@direccion,@correo,
 SET @idusu = @@IDENTITY;
 IF(@rol<>1)
 	BEGIN
-		INSERT INTO ESCALADO (id_escalado,id_usuario_escalado) VALUES (@idusu,@idusu);
+		INSERT INTO ESCALADO (id_escalado,id_usuario_escalado,id_sucursal_escalado) VALUES (@idusu,@idusu,@idSucursal);
 		INSERT INTO VALIDAR_USUARIO_LOGUEADO (idEmpleado,estado) VALUES (@idusu,'NoActivo');
 	END
 END
 GO
 
-exec AgregarUsuario 1,2,2,'1111111111','Servicios Digitales','System','No Address','system@gmail.com','M','system','systemServiciosDigitales'
+exec AgregarUsuario 1,2,2,'1111111111','Servicios Digitales','System','No Address','system@gmail.com','M','system','systemServiciosDigitales',null
 go
-exec AgregarUsuario 1,1,2,'1020727312','Munoz Vargas','Jonathan','Calle 123 No 34 - 34','jomuva@gmail.com','M','jomuva','jomuva'
+exec AgregarUsuario 1,1,2,'1020727312','Munoz Vargas','Jonathan','Calle 123 No 34 - 34','jomuva@gmail.com','M','jomuva','jomuva',null
 go
-exec AgregarUsuario 1,1,3,'1094572195','Ortiz Ortiz','Carlos Daniel','Calle 45 No 56 - 56','carlos5ort@hotmail.com','M','cortiz','cortiz'
+exec AgregarUsuario 1,1,3,'1094572195','Ortiz Ortiz','Carlos Daniel','Calle 45 No 56 - 56','carlos5ort@hotmail.com','M','cortiz','cortiz',1
 go
-exec AgregarUsuario 1,1,4,'79145807','Russo Rodriguez','Oswaldo','Calle 138 NO 57b-01','visionspd@gmail.com','M','oswaldorusso','oswaldorusso'
+exec AgregarUsuario 1,1,4,'79145807','Russo Rodriguez','Oswaldo','Calle 138 NO 57b-01','visionspd@gmail.com','M','oswaldorusso','oswaldorusso',1
 go
-exec AgregarUsuario 1,1,1,'54151221','perez ortiz','andres','Calle 112 No 23 - 56','aperez@hotmail.com','M','aperez','aperez'
+exec AgregarUsuario 1,1,1,'54151221','perez ortiz','andres','Calle 112 No 23 - 56','aperez@hotmail.com','M','aperez','aperez',null
 go
-exec AgregarUsuario 1,1,1,'1532156513','guevara parra','lorena','Calle 432 No 23 - 56','lorena@hotmail.com','F','lguevara','lguevara'
+exec AgregarUsuario 1,1,1,'1532156513','guevara parra','lorena','Calle 432 No 23 - 56','lorena@hotmail.com','F','lguevara','lguevara',null
 go
-exec AgregarUsuario 1,1,1,'51332514','Parra Mican','Daniela','Calle 165 No 23 - 56','dparra@hotmail.com','F','dparra','dparra'
+exec AgregarUsuario 1,1,1,'51332514','Parra Mican','Daniela','Calle 165 No 23 - 56','dparra@hotmail.com','F','dparra','dparra',null
 go
-exec AgregarUsuario 1,1,1,'79515121','mendez mendez','felipe','Calle 54 No 23 - 56','fmendez@hotmail.com','M','fmendez','fmendez'
+exec AgregarUsuario 1,1,1,'79515121','mendez mendez','felipe','Calle 54 No 23 - 56','fmendez@hotmail.com','M','fmendez','fmendez',null
 go
-exec AgregarUsuario 1,1,1,'52152251','lopez garzon','camila','Calle 34 No 23 - 56','cgarzon@hotmail.com','F','cgarzon','cgarzon'
+exec AgregarUsuario 1,1,1,'52152251','lopez garzon','camila','Calle 34 No 23 - 56','cgarzon@hotmail.com','F','cgarzon','cgarzon',null
 go
-exec AgregarUsuario 1,1,1,'64555212','gonzalez perez','juan','Calle 23 No 23 - 56','jgonzalez@hotmail.com','M','jgonzalez','jgonzalez'
+exec AgregarUsuario 1,1,1,'64555212','gonzalez perez','juan','Calle 23 No 23 - 56','jgonzalez@hotmail.com','M','jgonzalez','jgonzalez',null
 go
-exec AgregarUsuario 1,1,1,'1016251441','rodriguez ortiz','manuel','Calle 112 No 23 - 56','mrodriguez@hotmail.com','M','mrodriguez','mrodriguez'
+exec AgregarUsuario 1,1,1,'1016251441','rodriguez ortiz','manuel','Calle 112 No 23 - 56','mrodriguez@hotmail.com','M','mrodriguez','mrodriguez',null
 go
 
 DELETE VALIDAR_USUARIO_LOGUEADO WHERE idEmpleado = 1
@@ -690,23 +723,43 @@ INSERT INTO [dbo].[PRODUCTO]
 create table INVENTARIO(
 id_inventario int not null IDENTITY,
 id_producto_inventario int not null,
+id_sucursal_inventario int,
 cantidad_existencias int not null,
 fecha_actualizacion_inventario DATETIME not null,
 primary key (id_inventario),
 	CONSTRAINT  fk_producto_inventario
 			FOREIGN KEY ( id_producto_inventario  )
-			REFERENCES   PRODUCTO ( id_producto  ),			
+			REFERENCES   PRODUCTO ( id_producto  ),	
+	CONSTRAINT  fk_sucursal_inventario
+			FOREIGN KEY ( id_sucursal_inventario  )
+			REFERENCES   SUCURSAL ( id_sucursal  )		
 );
 INSERT INTO [dbo].[INVENTARIO]
            ([id_producto_inventario]
+       	   ,[id_sucursal_inventario]
 		   ,[cantidad_existencias]
 		   ,[fecha_actualizacion_inventario])
      VALUES
-            (1,20,'2017-01-01 02:57:24.480'),
-			(2,10,'2017-01-01 02:57:24.480'),
-			(3,15,'2017-01-01 02:57:24.480'),
-			(4,13,'2017-01-01 02:57:24.480'),
-			(5,5,'2017-01-01 02:57:24.480')
+            (1,1,20,'2017-01-01 02:57:24.480'),
+			(2,1,10,'2017-01-01 02:57:24.480'),
+			(3,1,15,'2017-01-01 02:57:24.480'),
+			(4,1,13,'2017-01-01 02:57:24.480'),
+			(5,1,5,'2017-01-01 02:57:24.480'),
+			(1,2,12,'2017-01-01 02:57:24.480'),
+			(2,2,1,'2017-01-01 02:57:24.480'),
+			(3,2,3,'2017-01-01 02:57:24.480'),
+			(4,2,14,'2017-01-01 02:57:24.480'),
+			(5,2,4,'2017-01-01 02:57:24.480'),
+			(1,3,1,'2017-01-01 02:57:24.480'),
+			(2,3,2,'2017-01-01 02:57:24.480'),
+			(3,3,10,'2017-01-01 02:57:24.480'),
+			(4,3,12,'2017-01-01 02:57:24.480'),
+			(5,3,5,'2017-01-01 02:57:24.480'),
+			(1,4,8,'2017-01-01 02:57:24.480'),
+			(2,4,5,'2017-01-01 02:57:24.480'),
+			(3,4,6,'2017-01-01 02:57:24.480'),
+			(4,4,3,'2017-01-01 02:57:24.480'),
+			(5,4,9,'2017-01-01 02:57:24.480')
 		
 	GO	
 	
@@ -745,23 +798,43 @@ INSERT INTO [dbo].[HISTORICO_INVENTARIO]
 create table INVENTARIO_BAJAS(
 id_inventario_bajas int not null IDENTITY,
 id_producto_inventario int not null,
+id_sucursal_inventario int,
 cantidad_existencias int not null,
 fecha_actualizacion_inventario DATETIME not null,
 primary key (id_inventario_bajas),
 	CONSTRAINT  fk_producto_inventario_bajas
 			FOREIGN KEY ( id_producto_inventario  )
-			REFERENCES   PRODUCTO ( id_producto  ),			
+			REFERENCES   PRODUCTO ( id_producto  ),	
+	CONSTRAINT  fk_sucursal_inventario_bajas
+			FOREIGN KEY ( id_sucursal_inventario  )
+			REFERENCES   SUCURSAL ( id_sucursal  )		
 );
 INSERT INTO [dbo].[INVENTARIO_BAJAS]
            ([id_producto_inventario]
+           ,[id_sucursal_inventario]
 		   ,[cantidad_existencias]
 		   ,[fecha_actualizacion_inventario])
      VALUES
-            (1,5,'2017-04-01 22:06:35.920'),
-			(2,5,'2017-04-02 22:06:35.920'),
-			(3,5,'2017-04-05 22:06:35.920'),
-			(4,5,'2017-04-06 22:06:35.920'),
-			(5,1,'2017-04-07 22:06:35.920')
+            (1,1,5,'2017-04-01 22:06:35.920'),
+			(2,1,5,'2017-04-02 22:06:35.920'),
+			(3,1,5,'2017-04-05 22:06:35.920'),
+			(4,1,5,'2017-04-06 22:06:35.920'),
+			(5,1,1,'2017-04-07 22:06:35.920'),
+			(1,2,2,'2017-01-01 02:57:24.480'),
+			(2,2,3,'2017-01-01 02:57:24.480'),
+			(3,2,2,'2017-01-01 02:57:24.480'),
+			(4,2,4,'2017-01-01 02:57:24.480'),
+			(5,2,1,'2017-01-01 02:57:24.480'),
+			(1,3,2,'2017-01-01 02:57:24.480'),
+			(2,3,2,'2017-01-01 02:57:24.480'),
+			(3,3,3,'2017-01-01 02:57:24.480'),
+			(4,3,3,'2017-01-01 02:57:24.480'),
+			(5,3,4,'2017-01-01 02:57:24.480'),
+			(1,4,1,'2017-01-01 02:57:24.480'),
+			(2,4,6,'2017-01-01 02:57:24.480'),
+			(3,4,4,'2017-01-01 02:57:24.480'),
+			(4,4,0,'2017-01-01 02:57:24.480'),
+			(5,4,4,'2017-01-01 02:57:24.480')
 		
 	GO	
 	
@@ -852,14 +925,15 @@ INSERT INTO [dbo].[DETALLE_FACTURA_SOLICITUD]
 	GO
 --PROCEDIMIENTO ALMACENADO PARA INSERTAR PRODUCTO
 
-	CREATE PROC InsertarProducto
+CREATE PROCEDURE InsertarProducto
 @id_estado_prod int,
 @id_categoria int,
 @nombre_prod VARCHAR(50),
 @precio_costo DECIMAL(20,4),
 @precio_venta DECIMAL (20,4), 
 @identifEmpleado VARCHAR (15),
-@cantidad int
+@cantidad int,
+@id_sucursal int
 as
 BEGIN 
 	IF NOT EXISTS(SELECT nombre_producto FROM PRODUCTO WHERE nombre_producto =@nombre_prod)
@@ -870,20 +944,22 @@ BEGIN
 		declare  @id_prod int,
 				 @idInventario int,
 				 @idEmpleado int,
+				 @nombreSucursal VARCHAR(20),
 				 @fecha DATETIME;
 		SET @fecha =  (SELECT CURRENT_TIMESTAMP);		 
 		SET @id_prod = (SELECT id_producto FROM PRODUCTO WHERE nombre_producto = @nombre_prod);
 		SET @idEmpleado = (SELECT id_usuario FROM USUARIO WHERE identificacion = @identifEmpleado);
+		SET @nombreSucursal = (SELECT nombre FROM SUCURSAL WHERE id_sucursal = @id_sucursal);
 
-		INSERT INTO INVENTARIO (id_producto_inventario,cantidad_existencias,fecha_actualizacion_inventario)
-		VALUES (@id_prod,@cantidad,@fecha);
+		INSERT INTO INVENTARIO (id_producto_inventario,id_sucursal_inventario,cantidad_existencias,fecha_actualizacion_inventario)
+		VALUES (@id_prod,@id_sucursal,@cantidad,@fecha);
 		SET @idInventario = @@IDENTITY;
 
-		INSERT INTO INVENTARIO_BAJAS (id_producto_inventario,cantidad_existencias,fecha_actualizacion_inventario)
-		VALUES (@id_prod,0,@fecha);
+		INSERT INTO INVENTARIO_BAJAS (id_producto_inventario,id_sucursal_inventario,cantidad_existencias,fecha_actualizacion_inventario)
+		VALUES (@id_prod,@id_sucursal,0,@fecha);
 
 		INSERT INTO HISTORICO_INVENTARIO (id_empleado,id_inventario_historico,fecha,descripcion)
-		VALUES (@idEmpleado,@idInventario,@fecha,'Se agrega el producto '+@nombre_prod+' y se crea su inventario con una cantidad inicial en stock de '+cast(@cantidad as varchar) )
+		VALUES (@idEmpleado,@idInventario,@fecha,'Se agrega el producto '+@nombre_prod+' y se crea su inventario con una cantidad inicial en stock de '+cast(@cantidad as varchar)+' para la sucursal '+@nombreSucursal)
 	END
 	
 SELECT @@ROWCOUNT;

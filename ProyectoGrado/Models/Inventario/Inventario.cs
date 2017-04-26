@@ -14,6 +14,7 @@ namespace ServiciosDigitalesProy.Models
             producto = new Producto();
             historico = new HistoricoInventario();
             fecha = new DateTime();
+            sucursal = new Sucursal();
         }
 
         public int id_inventario { get; set; }
@@ -25,7 +26,10 @@ namespace ServiciosDigitalesProy.Models
 
         public DateTime fecha { get; set; }
 
+        public Sucursal sucursal { get; set; }
+
         public HistoricoInventario historico { get; set; }
+
 
 
     }

@@ -358,7 +358,7 @@ namespace ServiciosDigitalesProy.Catalogos
                                     (
                                          cliente.TelefonoFijo, cliente.TelefonoCelular, cliente.username, cliente.email,
                                          cliente.identificacion, cliente.nombres, cliente.apellidos, cliente.direccion,
-                                         cliente.sexo, cliente.password, cliente.idRol, cliente.idEstado, cliente.idTipoIdentificacion,
+                                         cliente.sexo, cliente.password, cliente.idRol, cliente.idEstado, cliente.idTipoIdentificacion,cliente.sucursal.id_sucursal,
                                         out resultado, out tipoResultado
                                     );
 

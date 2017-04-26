@@ -27,12 +27,12 @@ namespace Persistencia.ProductoDatos
         /// <param name="resultado"></param>
         /// <param name="tipoResultado"></param>
         public object InsertarProducto(int estadoProd, int idCategoria,string nombre, double precioCosto, double precioVenta, 
-            int cantidad,string identifEmpleado, out string resultado, out string tipoResultado)
+            int cantidad,string identifEmpleado, int idSucursal, out string resultado, out string tipoResultado)
         {
             object result = null;
             try
             {
-                result = conexion.conexiones.InsertarProducto(estadoProd,idCategoria,nombre,Convert.ToDecimal(precioCosto),Convert.ToDecimal(precioVenta),identifEmpleado,cantidad).ToList();
+                result = conexion.conexiones.InsertarProducto(estadoProd,idCategoria,nombre,Convert.ToDecimal(precioCosto),Convert.ToDecimal(precioVenta),identifEmpleado,cantidad, idSucursal).ToList();
                 conexion.conexiones.SaveChanges();
 
                 resultado = "Se ha agregado el producto exitosamente";

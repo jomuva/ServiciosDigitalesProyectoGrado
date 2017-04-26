@@ -171,6 +171,7 @@
     <Compile Include="Models\Elemento\CategoriaElemento.cs" />
     <Compile Include="Models\Comun\RolesPermisos.cs" />
     <Compile Include="Models\Comun\ValidadorPermisos.cs" />
+    <Compile Include="Models\Inventario\Sucursal.cs" />
     <Compile Include="Models\Venta\DetalleFacturaProducto.cs" />
     <Compile Include="Models\Venta\DetalleFacturaSolicitud.cs" />
     <Compile Include="Models\Venta\EstadoFactura.cs" />

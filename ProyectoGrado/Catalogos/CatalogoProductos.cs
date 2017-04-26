@@ -39,7 +39,7 @@ namespace ProyectoGrado.Catalogos
         {
            object oResult = productoDatos.InsertarProducto(inventario.producto.estado.id, inventario.producto.categoria.id, inventario.producto.nombre,
                                             inventario.producto.precio_costo, inventario.producto.precio_venta,
-                                            inventario.cantidadExistencias,SessionHelper.GetUser().ToString(),
+                                            inventario.cantidadExistencias,SessionHelper.GetUser().ToString(),inventario.sucursal.id_sucursal,
                                             out resultado,out tipoResultado);
 
             int result = 0;

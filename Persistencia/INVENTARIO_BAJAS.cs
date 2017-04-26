@@ -22,11 +22,13 @@ namespace Persistencia
     
         public int id_inventario_bajas { get; set; }
         public int id_producto_inventario { get; set; }
+        public Nullable<int> id_sucursal_inventario { get; set; }
         public int cantidad_existencias { get; set; }
         public System.DateTime fecha_actualizacion_inventario { get; set; }
     
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
         public virtual ICollection<HISTORICO_INVENTARIO_BAJAS> HISTORICO_INVENTARIO_BAJAS { get; set; }
         public virtual PRODUCTO PRODUCTO { get; set; }
+        public virtual SUCURSAL SUCURSAL { get; set; }
     }
 }

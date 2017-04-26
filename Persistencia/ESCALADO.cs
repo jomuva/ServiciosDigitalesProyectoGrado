@@ -23,11 +23,13 @@ namespace Persistencia
     
         public int id_escalado { get; set; }
         public Nullable<int> id_usuario_escalado { get; set; }
+        public Nullable<int> id_sucursal_escalado { get; set; }
     
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
         public virtual ICollection<FACTURA> FACTURA { get; set; }
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
         public virtual ICollection<SOLICITUD> SOLICITUD { get; set; }
+        public virtual SUCURSAL SUCURSAL { get; set; }
         public virtual USUARIO USUARIO { get; set; }
     }
 }

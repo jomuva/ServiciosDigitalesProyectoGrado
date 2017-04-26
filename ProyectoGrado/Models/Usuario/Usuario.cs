@@ -93,7 +93,10 @@ namespace ServiciosDigitalesProy.Models
         public int idRol { get; set; }
         public int idEstado { get; set; }
         public int idTipoIdentificacion { get; set; }
+        public Sucursal sucursal { get; set; }
         #region Atributos para consulta en vista
+
+        public SelectList sucursalesSelect { get; set; }
         public SelectList tiposIdentificacion { get; set; }
         public SelectList tiposEstado { get; set; }
         public SelectList Roles { get; set; }

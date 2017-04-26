@@ -311,7 +311,7 @@ namespace Persistencia.UsuarioDatos
                 {
                     conexion.conexiones.AgregarUsuario( idTipoIdentificacion,idEstado,idRol,
                                                         identificacion,apellidos,nombres,
-                                                        direccion,email,sexo,username,password);
+                                                        direccion,email,sexo,username,password, 0);
                     conexion.conexiones.SaveChanges();
 
                     var idUsu = from u in conexion.conexiones.USUARIO
@@ -644,7 +644,7 @@ namespace Persistencia.UsuarioDatos
         public void AdicionarEmpleado(
                             string TelefonoFijo, string TelefonoCelular, string username, string email,
                             string identificacion, string nombres, string apellidos, string direccion,
-                            string sexo, string password, int idRol, int idEstado, int idTipoIdentificacion,
+                            string sexo, string password, int idRol, int idEstado, int idTipoIdentificacion, int idSucursal,
                             out string resultado, out string tipoResultado)
         {
             TelefonoFijo = TelefonoFijo == null ? "" : TelefonoFijo;
@@ -679,7 +679,7 @@ namespace Persistencia.UsuarioDatos
                     //conexion.conexiones.USUARIO.Add(USER);
                     conexion.conexiones.AgregarUsuario(idTipoIdentificacion, idEstado, idRol,
                                                         identificacion, apellidos, nombres,
-                                                        direccion, email, sexo, username, password);
+                                                        direccion, email, sexo, username, password, idSucursal);
                     conexion.conexiones.SaveChanges();
 
                     var idUsu = from u in conexion.conexiones.USUARIO

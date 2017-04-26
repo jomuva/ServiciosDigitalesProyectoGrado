@@ -232,7 +232,16 @@
     }
 </div>
 @section Scripts {
-    <script src="~/Xcore/Scripts/Modales/ModalElemento.js"></script>
+    @*<script src="~/Xcore/Scripts/Modales/ModalElemento.js"></script>*@
+   @*<script src="@Url.Content("~/Xcore/Scripts/Modales/ModalElemento.js")"></script>*@
+    <script>
+        src="@Url.Content("~/Xcore/Scripts/jquery-1.10.2.js")">
+
+        $("#btnBuscarCliente").click(function (eve) {
+            $("#modal-content1").load("/Ventas/BuscarClientes");
+        });
+
+    </script>
     @Scripts.Render("~/bundles/jqueryval")
 }
 

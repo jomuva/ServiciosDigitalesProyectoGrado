@@ -64,7 +64,8 @@ namespace ServiciosDigitalesProy.Models
         [Required(AllowEmptyStrings = false, ErrorMessage = "El campo de \"Teléfono Celular\" es obligatorio.")]
         public string TelefonoCelular { get; set; }
 
-        [RegularExpression(@"^[0-9a-zA-ZáéíóÚ.ÁÉÍÓÚ#-. ]{1,40}$", ErrorMessage = "Los Caracteres especiales no son permitidos.")]
+        //[RegularExpression(@"^[0-9a-zA-ZáéíóÚ.ÁÉÍÓÚ#-. ]{1,40}$", ErrorMessage = "Los Caracteres especiales no son permitidos.")]
+        [RegularExpression(@"^[0-9a-zA-ZáéíóÚ.ÁÉÍÓÚ@. ]{1,40}$", ErrorMessage = "Los Caracteres especiales no son permitidos.")]
         public string direccion { get; set; }
 
 

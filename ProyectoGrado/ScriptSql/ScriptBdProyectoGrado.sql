@@ -242,7 +242,7 @@ primary key (id_usuario)
 GO
 -- TABLA  ESCALADO, A QUE USUARIO SE LE ESCALA LA SOLICITUD
 create table ESCALADO(
-id_escalado int not null IDENTITY,
+id_escalado int not null,
 id_usuario_escalado int,
 primary key (id_escalado),
 	CONSTRAINT  fk_usuario_escalado
@@ -283,7 +283,7 @@ VALUES (@tipoIdent,@estado,@rol,@identif,@apellidos,@nombres,@direccion,@correo,
 SET @idusu = @@IDENTITY;
 IF(@rol<>1)
 	BEGIN
-		INSERT INTO ESCALADO (id_usuario_escalado) VALUES (@idusu);
+		INSERT INTO ESCALADO (id_escalado,id_usuario_escalado) VALUES (@idusu,@idusu);
 		INSERT INTO VALIDAR_USUARIO_LOGUEADO (idEmpleado,estado) VALUES (@idusu,'NoActivo');
 	END
 END

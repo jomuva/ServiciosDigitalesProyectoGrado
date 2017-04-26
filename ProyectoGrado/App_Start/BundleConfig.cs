@@ -21,6 +21,8 @@ namespace ProyectoGrado
 
             bundles.Add(new ScriptBundle("~/bundles/Personalizacion").Include(
                         "~/Xcore/Scripts/PersonalizadosJS.js",
+                        "~/Xcore/Scripts/Modales/ModalElemento.js",
+                        "~/Xcore/Scripts/jquery-1.10.2",
                         "~/Xcore/Scripts/Formulario/index.js"));
 
             bundles.Add(new ScriptBundle("~/bundles/bootstrap").Include(
@@ -31,7 +33,6 @@ namespace ProyectoGrado
                       "~/Xcore/Scripts/dataTables.responsive.js",
                       "~/Xcore/Scripts/notify.js",
                       "~/Xcore/Scripts/notify.min.js",
-                      "~/Xcore/Scripts/jquery-1.10.2",
                       "~/Xcore/Scripts/app.js",
                       "~/Xcore/Scripts/vendor.js",
                       "~/Xcore/Scripts/jquery.bootstrap-growl.js",

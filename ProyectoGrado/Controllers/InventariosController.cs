@@ -65,10 +65,11 @@ namespace ServiciosDigitalesProy.Controllers
             else
             {
                 string res = "", tipoRes = "";
-                List<Producto> prod =  CatalogoProductos.GetInstance().ConsultarProductos("",ref res,ref tipoRes);
+                List<Producto> prod = CatalogoProductos.GetInstance().ConsultarProductos("", ref res, ref tipoRes);
                 int numProd = prod.Count;
                 ViewBag.cantidadProductos = numProd;
                 ViewBag.nombreSucursal = inventarios.Count > 0 ? inventarios[0].sucursal.nombre : "";
+                Session["nombreSucursalInventario"] = ViewBag.nombreSucursal;
                 ViewBag.idSucursal = id;
                 Session["idSucursal"] = id;
                 return View(inventarios);
@@ -110,7 +111,7 @@ namespace ServiciosDigitalesProy.Controllers
         {
             //identificacion = identificacion == "0" ? "" : identificacion;
             string resultado = "", tipoResultado = "";
-            CatalogoInventarios.GetInstance().AsignarEspacioProductoASucursal(id,(int)Session["idSucursal"], ref resultado, ref tipoResultado);
+            CatalogoInventarios.GetInstance().AsignarEspacioProductoASucursal(id, (int)Session["idSucursal"], ref resultado, ref tipoResultado);
 
             TempData["mensaje"] = resultado;
             TempData["estado"] = tipoResultado;
@@ -131,6 +132,93 @@ namespace ServiciosDigitalesProy.Controllers
             ViewBag.idSucursal = id;
             return View("ConsultarInventarioXSucursal", inventarios);
         }
+
+
+
+        [HttpGet]
+        public ActionResult TrasladarProductoASucursal(int id)
+        {
+            string resultado = "", tipoResultado = "";
+            List<Inventario> inventarios = CatalogoInventarios.GetInstance().ConsultarInventarios("", ref resultado, ref tipoResultado);
+            Inventario inventario = inventarios.Find(x => x.id_inventario == id);
+            inventario.producto.sucursalesSelect = new SelectList(CatalogoProductos.GetInstance().ConsultarSucursales(), "id_sucursal", "nombre");
+            ViewBag.nombreSucursal = (string)Session["nombreSucursalInventario"];
+            return View(inventario);
+
+        }
+
+        /// <summary>
+        /// TRASLADA UN PRODUCTO DE UNA SUCURSAL A OTRA 
+        /// </summary>
+        /// <param name="inventario"></param>
+        /// <returns></returns>
+        [HttpPost]
+        public ActionResult TrasladarProductoASucursal(Inventario inventario)
+        {
+            string resultado = "", tipoResultado = "";
+            int idSucursalActual = (int)Session["idSucursal"];
+
+            if(inventario.cantidadExistencias == 0)
+            {
+                TempData["mensaje"] = "No se pueden realizar traslados del producto.  Verifique la cantidad disponible en inventario";
+                TempData["estado"] = "danger";
+
+                string res = "", tipoRes = "";
+                List<Producto> prod = CatalogoProductos.GetInstance().ConsultarProductos("", ref res, ref tipoRes);
+                int numProd = prod.Count;
+                ViewBag.cantidadProductos = numProd;
+
+                List<Inventario> inventarios;
+                inventarios = CatalogoInventarios.GetInstance().ConsultarProductosXSucursal((int)Session["idSucursal"], ref resultado, ref tipoResultado);
+                ViewBag.nombreSucursal = inventarios.Count > 0 ? inventarios[0].sucursal.nombre : "";
+                ViewBag.idSucursal = (int)Session["idSucursal"];
+                return View("ConsultarInventarioXSucursal", inventarios);
+            }
+
+            if (Convert.ToInt32(inventario.producto.cantid) < 0)
+            {
+                TempData["mensaje"] = "el valor de la cantidad de unidades a trasladar no puede ser menor a cero";
+                TempData["estado"] = "danger";
+                string res = "", tipoRes = "";
+                List<Inventario> inventarios = CatalogoInventarios.GetInstance().ConsultarInventarios("", ref res, ref tipoRes);
+                Inventario inventarioo = inventarios.Find(x => x.id_inventario == inventario.id_inventario);
+                inventarioo.producto.sucursalesSelect = new SelectList(CatalogoProductos.GetInstance().ConsultarSucursales(), "id_sucursal", "nombre");
+                ViewBag.nombreSucursal = (string)Session["nombreSucursalInventario"];
+                return View(inventarioo);
+            }
+            if (inventario.cantidadExistencias >= Convert.ToInt32(inventario.producto.cantid))
+            {
+
+                CatalogoInventarios.GetInstance().TrasladarProductoASucursal(inventario, idSucursalActual, ref resultado, ref tipoResultado);
+
+
+                TempData["mensaje"] = resultado;
+                TempData["estado"] = tipoResultado;
+
+                string res = "", tipoRes = "";
+                List<Producto> prod = CatalogoProductos.GetInstance().ConsultarProductos("", ref res, ref tipoRes);
+                int numProd = prod.Count;
+                ViewBag.cantidadProductos = numProd;
+
+                List<Inventario> inventarios;
+                inventarios = CatalogoInventarios.GetInstance().ConsultarProductosXSucursal((int)Session["idSucursal"], ref resultado, ref tipoResultado);
+                ViewBag.nombreSucursal = inventarios.Count > 0 ? inventarios[0].sucursal.nombre : "";
+                ViewBag.idSucursal = (int)Session["idSucursal"];
+                return View("ConsultarInventarioXSucursal", inventarios);
+            }else
+            {
+                TempData["mensaje"] = "La cantidad de productos a trasladar debe ser menor o igual a la cantidad de existencias que tiene la sede";
+                TempData["estado"] = "danger";
+                string res = "", tipoRes = "";
+                List<Inventario> inventarios = CatalogoInventarios.GetInstance().ConsultarInventarios("", ref res, ref tipoRes);
+                Inventario inventarioo = inventarios.Find(x => x.id_inventario == inventario.id_inventario);
+                inventarioo.producto.sucursalesSelect = new SelectList(CatalogoProductos.GetInstance().ConsultarSucursales(), "id_sucursal", "nombre");
+                ViewBag.nombreSucursal = (string)Session["nombreSucursalInventario"];
+                return View(inventarioo);
+            }
+
+        }
+
 
 
         [HttpGet]
@@ -182,7 +270,7 @@ namespace ServiciosDigitalesProy.Controllers
 
 
 
-     
+
 
 
         [HttpPost]
@@ -209,10 +297,11 @@ namespace ServiciosDigitalesProy.Controllers
                 List<Inventario> inventarios;
                 inventarios = CatalogoInventarios.GetInstance().ConsultarProductosXSucursal((int)Session["idSucursal"], ref resultado, ref tipoResultado);
                 ViewBag.nombreSucursal = inventarios.Count > 0 ? inventarios[0].sucursal.nombre : "";
+                Session["nombreSucursalInventario"] = ViewBag.nombreSucursal;
                 ViewBag.idSucursal = (int)Session["idSucursal"];
                 return View("ConsultarInventarioXSucursal", inventarios);
 
-              
+
             }
         }
 
@@ -296,8 +385,11 @@ namespace ServiciosDigitalesProy.Controllers
         [Permiso(Permiso = RolesPermisos.puede_agregar_bajas_inventario)]
         public ActionResult AdicionarBajas(int id)
         {
-            Inventario inventario = new Inventario();
-            inventario.producto.id_producto = id;
+            string resultado = "", tipoResultado = "";
+            List<Inventario> inventarios;
+            inventarios = CatalogoInventarios.GetInstance().ConsultarInventarioBajas(ref resultado, ref tipoResultado);
+            Inventario inventario = inventarios.Find(x => x.id_inventario == id);
+
 
             return View("AdicionarBajas", inventario);
         }

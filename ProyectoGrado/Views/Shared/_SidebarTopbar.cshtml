@@ -73,45 +73,45 @@
                 </ul>
             </li>
             @*<li class="dropdown">
-                <a href="#" class="dropdown-toggle" data-toggle="dropdown"><i class="fa fa-bell"></i> <b class="caret"></b></a>
-                <ul class="dropdown-menu alert-dropdown">
-                    <li>
-                        <a href="#">Alert Name <span class="label label-default">Alert Badge</span></a>
-                    </li>
-                    <li>
-                        <a href="#">Alert Name <span class="label label-primary">Alert Badge</span></a>
-                    </li>
-                    <li>
-                        <a href="#">Alert Name <span class="label label-success">Alert Badge</span></a>
-                    </li>
-                    <li>
-                        <a href="#">Alert Name <span class="label label-info">Alert Badge</span></a>
-                    </li>
-                    <li>
-                        <a href="#">Alert Name <span class="label label-warning">Alert Badge</span></a>
-                    </li>
-                    <li>
-                        <a href="#">Alert Name <span class="label label-danger">Alert Badge</span></a>
-                    </li>
-                    <li class="divider"></li>
-                    <li>
-                        <a href="#">View All</a>
-                    </li>
-                </ul>
-            </li>*@
+                    <a href="#" class="dropdown-toggle" data-toggle="dropdown"><i class="fa fa-bell"></i> <b class="caret"></b></a>
+                    <ul class="dropdown-menu alert-dropdown">
+                        <li>
+                            <a href="#">Alert Name <span class="label label-default">Alert Badge</span></a>
+                        </li>
+                        <li>
+                            <a href="#">Alert Name <span class="label label-primary">Alert Badge</span></a>
+                        </li>
+                        <li>
+                            <a href="#">Alert Name <span class="label label-success">Alert Badge</span></a>
+                        </li>
+                        <li>
+                            <a href="#">Alert Name <span class="label label-info">Alert Badge</span></a>
+                        </li>
+                        <li>
+                            <a href="#">Alert Name <span class="label label-warning">Alert Badge</span></a>
+                        </li>
+                        <li>
+                            <a href="#">Alert Name <span class="label label-danger">Alert Badge</span></a>
+                        </li>
+                        <li class="divider"></li>
+                        <li>
+                            <a href="#">View All</a>
+                        </li>
+                    </ul>
+                </li>*@
             <li class="dropdown">
                 <a href="#" class="dropdown-toggle" data-toggle="dropdown"><i class="fa fa-user"></i> @SessionHelper.GetNombreUsuarioLogueado()<b class="caret"></b></a>
                 <ul class="dropdown-menu">
                     @*<li>
-                        <a href="#"><i class="fa fa-fw fa-user"></i> Profile</a>
-                    </li>
-                    <li>
-                        <a href="#"><i class="fa fa-fw fa-envelope"></i> Inbox</a>
-                    </li>
-                    <li>
-                        <a href="#"><i class="fa fa-fw fa-gear"></i> Settings</a>
-                    </li>
-                    <li class="divider"></li>*@
+                            <a href="#"><i class="fa fa-fw fa-user"></i> Profile</a>
+                        </li>
+                        <li>
+                            <a href="#"><i class="fa fa-fw fa-envelope"></i> Inbox</a>
+                        </li>
+                        <li>
+                            <a href="#"><i class="fa fa-fw fa-gear"></i> Settings</a>
+                        </li>
+                        <li class="divider"></li>*@
 
                     @if (SessionHelper.ExistUserInSession())
                     {
@@ -151,25 +151,30 @@
                     </ul>
                 </li>
                 <li>
-                    <a href="javascript:;" data-toggle="collapse" data-target="#usuarios"><i class="fa fa-fw fa-dashboard"></i> Usuarios <i class="fa fa-fw fa-caret-down"></i></a>
-                    <ul id="usuarios" class="collapse">
+                    <a href="javascript:;" data-toggle="collapse" data-target="#clientes"><i class="fa fa-fw fa-users"></i> Clientes <i class="fa fa-fw fa-caret-down"></i></a>
+                    <ul id="clientes" class="collapse">
                         <li>
                             @Html.ActionLink("Adicionar Cliente", "AdicionarCliente", "Usuarios")
                         </li>
                         <li>
                             @Html.ActionLink("Consultar Clientes", "ConsultarClientes", "Usuarios")
                         </li>
-                        @if (ValidadorPermisos.TienePermiso(RolesPermisos.Puede_consultar_empleado))
-                        {
+                    </ul>
+                </li>
+                @if (ValidadorPermisos.TienePermiso(RolesPermisos.Puede_consultar_empleado))
+                {
+                    <li>
+                        <a href="javascript:;" data-toggle="collapse" data-target="#empleados"><i class="fa fa-fw fa-user-md"></i> Empleados <i class="fa fa-fw fa-caret-down"></i></a>
+                        <ul id="empleados" class="collapse">
                             <li>
                                 @Html.ActionLink("Adicionar Empleado", "AdicionarEmpleado", "Usuarios")
                             </li>
                             <li>
                                 @Html.ActionLink("Consultar Empleados", "ConsultarEmpleados", "Usuarios")
                             </li>
-                        }
-                    </ul>
-                </li>
+                        </ul>
+                    </li>
+                }
                 <li>
                     <a href="javascript:;" data-toggle="collapse" data-target="#productos"><i class="fa fa-fw fa-desktop"></i> Productos <i class="fa fa-fw fa-caret-down"></i></a>
                     <ul id="productos" class="collapse">

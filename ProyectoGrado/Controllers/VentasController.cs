@@ -114,7 +114,8 @@ namespace ServiciosDigitalesProy.Controllers
         {
             string resultado = "", tipoResultado = "";
             Factura factura = Session["Factura"] as Factura;
-            List<Producto> productos = CatalogoProductos.GetInstance().ConsultarProductos("", ref resultado, ref tipoResultado);
+            //List<Producto> productos = CatalogoProductos.GetInstance().ConsultarProductos("", ref resultado, ref tipoResultado);
+            List<Producto> productos = CatalogoProductos.GetInstance().ConsultarProductosXSucursalSegunEmpleado(ref resultado, ref tipoResultado);
             List<Inventario> inventarios = CatalogoInventarios.GetInstance().ConsultarInventarios("", ref resultado, ref tipoResultado);
 
             List<Producto> productosDisponibles = new List<Producto>();

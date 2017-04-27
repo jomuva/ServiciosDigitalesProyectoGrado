@@ -206,5 +206,34 @@ namespace Persistencia.ProductoDatos
             }
         }
 
+
+        /// <summary>
+        /// CONSULTA LOS PRODUCTOS EXISTENTES EN UNA SUCURSAL Y SU CANTIDAD DEPENDIENDO EL EMPLEADO LOGUEADO
+        /// </summary>
+        /// <param name="idSucursal"></param>
+        /// <param name="resultado"></param>
+        /// <param name="tipoResultado"></param>
+        /// <returns></returns>
+        public object ConsultarProductosXSucursalSegunEmpleado(string identifEmpleado, ref string resultado, ref string tipoResultado)
+        {
+
+            object lista = null;
+            try
+            {
+                var productos = conexion.conexiones.ConsultarProductosXSucursalSegunEmpleado(identifEmpleado).ToList();
+
+                resultado = "Consulta Exitosa";
+                tipoResultado = "info";
+                return productos.ToList();
+            }
+            catch (Exception ex)
+            {
+                resultado = ex.Message;
+                tipoResultado = "danger";
+            }
+
+            return lista;
+        }
+
     }
 }

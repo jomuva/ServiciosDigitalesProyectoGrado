@@ -270,6 +270,8 @@ namespace Persistencia.InventariosDatos
         }
 
 
+     
+
         /// <summary>
         /// CREA UN ESPACIO EN SUCURSAL ESPECIFICA PARA ASIGNARLE CANTIDADES A UN PRODUCTO EN ESPECIAL
         /// </summary>
@@ -295,6 +297,35 @@ namespace Persistencia.InventariosDatos
             }
 
             return result;
+        }
+
+
+        /// <summary>
+        /// TRASLADA UN PRODUCTO DE UNA SUCURSAL A OTRA 
+        /// </summary>
+        /// <param name="idInventarioOrigen"></param>
+        /// <param name="idProducto"></param>
+        /// <param name="cantidadATrasladar"></param>
+        /// <param name="idSucursalAtrasladar"></param>
+        /// <param name="idSucursalActual"></param>
+        /// <param name="identifEmpleado"></param>
+        /// <param name="resultado"></param>
+        /// <param name="tipoResultado"></param>
+        public void TrasladarProductoASucursal(int idInventarioOrigen,int idProducto,int cantidadATrasladar,int idSucursalAtrasladar,
+                                                 int idSucursalActual, string identifEmpleado, ref string resultado, ref string tipoResultado)
+        {
+            try
+            {
+                conexion.conexiones.TrasladarProductoASucursal(idInventarioOrigen,idProducto,cantidadATrasladar,idSucursalAtrasladar,
+                                                                idSucursalActual,identifEmpleado);
+                resultado = "Se ha realizado el traslado del producto exitosamente";
+                tipoResultado = "success";
+            }
+            catch (Exception e)
+            {
+                resultado = e.Message;
+                tipoResultado = "danger";
+            }
         }
 
 

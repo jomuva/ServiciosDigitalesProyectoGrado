@@ -204,6 +204,51 @@ namespace ProyectoGrado.Catalogos
             productoDatos.CambiarEstadoProducto(producto.estado.id,producto.id_producto , out res, out tipoRes);
         }
 
+
+        /// <summary>
+        /// CONSULTA LOS PRODUCTOS EXISTENTES EN UNA SUCURSAL Y SU CANTIDAD DEPENDIENDO EL EMPLEADO LOGUEADO
+        /// </summary>
+        /// <param name="idSucursal"></param>
+        /// <param name="resultado"></param>
+        /// <param name="tipoResultado"></param>
+        /// <returns></returns>
+        public List<Producto> ConsultarProductosXSucursalSegunEmpleado(ref string resultado, ref string tipoResultado)
+        {
+            object oProductos = null;
+            string dynObj;
+            dynamic dyn;
+            List<Producto> listaProductos = new List<Producto>();
+
+            oProductos = productoDatos.ConsultarProductosXSucursalSegunEmpleado(SessionHelper.GetUser().ToString(), ref resultado, ref tipoResultado);
+
+            try
+            {
+                dynObj = JsonConvert.SerializeObject(oProductos);
+                dyn = JsonConvert.DeserializeObject(dynObj);
+
+                foreach (var item in dyn)
+                {
+                    listaProductos.Add(new Producto
+                    {
+                        id_producto = item.id_producto,
+                        nombre = item.nombre_producto,
+                        precio_costo = item.precio_costo,
+                        precio_venta = item.precio_venta,
+                        cantid = item.cantidad_existencias,
+                    });
+                }
+
+            }
+            catch (Exception e)
+            {
+                resultado = e.Message;
+                tipoResultado = "danger";
+            }
+            return listaProductos;
+        }
+
+
+
     }
 
 

@@ -10,14 +10,15 @@
 namespace Persistencia
 {
     using System;
-    using System.Collections.Generic;
     
-    public partial class sysdiagrams
+    public partial class ConsultarProductosXSucursalSegunEmpleado_Result
     {
-        public string name { get; set; }
-        public int principal_id { get; set; }
-        public int diagram_id { get; set; }
-        public Nullable<int> version { get; set; }
-        public byte[] definition { get; set; }
+        public int id_producto { get; set; }
+        public string nombre_producto { get; set; }
+        public Nullable<decimal> precio_costo { get; set; }
+        public Nullable<decimal> precio_venta { get; set; }
+        public int cantidad_existencias { get; set; }
+        public int id_sucursal { get; set; }
+        public string nombre { get; set; }
     }
 }

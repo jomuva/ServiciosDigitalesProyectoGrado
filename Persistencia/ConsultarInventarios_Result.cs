@@ -19,5 +19,7 @@ namespace Persistencia
         public int cantidad_existencias { get; set; }
         public System.DateTime fecha_actualizacion_inventario { get; set; }
         public string descripcion_estado_producto { get; set; }
+        public int id_sucursal { get; set; }
+        public string nombre { get; set; }
     }
 }

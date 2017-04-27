@@ -55,10 +55,13 @@
                                                         <b>Estado</b>
                                                     </td>
                                                     <td>
+                                                        <b>Sucursal</b>
+                                                    </td>
+                                                    <td>
                                                         <b>Fecha Ultima Actualización</b>
                                                     </td>
                                                     <td>
-                                                        <b>Histórico/Actualizar</b>
+                                                        <b>Histórico</b>
                                                     </td>
                                                 </tr>
                                             </thead>
@@ -79,15 +82,15 @@
                                                             @Html.DisplayFor(modelItem => item.producto.estado.Descripcion)
                                                         </td>
                                                         <td>
+                                                            @Html.DisplayFor(modelItem => item.sucursal.nombre)
+                                                        </td>
+                                                        <td>
                                                             @Html.DisplayFor(modelItem => item.fecha)
                                                         </td>
                                                         <td>
                                                             <div class="row">
                                                                 <a href="@Url.Action("ConsultarHistoricoInventarios"+ViewBag.titulo, null,  new { id = item.id_inventario})">
                                                                     <span><i class="fa fa-history fa-2x" style="padding-right: 40px;padding-left: 20px;"></i></span>
-                                                                </a>
-                                                                <a href="@Url.Action("ActualizarInventarioXProducto", null,  new { id = item.id_inventario})">
-                                                                    <span><i class="fa fa-pencil-square-o fa-2x"></i></span>
                                                                 </a>
                                                             </div>
                                                         </td>

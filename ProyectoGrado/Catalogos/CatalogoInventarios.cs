@@ -67,7 +67,7 @@ namespace ProyectoGrado.Catalogos
                     producto = new Producto((string)item.nombre_producto, (int)item.id_producto_inventario, (string)item.descripcion_estado_producto),
                     cantidadExistencias = item.cantidad_existencias,
                     fecha = item.fecha_actualizacion_inventario,
-
+                    sucursal = new Sucursal((int)item.id_sucursal,(string)item.nombre)
                 });
             }
 
@@ -208,7 +208,8 @@ namespace ProyectoGrado.Catalogos
 
                 }
 
-            }catch(Exception e)
+            }
+            catch (Exception e)
             {
                 resultado = e.Message;
                 tipoResultado = "danger";
@@ -223,7 +224,7 @@ namespace ProyectoGrado.Catalogos
         /// <param name="resultado"></param>
         /// <param name="tipoResultado"></param>
         /// <returns></returns>
-        public List<Inventario> ConsultarProductosXSucursal(int idSucursal,ref string resultado, ref string tipoResultado)
+        public List<Inventario> ConsultarProductosXSucursal(int idSucursal, ref string resultado, ref string tipoResultado)
         {
             object oProductos = null;
             string dynObj;
@@ -245,7 +246,7 @@ namespace ProyectoGrado.Catalogos
                         producto = new Producto((string)item.nombre_producto, (int)item.id_producto, (string)item.descripcion_estado_producto),
                         cantidadExistencias = item.cantidad_existencias,
                         fecha = item.fecha_actualizacion_inventario,
-                        sucursal = new Sucursal((int)item.id_sucursal,(string)item.nombre)
+                        sucursal = new Sucursal((int)item.id_sucursal, (string)item.nombre)
 
                     });
                 }
@@ -259,16 +260,16 @@ namespace ProyectoGrado.Catalogos
             return ListaInventarios;
         }
 
-
+       
         /// <summary>
         /// CREA UN ESPACIO EN SUCURSAL ESPECIFICA PARA ASIGNARLE CANTIDADES A UN PRODUCTO EN ESPECIAL
         /// </summary>
         /// <param name="inventario"></param>
         /// <param name="resultado"></param>
         /// <param name="tipoResultado"></param>
-        public void AsignarEspacioProductoASucursal(int idProducto,int idSucursal, ref string resultado, ref string tipoResultado)
+        public void AsignarEspacioProductoASucursal(int idProducto, int idSucursal, ref string resultado, ref string tipoResultado)
         {
-            object oResult = inventariosDatos.AsignarEspacioProductoASucursal(idProducto,idSucursal, SessionHelper.GetUser().ToString(),
+            object oResult = inventariosDatos.AsignarEspacioProductoASucursal(idProducto, idSucursal, SessionHelper.GetUser().ToString(),
                                              out resultado, out tipoResultado);
 
             int result = 0;
@@ -288,6 +289,23 @@ namespace ProyectoGrado.Catalogos
                 resultado = "ya existe un espacio asignado a este producto en la sucursal";
                 tipoResultado = "danger";
             }
+        }
+
+
+
+        /// <summary>
+        /// TRASLADA UN PRODUCTO DE UNA SUCURSAL A OTRA 
+        /// </summary>
+        /// <param name="inventario"></param>
+        /// <param name="idSucursalActual"></param>
+        /// <param name="resultado"></param>
+        /// <param name="tipoResultado"></param>
+        public void TrasladarProductoASucursal(Inventario inventario, int idSucursalActual, ref string resultado, ref string tipoResultado)
+        {
+            inventariosDatos.TrasladarProductoASucursal(inventario.id_inventario,inventario.producto.id_producto,
+                                                         Convert.ToInt32(inventario.producto.cantid),inventario.sucursal.id_sucursal,idSucursalActual, SessionHelper.GetUser().ToString(),
+                                             ref resultado, ref tipoResultado);
+        
         }
         #region Inventario Bajas
         /// <summary>
@@ -363,7 +381,7 @@ namespace ProyectoGrado.Catalogos
         public void AgregarBaja(Inventario inventario, ref string res, ref string tipoRes)
         {
             // 1. Consulta la cantidad actual de inventario para comparar
-            object oCantidadInventario = inventariosDatos.ConsultarCantidadXProducto(inventario.producto.id_producto, ref res, ref tipoRes);
+            object oCantidadInventario = inventariosDatos.ConsultarCantidadXProducto(inventario.id_inventario, ref res, ref tipoRes);
 
             string dynObj = JsonConvert.SerializeObject(oCantidadInventario);
             dynamic dyn = JsonConvert.DeserializeObject(dynObj);
@@ -386,7 +404,7 @@ namespace ProyectoGrado.Catalogos
             {
                 inventariosDatos.AgregarBaja
                                             (
-                                               inventario.producto.id_producto, inventario.cantidadExistencias,
+                                               inventario.id_inventario, inventario.cantidadExistencias,
                                                SessionHelper.GetUser().ToString(), inventario.historico.descripcion,
                                                ref res, ref tipoRes
                                             );

@@ -324,7 +324,7 @@ GO
 
 exec AgregarUsuario 1,2,2,'1111111111','Servicios Digitales','System','No Address','system@gmail.com','M','system','systemServiciosDigitales',null
 go
-exec AgregarUsuario 1,1,2,'1020727312','Munoz Vargas','Jonathan','Calle 123 No 34 - 34','jomuva@gmail.com','M','jomuva','jomuva',null
+exec AgregarUsuario 1,1,2,'1020727312','Munoz Vargas','Jonathan','Calle 123 No 34 - 34','jomuva@gmail.com','M','jomuva','jomuva',1
 go
 exec AgregarUsuario 1,1,3,'1094572195','Ortiz Ortiz','Carlos Daniel','Calle 45 No 56 - 56','carlos5ort@hotmail.com','M','cortiz','cortiz',1
 go
@@ -974,21 +974,10 @@ CREATE PROCEDURE ConsultarProductoXCodigo
 AS
 BEGIN
 
-DECLARE @cantidadProd int,
-		@idProd int;
-
-SET @idProd = (SELECT id_producto FROM PRODUCTO WHERE id_producto = @codigo);
-SET	@cantidadProd = (SELECT cantidad_existencias FROM INVENTARIO WHERE id_producto_inventario = @idProd ); 
-
-IF(@cantidadProd=0)
-	BEGIN
-		UPDATE PRODUCTO SET id_estado_producto = 2 WHERE id_producto = @idProd
-	END
-END
-
 SELECT id_producto,id_estado_producto,nombre_producto,precio_costo,precio_venta FROM PRODUCTO
 WHERE id_producto = @codigo
 
+END
 GO
 
 
@@ -1458,10 +1447,11 @@ CREATE PROCEDURE ConsultarInventarios
 AS
 BEGIN
 SELECT        INVENTARIO.id_inventario, PRODUCTO.nombre_producto, INVENTARIO.id_producto_inventario, INVENTARIO.cantidad_existencias, INVENTARIO.fecha_actualizacion_inventario, 
-                         ESTADO_PRODUCTO.descripcion_estado_producto
+                         ESTADO_PRODUCTO.descripcion_estado_producto, SUCURSAL.id_sucursal, SUCURSAL.nombre
 FROM            INVENTARIO INNER JOIN
                          PRODUCTO ON INVENTARIO.id_producto_inventario = PRODUCTO.id_producto INNER JOIN
-                         ESTADO_PRODUCTO ON PRODUCTO.id_estado_producto = ESTADO_PRODUCTO.id_estado_producto
+                         ESTADO_PRODUCTO ON PRODUCTO.id_estado_producto = ESTADO_PRODUCTO.id_estado_producto INNER JOIN
+                         SUCURSAL ON INVENTARIO.id_sucursal_inventario = SUCURSAL.id_sucursal
 END
 GO
 
@@ -1566,7 +1556,7 @@ GO
 --PROCEDIMIENTO QUE AGREGA UNA BAJA AL INVENTARIO DE BAJAS, LO DISMINUYE DEL INVENTARIO DE PRODUCTOS Y AGREGA AMBOS MOVIMIENTOS A SU
 -- RESPECTIVO HISTORICO
 CREATE PROCEDURE AgregarBajaInventario 
- @id_producto int,
+  @idInventario int,
  @cantidadBajas int,
  @identifEmpleado VARCHAR(15),
  @descripcionBaja VARCHAR(500)
@@ -1574,28 +1564,25 @@ AS
 DECLARE @fecha DATETIME,
 @cantidadExistenciasInventario int,
 @cantidadExistenciasInventarioBajasActual int,
-@idEmpleado int,
-@idInventario int
+@idEmpleado int
 
 SET @fecha = (SELECT CURRENT_TIMESTAMP);
 SET @idEmpleado = (SELECT id_usuario FROM USUARIO WHERE identificacion = @identifEmpleado);
-SET @idInventario = (SELECT id_inventario FROM INVENTARIO WHERE id_producto_inventario = @id_producto);
-SET @cantidadExistenciasInventario  = (SELECT cantidad_existencias FROM INVENTARIO WHERE id_producto_inventario=@id_producto);
-SET @cantidadExistenciasInventarioBajasActual = (SELECT cantidad_existencias FROM INVENTARIO_BAJAS WHERE id_producto_inventario = @id_producto);
+SET @cantidadExistenciasInventario  = (SELECT cantidad_existencias FROM INVENTARIO WHERE id_inventario=@idInventario);
+SET @cantidadExistenciasInventarioBajasActual = (SELECT cantidad_existencias FROM INVENTARIO_BAJAS WHERE id_inventario_bajas = @idInventario);
 BEGIN
-	UPDATE INVENTARIO_BAJAS SET id_producto_inventario =@id_producto ,cantidad_existencias=@cantidadExistenciasInventarioBajasActual+@cantidadBajas,
-	fecha_actualizacion_inventario = @fecha WHERE (id_producto_inventario = @id_producto);
+	UPDATE INVENTARIO_BAJAS SET cantidad_existencias=@cantidadExistenciasInventarioBajasActual+@cantidadBajas,
+	fecha_actualizacion_inventario = @fecha WHERE (id_inventario_bajas = @idInventario);
 	
 	INSERT INTO HISTORICO_INVENTARIO_BAJAS (id_empleado,id_inventario_historico,fecha,descripcion)
 	VALUES (@idEmpleado,@idInventario,@fecha,@descripcionBaja);
 
 	UPDATE INVENTARIO SET cantidad_existencias = @cantidadExistenciasInventario - @cantidadBajas 
-	WHERE INVENTARIO.id_producto_inventario = @id_producto;
+	WHERE INVENTARIO.id_inventario = @idInventario;
 	
 	INSERT INTO HISTORICO_INVENTARIO (id_empleado,id_inventario_historico,fecha,descripcion)
 	VALUES (@idEmpleado,@idInventario,@fecha,'Se realiza disminución de inventario.  Motivo: '+@descripcionBaja); 
 END
-
 GO
 
 -- PROCEDIMIENTO QUE AGREGA UNA ANOTACION ADICIONAL AL HISTORICO DEL INVENTARIO
@@ -2007,6 +1994,25 @@ WHERE SUCURSAL.id_sucursal = @idSucursal
 END
 GO
 
+-- CONSULTA LOS PRODUCTOS EXISTENTES EN UNA SUCURSAL Y SU CANTIDAD DEPENDIENDO EL EMPLEADO LOGUEADO
+CREATE PROCEDURE ConsultarProductosXSucursalSegunEmpleado
+@identifEmpleado VARCHAR(15)
+AS 
+BEGIN
+DECLARE @id_sucursalEmpleado int, @idEmpleado int
+SET @idEmpleado = (SELECT id_usuario FROM USUARIO WHERE identificacion = @identifEmpleado);
+SET @id_sucursalEmpleado = (SELECT id_sucursal_escalado FROM ESCALADO WHERE id_usuario_escalado = @idEmpleado);
+SELECT        PRODUCTO.id_producto, PRODUCTO.nombre_producto, PRODUCTO.precio_costo, PRODUCTO.precio_venta, INVENTARIO.cantidad_existencias, SUCURSAL.id_sucursal, SUCURSAL.nombre
+FROM            INVENTARIO INNER JOIN
+                         PRODUCTO ON INVENTARIO.id_producto_inventario = PRODUCTO.id_producto INNER JOIN
+                         SUCURSAL ON INVENTARIO.id_sucursal_inventario = SUCURSAL.id_sucursal
+WHERE INVENTARIO.id_sucursal_inventario =  @id_sucursalEmpleado
+END
+GO
+
+
+
+
 -- CREA UN ESPACIO EN SUCURSAL ESPECIFICA PARA ASIGNARLE CANTIDADES A UN PRODUCTO EN ESPECIAL
 CREATE PROCEDURE CrearInventarioProductoVacioASucursal
 @idProducto int,
@@ -2033,6 +2039,50 @@ BEGIN
 		VALUES (@idEmpleado,@idInventario,@fecha,'se abre espacio de inventario del producto '+@nombreProd+' para la sucursal '+@nombreSucursal)
 	END
 SELECT @@ROWCOUNT;
+
+END
+GO
+
+-- PROCEDIMIENTO QUE TRASLADA UN PRODUCTO DE UNA SUCURSAL A OTRA 
+CREATE PROCEDURE TrasladarProductoASucursal
+@idInventarioOrigen int,
+@idProducto int,
+@cantidadATrasladar int,
+@idSucursalATrasladar int,
+@idSucursalActual int,
+@identifEmpleado VARCHAR(15)
+AS
+DECLARE @fecha DATETIME, @idEmpleado int, @cantidadAnteriorOrigen int, @resta int,@suma int, @idInventarioDestino int,
+@cantidadAnteriorDestino int, @nombreSucursalATrasladar VARCHAR(20), @nombreSucursalActual VARCHAR(20)
+BEGIN
+SET @fecha = (SELECT CURRENT_TIMESTAMP);
+SET @idEmpleado = (SELECT id_usuario FROM USUARIO WHERE identificacion = @identifEmpleado);
+SET @nombreSucursalATrasladar = (SELECT nombre FROM SUCURSAL WHERE id_sucursal = @idSucursalATrasladar );
+SET @nombreSucursalActual = (SELECT nombre FROM SUCURSAL WHERE id_sucursal = @idSucursalActual );
+--Operaciones inventario origen
+SET @cantidadAnteriorOrigen = (SELECT cantidad_existencias FROM INVENTARIO WHERE id_inventario =@idInventarioOrigen);
+SET @resta = @cantidadAnteriorOrigen - @cantidadATrasladar;
+
+--Operaciones inventario Destino
+SET @idInventarioDestino = (SELECT id_inventario FROM INVENTARIO WHERE id_sucursal_inventario = @idSucursalATrasladar AND id_producto_inventario = @idProducto);
+SET @cantidadAnteriorDestino = (SELECT cantidad_existencias FROM INVENTARIO WHERE id_inventario =@idInventarioDestino);
+SET @suma = @cantidadAnteriorDestino + @cantidadATrasladar;
+
+UPDATE INVENTARIO SET cantidad_existencias = @cantidadAnteriorOrigen - @cantidadATrasladar, fecha_actualizacion_inventario = @fecha
+WHERE id_inventario = @idInventarioOrigen;
+
+INSERT INTO HISTORICO_INVENTARIO (id_empleado,id_inventario_historico,fecha,descripcion)
+VALUES (@idEmpleado,@idInventarioOrigen,@fecha,'Se actualiza la cantidad, de '+cast(@cantidadAnteriorOrigen as varchar)+' unidades, a '+cast(@resta as varchar)+' unidades por traslado
+		a sucursal '+@nombreSucursalATrasladar );
+
+
+UPDATE INVENTARIO SET cantidad_existencias = @cantidadAnteriorDestino + @cantidadATrasladar, fecha_actualizacion_inventario = @fecha
+WHERE id_inventario = @idInventarioDestino;
+
+INSERT INTO HISTORICO_INVENTARIO (id_empleado,id_inventario_historico,fecha,descripcion)
+VALUES (@idEmpleado,@idInventarioDestino,@fecha,'Se actualiza la cantidad, de '+cast(@cantidadAnteriorDestino as varchar)+' unidades, a '+cast(@suma as varchar)+' unidades por envio
+ de producto desde la sucursal '+@nombreSucursalActual );
+
 
 END
 GO

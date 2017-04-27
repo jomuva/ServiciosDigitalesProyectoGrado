@@ -280,6 +280,7 @@
     <Content Include="Views\Usuarios\Partials\_Script.cshtml" />
     <Content Include="Views\Inventarios\ConsultarInventarioXSucursal.cshtml" />
     <Content Include="Views\Inventarios\AgregarProductoASucursal.cshtml" />
+    <Content Include="Views\Inventarios\TrasladarProductoASucursal.cshtml" />
     <None Include="Xcore\Scripts\jquery-1.10.2.intellisense.js" />
     <Content Include="Xcore\Scripts\Formulario\index.js" />
     <Content Include="Xcore\Scripts\jquery-1.10.2.js" />

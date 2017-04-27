@@ -65,7 +65,7 @@
                                                         <b>Fecha Ultima Actualización</b>
                                                     </td>
                                                     <td>
-                                                        <b>Actualizar</b>
+                                                        <b>Actualizar/Trasladar</b>
                                                     </td>
                                                 </tr>
                                             </thead>
@@ -87,9 +87,16 @@
                                                         </td>
                                                         <td>
                                                             <div class="row">
-                                                                <a href="@Url.Action("ActualizarInventarioXProducto", null,  new { id = item.id_inventario})">
-                                                                    <span><i class="fa fa-pencil-square-o fa-2x"></i></span>
-                                                                </a>
+                                                                <div class="col-md-6">
+                                                                    <a href="@Url.Action("ActualizarInventarioXProducto", null,  new { id = item.id_inventario})">
+                                                                        <span><i class="fa fa-pencil-square-o fa-2x"></i></span>
+                                                                    </a>
+                                                                </div>
+                                                                <div class="col-md-2">
+                                                                    <a href="@Url.Action("TrasladarProductoASucursal", null,  new { id = item.id_inventario})">
+                                                                        <span><i class="fa fa-bicycle fa-2x"></i></span>
+                                                                    </a>
+                                                                </div>
                                                             </div>
                                                         </td>
                                                     </tr>

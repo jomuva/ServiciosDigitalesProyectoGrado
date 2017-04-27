@@ -1,6 +1,6 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
 <Mapping Space="C-S" xmlns="http://schemas.microsoft.com/ado/2009/11/mapping/cs">
-  <EntityContainerMapping StorageEntityContainer="bdServiciosDigitalesProyModelStoreContainer" CdmEntityContainer="bdServiciosDigitalesProyEntities1">
+  <EntityContainerMapping StorageEntityContainer="bdServiciosDigitalesProyModelStoreContainer" CdmEntityContainer="bdServiciosDigitalesProyEntities">
     <EntitySetMapping Name="CATEGORIA_ELEMENTO">
       <EntityTypeMapping TypeName="bdServiciosDigitalesProyModel.CATEGORIA_ELEMENTO">
         <MappingFragment StoreEntitySet="CATEGORIA_ELEMENTO">
@@ -575,6 +575,20 @@
         </ComplexTypeMapping>
       </ResultMapping>
     </FunctionImportMapping>
+    <FunctionImportMapping FunctionImportName="ConsultarProductosXSucursal" FunctionName="bdServiciosDigitalesProyModel.Store.ConsultarProductosXSucursal">
+      <ResultMapping>
+        <ComplexTypeMapping TypeName="bdServiciosDigitalesProyModel.ConsultarProductosXSucursal_Result">
+          <ScalarProperty Name="id_producto" ColumnName="id_producto" />
+          <ScalarProperty Name="nombre_producto" ColumnName="nombre_producto" />
+          <ScalarProperty Name="cantidad_existencias" ColumnName="cantidad_existencias" />
+          <ScalarProperty Name="descripcion_estado_producto" ColumnName="descripcion_estado_producto" />
+          <ScalarProperty Name="fecha_actualizacion_inventario" ColumnName="fecha_actualizacion_inventario" />
+          <ScalarProperty Name="id_sucursal" ColumnName="id_sucursal" />
+          <ScalarProperty Name="nombre" ColumnName="nombre" />
+          <ScalarProperty Name="id_inventario" ColumnName="id_inventario" />
+        </ComplexTypeMapping>
+      </ResultMapping>
+    </FunctionImportMapping>
     <FunctionImportMapping FunctionImportName="ConsultarProductoXCodigo" FunctionName="bdServiciosDigitalesProyModel.Store.ConsultarProductoXCodigo">
       <ResultMapping>
         <ComplexTypeMapping TypeName="bdServiciosDigitalesProyModel.ConsultarProductoXCodigo_Result">
@@ -670,6 +684,26 @@
         </ComplexTypeMapping>
       </ResultMapping>
     </FunctionImportMapping>
+    <FunctionImportMapping FunctionImportName="ConsultarSucursales" FunctionName="bdServiciosDigitalesProyModel.Store.ConsultarSucursales">
+      <ResultMapping>
+        <ComplexTypeMapping TypeName="bdServiciosDigitalesProyModel.ConsultarSucursales_Result">
+          <ScalarProperty Name="id_sucursal" ColumnName="id_sucursal" />
+          <ScalarProperty Name="nombre" ColumnName="nombre" />
+        </ComplexTypeMapping>
+      </ResultMapping>
+    </FunctionImportMapping>
+    <FunctionImportMapping FunctionImportName="ConsultarSucursalesCompleto" FunctionName="bdServiciosDigitalesProyModel.Store.ConsultarSucursalesCompleto">
+      <ResultMapping>
+        <ComplexTypeMapping TypeName="bdServiciosDigitalesProyModel.ConsultarSucursalesCompleto_Result">
+          <ScalarProperty Name="id_sucursal" ColumnName="id_sucursal" />
+          <ScalarProperty Name="nombre" ColumnName="nombre" />
+          <ScalarProperty Name="direccion" ColumnName="direccion" />
+          <ScalarProperty Name="ciudad" ColumnName="ciudad" />
+          <ScalarProperty Name="telefonoFijo" ColumnName="telefonoFijo" />
+          <ScalarProperty Name="telefonoCelular" ColumnName="telefonoCelular" />
+        </ComplexTypeMapping>
+      </ResultMapping>
+    </FunctionImportMapping>
     <FunctionImportMapping FunctionImportName="ConsultarTiposElemento" FunctionName="bdServiciosDigitalesProyModel.Store.ConsultarTiposElemento">
       <ResultMapping>
         <ComplexTypeMapping TypeName="bdServiciosDigitalesProyModel.ConsultarTiposElemento_Result">
@@ -694,6 +728,7 @@
         </ComplexTypeMapping>
       </ResultMapping>
     </FunctionImportMapping>
+    <FunctionImportMapping FunctionImportName="CrearInventarioProductoVacioASucursal" FunctionName="bdServiciosDigitalesProyModel.Store.CrearInventarioProductoVacioASucursal" />
     <FunctionImportMapping FunctionImportName="EscalarSolicitud" FunctionName="bdServiciosDigitalesProyModel.Store.EscalarSolicitud" />
     <FunctionImportMapping FunctionImportName="GarbageCollector_FacturasSinRegistros_Automatico" FunctionName="bdServiciosDigitalesProyModel.Store.GarbageCollector_FacturasSinRegistros_Automatico" />
     <FunctionImportMapping FunctionImportName="GenerarSolicitud" FunctionName="bdServiciosDigitalesProyModel.Store.GenerarSolicitud" />

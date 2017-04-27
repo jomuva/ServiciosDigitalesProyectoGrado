@@ -16,23 +16,131 @@ namespace ServiciosDigitalesProy.Controllers
     {
 
 
+        /// <summary>
+        /// Consulta las sucursales actuales
+        /// </summary>
+        /// <returns></returns>
+        [HttpGet]
+        public ActionResult ConsultarSucursales()
+        {
+            string resultado = "", tipoResultado = "";
+
+            List<Sucursal> sucursales = CatalogoInventarios.GetInstance().ConsultarSucursalesCompleto(ref resultado, ref tipoResultado);
+            Session["sucursales"] = sucursales;
+            if (tipoResultado != "danger")
+            {
+                return View("ConsultarSucursales", sucursales);
+            }
+            else
+            {
+                TempData["mensaje"] = resultado;
+                TempData["estado"] = tipoResultado;
+                return RedirectToAction("IndexInterno", "Home");
+            }
+        }
+
+
+        /// <summary>
+        /// Consulta el inventario de productos que hay en una sucursal específica y muestra
+        /// en vista para su edicion
+        /// </summary>
+        /// <param name="id"></param>
+        /// <returns></returns>
+        [HttpGet]
+        public ActionResult ConsultarInventarioXSucursal(int id)
+        {
+            //identificacion = identificacion == "0" ? "" : identificacion;
+            string resultado = "", tipoResultado = "";
+            List<Inventario> inventarios;
+            inventarios = CatalogoInventarios.GetInstance().ConsultarProductosXSucursal(id, ref resultado, ref tipoResultado);
+
+            TempData["mensaje"] = resultado;
+            TempData["estado"] = tipoResultado;
+            if (tipoResultado == "danger")
+            {
+                TempData["mensaje"] = resultado;
+                TempData["estado"] = tipoResultado;
+                return View("ConsultarSucursales", Session["sucursales"] as List<Sucursal>);
+            }
+            else
+            {
+                string res = "", tipoRes = "";
+                List<Producto> prod =  CatalogoProductos.GetInstance().ConsultarProductos("",ref res,ref tipoRes);
+                int numProd = prod.Count;
+                ViewBag.cantidadProductos = numProd;
+                ViewBag.nombreSucursal = inventarios.Count > 0 ? inventarios[0].sucursal.nombre : "";
+                ViewBag.idSucursal = id;
+                Session["idSucursal"] = id;
+                return View(inventarios);
+            }
+        }
+
+        [HttpGet]
+        public ActionResult VolverVistaInventarioXSucursal()
+        {
+            string res = "", tipoRes = "";
+            List<Producto> prod = CatalogoProductos.GetInstance().ConsultarProductos("", ref res, ref tipoRes);
+            int numProd = prod.Count;
+            ViewBag.cantidadProductos = numProd;
+
+            List<Inventario> inventarios;
+            inventarios = CatalogoInventarios.GetInstance().ConsultarProductosXSucursal((int)Session["idSucursal"], ref res, ref tipoRes);
+            ViewBag.nombreSucursal = inventarios.Count > 0 ? inventarios[0].sucursal.nombre : "";
+            ViewBag.idSucursal = (int)Session["idSucursal"];
+            return View("ConsultarInventarioXSucursal", inventarios);
+        }
+
+        /// <summary>
+        /// Agrega un producto que no se haya vendido en una sucursal específica
+        /// </summary>
+        /// <returns></returns>
+        [HttpGet]
+        public ActionResult AgregarProductoASucursal()
+        {
+            //identificacion = identificacion == "0" ? "" : identificacion;
+            string resultado = "", tipoResultado = "";
+            List<Producto> productos;
+            productos = CatalogoProductos.GetInstance().ConsultarProductos("", ref resultado, ref tipoResultado);
+
+            return View("AgregarProductoASucursal", productos);
+        }
+
+        [HttpGet]
+        public ActionResult AsignarEspacioProductoASucursal(int id)
+        {
+            //identificacion = identificacion == "0" ? "" : identificacion;
+            string resultado = "", tipoResultado = "";
+            CatalogoInventarios.GetInstance().AsignarEspacioProductoASucursal(id,(int)Session["idSucursal"], ref resultado, ref tipoResultado);
+
+            TempData["mensaje"] = resultado;
+            TempData["estado"] = tipoResultado;
+
+            if (tipoResultado == "danger")
+            {
+                return RedirectToAction("AgregarProductoASucursal");
+            }
+
+            string res = "", tipoRes = "";
+            List<Producto> prod = CatalogoProductos.GetInstance().ConsultarProductos("", ref res, ref tipoRes);
+            int numProd = prod.Count;
+            ViewBag.cantidadProductos = numProd;
+
+            List<Inventario> inventarios;
+            inventarios = CatalogoInventarios.GetInstance().ConsultarProductosXSucursal((int)Session["idSucursal"], ref resultado, ref tipoResultado);
+            ViewBag.nombreSucursal = inventarios.Count > 0 ? inventarios[0].sucursal.nombre : "";
+            ViewBag.idSucursal = id;
+            return View("ConsultarInventarioXSucursal", inventarios);
+        }
+
 
         [HttpGet]
         public ActionResult ConsultarInventarios()
         {
-
-            return View("ConsultarInventarios");
-        }
-
-
-        [HttpPost]
-        public ActionResult ConsultarInventarios(string identificacion)
-        {
-            identificacion = identificacion == "0" ? "" : identificacion;
+            //identificacion = identificacion == "0" ? "" : identificacion;
             string resultado = "", tipoResultado = "";
             List<Inventario> inventarios;
-            inventarios = CatalogoInventarios.GetInstance().ConsultarInventarios(identificacion, ref resultado, ref tipoResultado);
-            TempData["identificacionConsulta"] = identificacion;
+            inventarios = CatalogoInventarios.GetInstance().ConsultarInventarios("", ref resultado, ref tipoResultado);
+            //TempData["identificacionConsulta"] = identificacion;
             TempData["mensaje"] = resultado;
             TempData["estado"] = tipoResultado;
             if (tipoResultado == "danger")
@@ -72,6 +180,11 @@ namespace ServiciosDigitalesProy.Controllers
             return View(inventario);
         }
 
+
+
+     
+
+
         [HttpPost]
         public ActionResult ActualizarInventarioXProducto(Inventario inventario)
         {
@@ -87,8 +200,19 @@ namespace ServiciosDigitalesProy.Controllers
             {
                 TempData["mensaje"] = resultado;
                 TempData["estado"] = tipoResultado;
-                string res = "", tipores = "";
-                return View("RespuestaConsultaInventarios", CatalogoInventarios.GetInstance().ConsultarInventarios("", ref res, ref tipores));
+
+                string res = "", tipoRes = "";
+                List<Producto> prod = CatalogoProductos.GetInstance().ConsultarProductos("", ref res, ref tipoRes);
+                int numProd = prod.Count;
+                ViewBag.cantidadProductos = numProd;
+
+                List<Inventario> inventarios;
+                inventarios = CatalogoInventarios.GetInstance().ConsultarProductosXSucursal((int)Session["idSucursal"], ref resultado, ref tipoResultado);
+                ViewBag.nombreSucursal = inventarios.Count > 0 ? inventarios[0].sucursal.nombre : "";
+                ViewBag.idSucursal = (int)Session["idSucursal"];
+                return View("ConsultarInventarioXSucursal", inventarios);
+
+              
             }
         }
 

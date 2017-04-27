@@ -171,6 +171,124 @@ namespace ProyectoGrado.Catalogos
 
         }
 
+
+        /// <summary>
+        /// Consulta todas las sucursales con su informacion de sede completa
+        /// </summary>
+        /// <param name="resultado"></param>
+        /// <param name="tipoResultado"></param>
+        /// <returns></returns>
+        public List<Sucursal> ConsultarSucursalesCompleto(ref string resultado, ref string tipoResultado)
+        {
+            object oSucursales = null;
+            string dynObj;
+            dynamic dyn;
+            List<Sucursal> sucursales = new List<Sucursal>();
+
+            oSucursales = inventariosDatos.ConsultarSucursalesCompleto(ref resultado, ref tipoResultado);
+
+            try
+            {
+                dynObj = JsonConvert.SerializeObject(oSucursales);
+                dyn = JsonConvert.DeserializeObject(dynObj);
+
+                foreach (var item in dyn)
+                {
+
+                    sucursales.Add(new Sucursal
+                    {
+                        id_sucursal = item.id_sucursal,
+                        nombre = item.nombre,
+                        direccion = item.direccion,
+                        ciudad = item.ciudad,
+                        telefonoFijo = item.telefonoFijo,
+                        telfonoCelular = item.telefonoCelular
+                    });
+
+
+                }
+
+            }catch(Exception e)
+            {
+                resultado = e.Message;
+                tipoResultado = "danger";
+            }
+            return sucursales;
+        }
+
+        /// <summary>
+        /// consulta todos los productos asociados a una sucursal
+        /// </summary>
+        /// <param name="idSucursal"></param>
+        /// <param name="resultado"></param>
+        /// <param name="tipoResultado"></param>
+        /// <returns></returns>
+        public List<Inventario> ConsultarProductosXSucursal(int idSucursal,ref string resultado, ref string tipoResultado)
+        {
+            object oProductos = null;
+            string dynObj;
+            dynamic dyn;
+            List<Inventario> ListaInventarios = new List<Inventario>();
+
+            oProductos = inventariosDatos.ConsultarProductosXSucursal(idSucursal, ref resultado, ref tipoResultado);
+
+            try
+            {
+                dynObj = JsonConvert.SerializeObject(oProductos);
+                dyn = JsonConvert.DeserializeObject(dynObj);
+
+                foreach (var item in dyn)
+                {
+                    ListaInventarios.Add(new Inventario
+                    {
+                        id_inventario = item.id_inventario,
+                        producto = new Producto((string)item.nombre_producto, (int)item.id_producto, (string)item.descripcion_estado_producto),
+                        cantidadExistencias = item.cantidad_existencias,
+                        fecha = item.fecha_actualizacion_inventario,
+                        sucursal = new Sucursal((int)item.id_sucursal,(string)item.nombre)
+
+                    });
+                }
+
+            }
+            catch (Exception e)
+            {
+                resultado = e.Message;
+                tipoResultado = "danger";
+            }
+            return ListaInventarios;
+        }
+
+
+        /// <summary>
+        /// CREA UN ESPACIO EN SUCURSAL ESPECIFICA PARA ASIGNARLE CANTIDADES A UN PRODUCTO EN ESPECIAL
+        /// </summary>
+        /// <param name="inventario"></param>
+        /// <param name="resultado"></param>
+        /// <param name="tipoResultado"></param>
+        public void AsignarEspacioProductoASucursal(int idProducto,int idSucursal, ref string resultado, ref string tipoResultado)
+        {
+            object oResult = inventariosDatos.AsignarEspacioProductoASucursal(idProducto,idSucursal, SessionHelper.GetUser().ToString(),
+                                             out resultado, out tipoResultado);
+
+            int result = 0;
+
+            var dynObj = JsonConvert.SerializeObject(oResult);
+            dynamic dyn = JsonConvert.DeserializeObject(dynObj);
+
+
+            foreach (var item in dyn)
+            {
+                result = (int)item;
+            }
+
+
+            if (result == 0)
+            {
+                resultado = "ya existe un espacio asignado a este producto en la sucursal";
+                tipoResultado = "danger";
+            }
+        }
         #region Inventario Bajas
         /// <summary>
         /// Consulta de inventario de productos dados de baja

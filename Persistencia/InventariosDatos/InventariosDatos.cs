@@ -213,6 +213,91 @@ namespace Persistencia.InventariosDatos
             }
         }
 
+        /// <summary>
+        /// consulta las sucursales con toda su informacion
+        /// </summary>
+        /// <param name="idInvent"></param>
+        /// <param name="resultado"></param>
+        /// <param name="tipoResultado"></param>
+        /// <returns></returns>
+        public object ConsultarSucursalesCompleto(ref string resultado, ref string tipoResultado)
+        {
+
+            object lista = null;
+            try
+            {
+                var sucursales = conexion.conexiones.ConsultarSucursalesCompleto().ToList();
+
+                resultado = "Consulta Exitosa";
+                tipoResultado = "info";
+                return sucursales.ToList();
+            }
+            catch (Exception ex)
+            {
+                resultado = ex.Message;
+                tipoResultado = "danger";
+            }
+
+            return lista;
+        }
+
+        /// <summary>
+        /// Consulta los productos que hay por sucursal
+        /// </summary>
+        /// <param name="idSucursal"></param>
+        /// <param name="resultado"></param>
+        /// <param name="tipoResultado"></param>
+        /// <returns></returns>
+        public object ConsultarProductosXSucursal(int idSucursal,ref string resultado, ref string tipoResultado)
+        {
+
+            object lista = null;
+            try
+            {
+                var productos = conexion.conexiones.ConsultarProductosXSucursal(idSucursal).ToList();
+
+                resultado = "Consulta Exitosa";
+                tipoResultado = "info";
+                return productos.ToList();
+            }
+            catch (Exception ex)
+            {
+                resultado = ex.Message;
+                tipoResultado = "danger";
+            }
+
+            return lista;
+        }
+
+
+        /// <summary>
+        /// CREA UN ESPACIO EN SUCURSAL ESPECIFICA PARA ASIGNARLE CANTIDADES A UN PRODUCTO EN ESPECIAL
+        /// </summary>
+        /// <param name="inventario"></param>
+        /// <param name="resultado"></param>
+        /// <param name="tipoResultado"></param>
+        public object AsignarEspacioProductoASucursal(int idProducto,int idSucursal,string identifEmpleado, out string resultado, out string tipoResultado)
+        {
+            object result = null;
+            try
+            {
+                result = conexion.conexiones.CrearInventarioProductoVacioASucursal(idProducto, idSucursal, identifEmpleado).ToList();
+                conexion.conexiones.SaveChanges();
+
+                resultado = "Se ha asignardo un espacio al producto exitosamente";
+                tipoResultado = "success";
+
+            }
+            catch (Exception ex)
+            {
+                resultado = ex.Message;
+                tipoResultado = "danger";
+            }
+
+            return result;
+        }
+
+
         #region Inventario Bajas
         /// <summary>
         /// Consulta el inventario de las bajas de productos actualizada

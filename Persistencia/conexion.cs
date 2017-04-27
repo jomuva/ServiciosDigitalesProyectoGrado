@@ -11,12 +11,12 @@ namespace Persistencia
         /// Objeto conexionque genera conexion a la base de datos
         /// </summary>
 
-        public bdServiciosDigitalesProyEntities1 conexiones;
+        public bdServiciosDigitalesProyEntities conexiones;
         public object instance;
         public conexion()
         {
             this.instance = System.Data.Entity.SqlServer.SqlProviderServices.Instance;
-            this.conexiones = new bdServiciosDigitalesProyEntities1();
+            this.conexiones = new bdServiciosDigitalesProyEntities();
         }
 
 

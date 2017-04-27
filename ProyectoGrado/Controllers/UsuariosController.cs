@@ -7,6 +7,7 @@ using ServiciosDigitalesProy.Models;
 using ServiciosDigitalesProy.Catalogos;
 using ProyectoGrado.Tags;
 using Models.Comun;
+using ProyectoGrado.Catalogos;
 
 namespace ServiciosDigitalesProy.Controllers
 {
@@ -265,6 +266,7 @@ namespace ServiciosDigitalesProy.Controllers
             Usuario user = new Usuario();
             user.tiposIdentificacion = new SelectList(CatalogoUsuarios.GetInstance().ConsultarTiposIdentificacion(), "id", "Descripcion");
             user.Roles = new SelectList(CatalogoUsuarios.GetInstance().ConsultarRolesEmpleado(), "id", "Descripcion");
+            user.sucursalesSelect = new SelectList(CatalogoProductos.GetInstance().ConsultarSucursales(), "id_sucursal", "nombre");
             return View("Empleados/AdicionarEmpleado", user);
         }
 
@@ -278,7 +280,10 @@ namespace ServiciosDigitalesProy.Controllers
         {
             string resultado = "", tipoResultado = "";
 
-            if (ModelState.IsValid)
+            if (ModelState.IsValidField("nombres")&& ModelState.IsValidField("apellidos") && ModelState.IsValidField("identificacion") &&
+                ModelState.IsValidField("TelefonoFijo") && ModelState.IsValidField("TelefonoCelular") &&
+                ModelState.IsValidField("direccion") && ModelState.IsValidField("password") && ModelState.IsValidField("verificacionPassword") &&
+                ModelState.IsValidField("email") && ModelState.IsValidField("sexo") && ModelState.IsValidField("username"))
             {
                 CatalogoUsuarios.GetInstance().AdicionarEmpleado(user, out resultado, out tipoResultado);
 

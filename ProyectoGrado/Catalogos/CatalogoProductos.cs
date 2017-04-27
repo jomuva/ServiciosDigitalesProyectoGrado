@@ -109,6 +109,31 @@ namespace ProyectoGrado.Catalogos
             return categorias;
         }
 
+
+        /// <summary>
+        /// Consulta las sucursales que hay en BD
+        /// </summary>
+        /// <returns></returns>
+        public List<Sucursal> ConsultarSucursales()
+        {
+            List<Sucursal> sucursales = new List<Sucursal>();
+            var oSucursales = productoDatos.ConsultarSucursales();
+
+            string dynObj = JsonConvert.SerializeObject(oSucursales);
+            dynamic dyn = JsonConvert.DeserializeObject(dynObj);
+
+            foreach (var data in dyn)
+            {
+                sucursales.Add(new Sucursal
+                {
+                    id_sucursal = data.id_sucursal,
+                    nombre = data.nombre,
+                });
+            }
+
+            return sucursales;
+        }
+
         /// <summary>
         /// Consulta el total de productos o un producto en especial
         /// </summary>

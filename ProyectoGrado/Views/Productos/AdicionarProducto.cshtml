@@ -76,7 +76,15 @@
                     @Html.ValidationMessageFor(model => model.cantidadExistencias, "", new { @class = "text-danger" })
                 </div>
             </div>
-
+            <div class="form-group">
+                @Html.Label("Sucursal :*", htmlAttributes: new { @class = "control-label col-md-4" })
+                <div class="col-md-4 inputGroupContainer">
+                    <div class="input-group">
+                        <span class="input-group-addon"><i class="fa fa-sitemap"></i></span>
+                        @Html.DropDownListFor(x => x.sucursal.id_sucursal, Model.producto.sucursalesSelect, null, new { @class = "form-control" })
+                    </div>
+                </div>
+            </div>
             <div class="form-group">
                 @Html.Label("Estado :*", htmlAttributes: new { @class = "control-label col-md-4" })
                 <div class="col-md-4 inputGroupContainer">

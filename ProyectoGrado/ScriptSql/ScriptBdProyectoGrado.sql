@@ -1636,6 +1636,8 @@ DECLARE
 @TotalRegistrosInventario int,
 @CantidadExistencias int,
 @idestadoActual int,
+@idProducto int,
+@idSucursal int,
 @descripcion VARCHAR (500)
 SET @TotalRegistrosInventario = (SELECT COUNT(*) FROM INVENTARIO);
 SET @fecha = (SELECT CURRENT_TIMESTAMP);
@@ -1643,14 +1645,16 @@ BEGIN
 	WHILE @TotalRegistrosInventario > 0
 	BEGIN
 		SET @CantidadExistencias = (SELECT cantidad_existencias FROM INVENTARIO WHERE id_inventario = @TotalRegistrosInventario);
-		SET @idestadoActual =  (SELECT id_estado_producto FROM PRODUCTO WHERE id_producto = @TotalRegistrosInventario);
+		SET @idProducto = (SELECT id_producto_inventario FROM INVENTARIO WHERE id_inventario = @TotalRegistrosInventario);
+		SET @idSucursal = (SELECT id_sucursal_inventario FROM INVENTARIO WHERE id_inventario = @TotalRegistrosInventario);
+		SET @idestadoActual = (SELECT id_estado_producto FROM PRODUCTO WHERE id_producto = @idProducto AND (SELECT id_sucursal_inventario FROM INVENTARIO WHERE id_inventario = @TotalRegistrosInventario)=@idSucursal);
 		IF(@CantidadExistencias =0 AND @idestadoActual=1)
 		BEGIN
 			UPDATE PRODUCTO SET id_estado_producto = 2 
-			WHERE id_producto = @TotalRegistrosInventario
+			WHERE id_producto = @idProducto AND (SELECT id_sucursal_inventario FROM INVENTARIO WHERE id_inventario = @TotalRegistrosInventario)=@idSucursal
 
 			UPDATE INVENTARIO SET fecha_actualizacion_inventario = @fecha
-			WHERE id_producto_inventario =@TotalRegistrosInventario
+			WHERE id_producto_inventario =@idProducto AND (SELECT id_sucursal_inventario FROM INVENTARIO WHERE id_inventario = @TotalRegistrosInventario)=@idSucursal
 			
 			SET @descripcion = ('Se ha cambiado el estado del producto a no disponible por falta de existencias');
 			INSERT INTO HISTORICO_INVENTARIO(id_empleado,id_inventario_historico,fecha,descripcion)
@@ -1659,7 +1663,7 @@ BEGIN
 		ELSE IF(@CantidadExistencias <>0 AND @idestadoActual=2)
 		BEGIN
 			UPDATE PRODUCTO SET id_estado_producto = 1 
-			WHERE id_producto = @TotalRegistrosInventario
+			WHERE id_producto = @idProducto AND (SELECT id_sucursal_inventario FROM INVENTARIO WHERE id_inventario = @TotalRegistrosInventario)=@idSucursal
 
 			SET @descripcion = ('Se ha cambiado el estado del producto a Disponible por detección de existencias en stock');
 			INSERT INTO HISTORICO_INVENTARIO(id_empleado,id_inventario_historico,fecha,descripcion)
@@ -1668,6 +1672,7 @@ BEGIN
 		SET @TotalRegistrosInventario = @TotalRegistrosInventario -1;
 	END
 END 
+
 GO
 
 --PROCEDIMIENTO QUE CREA UNA FACTURA SIN REGISTROS PARA EL INICIO DE LA GENERACION DE UNA FACTURA FINAL
@@ -1969,4 +1974,65 @@ BEGIN
 END
 GO
 
+--CONSULTAR SUCURSALES EXISTENTES
 
+CREATE PROCEDURE ConsultarSucursales
+AS
+BEGIN
+SELECT id_sucursal,nombre FROM SUCURSAL
+END
+GO
+
+
+CREATE PROCEDURE ConsultarSucursalesCompleto
+AS
+BEGIN
+SELECT id_sucursal,nombre,direccion,ciudad,telefonoFijo,telefonoCelular FROM SUCURSAL
+END
+GO
+
+-- CONSULTA LOS PRODUCTOS EXISTENTES EN UNA SUCURSAL Y SU CANTIDAD
+CREATE PROCEDURE ConsultarProductosXSucursal
+@idSucursal int
+AS
+BEGIN
+
+SELECT        PRODUCTO.id_producto, PRODUCTO.nombre_producto, INVENTARIO.cantidad_existencias, ESTADO_PRODUCTO.descripcion_estado_producto, INVENTARIO.fecha_actualizacion_inventario, 
+                         SUCURSAL.id_sucursal, SUCURSAL.nombre, INVENTARIO.id_inventario
+FROM            INVENTARIO INNER JOIN
+                         PRODUCTO ON INVENTARIO.id_producto_inventario = PRODUCTO.id_producto INNER JOIN
+                         SUCURSAL ON INVENTARIO.id_sucursal_inventario = SUCURSAL.id_sucursal INNER JOIN
+                         ESTADO_PRODUCTO ON PRODUCTO.id_estado_producto = ESTADO_PRODUCTO.id_estado_producto
+WHERE SUCURSAL.id_sucursal = @idSucursal
+END
+GO
+
+-- CREA UN ESPACIO EN SUCURSAL ESPECIFICA PARA ASIGNARLE CANTIDADES A UN PRODUCTO EN ESPECIAL
+CREATE PROCEDURE CrearInventarioProductoVacioASucursal
+@idProducto int,
+@id_sucursal int,
+@identifEmpleado VARCHAR(15)
+AS
+BEGIN
+	IF NOT EXISTS(SELECT id_producto_inventario FROM INVENTARIO WHERE id_sucursal_inventario =@id_sucursal AND id_producto_inventario = @idProducto)
+	BEGIN
+		DECLARE @idInventario int, @fecha DATETIME, @idEmpleado int,@nombreProd VARCHAR(50),@nombreSucursal VARCHAR(20);
+		SET @fecha =  (SELECT CURRENT_TIMESTAMP);		
+		SET @idEmpleado = (SELECT id_usuario FROM USUARIO WHERE identificacion = @identifEmpleado);
+		SET @nombreProd =(SELECT nombre_producto FROM PRODUCTO WHERE id_producto = @idProducto);
+		SET @nombreSucursal = (SELECT nombre FROM SUCURSAL WHERE id_sucursal = @id_sucursal);
+
+		INSERT INTO INVENTARIO (id_producto_inventario,id_sucursal_inventario,cantidad_existencias,fecha_actualizacion_inventario)
+		VALUES (@idProducto,@id_sucursal,0,@fecha);
+		SET @idInventario = @@IDENTITY;
+
+		INSERT INTO INVENTARIO_BAJAS (id_producto_inventario,id_sucursal_inventario,cantidad_existencias,fecha_actualizacion_inventario)
+		VALUES (@idProducto,@id_sucursal,0,@fecha);
+
+		INSERT INTO HISTORICO_INVENTARIO (id_empleado,id_inventario_historico,fecha,descripcion)
+		VALUES (@idEmpleado,@idInventario,@fecha,'se abre espacio de inventario del producto '+@nombreProd+' para la sucursal '+@nombreSucursal)
+	END
+SELECT @@ROWCOUNT;
+
+END
+GO

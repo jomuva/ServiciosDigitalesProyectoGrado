@@ -21,7 +21,7 @@ namespace ServiciosDigitalesProy.Controllers
             Inventario user = new Inventario();
             user.producto.estadosProducto = new SelectList(CatalogoProductos.GetInstance().ConsultarEstadosProducto(), "id", "Descripcion");
             user.producto.categoriasProductoSelect = new SelectList(CatalogoProductos.GetInstance().ConsultarCategoriasProducto(), "id", "Descripcion");
-
+            user.producto.sucursalesSelect = new SelectList(CatalogoProductos.GetInstance().ConsultarSucursales(), "id_sucursal", "nombre");
             return View("AdicionarProducto", user);
         }
 
@@ -32,7 +32,8 @@ namespace ServiciosDigitalesProy.Controllers
 
             string resultado = "", tipoResultado = "";
             string resultado2 = "", tipoResultado2 = "";
-            if (ModelState.IsValid)
+            if (ModelState.IsValidField("producto.precio_costo")
+                && ModelState.IsValidField("producto.precio_venta") && ModelState.IsValidField("cantidadExistencias"))
             {
                 CatalogoProductos.GetInstance().InsertarProducto(model, out resultado, out tipoResultado);
 
@@ -45,6 +46,7 @@ namespace ServiciosDigitalesProy.Controllers
                     model.producto.categoriasProductoSelect = new SelectList(CatalogoProductos.GetInstance().ConsultarCategoriasProducto(), "id", "Descripcion");
                     return View("AdicionarProducto", model);
                 }
+
                 List<Producto> productos;
                 productos = CatalogoProductos.GetInstance().ConsultarProductos("", ref resultado2, ref tipoResultado2);
                 return View("RespuestaConsultaProductos", productos);

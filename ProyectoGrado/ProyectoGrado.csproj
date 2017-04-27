@@ -247,7 +247,7 @@
     <Content Include="Views\Solicitudes\ConsultarHistorico.cshtml" />
     <Content Include="Views\Solicitudes\AgregarAnotacionModal.cshtml" />
     <Content Include="Views\Solicitudes\Partials\_ModalAnotacion.cshtml" />
-    <Content Include="Views\Inventarios\ConsultarInventarios.cshtml" />
+    <Content Include="Views\Inventarios\ConsultarSucursales.cshtml" />
     <Content Include="Views\Inventarios\RespuestaConsultaInventarios.cshtml" />
     <Content Include="Views\Inventarios\Partials\_Script.cshtml" />
     <Content Include="Views\Inventarios\ConsultarHistoricoInventarios.cshtml" />
@@ -278,6 +278,8 @@
     <Content Include="Views\Servicios\Partials\_Script.cshtml" />
     <Content Include="Views\Productos\Partials\_Script.cshtml" />
     <Content Include="Views\Usuarios\Partials\_Script.cshtml" />
+    <Content Include="Views\Inventarios\ConsultarInventarioXSucursal.cshtml" />
+    <Content Include="Views\Inventarios\AgregarProductoASucursal.cshtml" />
     <None Include="Xcore\Scripts\jquery-1.10.2.intellisense.js" />
     <Content Include="Xcore\Scripts\Formulario\index.js" />
     <Content Include="Xcore\Scripts\jquery-1.10.2.js" />

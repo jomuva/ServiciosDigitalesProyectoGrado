@@ -57,7 +57,7 @@ namespace ServiciosDigitalesProy.Models
         public SelectList estadosProducto { get; set; }
 
         public SelectList categoriasProductoSelect { get; set; }
-
+        public SelectList sucursalesSelect { get; set; }
     }
 
     

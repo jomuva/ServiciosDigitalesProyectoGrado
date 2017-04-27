@@ -74,6 +74,15 @@ namespace Persistencia.ProductoDatos
             return estadosProd.ToList();
         }
 
+        /// <summary>
+        /// Consulta las sucursales existentes en BD
+        /// </summary>
+        /// <returns></returns>
+        public object ConsultarSucursales()
+        {
+            var sucursales = conexion.conexiones.ConsultarSucursales();
+            return sucursales.ToList();
+        }
 
         /// <summary>
         /// consulta el producto por nombre o por codigo y adicional a ello el procedimiento 

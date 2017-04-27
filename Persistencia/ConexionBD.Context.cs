@@ -15,10 +15,10 @@ namespace Persistencia
     using System.Data.Entity.Core.Objects;
     using System.Linq;
     
-    public partial class bdServiciosDigitalesProyEntities1 : DbContext
+    public partial class bdServiciosDigitalesProyEntities : DbContext
     {
-        public bdServiciosDigitalesProyEntities1()
-            : base("name=bdServiciosDigitalesProyEntities1")
+        public bdServiciosDigitalesProyEntities()
+            : base("name=bdServiciosDigitalesProyEntities")
         {
         }
     
@@ -673,6 +673,15 @@ namespace Persistencia
             return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction<ConsultarProductos_Result>("ConsultarProductos");
         }
     
+        public virtual ObjectResult<ConsultarProductosXSucursal_Result> ConsultarProductosXSucursal(Nullable<int> idSucursal)
+        {
+            var idSucursalParameter = idSucursal.HasValue ?
+                new ObjectParameter("idSucursal", idSucursal) :
+                new ObjectParameter("idSucursal", typeof(int));
+    
+            return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction<ConsultarProductosXSucursal_Result>("ConsultarProductosXSucursal", idSucursalParameter);
+        }
+    
         public virtual ObjectResult<ConsultarProductoXCodigo_Result> ConsultarProductoXCodigo(Nullable<int> codigo)
         {
             var codigoParameter = codigo.HasValue ?
@@ -728,6 +737,16 @@ namespace Persistencia
             return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction<ConsultarSolicitudesXEmpleado_Result>("ConsultarSolicitudesXEmpleado", identifParameter);
         }
     
+        public virtual ObjectResult<ConsultarSucursales_Result> ConsultarSucursales()
+        {
+            return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction<ConsultarSucursales_Result>("ConsultarSucursales");
+        }
+    
+        public virtual ObjectResult<ConsultarSucursalesCompleto_Result> ConsultarSucursalesCompleto()
+        {
+            return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction<ConsultarSucursalesCompleto_Result>("ConsultarSucursalesCompleto");
+        }
+    
         public virtual ObjectResult<ConsultarTiposElemento_Result> ConsultarTiposElemento()
         {
             return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction<ConsultarTiposElemento_Result>("ConsultarTiposElemento");
@@ -745,6 +764,23 @@ namespace Persistencia
                 new ObjectParameter("identifEmpleado", typeof(string));
     
             return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction<CrearFacturaSinRegistros_Result>("CrearFacturaSinRegistros", identifEmpleadoParameter);
+        }
+    
+        public virtual ObjectResult<Nullable<int>> CrearInventarioProductoVacioASucursal(Nullable<int> idProducto, Nullable<int> id_sucursal, string identifEmpleado)
+        {
+            var idProductoParameter = idProducto.HasValue ?
+                new ObjectParameter("idProducto", idProducto) :
+                new ObjectParameter("idProducto", typeof(int));
+    
+            var id_sucursalParameter = id_sucursal.HasValue ?
+                new ObjectParameter("id_sucursal", id_sucursal) :
+                new ObjectParameter("id_sucursal", typeof(int));
+    
+            var identifEmpleadoParameter = identifEmpleado != null ?
+                new ObjectParameter("identifEmpleado", identifEmpleado) :
+                new ObjectParameter("identifEmpleado", typeof(string));
+    
+            return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction<Nullable<int>>("CrearInventarioProductoVacioASucursal", idProductoParameter, id_sucursalParameter, identifEmpleadoParameter);
         }
     
         public virtual int EscalarSolicitud(Nullable<int> id_solicitud, string identifEmpleado)

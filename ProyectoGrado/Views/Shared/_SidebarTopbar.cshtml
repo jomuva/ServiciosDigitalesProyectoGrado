@@ -15,7 +15,16 @@
             </a>
         </div>
         <!-- Top Menu Items -->
+
+
+
         <ul class="nav navbar-right top-nav">
+            <li class="dropdown open">
+                <a href="#" class="dropdown-toggle" data-toggle="dropdown"><i class="fa fa-home"></i> Sede<b> @CatalogoUsuarios.GetInstance().ConsultarNombreSucursalEmpleado()</b></a>
+            </li>
+
+
+
             <li class="dropdown">
                 <a href="#" class="dropdown-toggle" data-toggle="dropdown"><i class="fa fa-envelope"></i> <b class="caret"></b></a>
                 <ul class="dropdown-menu message-dropdown">
@@ -195,6 +204,10 @@
                         <li>
                             @Html.ActionLink("Consultar Inventario de Productos", "ConsultarInventarios", "Inventarios")
                         </li>
+                        
+                        <li>
+                            @Html.ActionLink("Consultar Total de existencias", "ConsultarExistenciasTotalesProductos", "Inventarios")
+                        </li>
                         @if (ValidadorPermisos.TienePermiso(RolesPermisos.puede_consultar_inventario_bajas))
                         {
                             <li>
@@ -212,6 +225,16 @@
                         <li>
                             @Html.ActionLink("Consultar Elementos", "ConsultarElementos", "Solicitudes")
                         </li>
+                    </ul>
+                </li>
+
+                <li>
+                    <a href="javascript:;" data-toggle="collapse" data-target="#sucursales"><i class="fa fa-fw fa-home"></i> Sucursales <i class="fa fa-fw fa-caret-down"></i></a>
+                    <ul id="sucursales" class="collapse">
+                        <li>
+                            @Html.ActionLink("Crear Sucursal", "AgregarSucursal", "Inventarios")
+                        </li>
+                        
                     </ul>
                 </li>
 

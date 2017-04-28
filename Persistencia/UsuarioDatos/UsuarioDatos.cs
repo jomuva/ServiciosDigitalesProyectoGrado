@@ -635,6 +635,26 @@ namespace Persistencia.UsuarioDatos
         }
 
 
+        public object ConsultarEmpleadosSP()
+        {
+
+            string resultado;
+            object lista = null;
+            try
+            {
+                lista = conexion.conexiones.ConsultarEmpleados().ToList();
+                return lista;
+            }
+            catch (Exception ex)
+            {
+                resultado = ex.Message;
+            }
+
+            return lista;
+        }
+
+
+
         /// <summary>
         /// Adiciona un empleado a la base de datos
         /// </summary>
@@ -868,6 +888,26 @@ namespace Persistencia.UsuarioDatos
             {
             }
 
+        }
+
+
+
+        public object ConsultarNombreSucursalEmpleado(string identifEmpleado)
+        {
+
+            object lista = null;
+            try
+            {
+                var nombre = conexion.conexiones.ConsultarNombreSucursalEmpleado(identifEmpleado).ToList();
+
+                return nombre.ToList();
+            }
+            catch 
+            {
+                
+            }
+
+            return lista;
         }
 
         #endregion

@@ -119,22 +119,18 @@ namespace ServiciosDigitalesProy.Controllers
             List<Inventario> inventarios = CatalogoInventarios.GetInstance().ConsultarInventarios("", ref resultado, ref tipoResultado);
 
             List<Producto> productosDisponibles = new List<Producto>();
-            Producto producto = null;
-            Inventario temp = null;
+            //Inventario temp = null;
 
             if (productos != null)
             {
                 foreach (var item in productos)
                 {
-                    producto = (item.estado.id == 1) ? item : null;
-                    if (producto != null)
+                    if (Convert.ToInt32(item.cantid) > 0)
                     {
-
-                        temp = inventarios.Find(x => x.producto.id_producto == producto.id_producto);
-                        producto.cantid = (temp.cantidadExistencias).ToString();
-                        productosDisponibles.Add(producto);
+                        //temp = inventarios.Find(x => x.producto.id_producto == producto.id_producto);
+                        //producto.cantid = (temp.cantidadExistencias).ToString();
+                        productosDisponibles.Add(item);
                     }
-                    producto = null;
                 }
 
                 Session["Productos"] = productosDisponibles;
@@ -485,8 +481,8 @@ namespace ServiciosDigitalesProy.Controllers
                 TempData["estado"] = "danger";
                 return View("ActualizarEstadoFactura", Session["EstadoFactura"] as Factura);
             }
-            
-            factura.estado.id = factura.valorPagado < (double)Session["saldo"] ? 3: factura.valorPagado == (double)Session["saldo"] ? 1 : factura.valorPagado == 0 ? 4 : 2;
+
+            factura.estado.id = factura.valorPagado < (double)Session["saldo"] ? 3 : factura.valorPagado == (double)Session["saldo"] ? 1 : factura.valorPagado == 0 ? 4 : 2;
             CatalogoVentas.GetInstance().ActualizarEstadoFactura(factura, ref resultado, ref tipoResultado);
 
 
@@ -526,8 +522,8 @@ namespace ServiciosDigitalesProy.Controllers
             string resultado = "", tipoResultado = "";
             List<Factura> facturas = CatalogoVentas.GetInstance().ConsultarFacturas(ref resultado, ref tipoResultado);
 
-            CatalogoVentas.GetInstance().AnularFactura(fact.id_factura,fact.estado.Descripcion, ref resultado, ref tipoResultado);
-            
+            CatalogoVentas.GetInstance().AnularFactura(fact.id_factura, fact.estado.Descripcion, ref resultado, ref tipoResultado);
+
             TempData["mensaje"] = resultado;
             TempData["estado"] = tipoResultado;
             return View("ConsultarFacturas", facturas);

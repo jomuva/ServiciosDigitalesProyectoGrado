@@ -18,6 +18,10 @@ namespace ServiciosDigitalesProy.Models
 
         }
 
+        public Sucursal(string nombre)
+        {
+            this.nombre = nombre;
+        }
         public Sucursal(int id,string nombre)
         {
             this.id_sucursal = id;
@@ -30,7 +34,7 @@ namespace ServiciosDigitalesProy.Models
         public string nombre { get; set; }
 
         [RegularExpression(@"^[0-9a-zA-ZáéíóÚ.ÁÉÍÓÚ@. ]{1,40}$", ErrorMessage = "Los Caracteres especiales no son permitidos.")]
-        [Required(AllowEmptyStrings = false, ErrorMessage = "El campo de \"Duirección\" es obligatorio.")]
+        [Required(AllowEmptyStrings = false, ErrorMessage = "El campo de \"Dirección\" es obligatorio.")]
         public string direccion { get; set; }
 
         [RegularExpression(@"^[0-9a-zA-ZáéíóÚ.ÁÉÍÓÚ@. ]{1,40}$", ErrorMessage = "Los Caracteres especiales no son permitidos.")]
@@ -45,6 +49,7 @@ namespace ServiciosDigitalesProy.Models
 
         [Range(1111111111, 99999999999, ErrorMessage = "El teléfono debe tener 10 dígitos")]
         [RegularExpression("^[0-9]*$", ErrorMessage = "El Teléfono Celular debe ser numérico")]
+        [Required(AllowEmptyStrings = false, ErrorMessage = "El campo de \"Teléfono Celular\" es obligatorio.")]
         public string telfonoCelular { get; set; }
 
     }

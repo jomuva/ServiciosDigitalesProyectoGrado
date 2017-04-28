@@ -91,6 +91,9 @@
     <Compile Include="ConsultarElementos_Result.cs">
       <DependentUpon>ConexionBD.tt</DependentUpon>
     </Compile>
+    <Compile Include="ConsultarEmpleados_Result.cs">
+      <DependentUpon>ConexionBD.tt</DependentUpon>
+    </Compile>
     <Compile Include="ConsultarEstadoFactura_Result.cs">
       <DependentUpon>ConexionBD.tt</DependentUpon>
     </Compile>
@@ -131,6 +134,9 @@
       <DependentUpon>ConexionBD.tt</DependentUpon>
     </Compile>
     <Compile Include="ConsultarPermisosXUsuario_Result.cs">
+      <DependentUpon>ConexionBD.tt</DependentUpon>
+    </Compile>
+    <Compile Include="ConsultarProductoEnTodasLasSucursales_Result.cs">
       <DependentUpon>ConexionBD.tt</DependentUpon>
     </Compile>
     <Compile Include="ConsultarProductosXSucursalSegunEmpleado_Result.cs">

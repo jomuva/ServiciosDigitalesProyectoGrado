@@ -67,7 +67,7 @@ namespace ProyectoGrado.Catalogos
                     producto = new Producto((string)item.nombre_producto, (int)item.id_producto_inventario, (string)item.descripcion_estado_producto),
                     cantidadExistencias = item.cantidad_existencias,
                     fecha = item.fecha_actualizacion_inventario,
-                    sucursal = new Sucursal((int)item.id_sucursal,(string)item.nombre)
+                    sucursal = new Sucursal((int)item.id_sucursal, (string)item.nombre)
                 });
             }
 
@@ -260,7 +260,7 @@ namespace ProyectoGrado.Catalogos
             return ListaInventarios;
         }
 
-       
+
         /// <summary>
         /// CREA UN ESPACIO EN SUCURSAL ESPECIFICA PARA ASIGNARLE CANTIDADES A UN PRODUCTO EN ESPECIAL
         /// </summary>
@@ -302,11 +302,100 @@ namespace ProyectoGrado.Catalogos
         /// <param name="tipoResultado"></param>
         public void TrasladarProductoASucursal(Inventario inventario, int idSucursalActual, ref string resultado, ref string tipoResultado)
         {
-            inventariosDatos.TrasladarProductoASucursal(inventario.id_inventario,inventario.producto.id_producto,
-                                                         Convert.ToInt32(inventario.producto.cantid),inventario.sucursal.id_sucursal,idSucursalActual, SessionHelper.GetUser().ToString(),
+            inventariosDatos.TrasladarProductoASucursal(inventario.id_inventario, inventario.producto.id_producto,
+                                                         Convert.ToInt32(inventario.producto.cantid), inventario.sucursal.id_sucursal, idSucursalActual, SessionHelper.GetUser().ToString(),
                                              ref resultado, ref tipoResultado);
-        
+
         }
+
+
+        /// <summary>
+        /// CONSULTA EL TOTAL DE EXISTENCIAS DE CADA PRODUCTO, LAS SUMA Y DEVUELVE LA LISTA 
+        /// </summary>
+        /// <param name="resultado"></param>
+        /// <param name="tipoResultado"></param>
+        /// <returns></returns>
+        public List<Inventario> ConsultarExistenciasTotalesProductos(ref string resultado, ref string tipoResultado)
+        {
+            object oProductos = null, oCantidadItemsProducto = null;
+            string dynObj, dynObj2;
+            dynamic dyn, dyn2;
+            int suma;
+            List<Inventario> ListaInventarios = new List<Inventario>();
+            List<Producto> productos = CatalogoProductos.GetInstance().ConsultarProductos("", ref resultado, ref tipoResultado);
+            List<int> cantidades = new List<int>();
+
+            try
+            {
+                oCantidadItemsProducto = inventariosDatos.ConsultarCantidadDeProductos(ref resultado, ref tipoResultado);
+
+                int CantidadItemsProducto = 0;
+
+                dynObj2 = JsonConvert.SerializeObject(oCantidadItemsProducto);
+                dyn2 = JsonConvert.DeserializeObject(dynObj2);
+
+
+                foreach (var item in dyn2)
+                {
+                    CantidadItemsProducto = (int)item;
+                }
+
+
+                for (int i = 0; i < CantidadItemsProducto; i++)
+                {
+                    suma = 0;
+                    oProductos = inventariosDatos.ConsultarProductoEnTodasLasSucursales(productos[i].id_producto, ref resultado, ref tipoResultado);
+                    dynObj = JsonConvert.SerializeObject(oProductos);
+                    dyn = JsonConvert.DeserializeObject(dynObj);
+                    foreach (var item in dyn)
+                    {
+                        suma = suma + (int)item.cantidad_existencias;
+                    }
+                    ListaInventarios.Add(new Inventario
+                    {
+
+                        cantidadExistencias = suma,
+                        producto = new Producto((string)productos[i].nombre, (int)productos[i].id_producto)
+                    });
+
+                }
+
+            }
+            catch (Exception e)
+            {
+                resultado = e.Message;
+                tipoResultado = "danger";
+            }
+            return ListaInventarios;
+        }
+
+
+        public void AgregarSucursal(Sucursal sucursal, ref string resultado, ref string tipoResultado)
+        {
+            object oResult = inventariosDatos.AgregarSucursal(sucursal.nombre,sucursal.direccion,sucursal.ciudad,
+                                             sucursal.telefonoFijo,sucursal.telfonoCelular,ref resultado,ref tipoResultado);
+
+
+            int result = 0;
+
+            var dynObj = JsonConvert.SerializeObject(oResult);
+            dynamic dyn = JsonConvert.DeserializeObject(dynObj);
+
+
+            foreach (var item in dyn)
+            {
+                result = (int)item;
+            }
+
+
+            if (result == 0)
+            {
+                resultado = "ya existe una sucursal con el mismo nombre";
+                tipoResultado = "danger";
+            }
+        }
+
+
         #region Inventario Bajas
         /// <summary>
         /// Consulta de inventario de productos dados de baja

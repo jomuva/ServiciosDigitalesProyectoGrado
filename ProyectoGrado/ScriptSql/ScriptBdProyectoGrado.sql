@@ -507,7 +507,8 @@ INSERT INTO [dbo].[ESTADO_FACTURA]
 			('Anulado'),
 			('Abonado'),
 			('Pendiente Por Pago'),
-			('Sin Registros')
+			('Sin Registros'),
+			('Garantía')
 	GO		
 	
 
@@ -2084,5 +2085,83 @@ VALUES (@idEmpleado,@idInventarioDestino,@fecha,'Se actualiza la cantidad, de '+
  de producto desde la sucursal '+@nombreSucursalActual );
 
 
+END
+GO
+
+-- CONSULTA NOMBRE DE SUCURSAL DEL EMPLEADO LOGUEADO
+
+CREATE PROCEDURE ConsultarNombreSucursalEmpleado
+@identifEmpleado VARCHAR (15)
+AS
+BEGIN
+DECLARE @idEmpleado int
+SET @idEmpleado = (SELECT id_usuario FROM USUARIO WHERE identificacion = @identifEmpleado);
+SELECT        SUCURSAL.nombre
+FROM            ESCALADO INNER JOIN
+                         SUCURSAL ON ESCALADO.id_sucursal_escalado = SUCURSAL.id_sucursal
+WHERE id_usuario_escalado = @idEmpleado
+
+END 
+GO
+
+
+--CONSULTA LOS EMPLEADOS EN SU TOTALIDAD INCLUYENDO SU SUCURSAL
+CREATE PROCEDURE ConsultarEmpleados
+AS
+BEGIN
+SELECT        USUARIO.id_usuario, USUARIO.nombres, USUARIO.apellidos, USUARIO.identificacion, USUARIO.direccion, USUARIO.correo, USUARIO.sexo, ESTADO_USUARIO.descripcion, ROL.descripcion AS Rol, 
+                         SUCURSAL.nombre as sucursal, USUARIO.usuario_login as username
+FROM            ESTADO_USUARIO INNER JOIN
+                         USUARIO ON ESTADO_USUARIO.id_estado = USUARIO.id_estado_usuario INNER JOIN
+                         ROL ON USUARIO.id_rol_usuario = ROL.id_rol INNER JOIN
+                         ESCALADO ON USUARIO.id_usuario = ESCALADO.id_usuario_escalado INNER JOIN
+                         SUCURSAL ON ESCALADO.id_sucursal_escalado = SUCURSAL.id_sucursal
+END
+GO	
+
+--CONSULTA EL MISMO PRODUCTO EN TODAS LAS SUCURSALES Y TRAE LA LISTA DE LAS MISMAS PARA DESPUES SUMAR SUS CANTIDADES
+CREATE PROCEDURE ConsultarProductoEnTodasLasSucursales
+@idProducto int
+AS
+BEGIN
+SELECT        PRODUCTO.id_producto, PRODUCTO.nombre_producto, INVENTARIO.cantidad_existencias
+FROM            INVENTARIO INNER JOIN
+                         PRODUCTO ON INVENTARIO.id_producto_inventario = PRODUCTO.id_producto
+WHERE PRODUCTO.id_producto = @idProducto
+END
+GO
+
+-- CONSULTA LA LISTA DE IDs DE TODOS LOS PRODUCTOS
+CREATE PROCEDURE ConsultarIdProductos
+AS
+BEGIN
+SELECT count(*) FROM  PRODUCTO
+END
+GO
+
+-- TRAE LA CANTIDAD DE REGISTROS QUE HAY DE PRODUCTOS
+CREATE PROCEDURE ConsultarCantidadDeProductos
+AS
+BEGIN
+SELECT count(*) FROM  PRODUCTO
+END
+GO
+
+
+--PERMITE LA CREACION DE UNA NUEVA SUCURSAL
+CREATE PROCEDURE AgregarSucursal
+@nombre VARCHAR(20),
+@direccion VARCHAR(50),
+@ciudad VARCHAR(50),
+@telefonoFijo VARCHAR(10),
+@telefonoCelular VARCHAR(10)
+AS
+BEGIN
+	IF NOT EXISTS(SELECT nombre FROM SUCURSAL WHERE nombre =@nombre)
+	BEGIN
+		INSERT INTO SUCURSAL (nombre,direccion,ciudad,telefonoFijo,telefonoCelular)
+		VALUES (@nombre,@direccion,@ciudad,@telefonoFijo,@telefonoCelular)
+	END
+SELECT @@ROWCOUNT;
 END
 GO

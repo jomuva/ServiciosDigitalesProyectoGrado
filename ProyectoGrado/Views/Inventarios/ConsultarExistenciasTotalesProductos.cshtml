@@ -1,8 +1,8 @@
-﻿@model IEnumerable<ServiciosDigitalesProy.Models.Usuario>
+﻿@model IEnumerable<ServiciosDigitalesProy.Models.Inventario>
 
 @{
-    ViewBag.Title = " Usuarios";
-    ViewBag.SubSeccion = "Consulta de Empleados";
+    ViewBag.Title = " Inventarios";
+    ViewBag.SubSeccion = "Consulta Total de Existencias";
 }
 
 <h3>@ViewBag.SubSeccion</h3>
@@ -20,30 +20,23 @@
             <div id="home-3" class="tab-pane active">
                 <!-- page start-->
                 <div class="row">
-                    <div class="col-lg-12">
+                    <div class="col-lg-offset-2 col-lg-8">
                         <section class="panel">
                             <header class="panel-heading tab-bg-dark-navy-blue tab-right ">
-                                <div class="row">
-                                    <div class="col-lg-12">
-                                        <div class="btn-actions">
-                                            @Html.ActionLink("Adicionar", "AdicionarEmpleado", "", new {@class = "btn btn-primary pull-right" })
-                                        </div>
-                                    </div>
-                                </div>
                                 <ul class="nav nav-tabs pull-right">
-                                    <li class="active">
+                                    <li class="active" style="margin-top: 30px;">
                                         <a data-toggle="tab" href="#home-3">
                                             <i class="fa fa-circle" aria-hidden="true"></i>
                                             @ViewBag.SubSeccion
                                         </a>
                                     </li>
                                 </ul>
-                                
+
                             </header>
                             <div class="col-lg-12">
                                 <div class="panel panel-default">
                                     <div class="panel-heading">
-                                        Base de datos Empleados
+                                        <b>Existencias totales por Producto</b>
                                     </div>
                                     <!-- /.panel-heading -->
                                     <div class="panel-body">
@@ -51,25 +44,13 @@
                                             <thead>
                                                 <tr>
                                                     <td>
-                                                        <b>Nombres</b>
-</p>                                                    </td>
+                                                        <b>Código Producto</b>
                                                     <td>
-                                                        <b>Apellidos</b>
-</td>
-                                                    <td>
-                                                        <b>Identificación</b>
+                                                        <b>Nombre Producto</b>
                                                     </td>
                                                     <td>
-                                                        <b>Rol</b>
+                                                        <b>Total Existencias</b>
                                                     </td>
-                                                    
-                                                    <td>
-                                                        <b>Estado</b>
-                                                    </td>
-                                                    <td>
-                                                        <b>Sucursal</b>
-                                                    </td>
-                                                    <th></th>
                                                 </tr>
                                             </thead>
                                             <tbody>
@@ -77,27 +58,13 @@
                                                 {
                                                     <tr>
                                                         <td>
-                                                            @Html.DisplayFor(modelItem => item.nombres)
+                                                            @Html.DisplayFor(modelItem => item.producto.id_producto)
                                                         </td>
                                                         <td>
-                                                            @Html.DisplayFor(modelItem => item.apellidos)
+                                                            @Html.DisplayFor(modelItem => item.producto.nombre)
                                                         </td>
                                                         <td>
-                                                            @Html.DisplayFor(modelItem => item.identificacion)
-                                                        </td>
-                                                        <td>
-                                                            @Html.DisplayFor(modelItem => item.Rol)
-                                                        </td>
-                                                        <td>
-                                                            @Html.DisplayFor(modelItem => item.estado)
-                                                        </td>
-                                                        <td>
-                                                            @Html.DisplayFor(modelItem => item.sucursal.nombre)
-                                                        </td>
-                                                        <td>
-                                                            @Html.ActionLink("Editar", "ModificarEmpleado", new {  id=item.identificacion  }) |
-                                                            @Html.ActionLink("Detalles", "DetallesEmpleado", new { id = item.identificacion }) |
-                                                            @Html.ActionLink("Estado", "CambiarEstadoEmpleado", new { id = item.identificacion })
+                                                            <b>@Html.DisplayFor(modelItem => item.cantidadExistencias)</b>
                                                         </td>
                                                     </tr>
                                                 }
@@ -116,6 +83,7 @@
         </div>
     </div>
 </section>
+
 @Html.Partial("Partials/_Script")
 @if ((string)TempData["mensaje"] != null || (string)TempData["mensaje"] != "")
 {
@@ -125,7 +93,7 @@
                 type: '@((string)TempData["estado"])',
                 offset: { from: 'top', amount: 100 }
             });
-    });
+        });
     </script>
 }
 

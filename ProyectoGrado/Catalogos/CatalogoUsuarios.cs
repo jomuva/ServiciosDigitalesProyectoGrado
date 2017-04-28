@@ -5,6 +5,7 @@ using System.Web;
 using ServiciosDigitalesProy.Models;
 using Persistencia.UsuarioDatos;
 using Newtonsoft.Json;
+using Helper;
 
 namespace ServiciosDigitalesProy.Catalogos
 {
@@ -32,8 +33,8 @@ namespace ServiciosDigitalesProy.Catalogos
 
         public void ValidarAutenticacionLogin(Usuario user, ref string resultado, ref string tipoResultado)
         {
-            string identificacion="";
-            var id = usuarioDatos.ValidarAutenticacionLogin( user.username,  user.password, ref  resultado, ref  tipoResultado);
+            string identificacion = "";
+            var id = usuarioDatos.ValidarAutenticacionLogin(user.username, user.password, ref resultado, ref tipoResultado);
             string dynObj1 = JsonConvert.SerializeObject(id);
             dynamic dyn1 = JsonConvert.DeserializeObject(dynObj1);
 
@@ -48,8 +49,9 @@ namespace ServiciosDigitalesProy.Catalogos
                 }
                 if (identificacion != "")
                 {
-                    usuarioDatos.Autenticarse(identificacion,user.username, ref resultado, ref tipoResultado);
-                }else
+                    usuarioDatos.Autenticarse(identificacion, user.username, ref resultado, ref tipoResultado);
+                }
+                else
                 {
                     resultado = "Usuario o Contraseña Incorrecto";
                     tipoResultado = "danger";
@@ -148,7 +150,7 @@ namespace ServiciosDigitalesProy.Catalogos
                             email = item.email,
                             sexo = item.sexo,
                             estado = item.estado,
-                            NombresApellidosDocumento = item.nombres + " "+item.apellidos+". Doc: "+item.identificacion
+                            NombresApellidosDocumento = item.nombres + " " + item.apellidos + ". Doc: " + item.identificacion
                         });
                     }
                 }
@@ -157,7 +159,8 @@ namespace ServiciosDigitalesProy.Catalogos
             {
                 oUsers = usuarioDatos.ConsultarCliente(ident, ref otelefonos, ref resultado, ref tipoResultado);
 
-                if (tipoResultado != "danger") { 
+                if (tipoResultado != "danger")
+                {
                     dynObj = JsonConvert.SerializeObject(oUsers);
                     dyn = JsonConvert.DeserializeObject(dynObj);
 
@@ -191,7 +194,7 @@ namespace ServiciosDigitalesProy.Catalogos
                     ListaUsuarios[0].TelefonoCelular = telefonos[0].numero_telefono;
                     ListaUsuarios[0].TelefonoFijo = telefonos.Count == 1 ? "" : telefonos[1].numero_telefono;
                 }
-                
+
             }
             else
                 oUsers = null;
@@ -270,7 +273,7 @@ namespace ServiciosDigitalesProy.Catalogos
 
             if (ident == "" || ident == null)
             {
-                oUsers = usuarioDatos.ConsultarEmpleados();
+                oUsers = usuarioDatos.ConsultarEmpleadosSP();
                 if (tipoResultado != "danger")
                 {
                     dynObj = JsonConvert.SerializeObject(oUsers);
@@ -286,10 +289,11 @@ namespace ServiciosDigitalesProy.Catalogos
                             identificacion = item.identificacion,
                             username = item.username,
                             direccion = item.direccion,
-                            email = item.email,
+                            email = item.correo,
                             sexo = item.sexo,
-                            estado = item.estado,
-                            Rol = item.Rol
+                            estado = item.descripcion,
+                            Rol = item.Rol,
+                            sucursal = new Sucursal((string)item.sucursal)
 
                         });
 
@@ -358,7 +362,7 @@ namespace ServiciosDigitalesProy.Catalogos
                                     (
                                          cliente.TelefonoFijo, cliente.TelefonoCelular, cliente.username, cliente.email,
                                          cliente.identificacion, cliente.nombres, cliente.apellidos, cliente.direccion,
-                                         cliente.sexo, cliente.password, cliente.idRol, cliente.idEstado, cliente.idTipoIdentificacion,cliente.sucursal.id_sucursal,
+                                         cliente.sexo, cliente.password, cliente.idRol, cliente.idEstado, cliente.idTipoIdentificacion, cliente.sucursal.id_sucursal,
                                         out resultado, out tipoResultado
                                     );
 
@@ -440,7 +444,8 @@ namespace ServiciosDigitalesProy.Catalogos
             {
                 resultado = "ya existe una Estación de trabajo activa para este usuario";
                 tipoResultado = "info";
-            }else
+            }
+            else
             {
                 tipoResultado = "success";
             }
@@ -450,8 +455,26 @@ namespace ServiciosDigitalesProy.Catalogos
         public void CambiarEstadoLogueo(string identif)
         {
             usuarioDatos.CambiarEstadoLogueoUser(identif);
-        
+
         }
+
+    
+        public string ConsultarNombreSucursalEmpleado()
+        {
+            
+            var oSucursal = usuarioDatos.ConsultarNombreSucursalEmpleado(SessionHelper.GetUser().ToString());
+            string nombreSucursal="";
+            string dynObj = JsonConvert.SerializeObject(oSucursal);
+            dynamic dyn = JsonConvert.DeserializeObject(dynObj);
+
+            foreach (var data in dyn)
+            {
+                nombreSucursal = data;
+            }
+
+            return nombreSucursal;
+        }
+
         #endregion
     }
 

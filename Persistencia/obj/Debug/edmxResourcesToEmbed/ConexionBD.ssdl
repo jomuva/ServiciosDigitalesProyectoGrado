@@ -797,6 +797,13 @@
     <Parameter Name="descripc" Type="varchar" Mode="In" />
     <Parameter Name="precio" Type="decimal" Mode="In" />
   </Function>
+  <Function Name="AgregarSucursal" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
+    <Parameter Name="nombre" Type="varchar" Mode="In" />
+    <Parameter Name="direccion" Type="varchar" Mode="In" />
+    <Parameter Name="ciudad" Type="varchar" Mode="In" />
+    <Parameter Name="telefonoFijo" Type="varchar" Mode="In" />
+    <Parameter Name="telefonoCelular" Type="varchar" Mode="In" />
+  </Function>
   <Function Name="AgregarUsuario" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
     <Parameter Name="tipoIdent" Type="int" Mode="In" />
     <Parameter Name="estado" Type="int" Mode="In" />
@@ -833,6 +840,7 @@
   <Function Name="Consultar_id_UsuarioXIdentificacion" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
     <Parameter Name="codigo" Type="int" Mode="In" />
   </Function>
+  <Function Name="ConsultarCantidadDeProductos" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo" />
   <Function Name="ConsultarCantidadProductoXid" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
     <Parameter Name="idProd" Type="int" Mode="In" />
   </Function>
@@ -849,6 +857,7 @@
     <Parameter Name="idFactura" Type="int" Mode="In" />
   </Function>
   <Function Name="ConsultarElementos" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo" />
+  <Function Name="ConsultarEmpleados" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo" />
   <Function Name="ConsultarEstado_Solicitud" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
     <Parameter Name="idSolic" Type="int" Mode="In" />
   </Function>
@@ -875,6 +884,7 @@
   <Function Name="ConsultarHistoricoSolicitudX_id" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
     <Parameter Name="id_solicitud" Type="int" Mode="In" />
   </Function>
+  <Function Name="ConsultarIdProductos" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo" />
   <Function Name="ConsultarInventarioBajas" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo" />
   <Function Name="ConsultarInventarios" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo" />
   <Function Name="ConsultarInventarioXCodigoProducto" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
@@ -883,8 +893,14 @@
   <Function Name="ConsultarInventarioXNombreProducto" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
     <Parameter Name="nombr" Type="varchar" Mode="In" />
   </Function>
+  <Function Name="ConsultarNombreSucursalEmpleado" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
+    <Parameter Name="identifEmpleado" Type="varchar" Mode="In" />
+  </Function>
   <Function Name="ConsultarPermisosXUsuario" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
     <Parameter Name="identif" Type="varchar" Mode="In" />
+  </Function>
+  <Function Name="ConsultarProductoEnTodasLasSucursales" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
+    <Parameter Name="idProducto" Type="int" Mode="In" />
   </Function>
   <Function Name="ConsultarProductos" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo" />
   <Function Name="ConsultarProductosXSucursal" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">

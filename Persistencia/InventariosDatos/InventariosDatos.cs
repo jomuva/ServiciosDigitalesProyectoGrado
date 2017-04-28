@@ -329,6 +329,116 @@ namespace Persistencia.InventariosDatos
         }
 
 
+        /// <summary>
+        /// CONSULTA EL MISMO PRODUCTO EN TODAS LAS SUCURSALES Y TRAE LA LISTA DE LAS MISMAS PARA DESPUES SUMAR SUS CANTIDADES
+        /// </summary>
+        /// <param name="idProducto"></param>
+        /// <param name="resultado"></param>
+        /// <param name="tipoResultado"></param>
+        /// <returns></returns>
+        public object ConsultarProductoEnTodasLasSucursales(int idProducto, ref string resultado, ref string tipoResultado)
+        {
+
+            object lista = null;
+            try
+            {
+                var productos = conexion.conexiones.ConsultarProductoEnTodasLasSucursales(idProducto).ToList();
+         
+                return productos.ToList();
+            }
+            catch (Exception ex)
+            {
+                resultado = ex.Message;
+                tipoResultado = "danger";
+            }
+
+            return lista;
+        }
+
+
+        /// <summary>
+        /// CONSULTA LA LISTA DE IDs DE TODOS LOS PRODUCTOS
+        /// </summary>
+        /// <param name="resultado"></param>
+        /// <param name="tipoResultado"></param>
+        /// <returns></returns>
+        public object ConsultarIdProductos(ref string resultado, ref string tipoResultado)
+        {
+
+            object lista = null;
+            try
+            {
+                var productos = conexion.conexiones.ConsultarIdProductos().ToList();
+
+                return productos.ToList();
+            }
+            catch (Exception ex)
+            {
+                resultado = ex.Message;
+                tipoResultado = "danger";
+            }
+
+            return lista;
+        }
+
+        /// <summary>
+        /// TRAE LA CANTIDAD DE REGISTROS QUE HAY DE PRODUCTOS
+        /// </summary>
+        /// <param name="resultado"></param>
+        /// <param name="tipoResultado"></param>
+        /// <returns></returns>
+        public object ConsultarCantidadDeProductos(ref string resultado, ref string tipoResultado)
+        {
+
+            object lista = null;
+            try
+            {
+                var productos = conexion.conexiones.ConsultarCantidadDeProductos().ToList();
+
+                return productos.ToList();
+            }
+            catch (Exception ex)
+            {
+                resultado = ex.Message;
+                tipoResultado = "danger";
+            }
+
+            return lista;
+        }
+
+
+        /// <summary>
+        /// PERMITE LA CREACION DE UNA NUEVA SUCURSAL
+        /// </summary>
+        /// <param name="nombre"></param>
+        /// <param name="direccion"></param>
+        /// <param name="ciudad"></param>
+        /// <param name="fijo"></param>
+        /// <param name="celular"></param>
+        /// <param name="resultado"></param>
+        /// <param name="tipoResultado"></param>
+        /// <returns></returns>
+        public object AgregarSucursal(string nombre,string direccion,string ciudad,string fijo,string celular, ref string resultado, ref string tipoResultado)
+        {
+            object result = null;
+            try
+            {
+                result = conexion.conexiones.AgregarSucursal(nombre, direccion,ciudad,fijo,celular).ToList();
+                conexion.conexiones.SaveChanges();
+
+                resultado = "Se ha creado la sucursal exitosamente";
+                tipoResultado = "success";
+
+            }
+            catch (Exception ex)
+            {
+                resultado = ex.Message;
+                tipoResultado = "danger";
+            }
+
+            return result;
+        }
+
         #region Inventario Bajas
         /// <summary>
         /// Consulta el inventario de las bajas de productos actualizada

@@ -158,7 +158,35 @@ namespace ServiciosDigitalesProy.Controllers
             string resultado = "", tipoResultado = "";
             int idSucursalActual = (int)Session["idSucursal"];
 
-            if(inventario.cantidadExistencias == 0)
+            if (inventario.producto.cantid == null)
+            {
+                TempData["mensaje"] = "El Campo Cantidad no puede estar vacio";
+                TempData["estado"] = "danger";
+
+
+                string res = "", tipoRes = "";
+                List<Inventario> inventarios = CatalogoInventarios.GetInstance().ConsultarInventarios("", ref res, ref tipoRes);
+                Inventario inventarioo = inventarios.Find(x => x.id_inventario == inventario.id_inventario);
+                inventarioo.producto.sucursalesSelect = new SelectList(CatalogoProductos.GetInstance().ConsultarSucursales(), "id_sucursal", "nombre");
+                ViewBag.nombreSucursal = (string)Session["nombreSucursalInventario"];
+                return View(inventarioo);
+            }
+
+            if (idSucursalActual == inventario.sucursal.id_sucursal)
+            {
+                TempData["mensaje"] = "No se pueden realizar traslados a la misma sucursal origen";
+                TempData["estado"] = "danger";
+
+
+                string res = "", tipoRes = "";
+                List<Inventario> inventarios = CatalogoInventarios.GetInstance().ConsultarInventarios("", ref res, ref tipoRes);
+                Inventario inventarioo = inventarios.Find(x => x.id_inventario == inventario.id_inventario);
+                inventarioo.producto.sucursalesSelect = new SelectList(CatalogoProductos.GetInstance().ConsultarSucursales(), "id_sucursal", "nombre");
+                ViewBag.nombreSucursal = (string)Session["nombreSucursalInventario"];
+                return View(inventarioo);
+            }
+
+            if (inventario.cantidadExistencias == 0)
             {
                 TempData["mensaje"] = "No se pueden realizar traslados del producto.  Verifique la cantidad disponible en inventario";
                 TempData["estado"] = "danger";
@@ -191,10 +219,17 @@ namespace ServiciosDigitalesProy.Controllers
 
                 CatalogoInventarios.GetInstance().TrasladarProductoASucursal(inventario, idSucursalActual, ref resultado, ref tipoResultado);
 
+                if (resultado.Equals("An error occurred while executing the command definition. See the inner exception for details."))
+                {
+                    TempData["mensaje"] = "Antes de trasladar el producto, verifique que se ha asignado un espacio a la sucursal destino";
+                    TempData["estado"] = "danger";
 
-                TempData["mensaje"] = resultado;
-                TempData["estado"] = tipoResultado;
-
+                }
+                else
+                {
+                    TempData["mensaje"] = resultado;
+                    TempData["estado"] = tipoResultado;
+                }
                 string res = "", tipoRes = "";
                 List<Producto> prod = CatalogoProductos.GetInstance().ConsultarProductos("", ref res, ref tipoRes);
                 int numProd = prod.Count;
@@ -205,7 +240,8 @@ namespace ServiciosDigitalesProy.Controllers
                 ViewBag.nombreSucursal = inventarios.Count > 0 ? inventarios[0].sucursal.nombre : "";
                 ViewBag.idSucursal = (int)Session["idSucursal"];
                 return View("ConsultarInventarioXSucursal", inventarios);
-            }else
+            }
+            else
             {
                 TempData["mensaje"] = "La cantidad de productos a trasladar debe ser menor o igual a la cantidad de existencias que tiene la sede";
                 TempData["estado"] = "danger";
@@ -343,6 +379,48 @@ namespace ServiciosDigitalesProy.Controllers
             ViewBag.idInventario = inventario.id_inventario;
             return View("ConsultarHistoricoInventarios", historicos);
         }
+
+
+        [HttpGet]
+        public ActionResult ConsultarExistenciasTotalesProductos()
+        {
+            string resultado = "", tipoResultado = "";
+            List<Inventario> inventarios;
+            inventarios = CatalogoInventarios.GetInstance().ConsultarExistenciasTotalesProductos(ref resultado, ref tipoResultado);
+
+            TempData["mensaje"] = resultado;
+            TempData["estado"] = tipoResultado;
+            if (tipoResultado == "danger")
+            {
+                TempData["mensaje"] = resultado;
+                TempData["estado"] = tipoResultado;
+                return RedirectToAction("IndexInterno", "Home");
+            }
+            else
+            {
+                ViewBag.titulo = "";
+                return View(inventarios);
+            }
+        }
+
+
+        [HttpGet]
+        public ActionResult AgregarSucursal()
+        {
+            return View();
+        }
+
+        [HttpPost]
+        public ActionResult AgregarSucursal(Sucursal sucursal)
+        {
+            string resultado = "", tipoResultado = "";
+            CatalogoInventarios.GetInstance().AgregarSucursal(sucursal, ref resultado, ref tipoResultado);
+
+            TempData["mensaje"] = resultado;
+            TempData["estado"] = tipoResultado;
+            return RedirectToAction("IndexInterno", "Home");
+        }
+
         #region Inventario Bajas
 
 

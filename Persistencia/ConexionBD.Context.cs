@@ -15,10 +15,10 @@ namespace Persistencia
     using System.Data.Entity.Core.Objects;
     using System.Linq;
     
-    public partial class bdServiciosDigitalesProyEntities1 : DbContext
+    public partial class bdServiciosDigitalesProyEntities : DbContext
     {
-        public bdServiciosDigitalesProyEntities1()
-            : base("name=bdServiciosDigitalesProyEntities1")
+        public bdServiciosDigitalesProyEntities()
+            : base("name=bdServiciosDigitalesProyEntities")
         {
         }
     
@@ -365,6 +365,31 @@ namespace Persistencia
             return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction<Nullable<int>>("AgregarServicio", descripcParameter, precioParameter);
         }
     
+        public virtual ObjectResult<Nullable<int>> AgregarSucursal(string nombre, string direccion, string ciudad, string telefonoFijo, string telefonoCelular)
+        {
+            var nombreParameter = nombre != null ?
+                new ObjectParameter("nombre", nombre) :
+                new ObjectParameter("nombre", typeof(string));
+    
+            var direccionParameter = direccion != null ?
+                new ObjectParameter("direccion", direccion) :
+                new ObjectParameter("direccion", typeof(string));
+    
+            var ciudadParameter = ciudad != null ?
+                new ObjectParameter("ciudad", ciudad) :
+                new ObjectParameter("ciudad", typeof(string));
+    
+            var telefonoFijoParameter = telefonoFijo != null ?
+                new ObjectParameter("telefonoFijo", telefonoFijo) :
+                new ObjectParameter("telefonoFijo", typeof(string));
+    
+            var telefonoCelularParameter = telefonoCelular != null ?
+                new ObjectParameter("telefonoCelular", telefonoCelular) :
+                new ObjectParameter("telefonoCelular", typeof(string));
+    
+            return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction<Nullable<int>>("AgregarSucursal", nombreParameter, direccionParameter, ciudadParameter, telefonoFijoParameter, telefonoCelularParameter);
+        }
+    
         public virtual int AgregarUsuario(Nullable<int> tipoIdent, Nullable<int> estado, Nullable<int> rol, string identif, string apellidos, string nombres, string direccion, string correo, string sexo, string username, string passwd, Nullable<int> idSucursal)
         {
             var tipoIdentParameter = tipoIdent.HasValue ?
@@ -492,6 +517,11 @@ namespace Persistencia
             return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction<Nullable<int>>("Consultar_id_UsuarioXIdentificacion", codigoParameter);
         }
     
+        public virtual ObjectResult<Nullable<int>> ConsultarCantidadDeProductos()
+        {
+            return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction<Nullable<int>>("ConsultarCantidadDeProductos");
+        }
+    
         public virtual ObjectResult<Nullable<int>> ConsultarCantidadProductoXid(Nullable<int> idProd)
         {
             var idProdParameter = idProd.HasValue ?
@@ -546,6 +576,11 @@ namespace Persistencia
         public virtual ObjectResult<ConsultarElementos_Result> ConsultarElementos()
         {
             return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction<ConsultarElementos_Result>("ConsultarElementos");
+        }
+    
+        public virtual ObjectResult<ConsultarEmpleados_Result> ConsultarEmpleados()
+        {
+            return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction<ConsultarEmpleados_Result>("ConsultarEmpleados");
         }
     
         public virtual ObjectResult<ConsultarEstado_Solicitud_Result> ConsultarEstado_Solicitud(Nullable<int> idSolic)
@@ -630,6 +665,11 @@ namespace Persistencia
             return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction<ConsultarHistoricoSolicitudX_id_Result>("ConsultarHistoricoSolicitudX_id", id_solicitudParameter);
         }
     
+        public virtual ObjectResult<Nullable<int>> ConsultarIdProductos()
+        {
+            return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction<Nullable<int>>("ConsultarIdProductos");
+        }
+    
         public virtual ObjectResult<ConsultarInventarioBajas_Result> ConsultarInventarioBajas()
         {
             return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction<ConsultarInventarioBajas_Result>("ConsultarInventarioBajas");
@@ -658,6 +698,15 @@ namespace Persistencia
             return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction<ConsultarInventarioXNombreProducto_Result>("ConsultarInventarioXNombreProducto", nombrParameter);
         }
     
+        public virtual ObjectResult<string> ConsultarNombreSucursalEmpleado(string identifEmpleado)
+        {
+            var identifEmpleadoParameter = identifEmpleado != null ?
+                new ObjectParameter("identifEmpleado", identifEmpleado) :
+                new ObjectParameter("identifEmpleado", typeof(string));
+    
+            return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction<string>("ConsultarNombreSucursalEmpleado", identifEmpleadoParameter);
+        }
+    
         public virtual ObjectResult<ConsultarPermisosXUsuario_Result> ConsultarPermisosXUsuario(string identif)
         {
             var identifParameter = identif != null ?
@@ -665,6 +714,15 @@ namespace Persistencia
                 new ObjectParameter("identif", typeof(string));
     
             return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction<ConsultarPermisosXUsuario_Result>("ConsultarPermisosXUsuario", identifParameter);
+        }
+    
+        public virtual ObjectResult<ConsultarProductoEnTodasLasSucursales_Result> ConsultarProductoEnTodasLasSucursales(Nullable<int> idProducto)
+        {
+            var idProductoParameter = idProducto.HasValue ?
+                new ObjectParameter("idProducto", idProducto) :
+                new ObjectParameter("idProducto", typeof(int));
+    
+            return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction<ConsultarProductoEnTodasLasSucursales_Result>("ConsultarProductoEnTodasLasSucursales", idProductoParameter);
         }
     
         public virtual ObjectResult<ConsultarProductos_Result> ConsultarProductos()
@@ -679,6 +737,15 @@ namespace Persistencia
                 new ObjectParameter("idSucursal", typeof(int));
     
             return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction<ConsultarProductosXSucursal_Result>("ConsultarProductosXSucursal", idSucursalParameter);
+        }
+    
+        public virtual ObjectResult<ConsultarProductosXSucursalSegunEmpleado_Result> ConsultarProductosXSucursalSegunEmpleado(string identifEmpleado)
+        {
+            var identifEmpleadoParameter = identifEmpleado != null ?
+                new ObjectParameter("identifEmpleado", identifEmpleado) :
+                new ObjectParameter("identifEmpleado", typeof(string));
+    
+            return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction<ConsultarProductosXSucursalSegunEmpleado_Result>("ConsultarProductosXSucursalSegunEmpleado", identifEmpleadoParameter);
         }
     
         public virtual ObjectResult<ConsultarProductoXCodigo_Result> ConsultarProductoXCodigo(Nullable<int> codigo)
@@ -915,15 +982,6 @@ namespace Persistencia
                 new ObjectParameter("passwd", typeof(string));
     
             return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction<string>("ValidarAutenticacionLogin", usernameParameter, passwdParameter);
-        }
-    
-        public virtual ObjectResult<ConsultarProductosXSucursalSegunEmpleado_Result> ConsultarProductosXSucursalSegunEmpleado(string identifEmpleado)
-        {
-            var identifEmpleadoParameter = identifEmpleado != null ?
-                new ObjectParameter("identifEmpleado", identifEmpleado) :
-                new ObjectParameter("identifEmpleado", typeof(string));
-    
-            return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction<ConsultarProductosXSucursalSegunEmpleado_Result>("ConsultarProductosXSucursalSegunEmpleado", identifEmpleadoParameter);
         }
     }
 }

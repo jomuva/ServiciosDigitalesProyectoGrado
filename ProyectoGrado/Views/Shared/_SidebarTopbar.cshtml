@@ -204,10 +204,12 @@
                         <li>
                             @Html.ActionLink("Consultar Inventario de Productos", "ConsultarInventarios", "Inventarios")
                         </li>
-                        
-                        <li>
-                            @Html.ActionLink("Consultar Total de existencias", "ConsultarExistenciasTotalesProductos", "Inventarios")
-                        </li>
+                        @if (ValidadorPermisos.TienePermiso(RolesPermisos.Puede_Consultar_Total_Existencias))
+                        {
+                            <li>
+                                @Html.ActionLink("Consultar Total de existencias", "ConsultarExistenciasTotalesProductos", "Inventarios")
+                            </li>
+                        }
                         @if (ValidadorPermisos.TienePermiso(RolesPermisos.puede_consultar_inventario_bajas))
                         {
                             <li>
@@ -227,17 +229,18 @@
                         </li>
                     </ul>
                 </li>
+                @if (ValidadorPermisos.TienePermiso(RolesPermisos.Puede_Crear_Sucursal))
+                {
+                    <li>
+                        <a href="javascript:;" data-toggle="collapse" data-target="#sucursales"><i class="fa fa-fw fa-home"></i> Sucursales <i class="fa fa-fw fa-caret-down"></i></a>
+                        <ul id="sucursales" class="collapse">
+                            <li>
+                                @Html.ActionLink("Crear Sucursal", "AgregarSucursal", "Inventarios")
+                            </li>
 
-                <li>
-                    <a href="javascript:;" data-toggle="collapse" data-target="#sucursales"><i class="fa fa-fw fa-home"></i> Sucursales <i class="fa fa-fw fa-caret-down"></i></a>
-                    <ul id="sucursales" class="collapse">
-                        <li>
-                            @Html.ActionLink("Crear Sucursal", "AgregarSucursal", "Inventarios")
-                        </li>
-                        
-                    </ul>
-                </li>
-
+                        </ul>
+                    </li>
+                }
             </ul>
 
         </div>

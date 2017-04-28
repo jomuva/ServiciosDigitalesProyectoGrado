@@ -107,6 +107,7 @@ namespace ServiciosDigitalesProy.Controllers
         }
 
         [HttpGet]
+        [Permiso(Permiso = RolesPermisos.Puede_Crear_Espacio_En_sucursal)]
         public ActionResult AsignarEspacioProductoASucursal(int id)
         {
             //identificacion = identificacion == "0" ? "" : identificacion;
@@ -136,6 +137,7 @@ namespace ServiciosDigitalesProy.Controllers
 
 
         [HttpGet]
+        [Permiso(Permiso = RolesPermisos.Puede_Trasladar_Producto)]
         public ActionResult TrasladarProductoASucursal(int id)
         {
             string resultado = "", tipoResultado = "";

@@ -748,7 +748,7 @@ namespace Persistencia.UsuarioDatos
         public void ModificarEmpleado(
                                      string TelefonoFijo, string TelefonoCelular, string username,
                                      string email, string identificacion, string nombres, string apellidos,
-                                     string direccion, string sexo, int idTipoIdentificacion, int idRol,
+                                     string direccion, string sexo, int idTipoIdentificacion, int idRol, int idSucursal,
                                      out string res, out string tipoRes)
         {
 
@@ -768,7 +768,13 @@ namespace Persistencia.UsuarioDatos
                     USUARIO.id_rol_usuario = idRol;
 
                 }
+
+
                 conexion.conexiones.SaveChanges();
+
+                conexion.conexiones.CambiarEmpleado_de_Sucursal(identificacion,idSucursal);
+
+
 
                 var idUsu = from u in conexion.conexiones.USUARIO
                             where u.identificacion == identificacion
@@ -905,6 +911,29 @@ namespace Persistencia.UsuarioDatos
             catch 
             {
                 
+            }
+
+            return lista;
+        }
+
+        /// <summary>
+        /// CONSULTA EL ESTADO DE UN EMPLEADO USANDO SU USERNAME
+        /// </summary>
+        /// <param name="username"></param>
+        /// <returns></returns>
+        public object ConsultarEstadoEmpleadoX_Username(string username)
+        {
+
+            object lista = null;
+            try
+            {
+                var nombre = conexion.conexiones.ConsultarEstadoEmpleadoX_Username(username).ToList();
+
+                return nombre.ToList();
+            }
+            catch
+            {
+
             }
 
             return lista;

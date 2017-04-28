@@ -324,6 +324,7 @@ namespace ServiciosDigitalesProy.Controllers
             }
             usuarios.First().tiposIdentificacion = new SelectList(CatalogoUsuarios.GetInstance().ConsultarTiposIdentificacion(), "id", "Descripcion");
             usuarios.First().Roles = new SelectList(CatalogoUsuarios.GetInstance().ConsultarRolesEmpleado(), "id", "Descripcion");
+            usuarios.First().sucursalesSelect = new SelectList(CatalogoProductos.GetInstance().ConsultarSucursales(), "id_sucursal", "nombre");
             usuario = usuarios.First();
             return View("Empleados/ModificarEmpleado", usuario);
         }

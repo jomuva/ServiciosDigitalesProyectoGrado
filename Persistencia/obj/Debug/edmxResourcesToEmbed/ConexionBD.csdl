@@ -752,7 +752,7 @@
     <End Role="ROL" Type="Self.ROL" Multiplicity="*" />
     <End Role="PERMISO" Type="Self.PERMISO" Multiplicity="*" />
   </Association>
-  <EntityContainer Name="bdServiciosDigitalesProyEntities" annotation:LazyLoadingEnabled="true">
+  <EntityContainer Name="bdServiciosDigitalesProyEntities1" annotation:LazyLoadingEnabled="true">
     <EntitySet Name="CATEGORIA_ELEMENTO" EntityType="Self.CATEGORIA_ELEMENTO" />
     <EntitySet Name="CATEGORIA_PRODUCTO" EntityType="Self.CATEGORIA_PRODUCTO" />
     <EntitySet Name="DETALLE_FACTURA_PRODUCTO" EntityType="Self.DETALLE_FACTURA_PRODUCTO" />
@@ -1187,6 +1187,13 @@
       <Parameter Name="username" Mode="In" Type="String" />
       <Parameter Name="passwd" Mode="In" Type="String" />
     </FunctionImport>
+    <FunctionImport Name="CambiarEmpleado_de_Sucursal">
+      <Parameter Name="identifEmpleado" Mode="In" Type="String" />
+      <Parameter Name="idSucursal" Mode="In" Type="Int32" />
+    </FunctionImport>
+    <FunctionImport Name="ConsultarEstadoEmpleadoX_Username" ReturnType="Collection(String)">
+      <Parameter Name="username" Mode="In" Type="String" />
+    </FunctionImport>
   </EntityContainer>
   <ComplexType Name="ConsultarCategorias_Elemento_Result">
     <Property Type="Int32" Name="id_categoria_elemento" Nullable="false" />
@@ -1311,6 +1318,8 @@
     <Property Type="Int32" Name="id_producto_inventario" Nullable="false" />
     <Property Type="Int32" Name="cantidad_existencias" Nullable="false" />
     <Property Type="DateTime" Name="fecha_actualizacion_inventario" Nullable="false" Precision="23" />
+    <Property Type="Int32" Name="id_sucursal" Nullable="false" />
+    <Property Type="String" Name="nombre" Nullable="false" MaxLength="20" />
   </ComplexType>
   <ComplexType Name="ConsultarInventarios_Result">
     <Property Type="Int32" Name="id_inventario" Nullable="false" />

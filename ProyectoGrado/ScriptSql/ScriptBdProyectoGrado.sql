@@ -120,7 +120,11 @@ INSERT INTO [dbo].[PERMISO]
 			('solicitudes','puede_agregar_anotacion_solicitud'),
 			('solicitudes','puede_consultar_elementos'),
 			('solicitudes','Puede_Ver_Columna_Empleado_Asignado'),
-			('empleado','Puede_consultar_empleado')
+			('empleado','Puede_consultar_empleado'),
+			('inventario','Puede_Crear_Sucursal'),
+			('inventario','Puede_Trasladar_Producto'),
+			('inventario','Puede_Crear_Espacio_En_sucursal'),
+			('inventario','Puede_Consultar_Total_Existencias')
 
 	
 	GO	
@@ -192,7 +196,12 @@ INSERT INTO [dbo].[PERMISO_DENEGADO_POR_ROL]
 			(3,39),
 			(4,39),
 			(3,40),
-			(4,40)
+			(4,40),
+			(3,41),
+			(4,41),
+			(3,42),
+			(3,43),
+			(3,44)
 
  GO
 
@@ -1525,9 +1534,10 @@ GO
 CREATE PROCEDURE ConsultarInventarioBajas
 AS
 BEGIN
-SELECT        INVENTARIO_BAJAS.id_inventario_bajas, PRODUCTO.nombre_producto, INVENTARIO_BAJAS.id_producto_inventario, INVENTARIO_BAJAS.cantidad_existencias, INVENTARIO_BAJAS.fecha_actualizacion_inventario
+SELECT        INVENTARIO_BAJAS.id_inventario_bajas, PRODUCTO.nombre_producto, INVENTARIO_BAJAS.id_producto_inventario, INVENTARIO_BAJAS.cantidad_existencias, INVENTARIO_BAJAS.fecha_actualizacion_inventario, SUCURSAL.id_sucursal, SUCURSAL.nombre
 FROM            INVENTARIO_BAJAS INNER JOIN
-                         PRODUCTO ON INVENTARIO_BAJAS.id_producto_inventario = PRODUCTO.id_producto
+                         PRODUCTO ON INVENTARIO_BAJAS.id_producto_inventario = PRODUCTO.id_producto INNER JOIN
+						  SUCURSAL ON INVENTARIO_BAJAS.id_sucursal_inventario = SUCURSAL.id_sucursal
 END
 GO
 
@@ -2163,5 +2173,32 @@ BEGIN
 		VALUES (@nombre,@direccion,@ciudad,@telefonoFijo,@telefonoCelular)
 	END
 SELECT @@ROWCOUNT;
+END
+GO
+
+
+-- CAMBIA DE SUCURSAL A UN EMPLEADO
+CREATE PROCEDURE CambiarEmpleado_de_Sucursal
+@identifEmpleado VARCHAR(15),
+@idSucursal int
+
+AS
+BEGIN
+DECLARE @idEmpleado int
+END
+SET @idEmpleado = (SELECT id_usuario FROM USUARIO WHERE identificacion = @identifEmpleado);
+
+UPDATE ESCALADO SET id_sucursal_escalado = @idSucursal WHERE id_usuario_escalado = @idEmpleado
+GO
+
+--CONSULTA EL ESTADO DE UN EMPLEADO USANDO SU USERNAME
+CREATE PROCEDURE ConsultarEstadoEmpleadoX_Username
+@username VARCHAR (15)
+AS
+BEGIN
+SELECT        ESTADO_USUARIO.descripcion
+FROM            ESTADO_USUARIO INNER JOIN
+                         USUARIO ON ESTADO_USUARIO.id_estado = USUARIO.id_estado_usuario
+WHERE USUARIO.usuario_login = @username
 END
 GO

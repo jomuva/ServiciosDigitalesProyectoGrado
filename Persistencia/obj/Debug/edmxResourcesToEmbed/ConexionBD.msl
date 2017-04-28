@@ -1,6 +1,6 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
 <Mapping Space="C-S" xmlns="http://schemas.microsoft.com/ado/2009/11/mapping/cs">
-  <EntityContainerMapping StorageEntityContainer="bdServiciosDigitalesProyModelStoreContainer" CdmEntityContainer="bdServiciosDigitalesProyEntities">
+  <EntityContainerMapping StorageEntityContainer="bdServiciosDigitalesProyModelStoreContainer" CdmEntityContainer="bdServiciosDigitalesProyEntities1">
     <EntitySetMapping Name="CATEGORIA_ELEMENTO">
       <EntityTypeMapping TypeName="bdServiciosDigitalesProyModel.CATEGORIA_ELEMENTO">
         <MappingFragment StoreEntitySet="CATEGORIA_ELEMENTO">
@@ -526,6 +526,8 @@
           <ScalarProperty Name="id_producto_inventario" ColumnName="id_producto_inventario" />
           <ScalarProperty Name="cantidad_existencias" ColumnName="cantidad_existencias" />
           <ScalarProperty Name="fecha_actualizacion_inventario" ColumnName="fecha_actualizacion_inventario" />
+          <ScalarProperty Name="id_sucursal" ColumnName="id_sucursal" />
+          <ScalarProperty Name="nombre" ColumnName="nombre" />
         </ComplexTypeMapping>
       </ResultMapping>
     </FunctionImportMapping>
@@ -770,5 +772,7 @@
     <FunctionImportMapping FunctionImportName="ObtenerIdUltimaFacturaGenerada" FunctionName="bdServiciosDigitalesProyModel.Store.ObtenerIdUltimaFacturaGenerada" />
     <FunctionImportMapping FunctionImportName="TrasladarProductoASucursal" FunctionName="bdServiciosDigitalesProyModel.Store.TrasladarProductoASucursal" />
     <FunctionImportMapping FunctionImportName="ValidarAutenticacionLogin" FunctionName="bdServiciosDigitalesProyModel.Store.ValidarAutenticacionLogin" />
+    <FunctionImportMapping FunctionImportName="CambiarEmpleado_de_Sucursal" FunctionName="bdServiciosDigitalesProyModel.Store.CambiarEmpleado_de_Sucursal" />
+    <FunctionImportMapping FunctionImportName="ConsultarEstadoEmpleadoX_Username" FunctionName="bdServiciosDigitalesProyModel.Store.ConsultarEstadoEmpleadoX_Username" />
   </EntityContainerMapping>
 </Mapping>

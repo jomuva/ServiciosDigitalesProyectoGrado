@@ -46,7 +46,12 @@ public enum RolesPermisos
         puede_agregar_anotacion_solicitud = 37,
         puede_consultar_elementos = 38,
         Puede_Ver_Columna_Empleado_Asignado = 39,
-        Puede_consultar_empleado = 40
+        Puede_consultar_empleado = 40,
+        Puede_Crear_Sucursal = 41,
+        Puede_Trasladar_Producto = 42,
+        Puede_Crear_Espacio_En_sucursal = 43,
+        Puede_Consultar_Total_Existencias = 44
+
 
     }
 }

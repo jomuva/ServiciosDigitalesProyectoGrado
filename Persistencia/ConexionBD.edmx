@@ -4,7 +4,7 @@
   <edmx:Runtime>
     <!-- SSDL content -->
     <edmx:StorageModels>
-      <Schema Namespace="bdServiciosDigitalesProyModel.Store" Provider="System.Data.SqlClient" ProviderManifestToken="2012" Alias="Self" xmlns:store="http://schemas.microsoft.com/ado/2007/12/edm/EntityStoreSchemaGenerator" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm/ssdl">
+    <Schema Namespace="bdServiciosDigitalesProyModel.Store" Provider="System.Data.SqlClient" ProviderManifestToken="2012" Alias="Self" xmlns:store="http://schemas.microsoft.com/ado/2007/12/edm/EntityStoreSchemaGenerator" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm/ssdl">
         <EntityType Name="CATEGORIA_ELEMENTO">
           <Key>
             <PropertyRef Name="id_categoria_elemento" />
@@ -828,6 +828,10 @@
           <Parameter Name="identifEmpleado" Type="varchar" Mode="In" />
           <Parameter Name="MotivoAnulacion" Type="varchar" Mode="In" />
         </Function>
+        <Function Name="CambiarEmpleado_de_Sucursal" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
+          <Parameter Name="identifEmpleado" Type="varchar" Mode="In" />
+          <Parameter Name="idSucursal" Type="int" Mode="In" />
+        </Function>
         <Function Name="CambiarEstadoLogueoUser" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
           <Parameter Name="username" Type="varchar" Mode="In" />
         </Function>
@@ -865,6 +869,9 @@
         <Function Name="ConsultarEmpleados" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo" />
         <Function Name="ConsultarEstado_Solicitud" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
           <Parameter Name="idSolic" Type="int" Mode="In" />
+        </Function>
+        <Function Name="ConsultarEstadoEmpleadoX_Username" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
+          <Parameter Name="username" Type="varchar" Mode="In" />
         </Function>
         <Function Name="ConsultarEstadoFactura" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
           <Parameter Name="idFactura" Type="int" Mode="In" />
@@ -1156,8 +1163,7 @@
             <End Role="TELEFONO_USUARIO" EntitySet="TELEFONO_USUARIO" />
           </AssociationSet>
         </EntityContainer>
-      </Schema>
-    </edmx:StorageModels>
+      </Schema></edmx:StorageModels>
     <!-- CSDL content -->
     <edmx:ConceptualModels>
       <Schema Namespace="bdServiciosDigitalesProyModel" Alias="Self" annotation:UseStrongSpatialTypes="false" xmlns:annotation="http://schemas.microsoft.com/ado/2009/02/edm/annotation" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm">
@@ -1913,7 +1919,7 @@
           <End Role="ROL" Type="Self.ROL" Multiplicity="*" />
           <End Role="PERMISO" Type="Self.PERMISO" Multiplicity="*" />
         </Association>
-        <EntityContainer Name="bdServiciosDigitalesProyEntities" annotation:LazyLoadingEnabled="true">
+        <EntityContainer Name="bdServiciosDigitalesProyEntities1" annotation:LazyLoadingEnabled="true">
           <EntitySet Name="CATEGORIA_ELEMENTO" EntityType="Self.CATEGORIA_ELEMENTO" />
           <EntitySet Name="CATEGORIA_PRODUCTO" EntityType="Self.CATEGORIA_PRODUCTO" />
           <EntitySet Name="DETALLE_FACTURA_PRODUCTO" EntityType="Self.DETALLE_FACTURA_PRODUCTO" />
@@ -2197,7 +2203,7 @@
             <Parameter Name="MotivoAnulacion" Mode="In" Type="String" />
           </FunctionImport>
           <FunctionImport Name="CambiarEstadoLogueoUser">
-            <Parameter Name="username" Mode="In" Type="String" />
+          <Parameter Name="username" Mode="In" Type="String" />
           </FunctionImport>
           <FunctionImport Name="CambiarEstadoProducto">
             <Parameter Name="idProd" Mode="In" Type="Int32" />
@@ -2211,100 +2217,100 @@
           </FunctionImport>
           <FunctionImport Name="ConsultaNombresEmpleadosXSolicitud" ReturnType="Collection(String)" />
           <FunctionImport Name="Consultar_id_UsuarioXIdentificacion" ReturnType="Collection(Int32)">
-            <Parameter Name="codigo" Mode="In" Type="Int32" />
+          <Parameter Name="codigo" Mode="In" Type="Int32" />
           </FunctionImport>
           <FunctionImport Name="ConsultarCantidadDeProductos" ReturnType="Collection(Int32)" />
           <FunctionImport Name="ConsultarCantidadProductoXid" ReturnType="Collection(Int32)">
-            <Parameter Name="idProd" Mode="In" Type="Int32" />
+          <Parameter Name="idProd" Mode="In" Type="Int32" />
           </FunctionImport>
           <FunctionImport Name="ConsultarCantidadXProducto" ReturnType="Collection(Int32)">
-            <Parameter Name="id_inventario" Mode="In" Type="Int32" />
+          <Parameter Name="id_inventario" Mode="In" Type="Int32" />
           </FunctionImport>
           <FunctionImport Name="ConsultarCategorias_Elemento" ReturnType="Collection(bdServiciosDigitalesProyModel.ConsultarCategorias_Elemento_Result)" />
           <FunctionImport Name="ConsultarCategoriasProductos" ReturnType="Collection(bdServiciosDigitalesProyModel.ConsultarCategoriasProductos_Result)" />
           <FunctionImport Name="ConsultarDetallesFacturaProducto" ReturnType="Collection(bdServiciosDigitalesProyModel.ConsultarDetallesFacturaProducto_Result)" />
           <FunctionImport Name="ConsultarDetallesFacturaProductoXid" ReturnType="Collection(bdServiciosDigitalesProyModel.ConsultarDetallesFacturaProductoXid_Result)">
-            <Parameter Name="idFactura" Mode="In" Type="Int32" />
+          <Parameter Name="idFactura" Mode="In" Type="Int32" />
           </FunctionImport>
           <FunctionImport Name="ConsultarDetallesFacturaSolicitudXid" ReturnType="Collection(bdServiciosDigitalesProyModel.ConsultarDetallesFacturaSolicitudXid_Result)">
-            <Parameter Name="idFactura" Mode="In" Type="Int32" />
+          <Parameter Name="idFactura" Mode="In" Type="Int32" />
           </FunctionImport>
           <FunctionImport Name="ConsultarElementos" ReturnType="Collection(bdServiciosDigitalesProyModel.ConsultarElementos_Result)" />
           <FunctionImport Name="ConsultarEmpleados" ReturnType="Collection(bdServiciosDigitalesProyModel.ConsultarEmpleados_Result)" />
           <FunctionImport Name="ConsultarEstado_Solicitud" ReturnType="Collection(bdServiciosDigitalesProyModel.ConsultarEstado_Solicitud_Result)">
-            <Parameter Name="idSolic" Mode="In" Type="Int32" />
+          <Parameter Name="idSolic" Mode="In" Type="Int32" />
           </FunctionImport>
           <FunctionImport Name="ConsultarEstadoFactura" ReturnType="Collection(bdServiciosDigitalesProyModel.ConsultarEstadoFactura_Result)">
-            <Parameter Name="idFactura" Mode="In" Type="Int32" />
+          <Parameter Name="idFactura" Mode="In" Type="Int32" />
           </FunctionImport>
           <FunctionImport Name="ConsultarEstadoLogueoUser" ReturnType="Collection(String)">
-            <Parameter Name="username" Mode="In" Type="String" />
+          <Parameter Name="username" Mode="In" Type="String" />
           </FunctionImport>
           <FunctionImport Name="ConsultarEstadosSolicitud" ReturnType="Collection(bdServiciosDigitalesProyModel.ConsultarEstadosSolicitud_Result)" />
           <FunctionImport Name="ConsultarFacturas" ReturnType="Collection(bdServiciosDigitalesProyModel.ConsultarFacturas_Result)" />
           <FunctionImport Name="ConsultarFacturaXid" ReturnType="Collection(bdServiciosDigitalesProyModel.ConsultarFacturaXid_Result)">
-            <Parameter Name="idFactura" Mode="In" Type="Int32" />
+          <Parameter Name="idFactura" Mode="In" Type="Int32" />
           </FunctionImport>
           <FunctionImport Name="ConsultarHistoricoFacturaX_id" ReturnType="Collection(bdServiciosDigitalesProyModel.ConsultarHistoricoFacturaX_id_Result)">
-            <Parameter Name="idFactura" Mode="In" Type="Int32" />
+          <Parameter Name="idFactura" Mode="In" Type="Int32" />
           </FunctionImport>
           <FunctionImport Name="ConsultarHistoricoInventarioBajasX_id" ReturnType="Collection(bdServiciosDigitalesProyModel.ConsultarHistoricoInventarioBajasX_id_Result)">
-            <Parameter Name="id_inventario" Mode="In" Type="Int32" />
+          <Parameter Name="id_inventario" Mode="In" Type="Int32" />
           </FunctionImport>
           <FunctionImport Name="ConsultarHistoricoInventarioX_id" ReturnType="Collection(bdServiciosDigitalesProyModel.ConsultarHistoricoInventarioX_id_Result)">
-            <Parameter Name="id_inventario" Mode="In" Type="Int32" />
+          <Parameter Name="id_inventario" Mode="In" Type="Int32" />
           </FunctionImport>
           <FunctionImport Name="ConsultarHistoricoSolicitudX_id" ReturnType="Collection(bdServiciosDigitalesProyModel.ConsultarHistoricoSolicitudX_id_Result)">
-            <Parameter Name="id_solicitud" Mode="In" Type="Int32" />
+          <Parameter Name="id_solicitud" Mode="In" Type="Int32" />
           </FunctionImport>
           <FunctionImport Name="ConsultarIdProductos" ReturnType="Collection(Int32)" />
           <FunctionImport Name="ConsultarInventarioBajas" ReturnType="Collection(bdServiciosDigitalesProyModel.ConsultarInventarioBajas_Result)" />
           <FunctionImport Name="ConsultarInventarios" ReturnType="Collection(bdServiciosDigitalesProyModel.ConsultarInventarios_Result)" />
           <FunctionImport Name="ConsultarInventarioXCodigoProducto" ReturnType="Collection(bdServiciosDigitalesProyModel.ConsultarInventarioXCodigoProducto_Result)">
-            <Parameter Name="codigo" Mode="In" Type="Int32" />
+          <Parameter Name="codigo" Mode="In" Type="Int32" />
           </FunctionImport>
           <FunctionImport Name="ConsultarInventarioXNombreProducto" ReturnType="Collection(bdServiciosDigitalesProyModel.ConsultarInventarioXNombreProducto_Result)">
-            <Parameter Name="nombr" Mode="In" Type="String" />
+          <Parameter Name="nombr" Mode="In" Type="String" />
           </FunctionImport>
           <FunctionImport Name="ConsultarNombreSucursalEmpleado" ReturnType="Collection(String)">
-            <Parameter Name="identifEmpleado" Mode="In" Type="String" />
+          <Parameter Name="identifEmpleado" Mode="In" Type="String" />
           </FunctionImport>
           <FunctionImport Name="ConsultarPermisosXUsuario" ReturnType="Collection(bdServiciosDigitalesProyModel.ConsultarPermisosXUsuario_Result)">
-            <Parameter Name="identif" Mode="In" Type="String" />
+          <Parameter Name="identif" Mode="In" Type="String" />
           </FunctionImport>
           <FunctionImport Name="ConsultarProductoEnTodasLasSucursales" ReturnType="Collection(bdServiciosDigitalesProyModel.ConsultarProductoEnTodasLasSucursales_Result)">
-            <Parameter Name="idProducto" Mode="In" Type="Int32" />
+          <Parameter Name="idProducto" Mode="In" Type="Int32" />
           </FunctionImport>
           <FunctionImport Name="ConsultarProductos" ReturnType="Collection(bdServiciosDigitalesProyModel.ConsultarProductos_Result)" />
           <FunctionImport Name="ConsultarProductosXSucursal" ReturnType="Collection(bdServiciosDigitalesProyModel.ConsultarProductosXSucursal_Result)">
-            <Parameter Name="idSucursal" Mode="In" Type="Int32" />
+          <Parameter Name="idSucursal" Mode="In" Type="Int32" />
           </FunctionImport>
           <FunctionImport Name="ConsultarProductosXSucursalSegunEmpleado" ReturnType="Collection(bdServiciosDigitalesProyModel.ConsultarProductosXSucursalSegunEmpleado_Result)">
-            <Parameter Name="identifEmpleado" Mode="In" Type="String" />
+          <Parameter Name="identifEmpleado" Mode="In" Type="String" />
           </FunctionImport>
           <FunctionImport Name="ConsultarProductoXCodigo" ReturnType="Collection(bdServiciosDigitalesProyModel.ConsultarProductoXCodigo_Result)">
-            <Parameter Name="codigo" Mode="In" Type="Int32" />
+          <Parameter Name="codigo" Mode="In" Type="Int32" />
           </FunctionImport>
           <FunctionImport Name="ConsultarProductoXNombre" ReturnType="Collection(bdServiciosDigitalesProyModel.ConsultarProductoXNombre_Result)">
-            <Parameter Name="nombr" Mode="In" Type="String" />
+          <Parameter Name="nombr" Mode="In" Type="String" />
           </FunctionImport>
           <FunctionImport Name="ConsultarRolUsuario" ReturnType="Collection(Int32)">
-            <Parameter Name="identif" Mode="In" Type="String" />
+          <Parameter Name="identif" Mode="In" Type="String" />
           </FunctionImport>
           <FunctionImport Name="ConsultarServicio" ReturnType="Collection(bdServiciosDigitalesProyModel.ConsultarServicio_Result)">
-            <Parameter Name="codigo" Mode="In" Type="Int32" />
+          <Parameter Name="codigo" Mode="In" Type="Int32" />
           </FunctionImport>
           <FunctionImport Name="ConsultarServicios" ReturnType="Collection(bdServiciosDigitalesProyModel.ConsultarServicios_Result)" />
           <FunctionImport Name="ConsultarSolicitudes" ReturnType="Collection(bdServiciosDigitalesProyModel.ConsultarSolicitudes_Result)" />
           <FunctionImport Name="ConsultarSolicitudesXEmpleado" ReturnType="Collection(bdServiciosDigitalesProyModel.ConsultarSolicitudesXEmpleado_Result)">
-            <Parameter Name="identif" Mode="In" Type="String" />
+          <Parameter Name="identif" Mode="In" Type="String" />
           </FunctionImport>
           <FunctionImport Name="ConsultarSucursales" ReturnType="Collection(bdServiciosDigitalesProyModel.ConsultarSucursales_Result)" />
           <FunctionImport Name="ConsultarSucursalesCompleto" ReturnType="Collection(bdServiciosDigitalesProyModel.ConsultarSucursalesCompleto_Result)" />
           <FunctionImport Name="ConsultarTiposElemento" ReturnType="Collection(bdServiciosDigitalesProyModel.ConsultarTiposElemento_Result)" />
           <FunctionImport Name="ConsultarTiposPrioridad" ReturnType="Collection(bdServiciosDigitalesProyModel.ConsultarTiposPrioridad_Result)" />
           <FunctionImport Name="CrearFacturaSinRegistros" ReturnType="Collection(bdServiciosDigitalesProyModel.CrearFacturaSinRegistros_Result)">
-            <Parameter Name="identifEmpleado" Mode="In" Type="String" />
+          <Parameter Name="identifEmpleado" Mode="In" Type="String" />
           </FunctionImport>
           <FunctionImport Name="CrearInventarioProductoVacioASucursal" ReturnType="Collection(Int32)">
             <Parameter Name="idProducto" Mode="In" Type="Int32" />
@@ -2347,6 +2353,13 @@
           <FunctionImport Name="ValidarAutenticacionLogin" ReturnType="Collection(String)">
             <Parameter Name="username" Mode="In" Type="String" />
             <Parameter Name="passwd" Mode="In" Type="String" />
+          </FunctionImport>
+          <FunctionImport Name="CambiarEmpleado_de_Sucursal">
+            <Parameter Name="identifEmpleado" Mode="In" Type="String" />
+            <Parameter Name="idSucursal" Mode="In" Type="Int32" />
+          </FunctionImport>
+          <FunctionImport Name="ConsultarEstadoEmpleadoX_Username" ReturnType="Collection(String)">
+            <Parameter Name="username" Mode="In" Type="String" />
           </FunctionImport>
         </EntityContainer>
         <ComplexType Name="ConsultarCategorias_Elemento_Result">
@@ -2472,6 +2485,8 @@
           <Property Type="Int32" Name="id_producto_inventario" Nullable="false" />
           <Property Type="Int32" Name="cantidad_existencias" Nullable="false" />
           <Property Type="DateTime" Name="fecha_actualizacion_inventario" Nullable="false" Precision="23" />
+          <Property Type="Int32" Name="id_sucursal" Nullable="false" />
+          <Property Type="String" Name="nombre" Nullable="false" MaxLength="20" />
         </ComplexType>
         <ComplexType Name="ConsultarInventarios_Result">
           <Property Type="Int32" Name="id_inventario" Nullable="false" />
@@ -2633,7 +2648,7 @@
     <!-- C-S mapping content -->
     <edmx:Mappings>
       <Mapping Space="C-S" xmlns="http://schemas.microsoft.com/ado/2009/11/mapping/cs">
-        <EntityContainerMapping StorageEntityContainer="bdServiciosDigitalesProyModelStoreContainer" CdmEntityContainer="bdServiciosDigitalesProyEntities">
+        <EntityContainerMapping StorageEntityContainer="bdServiciosDigitalesProyModelStoreContainer" CdmEntityContainer="bdServiciosDigitalesProyEntities1">
           <EntitySetMapping Name="CATEGORIA_ELEMENTO">
             <EntityTypeMapping TypeName="bdServiciosDigitalesProyModel.CATEGORIA_ELEMENTO">
               <MappingFragment StoreEntitySet="CATEGORIA_ELEMENTO">
@@ -3159,6 +3174,8 @@
                 <ScalarProperty Name="id_producto_inventario" ColumnName="id_producto_inventario" />
                 <ScalarProperty Name="cantidad_existencias" ColumnName="cantidad_existencias" />
                 <ScalarProperty Name="fecha_actualizacion_inventario" ColumnName="fecha_actualizacion_inventario" />
+                <ScalarProperty Name="id_sucursal" ColumnName="id_sucursal" />
+                <ScalarProperty Name="nombre" ColumnName="nombre" />
               </ComplexTypeMapping>
             </ResultMapping>
           </FunctionImportMapping>
@@ -3403,6 +3420,8 @@
           <FunctionImportMapping FunctionImportName="ObtenerIdUltimaFacturaGenerada" FunctionName="bdServiciosDigitalesProyModel.Store.ObtenerIdUltimaFacturaGenerada" />
           <FunctionImportMapping FunctionImportName="TrasladarProductoASucursal" FunctionName="bdServiciosDigitalesProyModel.Store.TrasladarProductoASucursal" />
           <FunctionImportMapping FunctionImportName="ValidarAutenticacionLogin" FunctionName="bdServiciosDigitalesProyModel.Store.ValidarAutenticacionLogin" />
+          <FunctionImportMapping FunctionImportName="CambiarEmpleado_de_Sucursal" FunctionName="bdServiciosDigitalesProyModel.Store.CambiarEmpleado_de_Sucursal" />
+          <FunctionImportMapping FunctionImportName="ConsultarEstadoEmpleadoX_Username" FunctionName="bdServiciosDigitalesProyModel.Store.ConsultarEstadoEmpleadoX_Username" />
         </EntityContainerMapping>
       </Mapping>
     </edmx:Mappings>

@@ -8,6 +8,7 @@ using ServiciosDigitalesProy.Catalogos;
 using ProyectoGrado.Tags;
 using Models.Comun;
 using Helper;
+using System.Text.RegularExpressions;
 
 namespace ServiciosDigitalesProy.Controllers
 {
@@ -250,12 +251,24 @@ namespace ServiciosDigitalesProy.Controllers
         public ActionResult AgregarAnotacion(int id_Solicitud,string descripcion)
         {
             string resultado = "", tipoResultado = "";
+            Solicitud solicitud =  null;
+            List<Solicitud> solicitudes;
+            var regexItem = new Regex(@"^[0-9a-zA-ZáéíóÚ.ÁÉÍÓÚ. ]{1,300}$");
 
-            CatalogoSolicitudes.GetInstance().AgregarAnotacionHistorico(id_Solicitud,descripcion, ref resultado, ref tipoResultado);
+            if (regexItem.IsMatch(descripcion))
+            {
+                TempData["mensaje"] = "Anotación agregada correctamente al historico";
+                TempData["estado"] = "success";
+                CatalogoSolicitudes.GetInstance().AgregarAnotacionHistorico(id_Solicitud, descripcion, ref resultado, ref tipoResultado);
+                solicitudes = Session["solicitudes"] as List<Solicitud>;
+                solicitud = solicitudes.Find(x => x.id_solicitud == id_Solicitud);
+                return View("VerSolicitud", solicitud);
+            }
 
-
-            List<Solicitud> solicitudes = Session["solicitudes"] as List<Solicitud>;
-            Solicitud solicitud = solicitudes.Find(x => x.id_solicitud == id_Solicitud);
+            TempData["mensaje"] = "Los Caracteres Especiales no son permitidos";
+            TempData["estado"] = "danger";
+            solicitudes = Session["solicitudes"] as List<Solicitud>;
+            solicitud = solicitudes.Find(x => x.id_solicitud == id_Solicitud);
             return View("VerSolicitud", solicitud);
         }
 

@@ -54,6 +54,9 @@
                                                         <b>Cantidad Existencias</b>
                                                     </td>
                                                     <td>
+                                                        <b>Sucursal</b>
+                                                    </td>
+                                                    <td>
                                                         <b>Fecha Ultima Actualización</b>
                                                     </td>
                                                     <td>
@@ -73,6 +76,9 @@
                                                         </td>
                                                         <td>
                                                             @Html.DisplayFor(modelItem => item.cantidadExistencias)
+                                                        </td>
+                                                        <td>
+                                                            @Html.DisplayFor(modelItem => item.sucursal.nombre)
                                                         </td>
 
                                                         <td>

@@ -100,9 +100,18 @@
                                                             </div>
                                                         </td>
                                                     </tr>
+                                                 
                                                 }
+                                               
                                             </tbody>
                                         </table>
+                                        <div class="row">
+                                            <div class="form-group">
+                                                <div class="col-md-2">
+                                                    @Html.ActionLink("Volver", "ConsultarSucursales", new { identificacion = ViewBag.idInventario == null ? "" : ViewBag.idInventario }, new { @class = "btn btn-primary" })
+                                                </div>
+                                            </div>
+                                        </div>
                                     </div>
                                     <!-- /.panel-body -->
                                 </div>

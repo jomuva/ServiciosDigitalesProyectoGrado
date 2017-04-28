@@ -15,10 +15,10 @@ namespace Persistencia
     using System.Data.Entity.Core.Objects;
     using System.Linq;
     
-    public partial class bdServiciosDigitalesProyEntities : DbContext
+    public partial class bdServiciosDigitalesProyEntities1 : DbContext
     {
-        public bdServiciosDigitalesProyEntities()
-            : base("name=bdServiciosDigitalesProyEntities")
+        public bdServiciosDigitalesProyEntities1()
+            : base("name=bdServiciosDigitalesProyEntities1")
         {
         }
     
@@ -982,6 +982,28 @@ namespace Persistencia
                 new ObjectParameter("passwd", typeof(string));
     
             return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction<string>("ValidarAutenticacionLogin", usernameParameter, passwdParameter);
+        }
+    
+        public virtual int CambiarEmpleado_de_Sucursal(string identifEmpleado, Nullable<int> idSucursal)
+        {
+            var identifEmpleadoParameter = identifEmpleado != null ?
+                new ObjectParameter("identifEmpleado", identifEmpleado) :
+                new ObjectParameter("identifEmpleado", typeof(string));
+    
+            var idSucursalParameter = idSucursal.HasValue ?
+                new ObjectParameter("idSucursal", idSucursal) :
+                new ObjectParameter("idSucursal", typeof(int));
+    
+            return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction("CambiarEmpleado_de_Sucursal", identifEmpleadoParameter, idSucursalParameter);
+        }
+    
+        public virtual ObjectResult<string> ConsultarEstadoEmpleadoX_Username(string username)
+        {
+            var usernameParameter = username != null ?
+                new ObjectParameter("username", username) :
+                new ObjectParameter("username", typeof(string));
+    
+            return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction<string>("ConsultarEstadoEmpleadoX_Username", usernameParameter);
         }
     }
 }

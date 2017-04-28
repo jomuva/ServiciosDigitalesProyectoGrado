@@ -382,7 +382,7 @@ namespace ServiciosDigitalesProy.Catalogos
                                                 cliente.TelefonoFijo, cliente.TelefonoCelular, cliente.username,
                                                 cliente.email, cliente.identificacion, cliente.nombres, cliente.apellidos,
                                                 cliente.direccion, cliente.sexo, cliente.idTipoIdentificacion,
-                                                cliente.idRol, out res, out tipoRes
+                                                cliente.idRol,cliente.sucursal.id_sucursal, out res, out tipoRes
                                            );
         }
 
@@ -473,6 +473,27 @@ namespace ServiciosDigitalesProy.Catalogos
             }
 
             return nombreSucursal;
+        }
+
+        /// <summary>
+        /// CONSULTA EL ESTADO DE UN EMPLEADO USANDO SU USERNAME
+        /// </summary>
+        /// <param name="username"></param>
+        /// <returns></returns>
+        public string ConsultarEstadoEmpleadoX_Username(string username)
+        {
+
+            var oSucursal = usuarioDatos.ConsultarEstadoEmpleadoX_Username(username);
+            string estado = "";
+            string dynObj = JsonConvert.SerializeObject(oSucursal);
+            dynamic dyn = JsonConvert.DeserializeObject(dynObj);
+
+            foreach (var data in dyn)
+            {
+                estado = data;
+            }
+
+            return estado;
         }
 
         #endregion

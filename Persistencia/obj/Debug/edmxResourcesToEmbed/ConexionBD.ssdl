@@ -823,6 +823,10 @@
     <Parameter Name="identifEmpleado" Type="varchar" Mode="In" />
     <Parameter Name="MotivoAnulacion" Type="varchar" Mode="In" />
   </Function>
+  <Function Name="CambiarEmpleado_de_Sucursal" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
+    <Parameter Name="identifEmpleado" Type="varchar" Mode="In" />
+    <Parameter Name="idSucursal" Type="int" Mode="In" />
+  </Function>
   <Function Name="CambiarEstadoLogueoUser" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
     <Parameter Name="username" Type="varchar" Mode="In" />
   </Function>
@@ -860,6 +864,9 @@
   <Function Name="ConsultarEmpleados" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo" />
   <Function Name="ConsultarEstado_Solicitud" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
     <Parameter Name="idSolic" Type="int" Mode="In" />
+  </Function>
+  <Function Name="ConsultarEstadoEmpleadoX_Username" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
+    <Parameter Name="username" Type="varchar" Mode="In" />
   </Function>
   <Function Name="ConsultarEstadoFactura" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
     <Parameter Name="idFactura" Type="int" Mode="In" />

@@ -53,9 +53,17 @@ namespace ProyectoGrado.Controllers
         public ActionResult Login(Usuario user)
         {
             string res = "", tipores = "";
+            string estado = "";
             if (!user.username.Equals("") && (!user.password.Equals("")))
             {
-               
+                estado = CatalogoUsuarios.GetInstance().ConsultarEstadoEmpleadoX_Username(user.username);
+                if(estado != "Activo")
+                {
+                    TempData["mensaje"] = "El Empleado se encuentra "+estado+". Consulte con el  Administrador";
+                    TempData["estado"] = "danger";
+                    return PartialView("Login");
+                }
+
                 string resultado = "", tipoResultado = "";
                 CatalogoUsuarios.GetInstance().ValidarAutenticacionLogin(user, ref resultado, ref tipoResultado);
                 if (tipoResultado=="danger" || tipoResultado == "")

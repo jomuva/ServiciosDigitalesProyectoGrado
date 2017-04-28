@@ -423,7 +423,8 @@ namespace ProyectoGrado.Catalogos
                     id_inventario = item.id_inventario_bajas,
                     producto = new Producto((string)item.nombre_producto, (int)item.id_producto_inventario),
                     cantidadExistencias = item.cantidad_existencias,
-                    fecha = item.fecha_actualizacion_inventario
+                    fecha = item.fecha_actualizacion_inventario,
+                    sucursal = new Sucursal((int)item.id_sucursal, (string)item.nombre)
                 });
             }
 

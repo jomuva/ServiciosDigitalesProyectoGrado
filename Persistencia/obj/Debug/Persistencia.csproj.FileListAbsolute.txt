@@ -22,3 +22,15 @@ C:\Proyecto de Grado Capas\ServiciosDigitalesProyectoGrado\Persistencia\bin\Debu
 C:\Proyecto de Grado Capas\ServiciosDigitalesProyectoGrado\Persistencia\obj\Debug\Persistencia.csprojResolveAssemblyReference.cache
 C:\Proyecto de Grado Capas\ServiciosDigitalesProyectoGrado\Persistencia\obj\Debug\Persistencia.dll
 C:\Proyecto de Grado Capas\ServiciosDigitalesProyectoGrado\Persistencia\obj\Debug\Persistencia.pdb
+C:\Proyecto de Grado Capas\TesisFinal\ServiciosDigitalesProyectoGrado\Persistencia\bin\Debug\Persistencia.dll.config
+C:\Proyecto de Grado Capas\TesisFinal\ServiciosDigitalesProyectoGrado\Persistencia\bin\Debug\Persistencia.dll
+C:\Proyecto de Grado Capas\TesisFinal\ServiciosDigitalesProyectoGrado\Persistencia\bin\Debug\Persistencia.pdb
+C:\Proyecto de Grado Capas\TesisFinal\ServiciosDigitalesProyectoGrado\Persistencia\bin\Debug\EntityFramework.dll
+C:\Proyecto de Grado Capas\TesisFinal\ServiciosDigitalesProyectoGrado\Persistencia\bin\Debug\EntityFramework.SqlServer.dll
+C:\Proyecto de Grado Capas\TesisFinal\ServiciosDigitalesProyectoGrado\Persistencia\bin\Debug\Session.dll
+C:\Proyecto de Grado Capas\TesisFinal\ServiciosDigitalesProyectoGrado\Persistencia\bin\Debug\Session.pdb
+C:\Proyecto de Grado Capas\TesisFinal\ServiciosDigitalesProyectoGrado\Persistencia\bin\Debug\EntityFramework.xml
+C:\Proyecto de Grado Capas\TesisFinal\ServiciosDigitalesProyectoGrado\Persistencia\bin\Debug\EntityFramework.SqlServer.xml
+C:\Proyecto de Grado Capas\TesisFinal\ServiciosDigitalesProyectoGrado\Persistencia\obj\Debug\Persistencia.csprojResolveAssemblyReference.cache
+C:\Proyecto de Grado Capas\TesisFinal\ServiciosDigitalesProyectoGrado\Persistencia\obj\Debug\Persistencia.dll
+C:\Proyecto de Grado Capas\TesisFinal\ServiciosDigitalesProyectoGrado\Persistencia\obj\Debug\Persistencia.pdb

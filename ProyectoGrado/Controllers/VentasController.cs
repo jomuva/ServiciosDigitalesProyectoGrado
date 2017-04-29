@@ -197,7 +197,7 @@ namespace ServiciosDigitalesProy.Controllers
                 foreach (var item in solicitudes)
                 {
                     solicitud = (item.cliente.identificacion == factura.cliente.identificacion) ? item : null;
-                    if (solicitud != null)
+                    if (solicitud != null && solicitud.estadoSolicitud.Descripcion!="Anulada" )
                     {
                         solicitudesClientefactura.Add(solicitud);
                     }
@@ -264,6 +264,9 @@ namespace ServiciosDigitalesProy.Controllers
             string res = "", tipores = "";
             int cantidad = 0;
             double Total = 0;
+            List<Producto> productos = CatalogoProductos.GetInstance().ConsultarProductosXSucursalSegunEmpleado(ref res, ref tipores);
+            Producto producto = null;
+
             if (factura.listaDetallesProducto.Count != 0)
             {
                 for (int i = 0; i < facturaa.listaDetallesProducto.Count; i++)
@@ -271,8 +274,9 @@ namespace ServiciosDigitalesProy.Controllers
                     factura.listaDetallesProducto[i].cantidad = facturaa.listaDetallesProducto[i].cantidad;
                     if (facturaa.listaDetallesProducto[i].cantidad > 0)
                     {
-                        cantidad = CatalogoInventarios.GetInstance().ConsultarCantidadProductoXid(facturaa.listaDetallesProducto[i].producto.id_producto, ref res, ref tipores);
-                        if (facturaa.listaDetallesProducto[i].cantidad > cantidad)
+                        //cantidad = CatalogoInventarios.GetInstance().ConsultarCantidadProductoXid(facturaa.listaDetallesProducto[i].producto.id_producto, ref res, ref tipores);
+                        producto = productos.Find(x => x.id_producto == facturaa.listaDetallesProducto[i].producto.id_producto);
+                        if (facturaa.listaDetallesProducto[i].cantidad > Convert.ToInt32(producto.cantid))
                         {
                             TempData["mensaje"] = "No hay la cantidad de existencias suficientes para el producto " + facturaa.listaDetallesProducto[i].producto.nombre;
                             TempData["estado"] = "danger";
@@ -523,8 +527,8 @@ namespace ServiciosDigitalesProy.Controllers
             List<Factura> facturas = CatalogoVentas.GetInstance().ConsultarFacturas(ref resultado, ref tipoResultado);
 
             CatalogoVentas.GetInstance().AnularFactura(fact.id_factura, fact.estado.Descripcion, ref resultado, ref tipoResultado);
-
-            TempData["mensaje"] = resultado;
+            if (tipoResultado == "success")
+                TempData["mensaje"] = "Se ha anulado la factura correctamente";
             TempData["estado"] = tipoResultado;
             return View("ConsultarFacturas", facturas);
         }

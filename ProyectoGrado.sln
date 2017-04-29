@@ -7,7 +7,7 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ProyectoGrado", "ProyectoGr
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Persistencia", "Persistencia\Persistencia.csproj", "{17882E1C-5BB1-4A61-BB7C-AFF42BF9ED87}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Session", "..\..\Proyecto de Grado Capas\ServiciosDigitalesProyectoGrado\Session\Session.csproj", "{F5287462-E615-4D56-8888-1FEF8CC846FE}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Session", "Session\Session.csproj", "{F5287462-E615-4D56-8888-1FEF8CC846FE}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution

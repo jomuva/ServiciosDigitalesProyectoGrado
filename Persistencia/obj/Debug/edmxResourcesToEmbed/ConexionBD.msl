@@ -1,6 +1,6 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
 <Mapping Space="C-S" xmlns="http://schemas.microsoft.com/ado/2009/11/mapping/cs">
-  <EntityContainerMapping StorageEntityContainer="bdServiciosDigitalesProyModelStoreContainer" CdmEntityContainer="bdServiciosDigitalesProyEntities1">
+  <EntityContainerMapping StorageEntityContainer="bdServiciosDigitalesProyModelStoreContainer" CdmEntityContainer="bdServiciosDigitalesProyEntities">
     <EntitySetMapping Name="CATEGORIA_ELEMENTO">
       <EntityTypeMapping TypeName="bdServiciosDigitalesProyModel.CATEGORIA_ELEMENTO">
         <MappingFragment StoreEntitySet="CATEGORIA_ELEMENTO">
@@ -327,6 +327,7 @@
     <FunctionImportMapping FunctionImportName="AgregarSucursal" FunctionName="bdServiciosDigitalesProyModel.Store.AgregarSucursal" />
     <FunctionImportMapping FunctionImportName="AgregarUsuario" FunctionName="bdServiciosDigitalesProyModel.Store.AgregarUsuario" />
     <FunctionImportMapping FunctionImportName="AnularFactura" FunctionName="bdServiciosDigitalesProyModel.Store.AnularFactura" />
+    <FunctionImportMapping FunctionImportName="CambiarEmpleado_de_Sucursal" FunctionName="bdServiciosDigitalesProyModel.Store.CambiarEmpleado_de_Sucursal" />
     <FunctionImportMapping FunctionImportName="CambiarEstadoLogueoUser" FunctionName="bdServiciosDigitalesProyModel.Store.CambiarEstadoLogueoUser" />
     <FunctionImportMapping FunctionImportName="CambiarEstadoProducto" FunctionName="bdServiciosDigitalesProyModel.Store.CambiarEstadoProducto" />
     <FunctionImportMapping FunctionImportName="CambiarEstadoSolicitud" FunctionName="bdServiciosDigitalesProyModel.Store.CambiarEstadoSolicitud" />
@@ -364,6 +365,7 @@
     <FunctionImportMapping FunctionImportName="ConsultarDetallesFacturaProductoXid" FunctionName="bdServiciosDigitalesProyModel.Store.ConsultarDetallesFacturaProductoXid">
       <ResultMapping>
         <ComplexTypeMapping TypeName="bdServiciosDigitalesProyModel.ConsultarDetallesFacturaProductoXid_Result">
+          <ScalarProperty Name="id_producto" ColumnName="id_producto" />
           <ScalarProperty Name="nombre_producto" ColumnName="nombre_producto" />
           <ScalarProperty Name="cantidad_venta" ColumnName="cantidad_venta" />
           <ScalarProperty Name="id_factura" ColumnName="id_factura" />
@@ -374,8 +376,10 @@
     <FunctionImportMapping FunctionImportName="ConsultarDetallesFacturaSolicitudXid" FunctionName="bdServiciosDigitalesProyModel.Store.ConsultarDetallesFacturaSolicitudXid">
       <ResultMapping>
         <ComplexTypeMapping TypeName="bdServiciosDigitalesProyModel.ConsultarDetallesFacturaSolicitudXid_Result">
+          <ScalarProperty Name="id_solicitud" ColumnName="id_solicitud" />
           <ScalarProperty Name="descripcion_servicio" ColumnName="descripcion_servicio" />
           <ScalarProperty Name="precio" ColumnName="precio" />
+          <ScalarProperty Name="id_estado_solicitud" ColumnName="id_estado_solicitud" />
         </ComplexTypeMapping>
       </ResultMapping>
     </FunctionImportMapping>
@@ -423,6 +427,7 @@
         </ComplexTypeMapping>
       </ResultMapping>
     </FunctionImportMapping>
+    <FunctionImportMapping FunctionImportName="ConsultarEstadoEmpleadoX_Username" FunctionName="bdServiciosDigitalesProyModel.Store.ConsultarEstadoEmpleadoX_Username" />
     <FunctionImportMapping FunctionImportName="ConsultarEstadoFactura" FunctionName="bdServiciosDigitalesProyModel.Store.ConsultarEstadoFactura">
       <ResultMapping>
         <ComplexTypeMapping TypeName="bdServiciosDigitalesProyModel.ConsultarEstadoFactura_Result">
@@ -770,9 +775,8 @@
     <FunctionImportMapping FunctionImportName="GenerarSolicitud" FunctionName="bdServiciosDigitalesProyModel.Store.GenerarSolicitud" />
     <FunctionImportMapping FunctionImportName="InsertarProducto" FunctionName="bdServiciosDigitalesProyModel.Store.InsertarProducto" />
     <FunctionImportMapping FunctionImportName="ObtenerIdUltimaFacturaGenerada" FunctionName="bdServiciosDigitalesProyModel.Store.ObtenerIdUltimaFacturaGenerada" />
+    <FunctionImportMapping FunctionImportName="ReintegrarProductoXAnulacionFactura" FunctionName="bdServiciosDigitalesProyModel.Store.ReintegrarProductoXAnulacionFactura" />
     <FunctionImportMapping FunctionImportName="TrasladarProductoASucursal" FunctionName="bdServiciosDigitalesProyModel.Store.TrasladarProductoASucursal" />
     <FunctionImportMapping FunctionImportName="ValidarAutenticacionLogin" FunctionName="bdServiciosDigitalesProyModel.Store.ValidarAutenticacionLogin" />
-    <FunctionImportMapping FunctionImportName="CambiarEmpleado_de_Sucursal" FunctionName="bdServiciosDigitalesProyModel.Store.CambiarEmpleado_de_Sucursal" />
-    <FunctionImportMapping FunctionImportName="ConsultarEstadoEmpleadoX_Username" FunctionName="bdServiciosDigitalesProyModel.Store.ConsultarEstadoEmpleadoX_Username" />
   </EntityContainerMapping>
 </Mapping>

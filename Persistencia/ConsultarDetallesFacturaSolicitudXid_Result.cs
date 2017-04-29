@@ -13,7 +13,9 @@ namespace Persistencia
     
     public partial class ConsultarDetallesFacturaSolicitudXid_Result
     {
+        public int id_solicitud { get; set; }
         public string descripcion_servicio { get; set; }
         public Nullable<decimal> precio { get; set; }
+        public int id_estado_solicitud { get; set; }
     }
 }

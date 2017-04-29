@@ -52,240 +52,234 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="CATEGORIA_ELEMENTO.cs">
-      <DependentUpon>ConexionBD.tt</DependentUpon>
+      <DependentUpon>conexionBD.tt</DependentUpon>
     </Compile>
     <Compile Include="CATEGORIA_PRODUCTO.cs">
-      <DependentUpon>ConexionBD.tt</DependentUpon>
+      <DependentUpon>conexionBD.tt</DependentUpon>
     </Compile>
     <Compile Include="conexion.cs" />
-    <Compile Include="ConexionBD.Context.cs">
+    <Compile Include="conexionBD.Context.cs">
       <AutoGen>True</AutoGen>
       <DesignTime>True</DesignTime>
-      <DependentUpon>ConexionBD.Context.tt</DependentUpon>
+      <DependentUpon>conexionBD.Context.tt</DependentUpon>
     </Compile>
-    <Compile Include="ConexionBD.cs">
+    <Compile Include="conexionBD.cs">
       <AutoGen>True</AutoGen>
       <DesignTime>True</DesignTime>
-      <DependentUpon>ConexionBD.tt</DependentUpon>
+      <DependentUpon>conexionBD.tt</DependentUpon>
     </Compile>
-    <Compile Include="ConexionBD.Designer.cs">
+    <Compile Include="conexionBD.Designer.cs">
       <AutoGen>True</AutoGen>
       <DesignTime>True</DesignTime>
-      <DependentUpon>ConexionBD.edmx</DependentUpon>
+      <DependentUpon>conexionBD.edmx</DependentUpon>
     </Compile>
     <Compile Include="ConsultarCategoriasProductos_Result.cs">
-      <DependentUpon>ConexionBD.tt</DependentUpon>
+      <DependentUpon>conexionBD.tt</DependentUpon>
     </Compile>
     <Compile Include="ConsultarCategorias_Elemento_Result.cs">
-      <DependentUpon>ConexionBD.tt</DependentUpon>
+      <DependentUpon>conexionBD.tt</DependentUpon>
     </Compile>
     <Compile Include="ConsultarDetallesFacturaProductoXid_Result.cs">
-      <DependentUpon>ConexionBD.tt</DependentUpon>
+      <DependentUpon>conexionBD.tt</DependentUpon>
     </Compile>
     <Compile Include="ConsultarDetallesFacturaProducto_Result.cs">
-      <DependentUpon>ConexionBD.tt</DependentUpon>
+      <DependentUpon>conexionBD.tt</DependentUpon>
     </Compile>
     <Compile Include="ConsultarDetallesFacturaSolicitudXid_Result.cs">
-      <DependentUpon>ConexionBD.tt</DependentUpon>
+      <DependentUpon>conexionBD.tt</DependentUpon>
     </Compile>
     <Compile Include="ConsultarElementos_Result.cs">
-      <DependentUpon>ConexionBD.tt</DependentUpon>
+      <DependentUpon>conexionBD.tt</DependentUpon>
     </Compile>
     <Compile Include="ConsultarEmpleados_Result.cs">
-      <DependentUpon>ConexionBD.tt</DependentUpon>
+      <DependentUpon>conexionBD.tt</DependentUpon>
     </Compile>
     <Compile Include="ConsultarEstadoFactura_Result.cs">
-      <DependentUpon>ConexionBD.tt</DependentUpon>
+      <DependentUpon>conexionBD.tt</DependentUpon>
     </Compile>
     <Compile Include="ConsultarEstadosSolicitud_Result.cs">
-      <DependentUpon>ConexionBD.tt</DependentUpon>
+      <DependentUpon>conexionBD.tt</DependentUpon>
     </Compile>
     <Compile Include="ConsultarEstado_Solicitud_Result.cs">
-      <DependentUpon>ConexionBD.tt</DependentUpon>
+      <DependentUpon>conexionBD.tt</DependentUpon>
     </Compile>
     <Compile Include="ConsultarFacturas_Result.cs">
-      <DependentUpon>ConexionBD.tt</DependentUpon>
+      <DependentUpon>conexionBD.tt</DependentUpon>
     </Compile>
     <Compile Include="ConsultarFacturaXid_Result.cs">
-      <DependentUpon>ConexionBD.tt</DependentUpon>
+      <DependentUpon>conexionBD.tt</DependentUpon>
     </Compile>
     <Compile Include="ConsultarHistoricoFacturaX_id_Result.cs">
-      <DependentUpon>ConexionBD.tt</DependentUpon>
+      <DependentUpon>conexionBD.tt</DependentUpon>
     </Compile>
     <Compile Include="ConsultarHistoricoInventarioBajasX_id_Result.cs">
-      <DependentUpon>ConexionBD.tt</DependentUpon>
+      <DependentUpon>conexionBD.tt</DependentUpon>
     </Compile>
     <Compile Include="ConsultarHistoricoInventarioX_id_Result.cs">
-      <DependentUpon>ConexionBD.tt</DependentUpon>
+      <DependentUpon>conexionBD.tt</DependentUpon>
     </Compile>
     <Compile Include="ConsultarHistoricoSolicitudX_id_Result.cs">
-      <DependentUpon>ConexionBD.tt</DependentUpon>
+      <DependentUpon>conexionBD.tt</DependentUpon>
     </Compile>
     <Compile Include="ConsultarInventarioBajas_Result.cs">
-      <DependentUpon>ConexionBD.tt</DependentUpon>
+      <DependentUpon>conexionBD.tt</DependentUpon>
     </Compile>
     <Compile Include="ConsultarInventarios_Result.cs">
-      <DependentUpon>ConexionBD.tt</DependentUpon>
+      <DependentUpon>conexionBD.tt</DependentUpon>
     </Compile>
     <Compile Include="ConsultarInventarioXCodigoProducto_Result.cs">
-      <DependentUpon>ConexionBD.tt</DependentUpon>
+      <DependentUpon>conexionBD.tt</DependentUpon>
     </Compile>
     <Compile Include="ConsultarInventarioXNombreProducto_Result.cs">
-      <DependentUpon>ConexionBD.tt</DependentUpon>
+      <DependentUpon>conexionBD.tt</DependentUpon>
     </Compile>
     <Compile Include="ConsultarPermisosXUsuario_Result.cs">
-      <DependentUpon>ConexionBD.tt</DependentUpon>
+      <DependentUpon>conexionBD.tt</DependentUpon>
     </Compile>
     <Compile Include="ConsultarProductoEnTodasLasSucursales_Result.cs">
-      <DependentUpon>ConexionBD.tt</DependentUpon>
+      <DependentUpon>conexionBD.tt</DependentUpon>
     </Compile>
     <Compile Include="ConsultarProductosXSucursalSegunEmpleado_Result.cs">
-      <DependentUpon>ConexionBD.tt</DependentUpon>
+      <DependentUpon>conexionBD.tt</DependentUpon>
     </Compile>
     <Compile Include="ConsultarProductosXSucursal_Result.cs">
-      <DependentUpon>ConexionBD.tt</DependentUpon>
+      <DependentUpon>conexionBD.tt</DependentUpon>
     </Compile>
     <Compile Include="ConsultarProductos_Result.cs">
-      <DependentUpon>ConexionBD.tt</DependentUpon>
+      <DependentUpon>conexionBD.tt</DependentUpon>
     </Compile>
     <Compile Include="ConsultarProductoXCodigo_Result.cs">
-      <DependentUpon>ConexionBD.tt</DependentUpon>
+      <DependentUpon>conexionBD.tt</DependentUpon>
     </Compile>
     <Compile Include="ConsultarProductoXNombre_Result.cs">
-      <DependentUpon>ConexionBD.tt</DependentUpon>
+      <DependentUpon>conexionBD.tt</DependentUpon>
     </Compile>
     <Compile Include="ConsultarServicios_Result.cs">
-      <DependentUpon>ConexionBD.tt</DependentUpon>
+      <DependentUpon>conexionBD.tt</DependentUpon>
     </Compile>
     <Compile Include="ConsultarServicio_Result.cs">
-      <DependentUpon>ConexionBD.tt</DependentUpon>
+      <DependentUpon>conexionBD.tt</DependentUpon>
     </Compile>
     <Compile Include="ConsultarSolicitudesXEmpleado_Result.cs">
-      <DependentUpon>ConexionBD.tt</DependentUpon>
+      <DependentUpon>conexionBD.tt</DependentUpon>
     </Compile>
     <Compile Include="ConsultarSolicitudes_Result.cs">
-      <DependentUpon>ConexionBD.tt</DependentUpon>
+      <DependentUpon>conexionBD.tt</DependentUpon>
     </Compile>
     <Compile Include="ConsultarSucursalesCompleto_Result.cs">
-      <DependentUpon>ConexionBD.tt</DependentUpon>
+      <DependentUpon>conexionBD.tt</DependentUpon>
     </Compile>
     <Compile Include="ConsultarSucursales_Result.cs">
-      <DependentUpon>ConexionBD.tt</DependentUpon>
+      <DependentUpon>conexionBD.tt</DependentUpon>
     </Compile>
     <Compile Include="ConsultarTiposElemento_Result.cs">
-      <DependentUpon>ConexionBD.tt</DependentUpon>
+      <DependentUpon>conexionBD.tt</DependentUpon>
     </Compile>
     <Compile Include="ConsultarTiposPrioridad_Result.cs">
-      <DependentUpon>ConexionBD.tt</DependentUpon>
+      <DependentUpon>conexionBD.tt</DependentUpon>
     </Compile>
     <Compile Include="CrearFacturaSinRegistros_Result.cs">
-      <DependentUpon>ConexionBD.tt</DependentUpon>
+      <DependentUpon>conexionBD.tt</DependentUpon>
     </Compile>
     <Compile Include="DETALLE_FACTURA_PRODUCTO.cs">
-      <DependentUpon>ConexionBD.tt</DependentUpon>
+      <DependentUpon>conexionBD.tt</DependentUpon>
     </Compile>
     <Compile Include="DETALLE_FACTURA_SOLICITUD.cs">
-      <DependentUpon>ConexionBD.tt</DependentUpon>
+      <DependentUpon>conexionBD.tt</DependentUpon>
     </Compile>
     <Compile Include="ELEMENTO.cs">
-      <DependentUpon>ConexionBD.tt</DependentUpon>
+      <DependentUpon>conexionBD.tt</DependentUpon>
     </Compile>
     <Compile Include="ESCALADO.cs">
-      <DependentUpon>ConexionBD.tt</DependentUpon>
+      <DependentUpon>conexionBD.tt</DependentUpon>
     </Compile>
     <Compile Include="ESTADO_FACTURA.cs">
-      <DependentUpon>ConexionBD.tt</DependentUpon>
+      <DependentUpon>conexionBD.tt</DependentUpon>
     </Compile>
     <Compile Include="ESTADO_PRODUCTO.cs">
-      <DependentUpon>ConexionBD.tt</DependentUpon>
+      <DependentUpon>conexionBD.tt</DependentUpon>
     </Compile>
     <Compile Include="ESTADO_SOLICITUD.cs">
-      <DependentUpon>ConexionBD.tt</DependentUpon>
+      <DependentUpon>conexionBD.tt</DependentUpon>
     </Compile>
     <Compile Include="ESTADO_USUARIO.cs">
-      <DependentUpon>ConexionBD.tt</DependentUpon>
+      <DependentUpon>conexionBD.tt</DependentUpon>
     </Compile>
     <Compile Include="FACTURA.cs">
-      <DependentUpon>ConexionBD.tt</DependentUpon>
+      <DependentUpon>conexionBD.tt</DependentUpon>
     </Compile>
     <Compile Include="HISTORICO_FACTURA.cs">
-      <DependentUpon>ConexionBD.tt</DependentUpon>
+      <DependentUpon>conexionBD.tt</DependentUpon>
     </Compile>
     <Compile Include="HISTORICO_INVENTARIO.cs">
-      <DependentUpon>ConexionBD.tt</DependentUpon>
+      <DependentUpon>conexionBD.tt</DependentUpon>
     </Compile>
     <Compile Include="HISTORICO_INVENTARIO_BAJAS.cs">
-      <DependentUpon>ConexionBD.tt</DependentUpon>
+      <DependentUpon>conexionBD.tt</DependentUpon>
     </Compile>
     <Compile Include="HISTORICO_SOLICITUD.cs">
-      <DependentUpon>ConexionBD.tt</DependentUpon>
+      <DependentUpon>conexionBD.tt</DependentUpon>
     </Compile>
     <Compile Include="INVENTARIO.cs">
-      <DependentUpon>ConexionBD.tt</DependentUpon>
+      <DependentUpon>conexionBD.tt</DependentUpon>
     </Compile>
     <Compile Include="InventariosDatos\InventariosDatos.cs" />
     <Compile Include="INVENTARIO_BAJAS.cs">
-      <DependentUpon>ConexionBD.tt</DependentUpon>
+      <DependentUpon>conexionBD.tt</DependentUpon>
     </Compile>
     <Compile Include="PERMISO.cs">
-      <DependentUpon>ConexionBD.tt</DependentUpon>
+      <DependentUpon>conexionBD.tt</DependentUpon>
     </Compile>
     <Compile Include="PRIORIDAD.cs">
-      <DependentUpon>ConexionBD.tt</DependentUpon>
+      <DependentUpon>conexionBD.tt</DependentUpon>
     </Compile>
     <Compile Include="PRODUCTO.cs">
-      <DependentUpon>ConexionBD.tt</DependentUpon>
+      <DependentUpon>conexionBD.tt</DependentUpon>
     </Compile>
     <Compile Include="ProductoDatos\ProductoDatos.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="ROL.cs">
-      <DependentUpon>ConexionBD.tt</DependentUpon>
+      <DependentUpon>conexionBD.tt</DependentUpon>
     </Compile>
     <Compile Include="SERVICIO.cs">
-      <DependentUpon>ConexionBD.tt</DependentUpon>
+      <DependentUpon>conexionBD.tt</DependentUpon>
     </Compile>
     <Compile Include="ServiciosDatos\ServiciosDatos.cs" />
     <Compile Include="SOLICITUD.cs">
-      <DependentUpon>ConexionBD.tt</DependentUpon>
+      <DependentUpon>conexionBD.tt</DependentUpon>
     </Compile>
     <Compile Include="SolicitudesDatos\SolicitudesDatos.cs" />
     <Compile Include="SUCURSAL.cs">
-      <DependentUpon>ConexionBD.tt</DependentUpon>
+      <DependentUpon>conexionBD.tt</DependentUpon>
     </Compile>
     <Compile Include="TELEFONO_USUARIO.cs">
-      <DependentUpon>ConexionBD.tt</DependentUpon>
+      <DependentUpon>conexionBD.tt</DependentUpon>
     </Compile>
     <Compile Include="TIPO_ELEMENTO.cs">
-      <DependentUpon>ConexionBD.tt</DependentUpon>
+      <DependentUpon>conexionBD.tt</DependentUpon>
     </Compile>
     <Compile Include="TIPO_IDENTIFICACION_USUARIO.cs">
-      <DependentUpon>ConexionBD.tt</DependentUpon>
+      <DependentUpon>conexionBD.tt</DependentUpon>
     </Compile>
     <Compile Include="USUARIO.cs">
-      <DependentUpon>ConexionBD.tt</DependentUpon>
+      <DependentUpon>conexionBD.tt</DependentUpon>
     </Compile>
     <Compile Include="UsuarioDatos\UsuarioDatos.cs" />
     <Compile Include="VALIDAR_USUARIO_LOGUEADO.cs">
-      <DependentUpon>ConexionBD.tt</DependentUpon>
+      <DependentUpon>conexionBD.tt</DependentUpon>
     </Compile>
     <Compile Include="VentasDatos\VentasDatos.cs" />
-  </ItemGroup>
-  <ItemGroup>
-    <ProjectReference Include="..\..\..\Proyecto de Grado Capas\ServiciosDigitalesProyectoGrado\Session\Session.csproj">
-      <Project>{f5287462-e615-4d56-8888-1fef8cc846fe}</Project>
-      <Name>Session</Name>
-    </ProjectReference>
   </ItemGroup>
   <ItemGroup>
     <None Include="App.Config">
       <SubType>Designer</SubType>
     </None>
-    <EntityDeploy Include="ConexionBD.edmx">
+    <EntityDeploy Include="conexionBD.edmx">
       <Generator>EntityModelCodeGenerator</Generator>
-      <LastGenOutput>ConexionBD.Designer.cs</LastGenOutput>
+      <LastGenOutput>conexionBD.Designer.cs</LastGenOutput>
     </EntityDeploy>
-    <None Include="ConexionBD.edmx.diagram">
-      <DependentUpon>ConexionBD.edmx</DependentUpon>
+    <None Include="conexionBD.edmx.diagram">
+      <DependentUpon>conexionBD.edmx</DependentUpon>
     </None>
     <None Include="packages.config" />
   </ItemGroup>
@@ -293,15 +287,21 @@
     <Service Include="{508349B6-6B84-4DF5-91F0-309BEEBAD82D}" />
   </ItemGroup>
   <ItemGroup>
-    <Content Include="ConexionBD.Context.tt">
+    <ProjectReference Include="..\Session\Session.csproj">
+      <Project>{f5287462-e615-4d56-8888-1fef8cc846fe}</Project>
+      <Name>Session</Name>
+    </ProjectReference>
+  </ItemGroup>
+  <ItemGroup>
+    <Content Include="conexionBD.Context.tt">
       <Generator>TextTemplatingFileGenerator</Generator>
-      <DependentUpon>ConexionBD.edmx</DependentUpon>
-      <LastGenOutput>ConexionBD.Context.cs</LastGenOutput>
+      <DependentUpon>conexionBD.edmx</DependentUpon>
+      <LastGenOutput>conexionBD.Context.cs</LastGenOutput>
     </Content>
-    <Content Include="ConexionBD.tt">
+    <Content Include="conexionBD.tt">
       <Generator>TextTemplatingFileGenerator</Generator>
-      <DependentUpon>ConexionBD.edmx</DependentUpon>
-      <LastGenOutput>ConexionBD.cs</LastGenOutput>
+      <DependentUpon>conexionBD.edmx</DependentUpon>
+      <LastGenOutput>conexionBD.cs</LastGenOutput>
     </Content>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />

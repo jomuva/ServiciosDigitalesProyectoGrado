@@ -15,10 +15,10 @@ namespace Persistencia
     using System.Data.Entity.Core.Objects;
     using System.Linq;
     
-    public partial class bdServiciosDigitalesProyEntities1 : DbContext
+    public partial class bdServiciosDigitalesProyEntities : DbContext
     {
-        public bdServiciosDigitalesProyEntities1()
-            : base("name=bdServiciosDigitalesProyEntities1")
+        public bdServiciosDigitalesProyEntities()
+            : base("name=bdServiciosDigitalesProyEntities")
         {
         }
     
@@ -460,6 +460,19 @@ namespace Persistencia
             return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction("AnularFactura", idFacturaParameter, identifEmpleadoParameter, motivoAnulacionParameter);
         }
     
+        public virtual int CambiarEmpleado_de_Sucursal(string identifEmpleado, Nullable<int> idSucursal)
+        {
+            var identifEmpleadoParameter = identifEmpleado != null ?
+                new ObjectParameter("identifEmpleado", identifEmpleado) :
+                new ObjectParameter("identifEmpleado", typeof(string));
+    
+            var idSucursalParameter = idSucursal.HasValue ?
+                new ObjectParameter("idSucursal", idSucursal) :
+                new ObjectParameter("idSucursal", typeof(int));
+    
+            return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction("CambiarEmpleado_de_Sucursal", identifEmpleadoParameter, idSucursalParameter);
+        }
+    
         public virtual int CambiarEstadoLogueoUser(string username)
         {
             var usernameParameter = username != null ?
@@ -590,6 +603,15 @@ namespace Persistencia
                 new ObjectParameter("idSolic", typeof(int));
     
             return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction<ConsultarEstado_Solicitud_Result>("ConsultarEstado_Solicitud", idSolicParameter);
+        }
+    
+        public virtual ObjectResult<string> ConsultarEstadoEmpleadoX_Username(string username)
+        {
+            var usernameParameter = username != null ?
+                new ObjectParameter("username", username) :
+                new ObjectParameter("username", typeof(string));
+    
+            return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction<string>("ConsultarEstadoEmpleadoX_Username", usernameParameter);
         }
     
         public virtual ObjectResult<ConsultarEstadoFactura_Result> ConsultarEstadoFactura(Nullable<int> idFactura)
@@ -942,6 +964,23 @@ namespace Persistencia
             return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction<Nullable<int>>("ObtenerIdUltimaFacturaGenerada");
         }
     
+        public virtual int ReintegrarProductoXAnulacionFactura(Nullable<int> idFactura, Nullable<int> idProducto, string identifEmpleado)
+        {
+            var idFacturaParameter = idFactura.HasValue ?
+                new ObjectParameter("idFactura", idFactura) :
+                new ObjectParameter("idFactura", typeof(int));
+    
+            var idProductoParameter = idProducto.HasValue ?
+                new ObjectParameter("idProducto", idProducto) :
+                new ObjectParameter("idProducto", typeof(int));
+    
+            var identifEmpleadoParameter = identifEmpleado != null ?
+                new ObjectParameter("identifEmpleado", identifEmpleado) :
+                new ObjectParameter("identifEmpleado", typeof(string));
+    
+            return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction("ReintegrarProductoXAnulacionFactura", idFacturaParameter, idProductoParameter, identifEmpleadoParameter);
+        }
+    
         public virtual int TrasladarProductoASucursal(Nullable<int> idInventarioOrigen, Nullable<int> idProducto, Nullable<int> cantidadATrasladar, Nullable<int> idSucursalATrasladar, Nullable<int> idSucursalActual, string identifEmpleado)
         {
             var idInventarioOrigenParameter = idInventarioOrigen.HasValue ?
@@ -982,28 +1021,6 @@ namespace Persistencia
                 new ObjectParameter("passwd", typeof(string));
     
             return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction<string>("ValidarAutenticacionLogin", usernameParameter, passwdParameter);
-        }
-    
-        public virtual int CambiarEmpleado_de_Sucursal(string identifEmpleado, Nullable<int> idSucursal)
-        {
-            var identifEmpleadoParameter = identifEmpleado != null ?
-                new ObjectParameter("identifEmpleado", identifEmpleado) :
-                new ObjectParameter("identifEmpleado", typeof(string));
-    
-            var idSucursalParameter = idSucursal.HasValue ?
-                new ObjectParameter("idSucursal", idSucursal) :
-                new ObjectParameter("idSucursal", typeof(int));
-    
-            return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction("CambiarEmpleado_de_Sucursal", identifEmpleadoParameter, idSucursalParameter);
-        }
-    
-        public virtual ObjectResult<string> ConsultarEstadoEmpleadoX_Username(string username)
-        {
-            var usernameParameter = username != null ?
-                new ObjectParameter("username", username) :
-                new ObjectParameter("username", typeof(string));
-    
-            return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction<string>("ConsultarEstadoEmpleadoX_Username", usernameParameter);
         }
     }
 }

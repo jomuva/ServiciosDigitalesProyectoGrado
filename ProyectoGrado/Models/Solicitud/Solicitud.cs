@@ -27,6 +27,13 @@ namespace ServiciosDigitalesProy.Models
             this.servicio = new Servicio(servicio.descripcion);
         }
 
+        public Solicitud(int idSolicitud,EstadoSolicitud estado)
+        {
+            id_solicitud = idSolicitud;
+            estadoSolicitud = new EstadoSolicitud(estado.id);
+        }
+
+
         public int id_solicitud { get; set; }
         public PrioridadSolicitud prioridadSolicitud { get; set; }
         public EstadoSolicitud estadoSolicitud { get; set; }

@@ -394,6 +394,24 @@ namespace Persistencia.VentasDatos
 
         }
 
+        public void ReintegrarProductoXAnulacionFactura(int idFactura, int idProducto,string identifEmpleado, ref string resultado, ref string tipoResultado)
+        {
+
+            try
+            {
+                conexion.conexiones.ReintegrarProductoXAnulacionFactura(idFactura,idProducto, identifEmpleado);
+                resultado = "Reintegracion de producto realizado correctamente";
+                tipoResultado = "success";
+            }
+            catch
+            {
+
+                resultado = "Error al reintegrar producto al inventario.  Por favor intente más tarde";
+                tipoResultado = "danger";
+            }
+
+        }
+
 
     }
 }

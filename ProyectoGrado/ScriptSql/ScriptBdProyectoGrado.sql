@@ -550,9 +550,9 @@ INSERT INTO [dbo].[FACTURA]
 		   ,[valor_total])
      VALUES
             ('2016-11-29 02:57:24.480',8,2,3,20000,95000),
-			('2016-12-13 02:57:24.480',9,3,4,0,60000),
-			('2017-02-10 02:57:24.480',5,2,4,0,70000),
-			('2017-02-25 02:57:24.480',6,3,4,0,55000),
+			('2016-12-13 02:57:24.480',9,3,1,0,60000),
+			('2017-02-10 02:57:24.480',5,2,1,0,70000),
+			('2017-02-25 02:57:24.480',6,3,4,55000,55000),
 			('2017-03-03 02:57:24.480',7,3,3,10000,40000)
 		
 	GO	
@@ -776,7 +776,7 @@ INSERT INTO [dbo].[INVENTARIO]
 
 	-- TABLA  HISTORICO INVENTARIO, TABLA QUE CONTIENE EL HISTORICO DE MOVIMIENTOS DEL INVENTARIO
 create table HISTORICO_INVENTARIO(
-id_historico int not null IDENTITY,
+id_historico int not null IDENTITY(1,1),
 id_empleado int not null,
 id_inventario_historico int not null,
 fecha DATETIME not null,
@@ -806,7 +806,7 @@ INSERT INTO [dbo].[HISTORICO_INVENTARIO]
 
 	-- TABLA  INVENTARIO, TABLA QUE CONTIENE LOS INVENTARIOS DE LOS PRODUCTOS 
 create table INVENTARIO_BAJAS(
-id_inventario_bajas int not null IDENTITY,
+id_inventario_bajas int not null IDENTITY(1,1),
 id_producto_inventario int not null,
 id_sucursal_inventario int,
 cantidad_existencias int not null,
@@ -851,7 +851,7 @@ INSERT INTO [dbo].[INVENTARIO_BAJAS]
 
 	-- TABLA  HISTORICO INVENTARIO, TABLA QUE CONTIENE EL HISTORICO DE MOVIMIENTOS DEL INVENTARIO
 create table HISTORICO_INVENTARIO_BAJAS(
-id_historico int not null IDENTITY,
+id_historico int not null IDENTITY(1,1),
 id_empleado int not null,
 id_inventario_historico int not null,
 fecha DATETIME not null,
@@ -880,7 +880,7 @@ INSERT INTO [dbo].[HISTORICO_INVENTARIO_BAJAS]
 	
 	-- TABLA  DETALLE_FACTURA, TABLA QUE AGRUPA LA INFORMACION DE LA FACTURA CON EL PRODUCTO Y EL CLIENTE
 create table DETALLE_FACTURA_PRODUCTO(
-id_detalle_factura int not null IDENTITY,
+id_detalle_factura int not null IDENTITY(1,1),
 id_producto_detalle_factura int,
 id_factura_detalle_factura int not null,
 cantidad_venta int not null,
@@ -909,7 +909,7 @@ INSERT INTO [dbo].[DETALLE_FACTURA_PRODUCTO]
 	
 	-- TABLA  DETALLE_FACTURA, TABLA QUE AGRUPA LA INFORMACION DE LA FACTURA CON  LA SOLICITUD Y EL CLIENTE
 create table DETALLE_FACTURA_SOLICITUD(
-id_detalle_factura_solicitud int not null IDENTITY,
+id_detalle_factura_solicitud int not null IDENTITY(1,1),
 id_solicitud_detalle_factura int,
 id_factura_detalle_factura int not null,
 cantidad_venta int not null,
@@ -1782,17 +1782,18 @@ CREATE PROCEDURE ActualizarInventarioXVenta
 @fecha DATETIME,
 @identifEmpleado VARCHAR(15)
 AS
-DECLARE @cantidadActual int, @idEmpleado int, @nuevaCantidad int
+DECLARE @cantidadActual int, @idEmpleado int, @nuevaCantidad int, @idSucursal int, @idInventario int
 SET @idEmpleado = (SELECT id_usuario FROM USUARIO WHERE identificacion = @identifEmpleado);
-SET @cantidadActual = (SELECT cantidad_existencias FROM INVENTARIO WHERE id_producto_inventario = @idProducto);
+SET @idSucursal = (SELECT id_sucursal_escalado FROM ESCALADO WHERE id_usuario_escalado = @idEmpleado);
+SET @cantidadActual = (SELECT cantidad_existencias FROM INVENTARIO WHERE id_producto_inventario = @idProducto AND id_sucursal_inventario = @idSucursal);
 BEGIN
 	UPDATE INVENTARIO SET cantidad_existencias =  @cantidadActual - @cantidadVendida, fecha_actualizacion_inventario = @fecha 
-	WHERE id_producto_inventario = @idProducto
-
+	WHERE id_producto_inventario = @idProducto AND id_sucursal_inventario = @idSucursal
+	SET @idInventario = (SELECT id_inventario FROM INVENTARIO WHERE id_producto_inventario = @idProducto AND id_sucursal_inventario = @idSucursal);
 
 	SET @nuevaCantidad = (@cantidadActual-@cantidadVendida);
 	INSERT INTO HISTORICO_INVENTARIO (id_empleado,id_inventario_historico,fecha,descripcion)
-	VALUES (@idEmpleado,@idProducto,@fecha,'Se modifica la cantidad de unidades del producto de '+cast(@cantidadActual as varchar)+' a '+ cast(@nuevaCantidad as varchar)+' unidades' )
+	VALUES (@idEmpleado,@idInventario,@fecha,'Se modifica la cantidad de unidades del producto de '+cast(@cantidadActual as varchar)+' a '+ cast(@nuevaCantidad as varchar)+' unidades' )
 END
 GO
 
@@ -1802,7 +1803,7 @@ CREATE PROCEDURE ConsultarDetallesFacturaProductoXid
 @idFactura int
 AS
 BEGIN
-SELECT        PRODUCTO.nombre_producto, DETALLE_FACTURA_PRODUCTO.cantidad_venta, FACTURA.id_factura, PRODUCTO.precio_venta
+SELECT        PRODUCTO.id_producto, PRODUCTO.nombre_producto, DETALLE_FACTURA_PRODUCTO.cantidad_venta, FACTURA.id_factura, PRODUCTO.precio_venta
 FROM            DETALLE_FACTURA_PRODUCTO INNER JOIN
                          FACTURA ON DETALLE_FACTURA_PRODUCTO.id_factura_detalle_factura = FACTURA.id_factura INNER JOIN
                          PRODUCTO ON DETALLE_FACTURA_PRODUCTO.id_producto_detalle_factura = PRODUCTO.id_producto
@@ -1830,13 +1831,14 @@ CREATE PROCEDURE ConsultarDetallesFacturaSolicitudXid
 @idFactura int
 AS
 BEGIN
-SELECT        SERVICIO.descripcion_servicio, SERVICIO.precio
+SELECT        SOLICITUD.id_solicitud, SERVICIO.descripcion_servicio, SERVICIO.precio, SOLICITUD.id_estado_solicitud
 FROM            DETALLE_FACTURA_SOLICITUD INNER JOIN
                          FACTURA ON DETALLE_FACTURA_SOLICITUD.id_factura_detalle_factura = FACTURA.id_factura INNER JOIN
                          SOLICITUD ON DETALLE_FACTURA_SOLICITUD.id_solicitud_detalle_factura = SOLICITUD.id_solicitud INNER JOIN
                          SERVICIO ON SOLICITUD.id_servicio_solicitud = SERVICIO.id_servicio
-WHERE FACTURA.id_factura = @idFactura
+WHERE FACTURA.id_factura =  @idFactura
 END
+
 GO
 
 
@@ -1939,7 +1941,7 @@ BEGIN
 	WHERE id_factura =  @idFactura;
 
 	INSERT INTO HISTORICO_FACTURA (id_empleado_historico,id_factura_historico,descripcion_historico,fecha_historico)
-	VALUES (@idEmpleado,@idFactura,'factura Anulada, Motivo: '+@MotivoAnulacion,@fecha);
+	VALUES (@idEmpleado,@idFactura,'factura Anulada por el empleado con id: '+@identifEmpleado+', Motivo: '+@MotivoAnulacion,@fecha);
 END
 GO
 
@@ -2200,5 +2202,32 @@ SELECT        ESTADO_USUARIO.descripcion
 FROM            ESTADO_USUARIO INNER JOIN
                          USUARIO ON ESTADO_USUARIO.id_estado = USUARIO.id_estado_usuario
 WHERE USUARIO.usuario_login = @username
+END
+GO
+
+
+--REINTEGRA LA CANTIDAD VENDIDA EN LA FACTURA ANULADA AL INVENTARIO
+CREATE PROCEDURE ReintegrarProductoXAnulacionFactura
+@idFactura int,
+@idProducto int,
+@identifEmpleado VARCHAR(15)
+AS
+DECLARE @fecha DATETIME, @idEmpleado int,  @idInventario int,
+		@cantidadVendida int, @idSucursal int, @existenciasActuales int
+SET @fecha = (SELECT CURRENT_TIMESTAMP);
+SET @idEmpleado = (SELECT id_usuario FROM USUARIO WHERE identificacion = @identifEmpleado);
+SET @idSucursal = (SELECT id_sucursal_escalado FROM ESCALADO WHERE id_usuario_escalado = @idEmpleado);
+SET @cantidadVendida = (SELECT cantidad_venta FROM DETALLE_FACTURA_PRODUCTO WHERE id_factura_detalle_factura =@idFactura AND id_producto_detalle_factura = @idProducto);
+SET @existenciasActuales = (SELECT cantidad_existencias FROM INVENTARIO WHERE id_producto_inventario = @idProducto AND id_sucursal_inventario = @idSucursal);
+SET @idInventario = (SELECT id_inventario FROM INVENTARIO WHERE id_producto_inventario = @idProducto AND id_sucursal_inventario = @idSucursal);
+
+BEGIN
+
+UPDATE INVENTARIO SET cantidad_existencias = @existenciasActuales + @cantidadVendida 
+WHERE id_producto_inventario = @idProducto AND id_sucursal_inventario = @idSucursal;
+
+INSERT INTO HISTORICO_INVENTARIO(id_empleado,id_inventario_historico,fecha,descripcion)
+VALUES (@idEmpleado,@idInventario,@fecha,'Se vuelven a ingresar '+cast(@cantidadVendida as varchar)+' unidades
+		por anulación de factura');	
 END
 GO

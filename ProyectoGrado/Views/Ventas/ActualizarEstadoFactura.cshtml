@@ -34,7 +34,7 @@
                                     </div>
                                     @Html.Hidden("id_factura", Model.id_factura)
 
-                                    @if (Model.estado.Descripcion != "Anulado" && Model.estado.Descripcion != "Cancelado")
+                                    @if (Model.estado.Descripcion == "Pendiente Por Pago")
                                     {
                                         <div class="form-group pull-right" style="padding-right 25px;margin-right: 30px;">
                                             @Html.ActionLink("Anular Factura", "AnularFactura", new { id = Model.id_factura }, new { @class = "btn btn-danger" })
@@ -69,7 +69,7 @@
                                 </div>
 
                                 <div class="row">
-                                    @if (Model.valorPagado != 0)
+                                    @if (Model.valorPagado != 0 && Model.estado.Descripcion != "Anulada")
                                     {
                                         <button type="submit" name="submitButton" id="submitButton" class="btn btn-success col-md-3">Actualizar</button>
                                     }

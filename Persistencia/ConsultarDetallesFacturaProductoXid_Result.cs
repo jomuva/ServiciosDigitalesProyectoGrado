@@ -13,6 +13,7 @@ namespace Persistencia
     
     public partial class ConsultarDetallesFacturaProductoXid_Result
     {
+        public int id_producto { get; set; }
         public string nombre_producto { get; set; }
         public int cantidad_venta { get; set; }
         public int id_factura { get; set; }

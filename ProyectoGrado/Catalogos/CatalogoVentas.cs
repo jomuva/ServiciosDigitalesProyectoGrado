@@ -6,6 +6,7 @@ using Persistencia.VentasDatos;
 using Newtonsoft.Json;
 using ServiciosDigitalesProy.Models;
 using Helper;
+using ServiciosDigitalesProy.Catalogos;
 
 namespace ProyectoGrado.Catalogos
 {
@@ -152,7 +153,7 @@ namespace ProyectoGrado.Catalogos
             string dynObj, dynObj2;
             dynamic dyn, dyn2;
             int idFacturaDetalle = 0;
-            int i = 1;
+            int i = 0;
             oFacturas = ventasDatos.ConsultarFacturas(ref resultado, ref tipoResultado);
 
             if (tipoResultado != "danger")
@@ -173,7 +174,7 @@ namespace ProyectoGrado.Catalogos
                     });
 
                     //busco lista de detalles de producto segun id factura
-                    oDetallesProducto = ventasDatos.ConsultarDetallesFacturaProductoXid(i, ref resultado, ref tipoResultado);
+                    oDetallesProducto = ventasDatos.ConsultarDetallesFacturaProductoXid(facturas[i].id_factura, ref resultado, ref tipoResultado);
                     DetallesFacturaProductos = new List<DetalleFacturaProducto>();
                     dynObj2 = JsonConvert.SerializeObject(oDetallesProducto);
                     dyn2 = JsonConvert.DeserializeObject(dynObj2);
@@ -182,8 +183,8 @@ namespace ProyectoGrado.Catalogos
                     {
                         DetallesFacturaProductos.Add(new DetalleFacturaProducto
                         {
-                            
-                            producto = new Producto((string)item2.nombre_producto,(string)item2.precio_venta),
+
+                            producto = new Producto((string)item2.nombre_producto, (string)item2.precio_venta),
                             cantidad = (int)item2.cantidad_venta,
                         });
                         double precio = Convert.ToDouble(DetallesFacturaProductos[ContDetallesProd].producto.precio);
@@ -197,7 +198,7 @@ namespace ProyectoGrado.Catalogos
                     dyn2 = null;
                     dynObj2 = null;
                     //busco lista de detalles de solicitudes segun id factura
-                    oDetallesSolicitudes = ventasDatos.ConsultarDetallesFacturaSolicitudXid(i, ref resultado, ref tipoResultado);
+                    oDetallesSolicitudes = ventasDatos.ConsultarDetallesFacturaSolicitudXid(facturas[i].id_factura, ref resultado, ref tipoResultado);
                     DetallesFacturaSolicitudes = new List<DetalleFacturaSolicitud>();
                     dynObj2 = JsonConvert.SerializeObject(oDetallesSolicitudes);
                     dyn2 = JsonConvert.DeserializeObject(dynObj2);
@@ -213,7 +214,7 @@ namespace ProyectoGrado.Catalogos
                         DetallesFacturaSolicitudes[ContDetallesProd2].solicitud.servicio.precio = precio;
                         ContDetallesProd2++;
                     }
-                   
+
                     facturas[idFacturaDetalle].listaDetallesSolicitud = DetallesFacturaSolicitudes;
                     i++;
                     idFacturaDetalle++;
@@ -224,7 +225,7 @@ namespace ProyectoGrado.Catalogos
         }
 
 
-        public Factura ConsultarEstadoFactura(int idFactura,ref string resultado, ref string tipoResultado)
+        public Factura ConsultarEstadoFactura(int idFactura, ref string resultado, ref string tipoResultado)
         {
             object oFactura = null;
             string dynObj;
@@ -253,7 +254,7 @@ namespace ProyectoGrado.Catalogos
         public void ActualizarEstadoFactura(Factura factura, ref string resultado, ref string tipoResultado)
         {
 
-            ventasDatos.ActualizarEstadoFactura(factura.id_factura,factura.estado.id,Convert.ToDecimal(factura.valorPagado),
+            ventasDatos.ActualizarEstadoFactura(factura.id_factura, factura.estado.id, Convert.ToDecimal(factura.valorPagado),
                 SessionHelper.GetUser().ToString(), ref resultado, ref tipoResultado);
         }
 
@@ -292,8 +293,57 @@ namespace ProyectoGrado.Catalogos
         public void AnularFactura(int idFactura, string Motivo, ref string resultado, ref string tipoResultado)
         {
 
-             ventasDatos.AnularFactura(idFactura, SessionHelper.GetUser().ToString(),
-                Motivo, ref resultado, ref tipoResultado);
+
+            object oDetallesProducto = ventasDatos.ConsultarDetallesFacturaProductoXid(idFactura, ref resultado, ref tipoResultado);
+            List<DetalleFacturaProducto> DetallesFacturaProductos = new List<DetalleFacturaProducto>();
+            var dynObj2 = JsonConvert.SerializeObject(oDetallesProducto);
+            dynamic dyn2 = JsonConvert.DeserializeObject(dynObj2);
+
+
+            ventasDatos.AnularFactura(idFactura, SessionHelper.GetUser().ToString(), Motivo, ref resultado, ref tipoResultado);
+
+            foreach (var item2 in dyn2)
+            {
+                DetallesFacturaProductos.Add(new DetalleFacturaProducto
+                {
+
+                    producto = new Producto((string)item2.nombre_producto,(int)item2.id_producto),
+                    cantidad = (int)item2.cantidad_venta,
+                });
+            }
+
+            foreach (var item in DetallesFacturaProductos)
+            {
+                ventasDatos.ReintegrarProductoXAnulacionFactura(idFactura,item.producto.id_producto, SessionHelper.GetUser().ToString(),ref resultado,ref tipoResultado);
+            }
+
+
+
+            dyn2 = null;
+            dynObj2 = null;
+            //busco lista de detalles de solicitudes segun id factura
+            object oDetallesSolicitudes = ventasDatos.ConsultarDetallesFacturaSolicitudXid(idFactura, ref resultado, ref tipoResultado);
+            List<DetalleFacturaSolicitud> DetallesFacturaSolicitudes = new List<DetalleFacturaSolicitud>();
+            dynObj2 = JsonConvert.SerializeObject(oDetallesSolicitudes);
+            dyn2 = JsonConvert.DeserializeObject(dynObj2);
+            foreach (var item2 in dyn2)
+            {
+                DetallesFacturaSolicitudes.Add(new DetalleFacturaSolicitud
+                {
+                    solicitud = new Solicitud((int)item2.id_solicitud,new EstadoSolicitud((int)item2.id_estado_solicitud)),
+                                   
+                });
+            }
+
+
+            foreach (var item in DetallesFacturaSolicitudes)
+            {
+                CatalogoSolicitudes.GetInstance().CambiarEstadoSolicitud(item.solicitud.id_solicitud, item.solicitud.estadoSolicitud.id,
+                                                                 4, ref resultado, ref tipoResultado);
+            }
+
+
+
         }
 
 

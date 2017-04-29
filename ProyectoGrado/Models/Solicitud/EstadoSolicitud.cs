@@ -14,6 +14,10 @@ namespace ServiciosDigitalesProy.Models
         {
             this.Descripcion = descripcion;
         }
+        public EstadoSolicitud(int id)
+        {
+            this.id = id;
+        }
         public int id { get; set; }
         public string Descripcion { get; set; }
   

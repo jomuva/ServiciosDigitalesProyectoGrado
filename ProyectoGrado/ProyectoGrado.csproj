@@ -365,13 +365,13 @@
     <None Include="Project_Readme.html" />
   </ItemGroup>
   <ItemGroup>
-    <ProjectReference Include="..\..\..\Proyecto de Grado Capas\ServiciosDigitalesProyectoGrado\Session\Session.csproj">
-      <Project>{f5287462-e615-4d56-8888-1fef8cc846fe}</Project>
-      <Name>Session</Name>
-    </ProjectReference>
     <ProjectReference Include="..\Persistencia\Persistencia.csproj">
       <Project>{17882e1c-5bb1-4a61-bb7c-aff42bf9ed87}</Project>
       <Name>Persistencia</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\Session\Session.csproj">
+      <Project>{f5287462-e615-4d56-8888-1fef8cc846fe}</Project>
+      <Name>Session</Name>
     </ProjectReference>
   </ItemGroup>
   <PropertyGroup>

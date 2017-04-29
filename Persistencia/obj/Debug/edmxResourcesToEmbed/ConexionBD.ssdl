@@ -970,6 +970,11 @@
     <Parameter Name="id_sucursal" Type="int" Mode="In" />
   </Function>
   <Function Name="ObtenerIdUltimaFacturaGenerada" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo" />
+  <Function Name="ReintegrarProductoXAnulacionFactura" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
+    <Parameter Name="idFactura" Type="int" Mode="In" />
+    <Parameter Name="idProducto" Type="int" Mode="In" />
+    <Parameter Name="identifEmpleado" Type="varchar" Mode="In" />
+  </Function>
   <Function Name="TrasladarProductoASucursal" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
     <Parameter Name="idInventarioOrigen" Type="int" Mode="In" />
     <Parameter Name="idProducto" Type="int" Mode="In" />

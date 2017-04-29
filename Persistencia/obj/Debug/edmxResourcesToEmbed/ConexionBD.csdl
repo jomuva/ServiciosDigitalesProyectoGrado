@@ -752,7 +752,7 @@
     <End Role="ROL" Type="Self.ROL" Multiplicity="*" />
     <End Role="PERMISO" Type="Self.PERMISO" Multiplicity="*" />
   </Association>
-  <EntityContainer Name="bdServiciosDigitalesProyEntities1" annotation:LazyLoadingEnabled="true">
+  <EntityContainer Name="bdServiciosDigitalesProyEntities" annotation:LazyLoadingEnabled="true">
     <EntitySet Name="CATEGORIA_ELEMENTO" EntityType="Self.CATEGORIA_ELEMENTO" />
     <EntitySet Name="CATEGORIA_PRODUCTO" EntityType="Self.CATEGORIA_PRODUCTO" />
     <EntitySet Name="DETALLE_FACTURA_PRODUCTO" EntityType="Self.DETALLE_FACTURA_PRODUCTO" />
@@ -1035,6 +1035,10 @@
       <Parameter Name="identifEmpleado" Mode="In" Type="String" />
       <Parameter Name="MotivoAnulacion" Mode="In" Type="String" />
     </FunctionImport>
+    <FunctionImport Name="CambiarEmpleado_de_Sucursal">
+      <Parameter Name="identifEmpleado" Mode="In" Type="String" />
+      <Parameter Name="idSucursal" Mode="In" Type="Int32" />
+    </FunctionImport>
     <FunctionImport Name="CambiarEstadoLogueoUser">
       <Parameter Name="username" Mode="In" Type="String" />
     </FunctionImport>
@@ -1072,6 +1076,9 @@
     <FunctionImport Name="ConsultarEmpleados" ReturnType="Collection(bdServiciosDigitalesProyModel.ConsultarEmpleados_Result)" />
     <FunctionImport Name="ConsultarEstado_Solicitud" ReturnType="Collection(bdServiciosDigitalesProyModel.ConsultarEstado_Solicitud_Result)">
       <Parameter Name="idSolic" Mode="In" Type="Int32" />
+    </FunctionImport>
+    <FunctionImport Name="ConsultarEstadoEmpleadoX_Username" ReturnType="Collection(String)">
+      <Parameter Name="username" Mode="In" Type="String" />
     </FunctionImport>
     <FunctionImport Name="ConsultarEstadoFactura" ReturnType="Collection(bdServiciosDigitalesProyModel.ConsultarEstadoFactura_Result)">
       <Parameter Name="idFactura" Mode="In" Type="Int32" />
@@ -1175,6 +1182,11 @@
       <Parameter Name="id_sucursal" Mode="In" Type="Int32" />
     </FunctionImport>
     <FunctionImport Name="ObtenerIdUltimaFacturaGenerada" ReturnType="Collection(Int32)" />
+    <FunctionImport Name="ReintegrarProductoXAnulacionFactura">
+      <Parameter Name="idFactura" Mode="In" Type="Int32" />
+      <Parameter Name="idProducto" Mode="In" Type="Int32" />
+      <Parameter Name="identifEmpleado" Mode="In" Type="String" />
+    </FunctionImport>
     <FunctionImport Name="TrasladarProductoASucursal">
       <Parameter Name="idInventarioOrigen" Mode="In" Type="Int32" />
       <Parameter Name="idProducto" Mode="In" Type="Int32" />
@@ -1186,13 +1198,6 @@
     <FunctionImport Name="ValidarAutenticacionLogin" ReturnType="Collection(String)">
       <Parameter Name="username" Mode="In" Type="String" />
       <Parameter Name="passwd" Mode="In" Type="String" />
-    </FunctionImport>
-    <FunctionImport Name="CambiarEmpleado_de_Sucursal">
-      <Parameter Name="identifEmpleado" Mode="In" Type="String" />
-      <Parameter Name="idSucursal" Mode="In" Type="Int32" />
-    </FunctionImport>
-    <FunctionImport Name="ConsultarEstadoEmpleadoX_Username" ReturnType="Collection(String)">
-      <Parameter Name="username" Mode="In" Type="String" />
     </FunctionImport>
   </EntityContainer>
   <ComplexType Name="ConsultarCategorias_Elemento_Result">
@@ -1210,14 +1215,17 @@
     <Property Type="Decimal" Name="precio_venta" Nullable="true" Precision="20" Scale="4" />
   </ComplexType>
   <ComplexType Name="ConsultarDetallesFacturaProductoXid_Result">
+    <Property Type="Int32" Name="id_producto" Nullable="false" />
     <Property Type="String" Name="nombre_producto" Nullable="false" MaxLength="100" />
     <Property Type="Int32" Name="cantidad_venta" Nullable="false" />
     <Property Type="Int32" Name="id_factura" Nullable="false" />
     <Property Type="Decimal" Name="precio_venta" Nullable="true" Precision="20" Scale="4" />
   </ComplexType>
   <ComplexType Name="ConsultarDetallesFacturaSolicitudXid_Result">
+    <Property Type="Int32" Name="id_solicitud" Nullable="false" />
     <Property Type="String" Name="descripcion_servicio" Nullable="false" MaxLength="50" />
     <Property Type="Decimal" Name="precio" Nullable="true" Precision="20" Scale="4" />
+    <Property Type="Int32" Name="id_estado_solicitud" Nullable="false" />
   </ComplexType>
   <ComplexType Name="ConsultarElementos_Result">
     <Property Type="Int32" Name="id_elemento" Nullable="false" />

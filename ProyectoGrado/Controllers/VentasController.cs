@@ -333,7 +333,7 @@ namespace ServiciosDigitalesProy.Controllers
         public ActionResult GuardarFactura(Factura facturaa)
         {
             Factura factura = Session["Factura"] as Factura;
-            string resultado = "", tipoResultado = "";     
+            string resultado = "", tipoResultado = "";        
 
             if (facturaa.valorPagado >= 0 && facturaa.valorPagado <= factura.total)
             {

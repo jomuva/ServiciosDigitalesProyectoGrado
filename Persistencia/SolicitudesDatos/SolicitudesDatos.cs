@@ -236,8 +236,27 @@ namespace Persistencia.SolicitudesDatos
             return solicitudes;
         }
 
+		public object ConsultarSolicitudesXCliente(string userLogin, ref string resultado, ref string tipoResultado)
+		{
 
-        public object ConsultaNombresEmpleadosXSolicitud()
+			object solicitudes = null;
+			try
+			{
+				solicitudes = conexion.conexiones.ConsultarSolicitudesXCliente(userLogin).ToList();
+				resultado = "Consulta Exitosa";
+				tipoResultado = "info";
+
+			}
+			catch (Exception ex)
+			{
+				resultado = ex.Message;
+				tipoResultado = "error";
+			}
+
+			return solicitudes;
+		}
+
+		public object ConsultaNombresEmpleadosXSolicitud()
         {
             object solicitudes = null;
             try

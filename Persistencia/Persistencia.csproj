@@ -160,6 +160,15 @@
     <Compile Include="ConsultarServicio_Result.cs">
       <DependentUpon>conexionBD.tt</DependentUpon>
     </Compile>
+    <Compile Include="ConsultarSolicitudesAPP_Result.cs">
+      <DependentUpon>conexionBD.tt</DependentUpon>
+    </Compile>
+    <Compile Include="ConsultarSolicitudesXClienteAPP_Result.cs">
+      <DependentUpon>conexionBD.tt</DependentUpon>
+    </Compile>
+    <Compile Include="ConsultarSolicitudesXCliente_Result.cs">
+      <DependentUpon>conexionBD.tt</DependentUpon>
+    </Compile>
     <Compile Include="ConsultarSolicitudesXEmpleado_Result.cs">
       <DependentUpon>conexionBD.tt</DependentUpon>
     </Compile>
@@ -249,7 +258,16 @@
       <DependentUpon>conexionBD.tt</DependentUpon>
     </Compile>
     <Compile Include="SolicitudesDatos\SolicitudesDatos.cs" />
+    <Compile Include="sp_helpdiagramdefinition_Result.cs">
+      <DependentUpon>conexionBD.tt</DependentUpon>
+    </Compile>
+    <Compile Include="sp_helpdiagrams_Result.cs">
+      <DependentUpon>conexionBD.tt</DependentUpon>
+    </Compile>
     <Compile Include="SUCURSAL.cs">
+      <DependentUpon>conexionBD.tt</DependentUpon>
+    </Compile>
+    <Compile Include="sysdiagrams.cs">
       <DependentUpon>conexionBD.tt</DependentUpon>
     </Compile>
     <Compile Include="TELEFONO_USUARIO.cs">

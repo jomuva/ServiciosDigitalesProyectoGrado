@@ -8,3 +8,14 @@ C:\Proyecto de Grado Capas\ServiciosDigitalesProyectoGrado\Session\bin\Release\S
 C:\Proyecto de Grado Capas\ServiciosDigitalesProyectoGrado\Session\obj\Release\Session.csproj.App.config
 C:\Proyecto de Grado Capas\ServiciosDigitalesProyectoGrado\Session\obj\Release\Session.dll
 C:\Proyecto de Grado Capas\ServiciosDigitalesProyectoGrado\Session\obj\Release\Session.pdb
+C:\Proyecto de Grado Capas\TesisFinal\ServiciosDigitalesProyectoGrado\Session\bin\Release\Session.dll.config
+C:\Proyecto de Grado Capas\TesisFinal\ServiciosDigitalesProyectoGrado\Session\bin\Release\Session.dll
+C:\Proyecto de Grado Capas\TesisFinal\ServiciosDigitalesProyectoGrado\Session\bin\Release\Session.pdb
+C:\Proyecto de Grado Capas\TesisFinal\ServiciosDigitalesProyectoGrado\Session\bin\Release\System.Net.Http.Extensions.dll
+C:\Proyecto de Grado Capas\TesisFinal\ServiciosDigitalesProyectoGrado\Session\bin\Release\System.Net.Http.Primitives.dll
+C:\Proyecto de Grado Capas\TesisFinal\ServiciosDigitalesProyectoGrado\Session\bin\Release\System.Net.Http.Extensions.xml
+C:\Proyecto de Grado Capas\TesisFinal\ServiciosDigitalesProyectoGrado\Session\bin\Release\System.Net.Http.Primitives.xml
+C:\Proyecto de Grado Capas\TesisFinal\ServiciosDigitalesProyectoGrado\Session\obj\Release\Session.csproj.App.config
+C:\Proyecto de Grado Capas\TesisFinal\ServiciosDigitalesProyectoGrado\Session\obj\Release\Session.csprojResolveAssemblyReference.cache
+C:\Proyecto de Grado Capas\TesisFinal\ServiciosDigitalesProyectoGrado\Session\obj\Release\Session.dll
+C:\Proyecto de Grado Capas\TesisFinal\ServiciosDigitalesProyectoGrado\Session\obj\Release\Session.pdb

@@ -10,3 +10,15 @@ C:\Proyecto de Grado Capas\ServiciosDigitalesProyectoGrado\Persistencia\bin\Rele
 C:\Proyecto de Grado Capas\ServiciosDigitalesProyectoGrado\Persistencia\obj\Release\Persistencia.csprojResolveAssemblyReference.cache
 C:\Proyecto de Grado Capas\ServiciosDigitalesProyectoGrado\Persistencia\obj\Release\Persistencia.dll
 C:\Proyecto de Grado Capas\ServiciosDigitalesProyectoGrado\Persistencia\obj\Release\Persistencia.pdb
+C:\Proyecto de Grado Capas\TesisFinal\ServiciosDigitalesProyectoGrado\Persistencia\bin\Release\Persistencia.dll.config
+C:\Proyecto de Grado Capas\TesisFinal\ServiciosDigitalesProyectoGrado\Persistencia\bin\Release\Persistencia.dll
+C:\Proyecto de Grado Capas\TesisFinal\ServiciosDigitalesProyectoGrado\Persistencia\bin\Release\Persistencia.pdb
+C:\Proyecto de Grado Capas\TesisFinal\ServiciosDigitalesProyectoGrado\Persistencia\bin\Release\EntityFramework.dll
+C:\Proyecto de Grado Capas\TesisFinal\ServiciosDigitalesProyectoGrado\Persistencia\bin\Release\EntityFramework.SqlServer.dll
+C:\Proyecto de Grado Capas\TesisFinal\ServiciosDigitalesProyectoGrado\Persistencia\bin\Release\Session.dll
+C:\Proyecto de Grado Capas\TesisFinal\ServiciosDigitalesProyectoGrado\Persistencia\bin\Release\Session.pdb
+C:\Proyecto de Grado Capas\TesisFinal\ServiciosDigitalesProyectoGrado\Persistencia\bin\Release\EntityFramework.xml
+C:\Proyecto de Grado Capas\TesisFinal\ServiciosDigitalesProyectoGrado\Persistencia\bin\Release\EntityFramework.SqlServer.xml
+C:\Proyecto de Grado Capas\TesisFinal\ServiciosDigitalesProyectoGrado\Persistencia\obj\Release\Persistencia.csprojResolveAssemblyReference.cache
+C:\Proyecto de Grado Capas\TesisFinal\ServiciosDigitalesProyectoGrado\Persistencia\obj\Release\Persistencia.dll
+C:\Proyecto de Grado Capas\TesisFinal\ServiciosDigitalesProyectoGrado\Persistencia\obj\Release\Persistencia.pdb

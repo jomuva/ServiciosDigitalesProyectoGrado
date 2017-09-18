@@ -59,11 +59,39 @@ namespace ServiciosDigitalesProy.Catalogos
             }
         }
 
-        /// <summary>
-        /// Consulta los tipos de identificación traidos desde la clase UsuarioDatos
-        /// </summary>
-        /// <returns>Lista de Tipos de Identificación</returns>
-        public List<TipoIdentificacion> ConsultarTiposIdentificacion()
+		public void ValidarAutenticacionLoginAPP(string username,string password, ref string resultado, ref string tipoResultado)
+		{
+			string identificacion = "";
+			var id = usuarioDatos.ValidarAutenticacionLogin(username, password, ref resultado, ref tipoResultado);
+			string dynObj1 = JsonConvert.SerializeObject(id);
+			dynamic dyn1 = JsonConvert.DeserializeObject(dynObj1);
+
+			if (tipoResultado != "danger")
+			{
+				string dynObj = JsonConvert.SerializeObject(id);
+				dynamic dyn = JsonConvert.DeserializeObject(dynObj);
+
+				foreach (var data in dyn)
+				{
+					identificacion = data;
+				}
+				if (identificacion != "")
+				{
+					usuarioDatos.Autenticarse(identificacion, username, ref resultado, ref tipoResultado);
+				}
+				else
+				{
+					resultado = "Usuario o Contraseña Incorrecto";
+					tipoResultado = "danger";
+				}
+			}
+		}
+
+		/// <summary>
+		/// Consulta los tipos de identificación traidos desde la clase UsuarioDatos
+		/// </summary>
+		/// <returns>Lista de Tipos de Identificación</returns>
+		public List<TipoIdentificacion> ConsultarTiposIdentificacion()
         {
             List<TipoIdentificacion> Tipos = new List<TipoIdentificacion>();
             var tipos = usuarioDatos.ConsultarTiposIdentificacion();

@@ -1199,6 +1199,44 @@
       <Parameter Name="username" Mode="In" Type="String" />
       <Parameter Name="passwd" Mode="In" Type="String" />
     </FunctionImport>
+    <EntitySet Name="sysdiagrams" EntityType="bdServiciosDigitalesProyModel.sysdiagrams" />
+    <FunctionImport Name="ConsultarSolicitudesAPP" ReturnType="Collection(bdServiciosDigitalesProyModel.ConsultarSolicitudesAPP_Result)" />
+    <FunctionImport Name="ConsultarSolicitudesXCliente" ReturnType="Collection(bdServiciosDigitalesProyModel.ConsultarSolicitudesXCliente_Result)">
+      <Parameter Name="usuario_login" Mode="In" Type="String" />
+    </FunctionImport>
+    <FunctionImport Name="ConsultarSolicitudesXClienteAPP" ReturnType="Collection(bdServiciosDigitalesProyModel.ConsultarSolicitudesXClienteAPP_Result)">
+      <Parameter Name="username" Mode="In" Type="String" />
+    </FunctionImport>
+    <FunctionImport Name="sp_alterdiagram">
+      <Parameter Name="diagramname" Mode="In" Type="String" />
+      <Parameter Name="owner_id" Mode="In" Type="Int32" />
+      <Parameter Name="version" Mode="In" Type="Int32" />
+      <Parameter Name="definition" Mode="In" Type="Binary" />
+    </FunctionImport>
+    <FunctionImport Name="sp_creatediagram">
+      <Parameter Name="diagramname" Mode="In" Type="String" />
+      <Parameter Name="owner_id" Mode="In" Type="Int32" />
+      <Parameter Name="version" Mode="In" Type="Int32" />
+      <Parameter Name="definition" Mode="In" Type="Binary" />
+    </FunctionImport>
+    <FunctionImport Name="sp_dropdiagram">
+      <Parameter Name="diagramname" Mode="In" Type="String" />
+      <Parameter Name="owner_id" Mode="In" Type="Int32" />
+    </FunctionImport>
+    <FunctionImport Name="sp_helpdiagramdefinition" ReturnType="Collection(bdServiciosDigitalesProyModel.sp_helpdiagramdefinition_Result)">
+      <Parameter Name="diagramname" Mode="In" Type="String" />
+      <Parameter Name="owner_id" Mode="In" Type="Int32" />
+    </FunctionImport>
+    <FunctionImport Name="sp_helpdiagrams" ReturnType="Collection(bdServiciosDigitalesProyModel.sp_helpdiagrams_Result)">
+      <Parameter Name="diagramname" Mode="In" Type="String" />
+      <Parameter Name="owner_id" Mode="In" Type="Int32" />
+    </FunctionImport>
+    <FunctionImport Name="sp_renamediagram">
+      <Parameter Name="diagramname" Mode="In" Type="String" />
+      <Parameter Name="owner_id" Mode="In" Type="Int32" />
+      <Parameter Name="new_diagramname" Mode="In" Type="String" />
+    </FunctionImport>
+    <FunctionImport Name="sp_upgraddiagrams" />
   </EntityContainer>
   <ComplexType Name="ConsultarCategorias_Elemento_Result">
     <Property Type="Int32" Name="id_categoria_elemento" Nullable="false" />
@@ -1483,5 +1521,74 @@
   <ComplexType Name="CrearFacturaSinRegistros_Result">
     <Property Type="Int32" Name="id_factura" Nullable="false" />
     <Property Type="DateTime" Name="fecha" Nullable="false" Precision="23" />
+  </ComplexType>
+  <EntityType Name="sysdiagrams">
+    <Key>
+      <PropertyRef Name="diagram_id" />
+    </Key>
+    <Property Name="name" Type="String" Nullable="false" MaxLength="128" FixedLength="false" Unicode="true" />
+    <Property Name="principal_id" Type="Int32" Nullable="false" />
+    <Property Name="diagram_id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+    <Property Name="version" Type="Int32" />
+    <Property Name="definition" Type="Binary" MaxLength="Max" FixedLength="false" />
+  </EntityType>
+  <ComplexType Name="ConsultarSolicitudesAPP_Result">
+    <Property Type="Int32" Name="id_solicitud" Nullable="false" />
+    <Property Type="String" Name="descripcion" Nullable="true" MaxLength="300" />
+    <Property Type="DateTime" Name="fecha_solicitud" Nullable="true" Precision="23" />
+    <Property Type="String" Name="identificacion" Nullable="false" MaxLength="15" />
+    <Property Type="String" Name="apellidos" Nullable="false" MaxLength="30" />
+    <Property Type="String" Name="nombres" Nullable="false" MaxLength="30" />
+    <Property Type="String" Name="Estado" Nullable="true" MaxLength="50" />
+    <Property Type="String" Name="descripcion_elemento" Nullable="false" MaxLength="50" />
+    <Property Type="String" Name="serial" Nullable="true" MaxLength="4" />
+    <Property Type="String" Name="descripcion_servicio" Nullable="false" MaxLength="50" />
+    <Property Type="Decimal" Name="precio" Nullable="true" Precision="20" Scale="4" />
+  </ComplexType>
+  <ComplexType Name="ConsultarSolicitudesXCliente_Result">
+    <Property Type="Int32" Name="id_solicitud" Nullable="false" />
+    <Property Type="String" Name="descripcion" Nullable="true" MaxLength="300" />
+    <Property Type="DateTime" Name="fecha_solicitud" Nullable="true" Precision="23" />
+    <Property Type="Int32" Name="id_escalado_solicitud" Nullable="true" />
+    <Property Type="String" Name="identificacion" Nullable="false" MaxLength="15" />
+    <Property Type="String" Name="apellidos" Nullable="false" MaxLength="30" />
+    <Property Type="String" Name="nombres" Nullable="false" MaxLength="30" />
+    <Property Type="String" Name="Expr1" Nullable="true" MaxLength="50" />
+    <Property Type="String" Name="descripcion_prioridad" Nullable="true" MaxLength="50" />
+    <Property Type="String" Name="descripcion_elemento" Nullable="false" MaxLength="50" />
+    <Property Type="String" Name="descripcion_categoria_elemento" Nullable="false" MaxLength="50" />
+    <Property Type="String" Name="sistema_operativo" Nullable="true" MaxLength="20" />
+    <Property Type="String" Name="marca" Nullable="true" MaxLength="15" />
+    <Property Type="String" Name="modelo" Nullable="true" MaxLength="30" />
+    <Property Type="String" Name="serial" Nullable="true" MaxLength="4" />
+    <Property Type="String" Name="serial_bateria" Nullable="true" MaxLength="4" />
+    <Property Type="String" Name="rom" Nullable="true" MaxLength="15" />
+    <Property Type="String" Name="ram" Nullable="true" MaxLength="10" />
+    <Property Type="String" Name="placa" Nullable="true" MaxLength="30" />
+    <Property Type="String" Name="descripcion_servicio" Nullable="false" MaxLength="50" />
+    <Property Type="Decimal" Name="precio" Nullable="true" Precision="20" Scale="4" />
+  </ComplexType>
+  <ComplexType Name="ConsultarSolicitudesXClienteAPP_Result">
+    <Property Type="Int32" Name="id_solicitud" Nullable="false" />
+    <Property Type="String" Name="descripcion" Nullable="true" MaxLength="300" />
+    <Property Type="DateTime" Name="fecha_solicitud" Nullable="true" Precision="23" />
+    <Property Type="String" Name="identificacion" Nullable="false" MaxLength="15" />
+    <Property Type="String" Name="apellidos" Nullable="false" MaxLength="30" />
+    <Property Type="String" Name="nombres" Nullable="false" MaxLength="30" />
+    <Property Type="String" Name="Estado" Nullable="true" MaxLength="50" />
+    <Property Type="String" Name="descripcion_elemento" Nullable="false" MaxLength="50" />
+    <Property Type="String" Name="descripcion_servicio" Nullable="false" MaxLength="50" />
+    <Property Type="Decimal" Name="precio" Nullable="true" Precision="20" Scale="4" />
+  </ComplexType>
+  <ComplexType Name="sp_helpdiagramdefinition_Result">
+    <Property Type="Int32" Name="version" Nullable="true" />
+    <Property Type="Binary" Name="definition" Nullable="true" />
+  </ComplexType>
+  <ComplexType Name="sp_helpdiagrams_Result">
+    <Property Type="String" Name="Database" Nullable="true" MaxLength="128" />
+    <Property Type="String" Name="Name" Nullable="false" MaxLength="128" />
+    <Property Type="Int32" Name="ID" Nullable="false" />
+    <Property Type="String" Name="Owner" Nullable="true" MaxLength="128" />
+    <Property Type="Int32" Name="OwnerID" Nullable="false" />
   </ComplexType>
 </Schema>

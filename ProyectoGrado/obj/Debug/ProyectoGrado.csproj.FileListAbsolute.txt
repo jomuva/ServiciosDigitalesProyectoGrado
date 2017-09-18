@@ -165,7 +165,10 @@ C:\Proyecto de Grado Capas\TesisFinal\ServiciosDigitalesProyectoGrado\ProyectoGr
 C:\Proyecto de Grado Capas\TesisFinal\ServiciosDigitalesProyectoGrado\ProyectoGrado\bin\Persistencia.dll
 C:\Proyecto de Grado Capas\TesisFinal\ServiciosDigitalesProyectoGrado\ProyectoGrado\bin\Rotativa.dll
 C:\Proyecto de Grado Capas\TesisFinal\ServiciosDigitalesProyectoGrado\ProyectoGrado\bin\Session.dll
+C:\Proyecto de Grado Capas\TesisFinal\ServiciosDigitalesProyectoGrado\ProyectoGrado\bin\System.Net.Http.Formatting.dll
 C:\Proyecto de Grado Capas\TesisFinal\ServiciosDigitalesProyectoGrado\ProyectoGrado\bin\System.Web.Helpers.dll
+C:\Proyecto de Grado Capas\TesisFinal\ServiciosDigitalesProyectoGrado\ProyectoGrado\bin\System.Web.Http.dll
+C:\Proyecto de Grado Capas\TesisFinal\ServiciosDigitalesProyectoGrado\ProyectoGrado\bin\System.Web.Http.WebHost.dll
 C:\Proyecto de Grado Capas\TesisFinal\ServiciosDigitalesProyectoGrado\ProyectoGrado\bin\System.Web.Mvc.dll
 C:\Proyecto de Grado Capas\TesisFinal\ServiciosDigitalesProyectoGrado\ProyectoGrado\bin\System.Web.Optimization.dll
 C:\Proyecto de Grado Capas\TesisFinal\ServiciosDigitalesProyectoGrado\ProyectoGrado\bin\System.Web.Razor.dll
@@ -183,6 +186,9 @@ C:\Proyecto de Grado Capas\TesisFinal\ServiciosDigitalesProyectoGrado\ProyectoGr
 C:\Proyecto de Grado Capas\TesisFinal\ServiciosDigitalesProyectoGrado\ProyectoGrado\bin\Microsoft.AI.WindowsServer.xml
 C:\Proyecto de Grado Capas\TesisFinal\ServiciosDigitalesProyectoGrado\ProyectoGrado\bin\Microsoft.ApplicationInsights.xml
 C:\Proyecto de Grado Capas\TesisFinal\ServiciosDigitalesProyectoGrado\ProyectoGrado\bin\Microsoft.CodeDom.Providers.DotNetCompilerPlatform.xml
+C:\Proyecto de Grado Capas\TesisFinal\ServiciosDigitalesProyectoGrado\ProyectoGrado\bin\System.Net.Http.Formatting.xml
+C:\Proyecto de Grado Capas\TesisFinal\ServiciosDigitalesProyectoGrado\ProyectoGrado\bin\System.Web.Http.xml
+C:\Proyecto de Grado Capas\TesisFinal\ServiciosDigitalesProyectoGrado\ProyectoGrado\bin\System.Web.Http.WebHost.xml
 C:\Proyecto de Grado Capas\TesisFinal\ServiciosDigitalesProyectoGrado\ProyectoGrado\bin\System.Web.Helpers.xml
 C:\Proyecto de Grado Capas\TesisFinal\ServiciosDigitalesProyectoGrado\ProyectoGrado\bin\System.Web.Mvc.xml
 C:\Proyecto de Grado Capas\TesisFinal\ServiciosDigitalesProyectoGrado\ProyectoGrado\bin\System.Web.Optimization.xml
@@ -194,6 +200,9 @@ C:\Proyecto de Grado Capas\TesisFinal\ServiciosDigitalesProyectoGrado\ProyectoGr
 C:\Proyecto de Grado Capas\TesisFinal\ServiciosDigitalesProyectoGrado\ProyectoGrado\bin\Newtonsoft.Json.xml
 C:\Proyecto de Grado Capas\TesisFinal\ServiciosDigitalesProyectoGrado\ProyectoGrado\bin\EntityFramework.xml
 C:\Proyecto de Grado Capas\TesisFinal\ServiciosDigitalesProyectoGrado\ProyectoGrado\bin\EntityFramework.SqlServer.xml
+C:\Proyecto de Grado Capas\TesisFinal\ServiciosDigitalesProyectoGrado\ProyectoGrado\bin\es\System.Net.Http.Formatting.resources.dll
+C:\Proyecto de Grado Capas\TesisFinal\ServiciosDigitalesProyectoGrado\ProyectoGrado\bin\es\System.Web.Http.resources.dll
+C:\Proyecto de Grado Capas\TesisFinal\ServiciosDigitalesProyectoGrado\ProyectoGrado\bin\es\System.Web.Http.WebHost.resources.dll
 C:\Proyecto de Grado Capas\TesisFinal\ServiciosDigitalesProyectoGrado\ProyectoGrado\bin\es\System.Web.Helpers.resources.dll
 C:\Proyecto de Grado Capas\TesisFinal\ServiciosDigitalesProyectoGrado\ProyectoGrado\bin\es\System.Web.Mvc.resources.dll
 C:\Proyecto de Grado Capas\TesisFinal\ServiciosDigitalesProyectoGrado\ProyectoGrado\bin\es\System.Web.Optimization.resources.dll

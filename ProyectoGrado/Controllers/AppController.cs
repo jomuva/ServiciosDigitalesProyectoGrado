@@ -33,7 +33,7 @@ namespace ProyectoGrado.Controllers
 		{
 			string res = "", tipores = "";
 			//return EmpList.Find(e => e.identificacion == id);
-			CatalogoUsuarios.GetInstance().ValidarAutenticacionLoginAPP(username, password, ref res, ref tipores);
+			CatalogoUsuarios.GetInstance().ValidarAutenticacionLoginAPP(username, password, ref res, ref tipores); 
 
 			//0: ErrorLogin - 1: Ya esta logueado - 2:Exitoso
 			return tipores == "danger" ? 0 : tipores == "info" ? 1 : 2;

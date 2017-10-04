@@ -368,7 +368,7 @@ primary key (id_producto),
 
 	
 	-- TABLA  INVENTARIO, TABLA QUE CONTIENE LOS INVENTARIOS DE LOS PRODUCTOS 
-create table INVENTARIO(
+create table DETALLE_MOVIMIENTO(
 id_inventario int not null IDENTITY,
 id_producto_inventario int not null,
 id_sucursal_inventario int,
@@ -386,7 +386,7 @@ primary key (id_inventario),
 	
 
 	-- TABLA  HISTORICO INVENTARIO, TABLA QUE CONTIENE EL HISTORICO DE MOVIMIENTOS DEL INVENTARIO
-create table HISTORICO_INVENTARIO(
+create table HISTORICO_MOVIMIENTO(
 id_historico int not null IDENTITY(1,1),
 id_empleado int not null,
 id_inventario_historico int not null,
@@ -398,13 +398,13 @@ primary key (id_historico),
 			REFERENCES   EMPLEADO ( id_empleado  ),	
 	CONSTRAINT  fk_inventario_historico_inventario
 			FOREIGN KEY ( id_inventario_historico  )
-			REFERENCES   INVENTARIO ( id_inventario  ),			
+			REFERENCES   DETALLE_MOVIMIENTO ( id_inventario  ),			
 );
 
 
 
 	-- TABLA  INVENTARIO, TABLA QUE CONTIENE LOS INVENTARIOS DE LOS PRODUCTOS 
-create table INVENTARIO_BAJAS(
+create table DETALLE_MOVIMIENTO_BAJAS(
 id_inventario_bajas int not null IDENTITY(1,1),
 id_producto_inventario int not null,
 id_sucursal_inventario int,
@@ -422,7 +422,7 @@ primary key (id_inventario_bajas),
 	
 
 	-- TABLA  HISTORICO INVENTARIO, TABLA QUE CONTIENE EL HISTORICO DE MOVIMIENTOS DEL INVENTARIO
-create table HISTORICO_INVENTARIO_BAJAS(
+create table HISTORICO_MOVIMIENTO_BAJAS(
 id_historico int not null IDENTITY(1,1),
 id_empleado int not null,
 id_inventario_historico int not null,
@@ -434,7 +434,7 @@ primary key (id_historico),
 			REFERENCES   EMPLEADO ( id_empleado  ),	
 	CONSTRAINT  fk_inventario_historico_inventario_bajas
 			FOREIGN KEY ( id_inventario_historico  )
-			REFERENCES   INVENTARIO_BAJAS ( id_inventario_bajas  ),			
+			REFERENCES   DETALLE_MOVIMIENTO_BAJAS ( id_inventario_bajas  ),			
 );
 
 	-- TABLA  DETALLE_FACTURA, TABLA QUE AGRUPA LA INFORMACION DE LA FACTURA CON EL PRODUCTO Y EL CLIENTE

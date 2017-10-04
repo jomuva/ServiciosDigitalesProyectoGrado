@@ -219,7 +219,6 @@
     <Content Include="ScriptSql\JOB Actualizar Estado Producto.sql" />
     <Content Include="ScriptSql\JOB Actualizar Estado Solicitud.sql" />
     <Content Include="ScriptSql\ScriptBdProyectoGrado.sql" />
-    <Content Include="ViewApp\ServDigitales\config.xml" />
     <Content Include="Xcore\Content\bootstrap.css" />
     <Content Include="Xcore\Content\bootstrap.min.css" />
     <Content Include="Xcore\Content\font-awesome\css\font-awesome.css" />
@@ -299,7 +298,7 @@
     <Content Include="Views\Inventarios\ConsultarExistenciasTotalesProductos.cshtml" />
     <Content Include="Views\Inventarios\AgregarSucursal.cshtml" />
     <Content Include="Views\LoginAPP.cshtml" />
-    <Content Include="ViewApp\ServDigitales\README.md" />
+    <Content Include="ViewApp\ServDigitales\ServDigitalesApp.rar" />
     <None Include="Xcore\Scripts\jquery-1.10.2.intellisense.js" />
     <Content Include="Xcore\Scripts\Formulario\index.js" />
     <Content Include="Xcore\Scripts\jquery-1.10.2.js" />

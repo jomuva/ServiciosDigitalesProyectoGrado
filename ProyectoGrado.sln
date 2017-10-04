@@ -9,8 +9,6 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Persistencia", "Persistenci
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Session", "Session\Session.csproj", "{F5287462-E615-4D56-8888-1FEF8CC846FE}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "WebServiceAPP", "WebServiceAPP\WebServiceAPP.csproj", "{17C4C175-70C0-4ACA-9806-F4159367F4AF}"
-EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -29,10 +27,6 @@ Global
 		{F5287462-E615-4D56-8888-1FEF8CC846FE}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{F5287462-E615-4D56-8888-1FEF8CC846FE}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{F5287462-E615-4D56-8888-1FEF8CC846FE}.Release|Any CPU.Build.0 = Release|Any CPU
-		{17C4C175-70C0-4ACA-9806-F4159367F4AF}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{17C4C175-70C0-4ACA-9806-F4159367F4AF}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{17C4C175-70C0-4ACA-9806-F4159367F4AF}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{17C4C175-70C0-4ACA-9806-F4159367F4AF}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

@@ -47,7 +47,7 @@ namespace ProyectoGrado.Controllers
 			return EmpList;
 		}
 
-		// DELETE api/EmployeeAPI/5
+		// DELETE api/EmployeeAPI/5 
 		public IEnumerable<Usuario> Delete(string id)
 		{
 			EmpList.Remove(EmpList.Find(E => E.identificacion == id));
